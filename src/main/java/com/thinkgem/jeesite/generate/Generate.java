@@ -44,7 +44,7 @@ public class Generate {
 		
 		String moduleName = "experts";			// 模块名，例：sys
 		String subModuleName = "";				// 子模块名（可选） 
-		String className = "expert";			// 类名，例：user
+		String className = "expertAttach";			// 类名，例：user
 		String classAuthor = "Cloudman";		// 类作者，例：ThinkGem
 		String functionName = "专家";			// 功能名，例：用户
 

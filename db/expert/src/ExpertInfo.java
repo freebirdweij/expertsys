@@ -1,5 +1,8 @@
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Model class of 专家信息表.
@@ -99,6 +102,9 @@ public class ExpertInfo implements Serializable {
 	/** 本人认为在项目评审中需回避的单位（项目）. */
 	private String selfAvoid;
 
+	/** 推荐单位意见. */
+	private String pushAdvice;
+
 	/** 本人所在单位组织人事部门意见. */
 	private String companyAdvice;
 
@@ -106,10 +112,7 @@ public class ExpertInfo implements Serializable {
 	private String accountAdvice;
 
 	/** 照片. */
-	private String picture;
-
-	/** 附件. */
-	private String attachment;
+	private Blob picture;
 
 	/** 学位. */
 	private String myDegree;
@@ -192,10 +195,18 @@ public class ExpertInfo implements Serializable {
 	/** 删除标记. */
 	private String delFlag;
 
+	/** The set of 专家确认表. */
+	private Set<ExpertConfirm> expertConfirmSet;
+
+	/** The set of 专家附件. */
+	private Set<ExpertAttach> expertAttachSet;
+
 	/**
 	 * Constructor.
 	 */
 	public ExpertInfo() {
+		this.expertAttachSet = new HashSet<ExpertAttach>();
+		this.expertConfirmSet = new HashSet<ExpertConfirm>();
 	}
 
 	/**
@@ -750,6 +761,25 @@ public class ExpertInfo implements Serializable {
 	}
 
 	/**
+	 * Set the 推荐单位意见.
+	 * 
+	 * @param pushAdvice
+	 *            推荐单位意见
+	 */
+	public void setPushAdvice(String pushAdvice) {
+		this.pushAdvice = pushAdvice;
+	}
+
+	/**
+	 * Get the 推荐单位意见.
+	 * 
+	 * @return 推荐单位意见
+	 */
+	public String getPushAdvice() {
+		return this.pushAdvice;
+	}
+
+	/**
 	 * Set the 本人所在单位组织人事部门意见.
 	 * 
 	 * @param companyAdvice
@@ -793,7 +823,7 @@ public class ExpertInfo implements Serializable {
 	 * @param picture
 	 *            照片
 	 */
-	public void setPicture(String picture) {
+	public void setPicture(Blob picture) {
 		this.picture = picture;
 	}
 
@@ -802,27 +832,8 @@ public class ExpertInfo implements Serializable {
 	 * 
 	 * @return 照片
 	 */
-	public String getPicture() {
+	public Blob getPicture() {
 		return this.picture;
-	}
-
-	/**
-	 * Set the 附件.
-	 * 
-	 * @param attachment
-	 *            附件
-	 */
-	public void setAttachment(String attachment) {
-		this.attachment = attachment;
-	}
-
-	/**
-	 * Get the 附件.
-	 * 
-	 * @return 附件
-	 */
-	public String getAttachment() {
-		return this.attachment;
 	}
 
 	/**
@@ -1336,6 +1347,64 @@ public class ExpertInfo implements Serializable {
 	 */
 	public String getDelFlag() {
 		return this.delFlag;
+	}
+
+	/**
+	 * Set the set of the 专家确认表.
+	 * 
+	 * @param expertConfirmSet
+	 *            The set of 专家确认表
+	 */
+	public void setExpertConfirmSet(Set<ExpertConfirm> expertConfirmSet) {
+		this.expertConfirmSet = expertConfirmSet;
+	}
+
+	/**
+	 * Add the 专家确认表.
+	 * 
+	 * @param expertConfirm
+	 *            专家确认表
+	 */
+	public void addExpertConfirm(ExpertConfirm expertConfirm) {
+		this.expertConfirmSet.add(expertConfirm);
+	}
+
+	/**
+	 * Get the set of the 专家确认表.
+	 * 
+	 * @return The set of 专家确认表
+	 */
+	public Set<ExpertConfirm> getExpertConfirmSet() {
+		return this.expertConfirmSet;
+	}
+
+	/**
+	 * Set the set of the 专家附件.
+	 * 
+	 * @param expertAttachSet
+	 *            The set of 专家附件
+	 */
+	public void setExpertAttachSet(Set<ExpertAttach> expertAttachSet) {
+		this.expertAttachSet = expertAttachSet;
+	}
+
+	/**
+	 * Add the 专家附件.
+	 * 
+	 * @param expertAttach
+	 *            专家附件
+	 */
+	public void addExpertAttach(ExpertAttach expertAttach) {
+		this.expertAttachSet.add(expertAttach);
+	}
+
+	/**
+	 * Get the set of the 专家附件.
+	 * 
+	 * @return The set of 专家附件
+	 */
+	public Set<ExpertAttach> getExpertAttachSet() {
+		return this.expertAttachSet;
 	}
 
 	/**
