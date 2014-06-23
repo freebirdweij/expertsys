@@ -83,6 +83,10 @@
                     </label>
                     <input class="btn btn-primary" type="submit" value="登 录"/>
                 </div>
+                <div class="footer">
+                   <span style="color:#08c;"><a href="${ctx}/register">
+					注册</a></span>
+                </div>
 				<div id="themeSwitch" class="dropdown pull-right">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
 					<ul class="dropdown-menu">
