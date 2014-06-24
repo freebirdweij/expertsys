@@ -41,6 +41,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -54,16 +55,20 @@ public class RegisterController extends BaseController{
 	
 	@Autowired
 	private SystemService systemService;
+	
+	@Autowired
+	private OfficeService officeService;
 	/**
 	 * 管理登录
 	 */
 	@RequestMapping(value = "${adminPath}/register", method = RequestMethod.GET)
-	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String register(HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
 		// 如果已经登录，则跳转到管理首页
 		if(user.getId() != null){
 			return "redirect:"+Global.getAdminPath();
 		}
+		model.addAttribute("user", user);
 		return "modules/sys/registerForm";
 	}
 
@@ -139,6 +144,28 @@ public class RegisterController extends BaseController{
 		return "false";
 	}
 
+	@RequestMapping(value = "${adminPath}/treeData")
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) Long extId, @RequestParam(required=false) Long type,
+			@RequestParam(required=false) Long grade, HttpServletResponse response) {
+		response.setContentType("application/json; charset=UTF-8");
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+//		User user = UserUtils.getUser();
+		List<Office> list = officeService.findAll();
+		for (int i=0; i<list.size(); i++){
+			Office e = list.get(i);
+			/*if ((extId == null || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
+					&& (type == null || (type != null && Integer.parseInt(e.getType()) <= type.intValue()))
+					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))){*/
+				Map<String, Object> map = Maps.newHashMap();
+				map.put("id", e.getId());
+//				map.put("pId", !user.isAdmin() && e.getId().equals(user.getOffice().getId())?0:e.getParent()!=null?e.getParent().getId():0);
+				map.put("pId", e.getParent()!=null?e.getParent().getId():0);
+				map.put("name", e.getName());
+				mapList.add(map);
+			//}
+		}
+		return mapList;
+	}
 	
 
 }

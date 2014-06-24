@@ -43,14 +43,14 @@
 			<label class="control-label">归属公司:</label>
 			<div class="controls">
                 <tags:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
+					title="公司" url="${ctx}/treeData?type=1" cssClass="required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">归属部门:</label>
 			<div class="controls">
                 <tags:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required"/>
+					title="部门" url="${ctx}/treeData?type=2" cssClass="required"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -133,7 +133,7 @@
 			</div>
 		</c:if>
 		<div class="form-actions">
-			<shiro:hasPermission name="sys:user:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
