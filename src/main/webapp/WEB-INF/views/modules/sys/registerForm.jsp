@@ -3,6 +3,7 @@
 <html>
 <head>
 	<title>用户注册</title>
+	<%@include file="/WEB-INF/views/include/head.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {

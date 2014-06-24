@@ -153,16 +153,16 @@ public class RegisterController extends BaseController{
 		List<Office> list = officeService.findAll();
 		for (int i=0; i<list.size(); i++){
 			Office e = list.get(i);
-			/*if ((extId == null || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
+			if ((extId == null || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
 					&& (type == null || (type != null && Integer.parseInt(e.getType()) <= type.intValue()))
-					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))){*/
+					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))){
 				Map<String, Object> map = Maps.newHashMap();
 				map.put("id", e.getId());
 //				map.put("pId", !user.isAdmin() && e.getId().equals(user.getOffice().getId())?0:e.getParent()!=null?e.getParent().getId():0);
 				map.put("pId", e.getParent()!=null?e.getParent().getId():0);
 				map.put("name", e.getName());
 				mapList.add(map);
-			//}
+			}
 		}
 		return mapList;
 	}
