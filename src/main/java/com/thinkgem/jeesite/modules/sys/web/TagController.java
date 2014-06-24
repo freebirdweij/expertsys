@@ -26,7 +26,7 @@ public class TagController extends BaseController {
 	/**
 	 * 树结构选择标签（treeselect.tag）
 	 */
-	@RequiresUser
+	//@RequiresUser
 	@RequestMapping(value = "treeselect")
 	public String treeselect(HttpServletRequest request, Model model) {
 		model.addAttribute("url", request.getParameter("url")); 	// 树结构数据URL

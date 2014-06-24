@@ -115,7 +115,7 @@ public class OfficeController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/sys/office/";
 	}
 
-	@RequiresUser
+	//@RequiresUser
 	@ResponseBody
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) Long extId, @RequestParam(required=false) Long type,

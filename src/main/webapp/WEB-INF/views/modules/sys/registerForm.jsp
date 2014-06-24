@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title>用户注册</title>
-	<%@include file="/WEB-INF/views/include/head.jsp" %>
+	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -44,14 +44,14 @@
 			<label class="control-label">归属公司:</label>
 			<div class="controls">
                 <tags:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="${ctx}/treeData?type=1" cssClass="required"/>
+					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">归属部门:</label>
 			<div class="controls">
                 <tags:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="${ctx}/treeData?type=2" cssClass="required"/>
+					title="部门" url="/sys/office/treeData?type=2" cssClass="required"/>
 			</div>
 		</div>
 		<div class="control-group">
