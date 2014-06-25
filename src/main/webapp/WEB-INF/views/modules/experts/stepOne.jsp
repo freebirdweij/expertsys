@@ -125,7 +125,7 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">最后登陆:</label>
+				<label class="control-label">政治面貌:</label>
 				<div class="controls">
 					<label class="lbl">IP: ${user.loginIp}&nbsp;&nbsp;&nbsp;&nbsp;时间：<fmt:formatDate value="${user.loginDate}" type="both" dateStyle="full"/></label>
 				</div>
