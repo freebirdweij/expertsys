@@ -41,77 +41,75 @@
 		<form:hidden path="id"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">归属公司:</label>
+			<label class="control-label">性别:</label>
 			<div class="controls">
-                <tags:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
-			</div>
+                                 男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
+            </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">归属部门:</label>
+			<label class="control-label">身份证号:</label>
 			<div class="controls">
-                <tags:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required"/>
-			</div>
+          <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
+          </div>	
 		</div>
 		<div class="control-group">
-			<label class="control-label">登录名:</label>
+			<label class="control-label">出生年月:</label>
 			<div class="controls">
 				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">
 				<form:input path="loginName" htmlEscape="false" maxlength="50" class="required userName"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">工号:</label>
+			<label class="control-label">民    族:</label>
 			<div class="controls">
 				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">姓名:</label>
+			<label class="control-label">毕业学校:</label>
 			<div class="controls">
 				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">密码:</label>
+			<label class="control-label">毕业时间:</label>
 			<div class="controls">
 				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
 				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">确认密码:</label>
+			<label class="control-label">学    历:</label>
 			<div class="controls">
 				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">邮箱:</label>
+			<label class="control-label">所学专业:</label>
 			<div class="controls">
 				<form:input path="email" htmlEscape="false" maxlength="100" class="email"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">电话:</label>
+			<label class="control-label">所 获学 位:</label>
 			<div class="controls">
 				<form:input path="phone" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">手机:</label>
+			<label class="control-label">通信地址:</label>
 			<div class="controls">
 				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">备注:</label>
+			<label class="control-label">办公室电话:</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">用户类型:</label>
+			<label class="control-label">住宅电话:</label>
 			<div class="controls">
 				<form:select path="userType">
 					<form:option value="" label="请选择"/>
@@ -121,7 +119,7 @@
 		</div>
 		<c:if test="${not empty user.id}">
 			<div class="control-group">
-				<label class="control-label">创建时间:</label>
+				<label class="control-label">邮政编码:</label>
 				<div class="controls">
 					<label class="lbl"><fmt:formatDate value="${user.createDate}" type="both" dateStyle="full"/></label>
 				</div>
