@@ -47,7 +47,7 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 注册Controller
- * @author ThinkGem
+ * @author Cloudman
  * @version 2013-5-31
  */
 @Controller
@@ -56,8 +56,6 @@ public class RegisterController extends BaseController{
 	@Autowired
 	private SystemService systemService;
 	
-	@Autowired
-	private OfficeService officeService;
 	/**
 	 * 管理登录
 	 */
@@ -103,7 +101,7 @@ public class RegisterController extends BaseController{
 	/**
 	 * 登录失败，真正登录的POST请求由Filter完成
 	 */
-	@RequestMapping(value = "${adminPath}/sys/user/register")
+	@RequestMapping(value = "${adminPath}/sys/register")
 	public String save(User user, String oldLoginName, String newPassword, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
@@ -134,7 +132,7 @@ public class RegisterController extends BaseController{
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "checkLoginName")
+	@RequestMapping(value = "${adminPath}/sys/checkLoginName")
 	public String checkLoginName(String oldLoginName, String loginName) {
 		if (loginName !=null && loginName.equals(oldLoginName)) {
 			return "true";
@@ -144,29 +142,5 @@ public class RegisterController extends BaseController{
 		return "false";
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "${adminPath}/treeData")
-	public List<Map<String, Object>> treeData(@RequestParam(required=false) Long extId, @RequestParam(required=false) Long type,
-			@RequestParam(required=false) Long grade, HttpServletResponse response) {
-		response.setContentType("application/json; charset=UTF-8");
-		List<Map<String, Object>> mapList = Lists.newArrayList();
-//		User user = UserUtils.getUser();
-		List<Office> list = officeService.findAll();
-		for (int i=0; i<list.size(); i++){
-			Office e = list.get(i);
-			/*if ((extId == null || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
-					&& (type == null || (type != null && Integer.parseInt(e.getType()) <= type.intValue()))
-					&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))){*/
-				Map<String, Object> map = Maps.newHashMap();
-				map.put("id", e.getId());
-//				map.put("pId", !user.isAdmin() && e.getId().equals(user.getOffice().getId())?0:e.getParent()!=null?e.getParent().getId():0);
-				map.put("pId", e.getParent()!=null?e.getParent().getId():0);
-				map.put("name", e.getName());
-				mapList.add(map);
-			//}
-		}
-		return mapList;
-	}
-	
 
 }

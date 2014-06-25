@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>用户注册</title>
+	<title>专家注册</title>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
@@ -35,7 +35,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">用户注册</li>
+		<li class="active">专家注册</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/register" method="post" class="form-horizontal">
 		<form:hidden path="id"/>

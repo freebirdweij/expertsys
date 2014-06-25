@@ -27,6 +27,8 @@
 				${adminPath}/register = anon
 				${adminPath}/tag/treeselect = anon
 				${adminPath}/sys/office/treeData = anon
+				${adminPath}/sys/checkLoginName = anon
+				${adminPath}/sys/register = anon
 				${adminPath}/login = authc
 				${adminPath}/logout = logout
 				${adminPath}/** = user
