@@ -37,26 +37,26 @@
 	<ul class="nav nav-tabs">
 		<li class="active">基本信息</li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/register" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/stepone" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<tags:message content="${message}"/>
+          <div class ="row-fluid"> 
+          <div class ="span4">		
+          <div class="control-group">
+			<label class="control-label">姓名:</label>
+			<div class="controls">
+                <form:input type="text" path="name"  value="M"/>	
+            </div>
+           </div>
+		</div>
+		 <div class ="span8"> 
 		<div class="control-group">
 			<label class="control-label">性别:</label>
 			<div class="controls">
                                  男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
             </div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">照片:</label>
-			<div class="controls">
-				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">身份证号:</label>
-			<div class="controls">
-          <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
-          </div>	
+		</div> 
 		</div>
 		<div class="control-group">
 			<label class="control-label">出生年月:</label>
@@ -70,6 +70,18 @@
 			<div class="controls">
 				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">照片:</label>
+			<div class="controls">
+				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">身份证号:</label>
+			<div class="controls">
+          <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
+          </div>	
 		</div>
 		<div class="control-group">
 			<label class="control-label">毕业学校:</label>
