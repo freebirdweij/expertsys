@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>用户注册</title>
+	<title>专家注册</title>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
@@ -35,83 +35,88 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">用户注册</li>
+		<li class="active">职业信息</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/register" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">归属公司:</label>
+			<label class="control-label">工作单位:</label>
 			<div class="controls">
-                <tags:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
-			</div>
+                                 男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
+            </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">归属部门:</label>
+			<label class="control-label">是否所属单位组长人员:</label>
 			<div class="controls">
-                <tags:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required"/>
-			</div>
+                                 男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
+            </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">登录名:</label>
+			<label class="control-label">职务:</label>
+			<div class="controls">
+          <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
+          </div>	
+		</div>
+		<div class="control-group">
+			<label class="control-label">从事专业:</label>
 			<div class="controls">
 				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">
 				<form:input path="loginName" htmlEscape="false" maxlength="50" class="required userName"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">工号:</label>
-			<div class="controls">
-				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">姓名:</label>
-			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">密码:</label>
+			<label class="control-label">现从事专业时间:</label>
 			<div class="controls">
 				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
 				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">确认密码:</label>
+			<label class="control-label">职    称:</label>
+			<div class="controls">
+				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">职    称评定时间:</label>
+			<div class="controls">
+				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">参加工作时间:</label>
+			<div class="controls">
+				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">执业资格:</label>
+			<div class="controls">
+				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
+				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">执业资格取得时间:</label>
 			<div class="controls">
 				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">邮箱:</label>
+			<label class="control-label">政治面貌:</label>
 			<div class="controls">
 				<form:input path="email" htmlEscape="false" maxlength="100" class="email"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">电话:</label>
-			<div class="controls">
-				<form:input path="phone" htmlEscape="false" maxlength="100"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">手机:</label>
+			<label class="control-label">单位地址:</label>
 			<div class="controls">
 				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">备注:</label>
-			<div class="controls">
-				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">用户类型:</label>
+			<label class="control-label">单位电话:</label>
 			<div class="controls">
 				<form:select path="userType">
 					<form:option value="" label="请选择"/>
@@ -121,20 +126,23 @@
 		</div>
 		<c:if test="${not empty user.id}">
 			<div class="control-group">
-				<label class="control-label">创建时间:</label>
+				<label class="control-label">单位邮编:</label>
 				<div class="controls">
 					<label class="lbl"><fmt:formatDate value="${user.createDate}" type="both" dateStyle="full"/></label>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label">最后登陆:</label>
-				<div class="controls">
-					<label class="lbl">IP: ${user.loginIp}&nbsp;&nbsp;&nbsp;&nbsp;时间：<fmt:formatDate value="${user.loginDate}" type="both" dateStyle="full"/></label>
-				</div>
-			</div>
 		</c:if>
+		<div class="control-group">
+			<label class="control-label">工作经历:</label>
+			<div class="controls">
+				<form:select path="userType">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
 		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

@@ -1,6 +1,8 @@
 import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Model class of 专家确认表.
@@ -58,6 +60,9 @@ public class ExpertConfirm implements Serializable {
 	/** 推荐单位意见. */
 	private String pushAdvice;
 
+	/** 行业部门〈或管理单位)初审意见. */
+	private String deptormanageAdvice;
+
 	/** 创建者. */
 	private String createBy;
 
@@ -76,10 +81,18 @@ public class ExpertConfirm implements Serializable {
 	/** 删除标记. */
 	private String delFlag;
 
+	/** The set of 评委会信息表. */
+	private Set<CommitteeInfo> committeeInfoSet;
+
+	/** The set of 委员会专家（评委）表. */
+	private Set<CommitteeExpert> committeeExpertSet;
+
 	/**
 	 * Constructor.
 	 */
 	public ExpertConfirm() {
+		this.committeeExpertSet = new HashSet<CommitteeExpert>();
+		this.committeeInfoSet = new HashSet<CommitteeInfo>();
 	}
 
 	/**
@@ -368,6 +381,25 @@ public class ExpertConfirm implements Serializable {
 	}
 
 	/**
+	 * Set the 行业部门〈或管理单位)初审意见.
+	 * 
+	 * @param deptormanageAdvice
+	 *            行业部门〈或管理单位)初审意见
+	 */
+	public void setDeptormanageAdvice(String deptormanageAdvice) {
+		this.deptormanageAdvice = deptormanageAdvice;
+	}
+
+	/**
+	 * Get the 行业部门〈或管理单位)初审意见.
+	 * 
+	 * @return 行业部门〈或管理单位)初审意见
+	 */
+	public String getDeptormanageAdvice() {
+		return this.deptormanageAdvice;
+	}
+
+	/**
 	 * Set the 创建者.
 	 * 
 	 * @param createBy
@@ -479,6 +511,64 @@ public class ExpertConfirm implements Serializable {
 	 */
 	public String getDelFlag() {
 		return this.delFlag;
+	}
+
+	/**
+	 * Set the set of the 评委会信息表.
+	 * 
+	 * @param committeeInfoSet
+	 *            The set of 评委会信息表
+	 */
+	public void setCommitteeInfoSet(Set<CommitteeInfo> committeeInfoSet) {
+		this.committeeInfoSet = committeeInfoSet;
+	}
+
+	/**
+	 * Add the 评委会信息表.
+	 * 
+	 * @param committeeInfo
+	 *            评委会信息表
+	 */
+	public void addCommitteeInfo(CommitteeInfo committeeInfo) {
+		this.committeeInfoSet.add(committeeInfo);
+	}
+
+	/**
+	 * Get the set of the 评委会信息表.
+	 * 
+	 * @return The set of 评委会信息表
+	 */
+	public Set<CommitteeInfo> getCommitteeInfoSet() {
+		return this.committeeInfoSet;
+	}
+
+	/**
+	 * Set the set of the 委员会专家（评委）表.
+	 * 
+	 * @param committeeExpertSet
+	 *            The set of 委员会专家（评委）表
+	 */
+	public void setCommitteeExpertSet(Set<CommitteeExpert> committeeExpertSet) {
+		this.committeeExpertSet = committeeExpertSet;
+	}
+
+	/**
+	 * Add the 委员会专家（评委）表.
+	 * 
+	 * @param committeeExpert
+	 *            委员会专家（评委）表
+	 */
+	public void addCommitteeExpert(CommitteeExpert committeeExpert) {
+		this.committeeExpertSet.add(committeeExpert);
+	}
+
+	/**
+	 * Get the set of the 委员会专家（评委）表.
+	 * 
+	 * @return The set of 委员会专家（评委）表
+	 */
+	public Set<CommitteeExpert> getCommitteeExpertSet() {
+		return this.committeeExpertSet;
 	}
 
 	/**

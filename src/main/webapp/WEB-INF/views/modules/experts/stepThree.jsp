@@ -35,102 +35,49 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">基本信息</li>
+		<li class="active">申报信息</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/register" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">性别:</label>
+			<label class="control-label">申报类别:</label>
 			<div class="controls">
                                  男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
             </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">照片:</label>
-			<div class="controls">
-				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">身份证号:</label>
+			<label class="control-label">申报专业:</label>
 			<div class="controls">
           <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
           </div>	
 		</div>
 		<div class="control-group">
-			<label class="control-label">出生年月:</label>
+			<label class="control-label">所属系列:</label>
 			<div class="controls">
 				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">
 				<form:input path="loginName" htmlEscape="false" maxlength="50" class="required userName"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">民    族:</label>
+			<label class="control-label">主要业绩:</label>
 			<div class="controls">
 				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">毕业学校:</label>
+			<label class="control-label">负责或参与评审的重大项目及学术论著:</label>
 			<div class="controls">
 				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">毕业时间:</label>
+			<label class="control-label">本人的专业特长（请从自己最熟悉的专业开始，依1、2、3、…排序说明）:</label>
 			<div class="controls">
 				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
 				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">学    历:</label>
-			<div class="controls">
-				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">所学专业:</label>
-			<div class="controls">
-				<form:input path="email" htmlEscape="false" maxlength="100" class="email"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">所 获学 位:</label>
-			<div class="controls">
-				<form:input path="phone" htmlEscape="false" maxlength="100"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">家庭地址:</label>
-			<div class="controls">
-				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">健康状况:</label>
-			<div class="controls">
-				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">住宅电话:</label>
-			<div class="controls">
-				<form:select path="userType">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<c:if test="${not empty user.id}">
-			<div class="control-group">
-				<label class="control-label">邮政编码:</label>
-				<div class="controls">
-					<label class="lbl"><fmt:formatDate value="${user.createDate}" type="both" dateStyle="full"/></label>
-				</div>
-			</div>
-		</c:if>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
