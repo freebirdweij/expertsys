@@ -41,35 +41,35 @@
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
           <div class ="row-fluid"> 
-          <div class ="span4">		
+          <div class ="span6">		
           <div class="control-group">
 			<label class="control-label">姓名:</label>
 			<div class="controls">
                 <form:input type="text" path="name"  value="M"/>	
             </div>
            </div>
-		<div class="control-group">
+		  <div class="control-group">
 			<label class="control-label">性别:</label>
 			<div class="controls">
                                  男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
             </div>
-		</div>
-		</div>
-		 <div class ="span8"> 
-		<div class="control-group">
-			<label class="control-label">照片:</label>
-			<div class="controls">
-				<input id="picture" name="picture" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
-			</div>
-		</div>
-		</div> 
-		</div>
+		  </div>
 		<div class="control-group">
 			<label class="control-label">出生年月:</label>
 			<div class="controls">
 				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">
 				<form:input path="birthdate" htmlEscape="false" maxlength="50" class="required userName"/>
 			</div>
+		</div>
+		</div>
+		 <div class ="span6"> 
+		<div class="control-group">
+			<label class="control-label">照片:</label>
+			<a href="#" class="thumbnail">
+            <img src="http://placehold.it/160x120" alt="">
+             </a>
+		</div>
+		</div> 
 		</div>
 		<div class="control-group">
 			<label class="control-label">民    族:</label>
