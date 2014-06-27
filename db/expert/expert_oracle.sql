@@ -1,11 +1,11 @@
 
 /* Drop Indexes */
 
+DROP INDEX attach_name_index;
+DROP INDEX attach_type_index;
 DROP INDEX confirm_special_index;
 DROP INDEX confirm_nowcert_index;
 DROP INDEX confirm_series_index;
-DROP INDEX attach_name_index;
-DROP INDEX attach_type_index;
 DROP INDEX expert_company_index;
 DROP INDEX expert_name_index;
 DROP INDEX expert_tech_index;
@@ -15,16 +15,40 @@ DROP INDEX expert_special_index;
 
 /* Drop Tables */
 
+DROP TABLE expert_attach CASCADE CONSTRAINTS;
 DROP TABLE committee_expert CASCADE CONSTRAINTS;
 DROP TABLE committee_info CASCADE CONSTRAINTS;
 DROP TABLE expert_confirm CASCADE CONSTRAINTS;
-DROP TABLE expert_attach CASCADE CONSTRAINTS;
 DROP TABLE expert_info CASCADE CONSTRAINTS;
 
 
 
 
 /* Create Tables */
+
+CREATE TABLE expert_attach
+(
+	id nvarchar2(64) NOT NULL,
+	user_id nvarchar2(64) NOT NULL,
+	attach_name varchar2(100) NOT NULL,
+	attach_type char(3),
+	attach_link varchar2(300),
+	attach_store blob,
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
 
 CREATE TABLE committee_info
 (
@@ -95,30 +119,6 @@ CREATE TABLE expert_confirm
 );
 
 
-CREATE TABLE expert_attach
-(
-	id nvarchar2(64) NOT NULL,
-	user_id nvarchar2(64) NOT NULL,
-	attach_name varchar2(100) NOT NULL,
-	attach_type char(3),
-	attach_link varchar2(300),
-	attach_store blob,
-	-- 创建者
-	create_by varchar2(64),
-	-- 创建时间
-	create_date timestamp,
-	-- 更新者
-	update_by varchar2(64),
-	-- 更新时间
-	update_date timestamp,
-	-- 备注信息
-	remarks varchar2(255),
-	-- 删除标记（0：正常；1：删除）
-	del_flag char(1) DEFAULT '0' NOT NULL,
-	PRIMARY KEY (id)
-);
-
-
 CREATE TABLE expert_info
 (
 	user_id nvarchar2(64) NOT NULL,
@@ -129,6 +129,7 @@ CREATE TABLE expert_info
 	birthdate timestamp with local time zone,
 	politics char,
 	nation char(3),
+	identify_code varchar2(100),
 	-- 工作单位
 	company varchar2(64),
 	job char(3),
@@ -239,11 +240,11 @@ ALTER TABLE expert_attach
 
 /* Create Indexes */
 
+CREATE INDEX attach_name_index ON expert_attach (attach_name);
+CREATE INDEX attach_type_index ON expert_attach (attach_type);
 CREATE INDEX confirm_special_index ON expert_confirm (specialist);
 CREATE INDEX confirm_nowcert_index ON expert_confirm (nowcert_kind);
 CREATE INDEX confirm_series_index ON expert_confirm (cert_series);
-CREATE INDEX attach_name_index ON expert_attach (attach_name);
-CREATE INDEX attach_type_index ON expert_attach (attach_type);
 CREATE INDEX expert_company_index ON expert_info (company);
 CREATE INDEX expert_name_index ON expert_info (name);
 CREATE INDEX expert_tech_index ON expert_info (technical);
@@ -253,6 +254,19 @@ CREATE INDEX expert_special_index ON expert_info (specialist);
 
 /* Comments */
 
+COMMENT ON TABLE expert_attach IS '专家附件';
+COMMENT ON COLUMN expert_attach.id IS '附件ID';
+COMMENT ON COLUMN expert_attach.user_id IS '用户编号';
+COMMENT ON COLUMN expert_attach.attach_name IS '附件名称';
+COMMENT ON COLUMN expert_attach.attach_type IS '附件类型';
+COMMENT ON COLUMN expert_attach.attach_link IS '附件位置';
+COMMENT ON COLUMN expert_attach.attach_store IS '附件存储';
+COMMENT ON COLUMN expert_attach.create_by IS '创建者';
+COMMENT ON COLUMN expert_attach.create_date IS '创建时间';
+COMMENT ON COLUMN expert_attach.update_by IS '更新者';
+COMMENT ON COLUMN expert_attach.update_date IS '更新时间';
+COMMENT ON COLUMN expert_attach.remarks IS '备注信息';
+COMMENT ON COLUMN expert_attach.del_flag IS '删除标记';
 COMMENT ON TABLE committee_info IS '评委会信息表';
 COMMENT ON COLUMN committee_info.id IS '评委会ID';
 COMMENT ON COLUMN committee_info.committee IS '评委会名称';
@@ -293,19 +307,6 @@ COMMENT ON COLUMN expert_confirm.update_by IS '更新者';
 COMMENT ON COLUMN expert_confirm.update_date IS '更新时间';
 COMMENT ON COLUMN expert_confirm.remarks IS '备注信息';
 COMMENT ON COLUMN expert_confirm.del_flag IS '删除标记';
-COMMENT ON TABLE expert_attach IS '专家附件';
-COMMENT ON COLUMN expert_attach.id IS '附件ID';
-COMMENT ON COLUMN expert_attach.user_id IS '用户编号';
-COMMENT ON COLUMN expert_attach.attach_name IS '附件名称';
-COMMENT ON COLUMN expert_attach.attach_type IS '附件类型';
-COMMENT ON COLUMN expert_attach.attach_link IS '附件位置';
-COMMENT ON COLUMN expert_attach.attach_store IS '附件存储';
-COMMENT ON COLUMN expert_attach.create_by IS '创建者';
-COMMENT ON COLUMN expert_attach.create_date IS '创建时间';
-COMMENT ON COLUMN expert_attach.update_by IS '更新者';
-COMMENT ON COLUMN expert_attach.update_date IS '更新时间';
-COMMENT ON COLUMN expert_attach.remarks IS '备注信息';
-COMMENT ON COLUMN expert_attach.del_flag IS '删除标记';
 COMMENT ON TABLE expert_info IS '专家信息表';
 COMMENT ON COLUMN expert_info.user_id IS '用户编号';
 COMMENT ON COLUMN expert_info.name IS '姓名';
@@ -313,6 +314,7 @@ COMMENT ON COLUMN expert_info.sex IS '性别';
 COMMENT ON COLUMN expert_info.birthdate IS '出生年月';
 COMMENT ON COLUMN expert_info.politics IS '政治面貌';
 COMMENT ON COLUMN expert_info.nation IS '民族';
+COMMENT ON COLUMN expert_info.identify_code IS '身份证号';
 COMMENT ON COLUMN expert_info.company IS '工作单位';
 COMMENT ON COLUMN expert_info.job IS '职务';
 COMMENT ON COLUMN expert_info.technical IS '职称';
