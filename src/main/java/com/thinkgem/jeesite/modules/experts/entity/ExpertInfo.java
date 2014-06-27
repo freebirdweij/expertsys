@@ -7,11 +7,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
@@ -22,6 +28,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  */
 @Entity
 @Table(name = "expert_info")
+@DynamicInsert @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ExpertInfo extends DataEntity<ExpertInfo> {
 
@@ -206,6 +213,15 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	}
 
 	/**
+	 * Constructor.
+	 */
+	public ExpertInfo(String userId) {
+		this.expertAttachSet = new HashSet<ExpertAttach>();
+		this.expertConfirmSet = new HashSet<ExpertConfirm>();
+		this.userId = userId;
+	}
+
+	/**
 	 * Set the 用户编号.
 	 * 
 	 * @param userId
@@ -220,6 +236,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 用户编号
 	 */
+	@Id
 	public String getUserId() {
 		return this.userId;
 	}
@@ -1256,6 +1273,9 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return The set of 专家确认表
 	 */
+	@JsonIgnore
+	@XmlTransient
+	@Transient
 	public Set<ExpertConfirm> getExpertConfirmSet() {
 		return this.expertConfirmSet;
 	}
@@ -1285,6 +1305,9 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return The set of 专家附件
 	 */
+	@JsonIgnore
+	@XmlTransient
+	@Transient
 	public Set<ExpertAttach> getExpertAttachSet() {
 		return this.expertAttachSet;
 	}
