@@ -57,11 +57,11 @@ public class ExpertRegisterController extends BaseController {
 		return "experts/expertInfoList";
 	}
 
-	//@RequiresPermissions("experts:expertInfo:view")
+	@RequiresPermissions("experts:expertInfo:reg")
 	@RequestMapping(value = "register")
 	public String register(ExpertInfo expertInfo, Model model) {
 		model.addAttribute("expertInfo", expertInfo);
-		return "experts/stepOne";
+		return "modules/experts/stepOne";
 	}
 
 	@RequiresPermissions("experts:expertInfo:view")

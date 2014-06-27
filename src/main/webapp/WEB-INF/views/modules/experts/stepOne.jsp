@@ -38,7 +38,7 @@
 		<li class="active">基本信息</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/stepone" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
           <div class ="row-fluid"> 
           <div class ="span4">		
