@@ -72,6 +72,12 @@
 		</div> 
 		</div>
 		<div class="control-group">
+			<label class="control-label">健康状况:</label>
+			<div class="controls">
+				<form:input path="health" htmlEscape="false" maxlength="100"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">民    族:</label>
 			<div class="controls">
 				<form:input path="nation" htmlEscape="false" maxlength="50" class="required"/>
@@ -82,19 +88,6 @@
 			<div class="controls">
           <form:input path="identifyCode" htmlEscape="false" maxlength="50" class="required"/>
           </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">毕业学校:</label>
-			<div class="controls">
-				<form:input path="collage" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">毕业时间:</label>
-			<div class="controls">
-				<input id="graduateTime" name="graduateTime" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
-				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
-			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">学    历:</label>
@@ -115,15 +108,22 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">家庭地址:</label>
+			<label class="control-label">毕业学校:</label>
 			<div class="controls">
-				<form:input path="homeAddr" htmlEscape="false" maxlength="100"/>
+				<form:input path="collage" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">健康状况:</label>
+			<label class="control-label">毕业时间:</label>
 			<div class="controls">
-				<form:input path="health" htmlEscape="false" maxlength="100"/>
+				<input id="graduateTime" name="graduateTime" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
+				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">家庭地址:</label>
+			<div class="controls">
+				<form:input path="homeAddr" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<div class="control-group">
