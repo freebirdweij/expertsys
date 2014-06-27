@@ -1,28 +1,123 @@
 
 /* Drop Indexes */
 
+DROP INDEX confirm_special_index;
+DROP INDEX confirm_nowcert_index;
+DROP INDEX confirm_series_index;
+DROP INDEX attach_name_index;
+DROP INDEX attach_type_index;
 DROP INDEX expert_company_index;
 DROP INDEX expert_name_index;
 DROP INDEX expert_tech_index;
 DROP INDEX expert_special_index;
-DROP INDEX attach_name_index;
-DROP INDEX attach_type_index;
-DROP INDEX confirm_special_index;
-DROP INDEX confirm_nowcert_index;
-DROP INDEX confirm_series_index;
 
 
 
 /* Drop Tables */
 
-DROP TABLE expert_attach CASCADE CONSTRAINTS;
+DROP TABLE committee_expert CASCADE CONSTRAINTS;
+DROP TABLE committee_info CASCADE CONSTRAINTS;
 DROP TABLE expert_confirm CASCADE CONSTRAINTS;
+DROP TABLE expert_attach CASCADE CONSTRAINTS;
 DROP TABLE expert_info CASCADE CONSTRAINTS;
 
 
 
 
 /* Create Tables */
+
+CREATE TABLE committee_info
+(
+	id nvarchar2(64) NOT NULL,
+	committee varchar2(500),
+	team_leader nvarchar2(64) NOT NULL,
+	rater_count number(3,0),
+	commit_time timestamp with local time zone,
+	commitee_remark varchar2(1000),
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
+
+CREATE TABLE committee_expert
+(
+	comittee_id nvarchar2(64) NOT NULL,
+	expert_id nvarchar2(64) NOT NULL,
+	rater_type char(2),
+	PRIMARY KEY (comittee_id, expert_id)
+);
+
+
+CREATE TABLE expert_confirm
+(
+	id nvarchar2(64) NOT NULL,
+	user_id nvarchar2(64) NOT NULL,
+	photo blob,
+	specialist char(3),
+	-- 专业从事时间-从
+	special_from timestamp with local time zone,
+	-- 专业从事时间-到
+	special_to timestamp with local time zone,
+	nowcert_kind char,
+	cert_level char,
+	cert_gettime timestamp with local time zone,
+	cert_series char(2),
+	work_status char,
+	ever_rater nvarchar2(300),
+	ever_rater_job char,
+	ever_rater_time timestamp with local time zone,
+	push_advice varchar2(2000),
+	deptormanage_advice varchar2(2000),
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
+
+CREATE TABLE expert_attach
+(
+	id nvarchar2(64) NOT NULL,
+	user_id nvarchar2(64) NOT NULL,
+	attach_name varchar2(100) NOT NULL,
+	attach_type char(3),
+	attach_link varchar2(300),
+	attach_store blob,
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
 
 CREATE TABLE expert_info
 (
@@ -33,6 +128,7 @@ CREATE TABLE expert_info
 	-- 出生年月
 	birthdate timestamp with local time zone,
 	politics char,
+	nation char(3),
 	-- 工作单位
 	company varchar2(64),
 	job char(3),
@@ -107,71 +203,24 @@ CREATE TABLE expert_info
 );
 
 
-CREATE TABLE expert_attach
-(
-	id nvarchar2(64) NOT NULL,
-	user_id nvarchar2(64) NOT NULL,
-	attach_name varchar2(100) NOT NULL,
-	attach_type char(3),
-	attach_link varchar2(300),
-	attach_store blob,
-	-- 创建者
-	create_by varchar2(64),
-	-- 创建时间
-	create_date timestamp,
-	-- 更新者
-	update_by varchar2(64),
-	-- 更新时间
-	update_date timestamp,
-	-- 备注信息
-	remarks varchar2(255),
-	-- 删除标记（0：正常；1：删除）
-	del_flag char(1) DEFAULT '0' NOT NULL,
-	PRIMARY KEY (id)
-);
-
-
-CREATE TABLE expert_confirm
-(
-	id nvarchar2(64) NOT NULL,
-	user_id nvarchar2(64) NOT NULL,
-	photo blob,
-	specialist char(3),
-	-- 专业从事时间-从
-	special_from timestamp with local time zone,
-	-- 专业从事时间-到
-	special_to timestamp with local time zone,
-	nowcert_kind char,
-	cert_level char,
-	cert_gettime timestamp with local time zone,
-	cert_series char(2),
-	work_status char,
-	ever_rater nvarchar2(300),
-	ever_rater_job char,
-	ever_rater_time timestamp with local time zone,
-	push_advice varchar2(2000),
-	-- 创建者
-	create_by varchar2(64),
-	-- 创建时间
-	create_date timestamp,
-	-- 更新者
-	update_by varchar2(64),
-	-- 更新时间
-	update_date timestamp,
-	-- 备注信息
-	remarks varchar2(255),
-	-- 删除标记（0：正常；1：删除）
-	del_flag char(1) DEFAULT '0' NOT NULL,
-	PRIMARY KEY (id)
-);
-
-
 
 /* Create Foreign Keys */
 
-ALTER TABLE expert_attach
-	ADD FOREIGN KEY (user_id)
-	REFERENCES expert_info (user_id)
+ALTER TABLE committee_expert
+	ADD FOREIGN KEY (comittee_id)
+	REFERENCES committee_info (id)
+;
+
+
+ALTER TABLE committee_expert
+	ADD FOREIGN KEY (expert_id)
+	REFERENCES expert_confirm (id)
+;
+
+
+ALTER TABLE committee_info
+	ADD FOREIGN KEY (team_leader)
+	REFERENCES expert_confirm (id)
 ;
 
 
@@ -181,29 +230,89 @@ ALTER TABLE expert_confirm
 ;
 
 
+ALTER TABLE expert_attach
+	ADD FOREIGN KEY (user_id)
+	REFERENCES expert_info (user_id)
+;
+
+
 
 /* Create Indexes */
 
+CREATE INDEX confirm_special_index ON expert_confirm (specialist);
+CREATE INDEX confirm_nowcert_index ON expert_confirm (nowcert_kind);
+CREATE INDEX confirm_series_index ON expert_confirm (cert_series);
+CREATE INDEX attach_name_index ON expert_attach (attach_name);
+CREATE INDEX attach_type_index ON expert_attach (attach_type);
 CREATE INDEX expert_company_index ON expert_info (company);
 CREATE INDEX expert_name_index ON expert_info (name);
 CREATE INDEX expert_tech_index ON expert_info (technical);
 CREATE INDEX expert_special_index ON expert_info (specialist);
-CREATE INDEX attach_name_index ON expert_attach (attach_name);
-CREATE INDEX attach_type_index ON expert_attach (attach_type);
-CREATE INDEX confirm_special_index ON expert_confirm (specialist);
-CREATE INDEX confirm_nowcert_index ON expert_confirm (nowcert_kind);
-CREATE INDEX confirm_series_index ON expert_confirm (cert_series);
 
 
 
 /* Comments */
 
+COMMENT ON TABLE committee_info IS '评委会信息表';
+COMMENT ON COLUMN committee_info.id IS '评委会ID';
+COMMENT ON COLUMN committee_info.committee IS '评委会名称';
+COMMENT ON COLUMN committee_info.team_leader IS '组长';
+COMMENT ON COLUMN committee_info.rater_count IS '委员数';
+COMMENT ON COLUMN committee_info.commit_time IS '组成时间';
+COMMENT ON COLUMN committee_info.commitee_remark IS '对成立本评委会的说明';
+COMMENT ON COLUMN committee_info.create_by IS '创建者';
+COMMENT ON COLUMN committee_info.create_date IS '创建时间';
+COMMENT ON COLUMN committee_info.update_by IS '更新者';
+COMMENT ON COLUMN committee_info.update_date IS '更新时间';
+COMMENT ON COLUMN committee_info.remarks IS '备注信息';
+COMMENT ON COLUMN committee_info.del_flag IS '删除标记';
+COMMENT ON TABLE committee_expert IS '委员会专家（评委）表';
+COMMENT ON COLUMN committee_expert.comittee_id IS '评委会ID';
+COMMENT ON COLUMN committee_expert.expert_id IS '专家确认ID';
+COMMENT ON COLUMN committee_expert.rater_type IS '专家担任评委的类别';
+COMMENT ON TABLE expert_confirm IS '专家确认表';
+COMMENT ON COLUMN expert_confirm.id IS '专家确认ID';
+COMMENT ON COLUMN expert_confirm.user_id IS '用户编号';
+COMMENT ON COLUMN expert_confirm.photo IS '照片';
+COMMENT ON COLUMN expert_confirm.specialist IS '现从事专业';
+COMMENT ON COLUMN expert_confirm.special_from IS '专业从事时间-从';
+COMMENT ON COLUMN expert_confirm.special_to IS '专业从事时间-到';
+COMMENT ON COLUMN expert_confirm.nowcert_kind IS '现任评审资格';
+COMMENT ON COLUMN expert_confirm.cert_level IS '资格级别';
+COMMENT ON COLUMN expert_confirm.cert_gettime IS '取得时间';
+COMMENT ON COLUMN expert_confirm.cert_series IS '所属系列';
+COMMENT ON COLUMN expert_confirm.work_status IS '聘任情况';
+COMMENT ON COLUMN expert_confirm.ever_rater IS '曾任何评委';
+COMMENT ON COLUMN expert_confirm.ever_rater_job IS '曾任评委职务';
+COMMENT ON COLUMN expert_confirm.ever_rater_time IS '曾任评委时间';
+COMMENT ON COLUMN expert_confirm.push_advice IS '推荐单位意见';
+COMMENT ON COLUMN expert_confirm.deptormanage_advice IS '行业部门〈或管理单位)初审意见';
+COMMENT ON COLUMN expert_confirm.create_by IS '创建者';
+COMMENT ON COLUMN expert_confirm.create_date IS '创建时间';
+COMMENT ON COLUMN expert_confirm.update_by IS '更新者';
+COMMENT ON COLUMN expert_confirm.update_date IS '更新时间';
+COMMENT ON COLUMN expert_confirm.remarks IS '备注信息';
+COMMENT ON COLUMN expert_confirm.del_flag IS '删除标记';
+COMMENT ON TABLE expert_attach IS '专家附件';
+COMMENT ON COLUMN expert_attach.id IS '附件ID';
+COMMENT ON COLUMN expert_attach.user_id IS '用户编号';
+COMMENT ON COLUMN expert_attach.attach_name IS '附件名称';
+COMMENT ON COLUMN expert_attach.attach_type IS '附件类型';
+COMMENT ON COLUMN expert_attach.attach_link IS '附件位置';
+COMMENT ON COLUMN expert_attach.attach_store IS '附件存储';
+COMMENT ON COLUMN expert_attach.create_by IS '创建者';
+COMMENT ON COLUMN expert_attach.create_date IS '创建时间';
+COMMENT ON COLUMN expert_attach.update_by IS '更新者';
+COMMENT ON COLUMN expert_attach.update_date IS '更新时间';
+COMMENT ON COLUMN expert_attach.remarks IS '备注信息';
+COMMENT ON COLUMN expert_attach.del_flag IS '删除标记';
 COMMENT ON TABLE expert_info IS '专家信息表';
 COMMENT ON COLUMN expert_info.user_id IS '用户编号';
 COMMENT ON COLUMN expert_info.name IS '姓名';
 COMMENT ON COLUMN expert_info.sex IS '性别';
 COMMENT ON COLUMN expert_info.birthdate IS '出生年月';
 COMMENT ON COLUMN expert_info.politics IS '政治面貌';
+COMMENT ON COLUMN expert_info.nation IS '民族';
 COMMENT ON COLUMN expert_info.company IS '工作单位';
 COMMENT ON COLUMN expert_info.job IS '职务';
 COMMENT ON COLUMN expert_info.technical IS '职称';
@@ -259,41 +368,6 @@ COMMENT ON COLUMN expert_info.update_by IS '更新者';
 COMMENT ON COLUMN expert_info.update_date IS '更新时间';
 COMMENT ON COLUMN expert_info.remarks IS '备注信息';
 COMMENT ON COLUMN expert_info.del_flag IS '删除标记';
-COMMENT ON TABLE expert_attach IS '专家附件';
-COMMENT ON COLUMN expert_attach.id IS '附件ID';
-COMMENT ON COLUMN expert_attach.user_id IS '用户编号';
-COMMENT ON COLUMN expert_attach.attach_name IS '附件名称';
-COMMENT ON COLUMN expert_attach.attach_type IS '附件类型';
-COMMENT ON COLUMN expert_attach.attach_link IS '附件位置';
-COMMENT ON COLUMN expert_attach.attach_store IS '附件存储';
-COMMENT ON COLUMN expert_attach.create_by IS '创建者';
-COMMENT ON COLUMN expert_attach.create_date IS '创建时间';
-COMMENT ON COLUMN expert_attach.update_by IS '更新者';
-COMMENT ON COLUMN expert_attach.update_date IS '更新时间';
-COMMENT ON COLUMN expert_attach.remarks IS '备注信息';
-COMMENT ON COLUMN expert_attach.del_flag IS '删除标记';
-COMMENT ON TABLE expert_confirm IS '专家确认表';
-COMMENT ON COLUMN expert_confirm.id IS '专家确认ID';
-COMMENT ON COLUMN expert_confirm.user_id IS '用户编号';
-COMMENT ON COLUMN expert_confirm.photo IS '照片';
-COMMENT ON COLUMN expert_confirm.specialist IS '现从事专业';
-COMMENT ON COLUMN expert_confirm.special_from IS '专业从事时间-从';
-COMMENT ON COLUMN expert_confirm.special_to IS '专业从事时间-到';
-COMMENT ON COLUMN expert_confirm.nowcert_kind IS '现任评审资格';
-COMMENT ON COLUMN expert_confirm.cert_level IS '资格级别';
-COMMENT ON COLUMN expert_confirm.cert_gettime IS '取得时间';
-COMMENT ON COLUMN expert_confirm.cert_series IS '所属系列';
-COMMENT ON COLUMN expert_confirm.work_status IS '聘任情况';
-COMMENT ON COLUMN expert_confirm.ever_rater IS '曾任何评委';
-COMMENT ON COLUMN expert_confirm.ever_rater_job IS '曾任评委职务';
-COMMENT ON COLUMN expert_confirm.ever_rater_time IS '曾任评委时间';
-COMMENT ON COLUMN expert_confirm.push_advice IS '推荐单位意见';
-COMMENT ON COLUMN expert_confirm.create_by IS '创建者';
-COMMENT ON COLUMN expert_confirm.create_date IS '创建时间';
-COMMENT ON COLUMN expert_confirm.update_by IS '更新者';
-COMMENT ON COLUMN expert_confirm.update_date IS '更新时间';
-COMMENT ON COLUMN expert_confirm.remarks IS '备注信息';
-COMMENT ON COLUMN expert_confirm.del_flag IS '删除标记';
 
 
 

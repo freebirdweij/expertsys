@@ -48,13 +48,19 @@
                 <form:input type="text" path="name"  value="M"/>	
             </div>
            </div>
-		</div>
-		 <div class ="span8"> 
 		<div class="control-group">
 			<label class="control-label">性别:</label>
 			<div class="controls">
                                  男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
             </div>
+		</div>
+		</div>
+		 <div class ="span8"> 
+		<div class="control-group">
+			<label class="control-label">照片:</label>
+			<div class="controls">
+				<input id="picture" name="picture" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
+			</div>
 		</div>
 		</div> 
 		</div>
@@ -62,85 +68,76 @@
 			<label class="control-label">出生年月:</label>
 			<div class="controls">
 				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">
-				<form:input path="loginName" htmlEscape="false" maxlength="50" class="required userName"/>
+				<form:input path="birthdate" htmlEscape="false" maxlength="50" class="required userName"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">民    族:</label>
 			<div class="controls">
-				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">照片:</label>
-			<div class="controls">
-				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
+				<form:input path="nation" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">身份证号:</label>
 			<div class="controls">
-          <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
+          <form:input path="identifyCode" htmlEscape="false" maxlength="50" class="required"/>
           </div>	
 		</div>
 		<div class="control-group">
 			<label class="control-label">毕业学校:</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
+				<form:input path="collage" htmlEscape="false" maxlength="50" class="required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">毕业时间:</label>
 			<div class="controls">
-				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
+				<input id="graduateTime" name="graduateTime" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
 				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">学    历:</label>
 			<div class="controls">
-				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
+				<input id="education" name="education" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">所学专业:</label>
 			<div class="controls">
-				<form:input path="email" htmlEscape="false" maxlength="100" class="email"/>
+				<form:input path="studySpecial" htmlEscape="false" maxlength="100" class="email"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">所 获学 位:</label>
 			<div class="controls">
-				<form:input path="phone" htmlEscape="false" maxlength="100"/>
+				<form:input path="myDegree" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">家庭地址:</label>
 			<div class="controls">
-				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
+				<form:input path="homeAddr" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">健康状况:</label>
 			<div class="controls">
-				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
+				<form:input path="health" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">住宅电话:</label>
 			<div class="controls">
-				<form:select path="userType">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
+				<form:input path="homePhone" htmlEscape="false" maxlength="100"/>
 			</div>
 		</div>
 		<c:if test="${not empty user.id}">
 			<div class="control-group">
 				<label class="control-label">邮政编码:</label>
-				<div class="controls">
-					<label class="lbl"><fmt:formatDate value="${user.createDate}" type="both" dateStyle="full"/></label>
-				</div>
+			<div class="controls">
+				<form:input path="homeMailcode" htmlEscape="false" maxlength="100"/>
+			</div>
 			</div>
 		</c:if>
 		<div class="form-actions">

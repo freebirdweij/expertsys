@@ -49,6 +49,28 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 
 	/** 政治面貌. */
 	private String politics;
+	
+	/** 身份证号. */
+	private String identifyCode;
+	
+	public String getIdentifyCode() {
+		return identifyCode;
+	}
+
+	public void setIdentifyCode(String identifyCode) {
+		this.identifyCode = identifyCode;
+	}
+
+	/** 民族. */
+	private String nation;
+
+	public String getNation() {
+		return nation;
+	}
+
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
 
 	/** 工作单位. */
 	private String company;
