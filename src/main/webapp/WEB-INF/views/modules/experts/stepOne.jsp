@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<html>
+<html> 
 <head>
 	<title>专家注册</title>
 	<meta name="decorator" content="default"/>
@@ -30,6 +30,50 @@
 				}
 			});
 		});
+		
+	window.URL = window.URL || window.webkitURL;
+	function handleFiles(obj) {
+	var fileList = null;
+	    fileList = document.getElementById("imgList");
+	    if(fileList.hasChildNodes())
+	          fileList.removeChild(fileList.firstChild)
+	   
+		var files = obj.files,
+			img = new Image();
+		if(window.URL){
+			//File API
+			  alert(files[0].name + "," + files[0].size + " bytes");
+		      img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+		      img.width = 200;
+		      img.onload = function(e) {
+		         window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+		      }
+		      fileList.appendChild(img);
+		}else if(window.FileReader){
+			//opera不支持createObjectURL/revokeObjectURL方法。我们用FileReader对象来处理
+			var reader = new FileReader();
+			reader.readAsDataURL(files[0]);
+			reader.onload = function(e){
+				alert(files[0].name + "," +e.total + " bytes");
+				img.src = this.result;
+				img.width = 200;
+		      fileList.appendChild(img);
+			}
+		}else{
+			//ie
+			obj.select();
+			obj.blur();
+			var nfile = document.selection.createRange().text;
+			document.selection.empty();
+			img.src = nfile;
+			img.width = 200;
+			img.onload=function(){
+		      alert(nfile+","+img.fileSize + " bytes");
+		    }
+		      fileList.appendChild(img);
+			//fileList.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image',src='"+nfile+"')";
+		}
+	}
 	</script>
 </head>
 <body>
@@ -37,7 +81,7 @@
 		<li class="active"><a href="${ctx}/experts/register">基本信息</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo"
-		action="${ctx}/experts/stepone" method="post" class="form-horizontal">
+		action="${ctx}/experts/stepone" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
 		<div class="row-fluid">
@@ -46,51 +90,48 @@
 					<label class="control-label">姓名:</label>
 					<div class="controls">
 						<form:input path="name" htmlEscape="false" maxlength="20"
-							class="span8 required userName" />
+							class="span10 required userName" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">性别:</label>
-					<div class="controls">男<form:radiobutton path="sex" value="M" /> 女<form:radiobutton path="sex" value="F" />
+					<div class="controls">男<form:radiobutton path="sex" value="1" />&nbsp;&nbsp;&nbsp;&nbsp;女<form:radiobutton path="sex" value="0" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span8 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span10 input-small Wdate" value="${expertInfo.birthdate}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
-				</div>
+				</div>				
 			</div>
 			<div class="span2">
 				<div class="control-group">
-					<label class="control-label">照片:</label>
-					<a href="#"
-						class="thumbnail"> <img src="http://placehold.it/100x120"
-						alt="">
-					</a>
-					
-				</div>
-			</div>
+					<!-- <label class="control-label">照片:</label> -->
+					<form:input type="file" id="picture" path="picture" accept="image/*" onchange="handleFiles(this)"/>
+		            <div id="imgList" style="width:200;height:200px;"></div>
+				</div>									
+			</div>				
 		</div>
 		<div class="control-group">
 			<label class="control-label">健康状况:</label>
 			<div class="controls">
-				<form:input path="health" htmlEscape="false" maxlength="100" />
+				<form:input path="health" htmlEscape="false" maxlength="10" class="span1 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">民 族:</label>
 			<div class="controls">
 				<form:input path="nation" htmlEscape="false" maxlength="50"
-					class="required" />
+					class="span2 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">身份证号:</label>
 			<div class="controls">
 				<form:input path="identifyCode" htmlEscape="false" maxlength="50"
-					class="span5 required" />
+					class="span4 required" />
 			</div>
 		</div>
 		<div class="control-group">
@@ -103,44 +144,40 @@
 		<div class="control-group">
 			<label class="control-label">毕业时间:</label>
 			<div class="controls">
-				<input id="graduateTime" name="graduateTime" type="password"
-					value="" maxlength="50" minlength="3"
-					class="${empty user.id?'required':''}" />
-				<c:if test="${not empty user.id}">
-					<span class="help-inline">若不修改密码，请留空。</span>
-				</c:if>
+			  <form:input path="graduateTime" maxlength="20"
+				class="span2 input-small Wdate" value="${graduateTime}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">学 历:</label>
 			<div class="controls">
-				<input id="education" name="education" type="password" value=""
-					maxlength="50" minlength="3" equalTo="#newPassword" />
+				<form:input path="education"
+					maxlength="50" minlength="3" class="span2 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">所学专业:</label>
 			<div class="controls">
 				<form:input path="studySpecial" htmlEscape="false" maxlength="100"
-					class="email" />
+					class="span3 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">所 获学 位:</label>
 			<div class="controls">
-				<form:input path="myDegree" htmlEscape="false" maxlength="100" />
+				<form:input path="myDegree" htmlEscape="false" maxlength="100" class="span2 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">家庭地址:</label>
 			<div class="controls">
-				<form:input path="homeAddr" htmlEscape="false" maxlength="100" />
+				<form:input path="homeAddr" htmlEscape="false" maxlength="100" class="span5 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">住宅电话:</label>
 			<div class="controls">
-				<form:input path="homePhone" htmlEscape="false" maxlength="100" />
+				<form:input path="homePhone" htmlEscape="false" maxlength="100" class="span2 required" />
 			</div>
 		</div>
 		<c:if test="${not empty user.id}">
