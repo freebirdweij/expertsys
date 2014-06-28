@@ -44,7 +44,7 @@
 			//File API
 			  alert(files[0].name + "," + files[0].size + " bytes");
 		      img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
-		      img.width = 200;
+		      img.width = 100;
 		      img.onload = function(e) {
 		         window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
 		      }
@@ -56,7 +56,7 @@
 			reader.onload = function(e){
 				alert(files[0].name + "," +e.total + " bytes");
 				img.src = this.result;
-				img.width = 200;
+				img.width = 100;
 		      fileList.appendChild(img);
 			}
 		}else{
@@ -66,7 +66,7 @@
 			var nfile = document.selection.createRange().text;
 			document.selection.empty();
 			img.src = nfile;
-			img.width = 200;
+			img.width = 100;
 			img.onload=function(){
 		      alert(nfile+","+img.fileSize + " bytes");
 		    }
@@ -102,29 +102,32 @@
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span10 input-small Wdate" value="${expertInfo.birthdate}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span10 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
 				</div>				
 			</div>
 			<div class="span2">
-				<div class="control-group">
-					<!-- <label class="control-label">照片:</label> -->
-					<form:input type="file" id="picture" path="picture" accept="image/*" onchange="handleFiles(this)"/>
-		            <div id="imgList" style="width:200;height:200px;"></div>
-				</div>									
+					<form:input type="file" id="picture" path="picture" accept="image/*" onchange="handleFiles(this)" alt="选择照片"/>
+												
+		           <div id="imgList" style="width:100;height:105px;"> 个人照片</div>
 			</div>				
 		</div>
 		<div class="control-group">
 			<label class="control-label">健康状况:</label>
 			<div class="controls">
-				<form:input path="health" htmlEscape="false" maxlength="10" class="span1 required" />
+				<form:select path="health" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_health_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">民 族:</label>
 			<div class="controls">
-				<form:input path="nation" htmlEscape="false" maxlength="50"
-					class="span2 required" />
+				<form:select path="nation" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
@@ -145,14 +148,16 @@
 			<label class="control-label">毕业时间:</label>
 			<div class="controls">
 			  <form:input path="graduateTime" maxlength="20"
-				class="span2 input-small Wdate" value="${graduateTime}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">学 历:</label>
 			<div class="controls">
-				<form:input path="education"
-					maxlength="50" minlength="3" class="span2 required" />
+				<form:select path="education" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_education_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
@@ -165,29 +170,30 @@
 		<div class="control-group">
 			<label class="control-label">所 获学 位:</label>
 			<div class="controls">
-				<form:input path="myDegree" htmlEscape="false" maxlength="100" class="span2 required" />
+				<form:select path="myDegree" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_degree_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">家庭地址:</label>
 			<div class="controls">
-				<form:input path="homeAddr" htmlEscape="false" maxlength="100" class="span5 required" />
+				<form:input path="homeAddr" htmlEscape="false" maxlength="200" class="span5 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">住宅电话:</label>
 			<div class="controls">
-				<form:input path="homePhone" htmlEscape="false" maxlength="100" class="span2 required" />
+				<form:input path="homePhone" htmlEscape="false" maxlength="30" class="span2 required" />
 			</div>
 		</div>
-		<c:if test="${not empty user.id}">
 			<div class="control-group">
 				<label class="control-label">邮政编码:</label>
 				<div class="controls">
-					<form:input path="homeMailcode" htmlEscape="false" maxlength="100" />
+					<form:input path="homeMailcode" htmlEscape="false" maxlength="20" class="span2 required"/>
 				</div>
 			</div>
-		</c:if>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit"
 				value="下一步" />&nbsp; <input id="btnCancel" class="btn" type="button"

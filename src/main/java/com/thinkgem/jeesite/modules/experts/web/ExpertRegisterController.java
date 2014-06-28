@@ -60,6 +60,8 @@ public class ExpertRegisterController extends BaseController {
 	@RequiresPermissions("experts:expertInfo:reg")
 	@RequestMapping(value = "register")
 	public String register(ExpertInfo expertInfo, Model model) {
+		User user = UserUtils.getUser();
+		expertInfo.setName(user.getName());
 		model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/stepOne";
 	}
