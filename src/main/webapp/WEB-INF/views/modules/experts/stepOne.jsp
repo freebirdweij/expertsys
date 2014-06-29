@@ -31,6 +31,36 @@
 			});
 		});
 		
+	function ajaxFileUpload()
+	{
+	
+	$("#loading")
+        .ajaxStart(function(){
+            $(this).show();
+        })//开始上传文件时显示一个图片
+        .ajaxComplete(function(){
+            $(this).hide();
+        });//文件上传完成将图片隐藏起来
+        
+       $.ajaxFileUpload({
+                 url:'${ctx}/experts/picture',             //需要链接到服务器地址
+                 secureuri:false,
+                 fileElementId:'picture0',                         //文件选择框的id属性
+                 dataType: 'json',                                     //服务器返回的格式，可以是json
+                 success: function (data, status)             //相当于java中try语句块的用法
+                 {   
+                 //alert(data);       //data是从服务器返回来的值   
+                     $('#result').html('上传图片成功!请复制图片地址<br/>'+data.src);
+ 
+                 },
+                 error: function (data, status, e)             //相当于java中catch语句块的用法
+                 {
+                     $('#result').html('上传图片失败');
+                 }
+               }
+             );
+    }
+    
 	window.URL = window.URL || window.webkitURL;
 	function handleFiles(obj) {
 	var fileList = null;
@@ -73,7 +103,10 @@
 		      fileList.appendChild(img);
 			//fileList.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image',src='"+nfile+"')";
 		}
+		
+		
 	}
+	
 	</script>
 </head>
 <body>
@@ -81,7 +114,7 @@
 		<li class="active"><a href="${ctx}/experts/register">基本信息</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo"
-		action="${ctx}/experts/stepone" enctype="multipart/form-data" method="post" class="form-horizontal">
+		action="${ctx}/experts/save" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
 		<div class="row-fluid">
@@ -107,7 +140,7 @@
 				</div>				
 			</div>
 			<div class="span2">
-					<form:input type="file" id="picture" path="picture" accept="image/*" onchange="handleFiles(this)" alt="选择照片"/>
+					<input type="file" id="picture0" path="picture0" accept="image/*" onchange="handleFiles(this);ajaxFileUpload();" alt="选择照片"/>
 												
 		           <div id="imgList" style="width:100;height:105px;"> 个人照片</div>
 			</div>				

@@ -3,21 +3,33 @@
  */
 package com.thinkgem.jeesite.modules.experts.web;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Blob;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.hibernate.Hibernate;
+import org.hibernate.LobHelper;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.FileUtils;
+import com.thinkgem.jeesite.common.utils.HibernateSessionFactory;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -45,6 +57,7 @@ public class ExpertRegisterController extends BaseController {
 		}
 	}
 	
+	
 	@RequiresPermissions("experts:expertInfo:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(ExpertInfo expertInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -57,6 +70,22 @@ public class ExpertRegisterController extends BaseController {
 		return "experts/expertInfoList";
 	}
 
+	@RequestMapping(value = "picture", method=RequestMethod.POST)
+	public String uploadPicture(ExpertInfo expertInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			expertInfo.setCreateBy(user);
+		}
+		InputStream in = FileUtils.takeUploadFile(request);
+		Session session = HibernateSessionFactory.getSession();
+		Blob blob = session.getLobHelper().createBlob(FileUtils.InputStreamToByte(in));
+		expertInfo.setPicture(blob);
+        Page<ExpertInfo> page = expertInfoService.find(new Page<ExpertInfo>(request, response), expertInfo); 
+        model.addAttribute("page", page);
+		return "experts/expertInfoList";
+	}
+	
+	
 	@RequiresPermissions("experts:expertInfo:reg")
 	@RequestMapping(value = "register")
 	public String register(ExpertInfo expertInfo, Model model) {
@@ -74,14 +103,19 @@ public class ExpertRegisterController extends BaseController {
 	}
 
 	@RequiresPermissions("experts:expertInfo:edit")
-	@RequestMapping(value = "save")
+	@RequestMapping(value = "save", method=RequestMethod.POST)
 	public String save(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, expertInfo)){
 			return form(expertInfo, model);
 		}
+		
+		//专家信息表的user_id与用户标id保持一致。
+		User user = UserUtils.getUser();
+		expertInfo.setUserId(user.getId());
+		
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/experts/expertInfo/?repage";
+		return "redirect:"+Global.getAdminPath()+"/experts/stepOne/?repage";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
