@@ -14,6 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hibernate.Hibernate;
 import org.hibernate.LobHelper;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.internal.SessionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -48,6 +49,9 @@ public class ExpertRegisterController extends BaseController {
 	@Autowired
 	private ExpertInfoService expertInfoService;
 	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	@ModelAttribute
 	public ExpertInfo get(@RequestParam(required=false) String id) {
 		if (StringUtils.isNotBlank(id)){
@@ -77,7 +81,7 @@ public class ExpertRegisterController extends BaseController {
 			expertInfo.setCreateBy(user);
 		}
 		InputStream in = FileUtils.takeUploadFile(request);
-		Session session = HibernateSessionFactory.getSession();
+		Session session = sessionFactory.openSession();
 		Blob blob = session.getLobHelper().createBlob(FileUtils.InputStreamToByte(in));
 		expertInfo.setPicture(blob);
         Page<ExpertInfo> page = expertInfoService.find(new Page<ExpertInfo>(request, response), expertInfo); 
