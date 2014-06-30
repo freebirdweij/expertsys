@@ -1,13 +1,17 @@
 package com.thinkgem.jeesite.modules.experts.entity;
 
-import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
@@ -154,7 +158,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	private String accountAdvice;
 
 	/** 照片. */
-	private Blob picture;
+	private byte[] picture;
 
 	/** 学位. */
 	private String myDegree;
@@ -858,7 +862,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * @param picture
 	 *            照片
 	 */
-	public void setPicture(Blob picture) {
+	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
 
@@ -867,7 +871,10 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 照片
 	 */
-	public Blob getPicture() {
+	@Lob 
+	@Basic(fetch=FetchType.LAZY) 
+	@Column(name="picture", columnDefinition="BLOB", nullable=true)
+	public byte[] getPicture() {
 		return this.picture;
 	}
 
@@ -1133,6 +1140,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 申报类别1的申报专业1
 	 */
+	@Column(name="kind1_special1")
 	public String getKind1Special1() {
 		return this.kind1Special1;
 	}
@@ -1152,6 +1160,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 申报类别1的申报专业2
 	 */
+	@Column(name="kind1_special2")
 	public String getKind1Special2() {
 		return this.kind1Special2;
 	}
@@ -1190,6 +1199,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 申报类别2的申报专业1
 	 */
+	@Column(name="kind2_special1")
 	public String getKind2Special1() {
 		return this.kind2Special1;
 	}
@@ -1209,6 +1219,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 申报类别2的申报专业2
 	 */
+	@Column(name="kind2_special2")
 	public String getKind2Special2() {
 		return this.kind2Special2;
 	}

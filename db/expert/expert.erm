@@ -12,7 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>57</x>
-	<y>156</y>
+	<y>546</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -110,7 +110,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2014-06-21 08:37:55</creation_date>
-			<updated_date>2014-06-28 21:32:34</updated_date>
+			<updated_date>2014-06-30 22:24:55</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -1045,7 +1045,7 @@
 		</word>
 		<word>
 			<id>60</id>
-			<length>3</length>
+			<length>200</length>
 			<decimal>null</decimal>
 			<array>false</array>
 			<array_dimension>null</array_dimension>
@@ -1056,7 +1056,7 @@
 			<description></description>
 			<logical_name>现从事专业</logical_name>
 			<physical_name>specialist</physical_name>
-			<type>character(n)</type>
+			<type>varchar(n)</type>
 		</word>
 		<word>
 			<id>61</id>
@@ -2035,7 +2035,7 @@
 			<connections>
 				<relation>
 					<id>3</id>
-					<source>2</source>
+					<source>1</source>
 					<target>3</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2057,7 +2057,7 @@
 				</relation>
 				<relation>
 					<id>4</id>
-					<source>1</source>
+					<source>2</source>
 					<target>3</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2088,7 +2088,7 @@
 				<normal_column>
 					<id>34</id>
 					<referenced_column>24</referenced_column>
-					<relation>4</relation>
+					<relation>3</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -2122,7 +2122,7 @@
 				<normal_column>
 					<id>35</id>
 					<referenced_column>30</referenced_column>
-					<relation>3</relation>
+					<relation>4</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -2653,7 +2653,7 @@
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
 					<physical_name></physical_name>
-					<type>character(n)</type>
+					<type>varchar(n)</type>
 					<constraint></constraint>
 					<default_value></default_value>
 					<auto_increment>false</auto_increment>
@@ -4344,7 +4344,7 @@
 						<unique_key_name></unique_key_name>
 						<logical_name></logical_name>
 						<physical_name></physical_name>
-						<type>character(n)</type>
+						<type>varchar(n)</type>
 						<constraint></constraint>
 						<default_value></default_value>
 						<auto_increment>false</auto_increment>

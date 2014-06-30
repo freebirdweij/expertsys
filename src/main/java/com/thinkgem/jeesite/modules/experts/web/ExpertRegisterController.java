@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.experts.web;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -80,13 +82,19 @@ public class ExpertRegisterController extends BaseController {
 		if (!user.isAdmin()){
 			expertInfo.setCreateBy(user);
 		}
-		InputStream in = FileUtils.takeUploadFile(request);
+		//InputStream in = FileUtils.takeUploadFile(request);
 		Session session = sessionFactory.openSession();
-		Blob blob = session.getLobHelper().createBlob(FileUtils.InputStreamToByte(in));
-		expertInfo.setPicture(blob);
+		byte[] bts = FileUtils.takeUploadBytes(request);
+		if(bts==null){
+			System.out.println("bts==null");
+		}else{
+			System.out.println("bts.length=="+bts.length);
+		}
+		Blob blob = session.getLobHelper().createBlob(bts);
+		//expertInfo.setPicture(blob);
         Page<ExpertInfo> page = expertInfoService.find(new Page<ExpertInfo>(request, response), expertInfo); 
         model.addAttribute("page", page);
-		return "experts/expertInfoList";
+		return "modules/experts/stepOne";
 	}
 	
 	
@@ -108,7 +116,7 @@ public class ExpertRegisterController extends BaseController {
 
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "save", method=RequestMethod.POST)
-	public String save(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+	public String save(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
 		if (!beanValidator(model, expertInfo)){
 			return form(expertInfo, model);
 		}
@@ -116,6 +124,15 @@ public class ExpertRegisterController extends BaseController {
 		//专家信息表的user_id与用户标id保持一致。
 		User user = UserUtils.getUser();
 		expertInfo.setUserId(user.getId());
+		//Session session = sessionFactory.openSession();
+		//Blob blob = null;
+		try {
+			expertInfo.setPicture(file.getBytes());
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		//expertInfo.setPicture(blob);
 		
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");

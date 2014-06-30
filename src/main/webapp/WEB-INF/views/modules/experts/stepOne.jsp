@@ -140,7 +140,7 @@
 				</div>				
 			</div>
 			<div class="span2">
-					<input type="file" id="picture0" path="picture0" accept="image/*" onchange="handleFiles(this);ajaxFileUpload();" alt="选择照片"/>
+					<input type="file" name="picture0" accept="image/*" onchange="handleFiles(this)" alt="选择照片"/>
 												
 		           <div id="imgList" style="width:100;height:105px;"> 个人照片</div>
 			</div>				
