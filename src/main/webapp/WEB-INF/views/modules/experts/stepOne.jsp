@@ -114,7 +114,7 @@
 		<li class="active"><a href="${ctx}/experts/register">基本信息</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo"
-		action="${ctx}/experts/save" enctype="multipart/form-data" method="post" class="form-horizontal">
+		action="${ctx}/experts/save1" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
 		<div class="row-fluid">

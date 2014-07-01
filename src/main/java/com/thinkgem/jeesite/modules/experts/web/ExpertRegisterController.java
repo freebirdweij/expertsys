@@ -115,7 +115,7 @@ public class ExpertRegisterController extends BaseController {
 	}
 
 	@RequiresPermissions("experts:expertInfo:edit")
-	@RequestMapping(value = "save", method=RequestMethod.POST)
+	@RequestMapping(value = "save1", method=RequestMethod.POST)
 	public String save(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
 		if (!beanValidator(model, expertInfo)){
 			return form(expertInfo, model);
@@ -136,7 +136,7 @@ public class ExpertRegisterController extends BaseController {
 		
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/experts/stepOne/?repage";
+		return "modules/experts/stepTwo";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
