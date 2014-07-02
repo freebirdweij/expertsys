@@ -12,17 +12,22 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 
 /**
  * Model class of 专家信息表.
@@ -76,8 +81,6 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 		this.nation = nation;
 	}
 
-	/** 工作单位. */
-	private String company;
 
 	/** 职务. */
 	private String job;
@@ -224,6 +227,21 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	private String deptormanageAdvice;
 
 
+	private Office unit;	// 归属公司
+	
+	@ManyToOne
+	@JoinColumn(name="company")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
+	@NotNull(message="归属公司不能为空")
+	public Office getUnit() {
+		return unit;
+	}
+
+	public void setUnit(Office unit) {
+		this.unit = unit;
+	}
+
 	/** The set of 专家确认表. */
 	private Set<ExpertConfirm> expertConfirmSet;
 
@@ -341,25 +359,6 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 */
 	public String getPolitics() {
 		return this.politics;
-	}
-
-	/**
-	 * Set the 工作单位.
-	 * 
-	 * @param company
-	 *            工作单位
-	 */
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	/**
-	 * Get the 工作单位.
-	 * 
-	 * @return 工作单位
-	 */
-	public String getCompany() {
-		return this.company;
 	}
 
 	/**

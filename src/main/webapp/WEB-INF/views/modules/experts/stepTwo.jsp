@@ -35,110 +35,117 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">职业信息</li>
+		<li class="active"><a href="/modules/experts/stepTwo.jsp">职业信息</a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/register" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/save2" method="post" class="form-horizontal">
+		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">工作单位:</label>
 			<div class="controls">
-                                 男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
-            </div>
+                <tags:treeselect id="unit" name="unit.id" value="${expertInfo.unit.id}" labelName="unit.name" labelValue="${expertInfo.unit.name}"
+					title="单位" url="/sys/office/treeData?type=1" cssClass="required"/>
+			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">是否所属单位组长人员:</label>
 			<div class="controls">
-                                 男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
+                                         是<form:radiobutton path="ifTeamleader"  value="1"/>   否 <form:radiobutton path="ifTeamleader"  value="0"/>	
             </div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">职务:</label>
 			<div class="controls">
-          <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
+				<form:input path="job" htmlEscape="false" maxlength="20"
+					class="span2 required" />
           </div>	
 		</div>
 		<div class="control-group">
 			<label class="control-label">从事专业:</label>
 			<div class="controls">
-				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">
-				<form:input path="loginName" htmlEscape="false" maxlength="50" class="required userName"/>
+				<form:input path="specialist" htmlEscape="false" maxlength="20"
+					class="span3 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">现从事专业时间:</label>
 			<div class="controls">
-				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
-				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
+				从<form:input path="specialFrom" maxlength="20"
+						class="span10 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				至<form:input path="specialTo" maxlength="20"
+						class="span10 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">职    称:</label>
 			<div class="controls">
-				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
+				<form:select path="technical" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_tech_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">职    称评定时间:</label>
+			<label class="control-label">职称评定时间:</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
+				<form:input path="techGettime" maxlength="20"
+						class="span10 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">参加工作时间:</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
+				<form:input path="startworkTime" maxlength="20"
+						class="span10 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">执业资格:</label>
 			<div class="controls">
-				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
-				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
+				<form:input path="workCert" htmlEscape="false" maxlength="20"
+					class="span3 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">执业资格取得时间:</label>
 			<div class="controls">
-				<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
+				<form:input path="certGettime" maxlength="20"
+						class="span10 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">政治面貌:</label>
 			<div class="controls">
-				<form:input path="email" htmlEscape="false" maxlength="100" class="email"/>
+				<form:select path="politics" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_politics_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">单位地址:</label>
 			<div class="controls">
-				<form:input path="mobile" htmlEscape="false" maxlength="100"/>
+				<form:input path="companyAddr" htmlEscape="false" maxlength="200" class="span5 required" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">单位电话:</label>
 			<div class="controls">
-				<form:select path="userType">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
+				<form:input path="companyPhone" htmlEscape="false" maxlength="30" class="span2 required" />
 			</div>
 		</div>
 		<c:if test="${not empty user.id}">
 			<div class="control-group">
 				<label class="control-label">单位邮编:</label>
 				<div class="controls">
-					<label class="lbl"><fmt:formatDate value="${user.createDate}" type="both" dateStyle="full"/></label>
+					<form:input path="companyMailcode" htmlEscape="false" maxlength="20" class="span2 required"/>
 				</div>
 			</div>
 		</c:if>
 		<div class="control-group">
 			<label class="control-label">工作经历:</label>
 			<div class="controls">
-				<form:select path="userType">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
+					<form:textarea path="workThrough" rows="4" cols="20" htmlEscape="false" maxlength="100" class="span4 required"/>
 			</div>
 		</div>
 		<div class="form-actions">

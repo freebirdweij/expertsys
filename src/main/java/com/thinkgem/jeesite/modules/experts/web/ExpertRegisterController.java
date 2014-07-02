@@ -124,6 +124,7 @@ public class ExpertRegisterController extends BaseController {
 		//专家信息表的user_id与用户标id保持一致。
 		User user = UserUtils.getUser();
 		expertInfo.setUserId(user.getId());
+		expertInfo.setUnit(user.getCompany());
 		//Session session = sessionFactory.openSession();
 		//Blob blob = null;
 		try {
