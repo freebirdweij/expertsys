@@ -103,6 +103,8 @@ public class ExpertRegisterController extends BaseController {
 	public String register(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 		expertInfo.setName(user.getName());
+		expertInfo.setUserId(user.getId());
+		expertInfo.setUnit(user.getCompany());
 		model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/stepOne";
 	}
@@ -115,16 +117,18 @@ public class ExpertRegisterController extends BaseController {
 	}
 
 	@RequiresPermissions("experts:expertInfo:edit")
-	@RequestMapping(value = "save1", method=RequestMethod.POST)
-	public String save(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+	@RequestMapping(value = "saveOne", method=RequestMethod.POST)
+	public String saveOne(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+		User user = UserUtils.getUser();
+		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
 			return form(expertInfo, model);
 		}
 		
 		//专家信息表的user_id与用户标id保持一致。
-		User user = UserUtils.getUser();
-		expertInfo.setUserId(user.getId());
-		expertInfo.setUnit(user.getCompany());
+		//User user = UserUtils.getUser();
+		//expertInfo.setUserId(user.getId());
+		//expertInfo.setUnit(user.getCompany());
 		//Session session = sessionFactory.openSession();
 		//Blob blob = null;
 		try {

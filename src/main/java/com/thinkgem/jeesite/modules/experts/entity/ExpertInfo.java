@@ -233,7 +233,6 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	@JoinColumn(name="company")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-	@NotNull(message="归属公司不能为空")
 	public Office getUnit() {
 		return unit;
 	}

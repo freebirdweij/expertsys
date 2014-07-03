@@ -1,11 +1,11 @@
 
 /* Drop Indexes */
 
-DROP INDEX attach_name_index;
-DROP INDEX attach_type_index;
 DROP INDEX confirm_special_index;
 DROP INDEX confirm_nowcert_index;
 DROP INDEX confirm_series_index;
+DROP INDEX attach_name_index;
+DROP INDEX attach_type_index;
 DROP INDEX expert_company_index;
 DROP INDEX expert_name_index;
 DROP INDEX expert_tech_index;
@@ -15,16 +15,110 @@ DROP INDEX expert_special_index;
 
 /* Drop Tables */
 
-DROP TABLE expert_attach CASCADE CONSTRAINTS;
 DROP TABLE committee_expert CASCADE CONSTRAINTS;
+DROP TABLE expert_leave CASCADE CONSTRAINTS;
 DROP TABLE committee_info CASCADE CONSTRAINTS;
 DROP TABLE expert_confirm CASCADE CONSTRAINTS;
+DROP TABLE expert_attach CASCADE CONSTRAINTS;
 DROP TABLE expert_info CASCADE CONSTRAINTS;
 
 
 
 
 /* Create Tables */
+
+CREATE TABLE committee_expert
+(
+	comittee_id nvarchar2(64) NOT NULL,
+	expert_id nvarchar2(64) NOT NULL,
+	rater_type char(2),
+	PRIMARY KEY (comittee_id, expert_id)
+);
+
+
+CREATE TABLE expert_leave
+(
+	id nvarchar2(64) NOT NULL,
+	expert_id nvarchar2(64) NOT NULL,
+	reason varchar2(200),
+	leave_start timestamp,
+	leave_end timestamp,
+	leave_confirm char,
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
+
+CREATE TABLE expert_confirm
+(
+	id nvarchar2(64) NOT NULL,
+	user_id nvarchar2(64) NOT NULL,
+	photo blob,
+	specialist varchar2(200),
+	-- 专业从事时间-从
+	special_from timestamp,
+	-- 专业从事时间-到
+	special_to timestamp,
+	nowcert_kind char,
+	cert_level char,
+	cert_gettime timestamp,
+	cert_series char(2),
+	work_status char,
+	ever_rater nvarchar2(300),
+	ever_rater_job char,
+	ever_rater_time timestamp,
+	push_advice varchar2(2000),
+	deptormanage_advice varchar2(2000),
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
+
+CREATE TABLE committee_info
+(
+	id nvarchar2(64) NOT NULL,
+	committee varchar2(500),
+	team_leader nvarchar2(64) NOT NULL,
+	rater_count number(3,0),
+	commit_time timestamp,
+	commitee_remark varchar2(1000),
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
 
 CREATE TABLE expert_attach
 (
@@ -50,75 +144,6 @@ CREATE TABLE expert_attach
 );
 
 
-CREATE TABLE committee_info
-(
-	id nvarchar2(64) NOT NULL,
-	committee varchar2(500),
-	team_leader nvarchar2(64) NOT NULL,
-	rater_count number(3,0),
-	commit_time timestamp with local time zone,
-	commitee_remark varchar2(1000),
-	-- 创建者
-	create_by varchar2(64),
-	-- 创建时间
-	create_date timestamp,
-	-- 更新者
-	update_by varchar2(64),
-	-- 更新时间
-	update_date timestamp,
-	-- 备注信息
-	remarks varchar2(255),
-	-- 删除标记（0：正常；1：删除）
-	del_flag char(1) DEFAULT '0' NOT NULL,
-	PRIMARY KEY (id)
-);
-
-
-CREATE TABLE committee_expert
-(
-	comittee_id nvarchar2(64) NOT NULL,
-	expert_id nvarchar2(64) NOT NULL,
-	rater_type char(2),
-	PRIMARY KEY (comittee_id, expert_id)
-);
-
-
-CREATE TABLE expert_confirm
-(
-	id nvarchar2(64) NOT NULL,
-	user_id nvarchar2(64) NOT NULL,
-	photo blob,
-	specialist char(3),
-	-- 专业从事时间-从
-	special_from timestamp with local time zone,
-	-- 专业从事时间-到
-	special_to timestamp with local time zone,
-	nowcert_kind char,
-	cert_level char,
-	cert_gettime timestamp with local time zone,
-	cert_series char(2),
-	work_status char,
-	ever_rater nvarchar2(300),
-	ever_rater_job char,
-	ever_rater_time timestamp with local time zone,
-	push_advice varchar2(2000),
-	deptormanage_advice varchar2(2000),
-	-- 创建者
-	create_by varchar2(64),
-	-- 创建时间
-	create_date timestamp,
-	-- 更新者
-	update_by varchar2(64),
-	-- 更新时间
-	update_date timestamp,
-	-- 备注信息
-	remarks varchar2(255),
-	-- 删除标记（0：正常；1：删除）
-	del_flag char(1) DEFAULT '0' NOT NULL,
-	PRIMARY KEY (id)
-);
-
-
 CREATE TABLE expert_info
 (
 	user_id nvarchar2(64) NOT NULL,
@@ -126,23 +151,23 @@ CREATE TABLE expert_info
 	-- 性别
 	sex char DEFAULT '' NOT NULL,
 	-- 出生年月
-	birthdate timestamp with local time zone,
+	birthdate timestamp,
 	politics char,
 	nation char(3),
 	identify_code varchar2(100),
 	-- 工作单位
 	company varchar2(64),
-	job char(3),
+	job varchar2(100),
 	technical char(2),
 	-- 职称评定时间
-	tech_gettime timestamp with local time zone,
-	work_cert char(2),
-	cert_gettime timestamp with local time zone,
-	specialist char(3),
+	tech_gettime timestamp,
+	work_cert varchar2(100),
+	cert_gettime timestamp,
+	specialist varchar2(200),
 	-- 专业从事时间-从
-	special_from timestamp with local time zone,
+	special_from timestamp,
 	-- 专业从事时间-到
-	special_to timestamp with local time zone,
+	special_to timestamp,
 	company_addr varchar2(500),
 	company_phone varchar2(100),
 	company_mailcode varchar2(50),
@@ -151,10 +176,10 @@ CREATE TABLE expert_info
 	home_mailcode varchar2(50),
 	mobile varchar2(100),
 	email varchar2(200),
-	collage char(3),
-	graduate_time timestamp with local time zone,
+	collage varchar2(300),
+	graduate_time timestamp,
 	education char(2),
-	study_special char(3),
+	study_special varchar2(200),
 	-- 负责或参与评审的重大项目及学术论著
 	hard_projects_articals varchar2(2000),
 	-- 本人的专业特长
@@ -168,7 +193,7 @@ CREATE TABLE expert_info
 	account_advice varchar2(300),
 	picture blob,
 	my_degree char,
-	startwork_time timestamp with local time zone,
+	startwork_time timestamp,
 	if_teamleader char,
 	health char,
 	nowcert_kind char,
@@ -177,7 +202,7 @@ CREATE TABLE expert_info
 	work_status char,
 	ever_rater nvarchar2(300),
 	ever_rater_job char,
-	ever_rater_time timestamp with local time zone,
+	ever_rater_time timestamp,
 	address varchar2(500),
 	special_kind1 char(3),
 	kind1_special1 char(3),
@@ -207,9 +232,9 @@ CREATE TABLE expert_info
 
 /* Create Foreign Keys */
 
-ALTER TABLE committee_expert
-	ADD FOREIGN KEY (comittee_id)
-	REFERENCES committee_info (id)
+ALTER TABLE committee_info
+	ADD FOREIGN KEY (team_leader)
+	REFERENCES expert_confirm (id)
 ;
 
 
@@ -219,15 +244,15 @@ ALTER TABLE committee_expert
 ;
 
 
-ALTER TABLE committee_info
-	ADD FOREIGN KEY (team_leader)
+ALTER TABLE expert_leave
+	ADD FOREIGN KEY (expert_id)
 	REFERENCES expert_confirm (id)
 ;
 
 
-ALTER TABLE expert_confirm
-	ADD FOREIGN KEY (user_id)
-	REFERENCES expert_info (user_id)
+ALTER TABLE committee_expert
+	ADD FOREIGN KEY (comittee_id)
+	REFERENCES committee_info (id)
 ;
 
 
@@ -237,14 +262,20 @@ ALTER TABLE expert_attach
 ;
 
 
+ALTER TABLE expert_confirm
+	ADD FOREIGN KEY (user_id)
+	REFERENCES expert_info (user_id)
+;
+
+
 
 /* Create Indexes */
 
-CREATE INDEX attach_name_index ON expert_attach (attach_name);
-CREATE INDEX attach_type_index ON expert_attach (attach_type);
 CREATE INDEX confirm_special_index ON expert_confirm (specialist);
 CREATE INDEX confirm_nowcert_index ON expert_confirm (nowcert_kind);
 CREATE INDEX confirm_series_index ON expert_confirm (cert_series);
+CREATE INDEX attach_name_index ON expert_attach (attach_name);
+CREATE INDEX attach_type_index ON expert_attach (attach_type);
 CREATE INDEX expert_company_index ON expert_info (company);
 CREATE INDEX expert_name_index ON expert_info (name);
 CREATE INDEX expert_tech_index ON expert_info (technical);
@@ -254,36 +285,23 @@ CREATE INDEX expert_special_index ON expert_info (specialist);
 
 /* Comments */
 
-COMMENT ON TABLE expert_attach IS '专家附件';
-COMMENT ON COLUMN expert_attach.id IS '附件ID';
-COMMENT ON COLUMN expert_attach.user_id IS '用户编号';
-COMMENT ON COLUMN expert_attach.attach_name IS '附件名称';
-COMMENT ON COLUMN expert_attach.attach_type IS '附件类型';
-COMMENT ON COLUMN expert_attach.attach_link IS '附件位置';
-COMMENT ON COLUMN expert_attach.attach_store IS '附件存储';
-COMMENT ON COLUMN expert_attach.create_by IS '创建者';
-COMMENT ON COLUMN expert_attach.create_date IS '创建时间';
-COMMENT ON COLUMN expert_attach.update_by IS '更新者';
-COMMENT ON COLUMN expert_attach.update_date IS '更新时间';
-COMMENT ON COLUMN expert_attach.remarks IS '备注信息';
-COMMENT ON COLUMN expert_attach.del_flag IS '删除标记';
-COMMENT ON TABLE committee_info IS '评委会信息表';
-COMMENT ON COLUMN committee_info.id IS '评委会ID';
-COMMENT ON COLUMN committee_info.committee IS '评委会名称';
-COMMENT ON COLUMN committee_info.team_leader IS '组长';
-COMMENT ON COLUMN committee_info.rater_count IS '委员数';
-COMMENT ON COLUMN committee_info.commit_time IS '组成时间';
-COMMENT ON COLUMN committee_info.commitee_remark IS '对成立本评委会的说明';
-COMMENT ON COLUMN committee_info.create_by IS '创建者';
-COMMENT ON COLUMN committee_info.create_date IS '创建时间';
-COMMENT ON COLUMN committee_info.update_by IS '更新者';
-COMMENT ON COLUMN committee_info.update_date IS '更新时间';
-COMMENT ON COLUMN committee_info.remarks IS '备注信息';
-COMMENT ON COLUMN committee_info.del_flag IS '删除标记';
 COMMENT ON TABLE committee_expert IS '委员会专家（评委）表';
 COMMENT ON COLUMN committee_expert.comittee_id IS '评委会ID';
 COMMENT ON COLUMN committee_expert.expert_id IS '专家确认ID';
 COMMENT ON COLUMN committee_expert.rater_type IS '专家担任评委的类别';
+COMMENT ON TABLE expert_leave IS '专家请假表';
+COMMENT ON COLUMN expert_leave.id IS '专家请假ID';
+COMMENT ON COLUMN expert_leave.expert_id IS '专家ID';
+COMMENT ON COLUMN expert_leave.reason IS '请假事项原因';
+COMMENT ON COLUMN expert_leave.leave_start IS '请假开始时间';
+COMMENT ON COLUMN expert_leave.leave_end IS '请假结束时间';
+COMMENT ON COLUMN expert_leave.leave_confirm IS '请假获批标志';
+COMMENT ON COLUMN expert_leave.create_by IS '创建者';
+COMMENT ON COLUMN expert_leave.create_date IS '创建时间';
+COMMENT ON COLUMN expert_leave.update_by IS '更新者';
+COMMENT ON COLUMN expert_leave.update_date IS '更新时间';
+COMMENT ON COLUMN expert_leave.remarks IS '备注信息';
+COMMENT ON COLUMN expert_leave.del_flag IS '删除标记';
 COMMENT ON TABLE expert_confirm IS '专家确认表';
 COMMENT ON COLUMN expert_confirm.id IS '专家确认ID';
 COMMENT ON COLUMN expert_confirm.user_id IS '用户编号';
@@ -307,6 +325,32 @@ COMMENT ON COLUMN expert_confirm.update_by IS '更新者';
 COMMENT ON COLUMN expert_confirm.update_date IS '更新时间';
 COMMENT ON COLUMN expert_confirm.remarks IS '备注信息';
 COMMENT ON COLUMN expert_confirm.del_flag IS '删除标记';
+COMMENT ON TABLE committee_info IS '评委会信息表';
+COMMENT ON COLUMN committee_info.id IS '评委会ID';
+COMMENT ON COLUMN committee_info.committee IS '评委会名称';
+COMMENT ON COLUMN committee_info.team_leader IS '组长';
+COMMENT ON COLUMN committee_info.rater_count IS '委员数';
+COMMENT ON COLUMN committee_info.commit_time IS '组成时间';
+COMMENT ON COLUMN committee_info.commitee_remark IS '对成立本评委会的说明';
+COMMENT ON COLUMN committee_info.create_by IS '创建者';
+COMMENT ON COLUMN committee_info.create_date IS '创建时间';
+COMMENT ON COLUMN committee_info.update_by IS '更新者';
+COMMENT ON COLUMN committee_info.update_date IS '更新时间';
+COMMENT ON COLUMN committee_info.remarks IS '备注信息';
+COMMENT ON COLUMN committee_info.del_flag IS '删除标记';
+COMMENT ON TABLE expert_attach IS '专家附件';
+COMMENT ON COLUMN expert_attach.id IS '附件ID';
+COMMENT ON COLUMN expert_attach.user_id IS '用户编号';
+COMMENT ON COLUMN expert_attach.attach_name IS '附件名称';
+COMMENT ON COLUMN expert_attach.attach_type IS '附件类型';
+COMMENT ON COLUMN expert_attach.attach_link IS '附件位置';
+COMMENT ON COLUMN expert_attach.attach_store IS '附件存储';
+COMMENT ON COLUMN expert_attach.create_by IS '创建者';
+COMMENT ON COLUMN expert_attach.create_date IS '创建时间';
+COMMENT ON COLUMN expert_attach.update_by IS '更新者';
+COMMENT ON COLUMN expert_attach.update_date IS '更新时间';
+COMMENT ON COLUMN expert_attach.remarks IS '备注信息';
+COMMENT ON COLUMN expert_attach.del_flag IS '删除标记';
 COMMENT ON TABLE expert_info IS '专家信息表';
 COMMENT ON COLUMN expert_info.user_id IS '用户编号';
 COMMENT ON COLUMN expert_info.name IS '姓名';
