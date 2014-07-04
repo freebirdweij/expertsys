@@ -102,11 +102,30 @@ public class ExpertRegisterController extends BaseController {
 	@RequestMapping(value = "register")
 	public String register(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
-		expertInfo.setName(user.getName());
-		expertInfo.setUserId(user.getId());
-		expertInfo.setUnit(user.getCompany());
-		model.addAttribute("expertInfo", expertInfo);
-		return "modules/experts/stepOne";
+		expertInfo = expertInfoService.get(user.getId());
+		if(expertInfo==null){
+			expertInfo = new ExpertInfo();
+			expertInfo.setName(user.getName());
+			expertInfo.setUserId(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/stepOne";
+		}else if(expertInfo.getUserId()==null||expertInfo.getUserId().equalsIgnoreCase("")){
+			expertInfo = new ExpertInfo();
+			expertInfo.setName(user.getName());
+			expertInfo.setUserId(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/stepOne";
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("1")){
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/stepTwo";
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("2")){
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/stepThree";
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("3")){
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/regNotice";
+		}
+		return "modules/experts/regNotice";
 	}
 
 	@RequiresPermissions("experts:expertInfo:view")
@@ -125,23 +144,51 @@ public class ExpertRegisterController extends BaseController {
 			return form(expertInfo, model);
 		}
 		
-		//专家信息表的user_id与用户标id保持一致。
-		//User user = UserUtils.getUser();
-		//expertInfo.setUserId(user.getId());
-		//expertInfo.setUnit(user.getCompany());
-		//Session session = sessionFactory.openSession();
-		//Blob blob = null;
 		try {
 			expertInfo.setPicture(file.getBytes());
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
-		//expertInfo.setPicture(blob);
+		
+		//表示已作过第一步录入
+		expertInfo.setRegStep("1");
 		
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/stepTwo";
+	}
+	
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "saveTwo", method=RequestMethod.POST)
+	public String saveTwo(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertInfo)){
+			return form(expertInfo, model);
+		}
+		
+		
+		//表示已作过第二步录入
+		expertInfo.setRegStep("2");
+		
+		expertInfoService.save(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/experts/stepThree";
+	}
+	
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "saveThree", method=RequestMethod.POST)
+	public String saveThree(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertInfo)){
+			return form(expertInfo, model);
+		}
+		
+		
+		//表示已作过第三步录入
+		expertInfo.setRegStep("3");
+		
+		expertInfoService.save(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/experts/regNotice";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")

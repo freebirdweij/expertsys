@@ -225,7 +225,17 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 
 	/** 行业部门〈或管理单位)初审意见. */
 	private String deptormanageAdvice;
+	
+	private String regStep;
 
+
+	public String getRegStep() {
+		return regStep;
+	}
+
+	public void setRegStep(String regStep) {
+		this.regStep = regStep;
+	}
 
 	private Office unit;	// 归属公司
 	
