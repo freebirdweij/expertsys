@@ -19,6 +19,16 @@ import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 @Repository
 public class ExpertInfoDao extends BaseDao<ExpertInfo> {
 	
+	public int updateStepOne(ExpertInfo expertInfo){
+		return update("update ExpertInfo set name=:p1, sex=:p2, birthdate=:p3, health=:p4, nation=:p5, identifyCode=:p6, " +
+				"collage=:p7, graduateTime=:p8, education=:p9, studySpecial=:p10, myDegree=:p11, homeAddr=:p12, homePhone=:p13, " +
+				"homeMailcode=:p14,regStep=:p15 where id = :p16", 
+				new Parameter(expertInfo.getName(), expertInfo.getSex(), expertInfo.getBirthdate(),expertInfo.getHealth(),
+						expertInfo.getNation(),expertInfo.getIdentifyCode(),expertInfo.getCollage(),expertInfo.getGraduateTime(),
+						expertInfo.getEducation(),expertInfo.getStudySpecial(),expertInfo.getMyDegree(),expertInfo.getHomeAddr(),
+						expertInfo.getHomePhone(),expertInfo.getHomeMailcode(),expertInfo.getRegStep(),expertInfo.getUserId()));
+	}
+	
 	public int updateStepTwo(ExpertInfo expertInfo){
 		return update("update ExpertInfo set unit=:p1, ifTeamleader=:p2, job=:p3, specialist=:p4, specialFrom=:p5, specialTo=:p6, " +
 				"technical=:p7, techGettime=:p8, startworkTime=:p9, workCert=:p10, certGettime=:p11, politics=:p12, companyAddr=:p13, " +

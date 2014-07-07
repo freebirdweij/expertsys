@@ -35,9 +35,11 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/experts/register">申报信息</a></li>
+		<li><a href="${ctx}/experts/baseinfo">基本信息</a></li>
+		<li><a href="${ctx}/experts/workinfo">职业信息</a></li>
+		<li class="active"><a href="${ctx}/experts/applyinfo">申报信息</a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/saveThree" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/saveapply" method="post" class="form-horizontal">
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
@@ -113,7 +115,7 @@
 		</div>
 		<div class="form-actions">
 			<a href="../../static/ckfinder/ckfinder.html?type=expert">上传资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交审核"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

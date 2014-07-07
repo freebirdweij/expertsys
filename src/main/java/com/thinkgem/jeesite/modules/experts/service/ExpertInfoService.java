@@ -53,6 +53,10 @@ public class ExpertInfoService extends BaseService {
 		expertInfoDao.deleteById(id);
 	}
 	
+	public int updateStepOne(ExpertInfo expertInfo){
+		return expertInfoDao.updateStepOne(expertInfo);
+	}
+	
 	public int updateStepTwo(ExpertInfo expertInfo){
 		return expertInfoDao.updateStepTwo(expertInfo);
 	}

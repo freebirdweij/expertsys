@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.experts.web;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -25,12 +29,12 @@ import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.experts.service.ExpertInfoService;
 
 /**
- * 专家Controller
+ * 专家信息维护Controller
  * @author Cloudman
  * @version 2014-06-23
  */
 @Controller
-@RequestMapping(value = "${adminPath}/experts/expertInfo")
+@RequestMapping(value = "${adminPath}/experts")
 public class ExpertInfoController extends BaseController {
 
 	@Autowired
@@ -45,42 +49,114 @@ public class ExpertInfoController extends BaseController {
 		}
 	}
 	
-	@RequiresPermissions("experts:expertInfo:view")
-	@RequestMapping(value = {"list", ""})
-	public String list(ExpertInfo expertInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+	@RequestMapping(value = "baseinfo")
+	public String baseinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
-		if (!user.isAdmin()){
-			expertInfo.setCreateBy(user);
-		}
-        Page<ExpertInfo> page = expertInfoService.find(new Page<ExpertInfo>(request, response), expertInfo); 
-        model.addAttribute("page", page);
-		return "experts/expertInfoList";
+		expertInfo = expertInfoService.get(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+		return "modules/experts/baseInfo";
 	}
-
+	
+	@RequestMapping(value = "workinfo")
+	public String workinfo(ExpertInfo expertInfo, Model model) {
+		User user = UserUtils.getUser();
+		expertInfo = expertInfoService.get(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+		return "modules/experts/workInfo";
+	}
+	
+	@RequestMapping(value = "applyinfo")
+	public String applyinfo(ExpertInfo expertInfo, Model model) {
+		User user = UserUtils.getUser();
+		expertInfo = expertInfoService.get(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+		return "modules/experts/applyInfo";
+	}
+	
+	@RequestMapping(value = "baseform")
+	public String baseform(ExpertInfo expertInfo, Model model) {
+		User user = UserUtils.getUser();
+		expertInfo = expertInfoService.get(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+		return "modules/experts/baseForm";
+	}
+	
+	@RequestMapping(value = "workform")
+	public String workform(ExpertInfo expertInfo, Model model) {
+		User user = UserUtils.getUser();
+		expertInfo = expertInfoService.get(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+		return "modules/experts/workForm";
+	}
+	
+	@RequestMapping(value = "applyform")
+	public String applyform(ExpertInfo expertInfo, Model model) {
+		User user = UserUtils.getUser();
+		expertInfo = expertInfoService.get(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+		return "modules/experts/applyForm";
+	}
+	
 	@RequiresPermissions("experts:expertInfo:view")
-	@RequestMapping(value = "form")
-	public String form(ExpertInfo expertInfo, Model model) {
+	@RequestMapping(value = "formm")
+	public String formm(ExpertInfo expertInfo, Model model) {
 		model.addAttribute("expertInfo", expertInfo);
 		return "experts/expertInfoForm";
 	}
 
+	
 	@RequiresPermissions("experts:expertInfo:edit")
-	@RequestMapping(value = "save")
-	public String save(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "savebase", method=RequestMethod.POST)
+	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+		User user = UserUtils.getUser();
+		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
-			return form(expertInfo, model);
+			return formm(expertInfo, model);
 		}
-		expertInfoService.save(expertInfo);
+		
+		try {
+			expertInfo.setPicture(file.getBytes());
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		//保留注册状态
+		expertInfo.setRegStep("3");
+		expertInfoService.updateStepOne(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/experts/expertInfo/?repage";
+		return "modules/experts/baseInfo";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
-	@RequestMapping(value = "delete")
-	public String delete(String id, RedirectAttributes redirectAttributes) {
-		expertInfoService.delete(id);
-		addMessage(redirectAttributes, "删除专家成功");
-		return "redirect:"+Global.getAdminPath()+"/experts/expertInfo/?repage";
+	@RequestMapping(value = "savework", method=RequestMethod.POST)
+	public String savework(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertInfo)){
+			return formm(expertInfo, model);
+		}
+		
+		
+		//保留注册状态
+		expertInfo.setRegStep("3");
+		
+		expertInfoService.updateStepTwo(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/experts/workInfo";
 	}
-
+	
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "saveapply", method=RequestMethod.POST)
+	public String saveapply(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertInfo)){
+			return formm(expertInfo, model);
+		}
+		
+		//保留注册状态
+		expertInfo.setRegStep("3");
+				
+		expertInfoService.updateStepThree(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/experts/applyInfo";
+	}
+	
+	
 }

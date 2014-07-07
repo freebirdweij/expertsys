@@ -40,7 +40,7 @@ import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.experts.service.ExpertInfoService;
 
 /**
- * 专家Controller
+ * 专家注册Controller
  * @author Cloudman
  * @version 2014-06-23
  */
