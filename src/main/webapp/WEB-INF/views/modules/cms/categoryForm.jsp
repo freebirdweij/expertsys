@@ -66,7 +66,7 @@
 			<label class="control-label">栏目图片:</label>
 			<div class="controls">
 				<form:hidden path="image" htmlEscape="false" maxlength="255" class="input-xlarge"/>
-				<tags:ckfinder input="image" type="images" uploadPath="/cms/category"/>
+				<tags:ckfinder input="image" type="project" uploadPath="/gbk-0393-kk-0"/>
 			</div>
 		</div>
 		<div class="control-group">

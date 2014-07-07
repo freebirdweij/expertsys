@@ -25,25 +25,18 @@
 	</hideFiles>
 	<defaultResourceTypes></defaultResourceTypes>
 	<types>
-		<type name="files">
-			<url>%BASE_URL%files/</url>
-			<directory>%BASE_DIR%files</directory>
+		<type name="project">
+			<url>%BASE_URL%project/</url>
+			<directory>%BASE_DIR%project</directory>
 			<maxSize>5M</maxSize>
 			<allowedExtensions>7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip,erm</allowedExtensions>
 			<deniedExtensions></deniedExtensions>
 		</type>
-		<type name="images">
-			<url>%BASE_URL%images/</url>
-			<directory>%BASE_DIR%images</directory>
-			<maxSize>2M</maxSize>
-			<allowedExtensions>bmp,gif,jpeg,jpg,png</allowedExtensions>
-			<deniedExtensions></deniedExtensions>
-		</type>
-		<type name="flash">
-			<url>%BASE_URL%flash/</url>
-			<directory>%BASE_DIR%flash</directory>
-			<maxSize>2M</maxSize>
-			<allowedExtensions>swf,flv</allowedExtensions>
+		<type name="expert">
+			<url>%BASE_URL%expert/</url>
+			<directory>%BASE_DIR%expert</directory>
+			<maxSize>5M</maxSize>
+			<allowedExtensions>7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip,erm</allowedExtensions>
 			<deniedExtensions></deniedExtensions>
 		</type>
 	</types>

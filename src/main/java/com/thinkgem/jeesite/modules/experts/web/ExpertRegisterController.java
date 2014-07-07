@@ -170,7 +170,7 @@ public class ExpertRegisterController extends BaseController {
 		//表示已作过第二步录入
 		expertInfo.setRegStep("2");
 		
-		expertInfoService.save(expertInfo);
+		expertInfoService.updateStepTwo(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/stepThree";
 	}
@@ -186,7 +186,7 @@ public class ExpertRegisterController extends BaseController {
 		//表示已作过第三步录入
 		expertInfo.setRegStep("3");
 		
-		expertInfoService.save(expertInfo);
+		expertInfoService.updateStepThree(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/regNotice";
 	}

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.persistence.Parameter;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
@@ -52,4 +53,11 @@ public class ExpertInfoService extends BaseService {
 		expertInfoDao.deleteById(id);
 	}
 	
+	public int updateStepTwo(ExpertInfo expertInfo){
+		return expertInfoDao.updateStepTwo(expertInfo);
+	}
+	
+    public int updateStepThree(ExpertInfo expertInfo){
+	return expertInfoDao.updateStepThree(expertInfo);
+    }
 }

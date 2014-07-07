@@ -35,9 +35,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="/modules/experts/stepTwo.jsp">职业信息</a></li>
+		<li class="active"><a href="${ctx}/experts/register">职业信息</a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/save2" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/saveTwo" method="post" class="form-horizontal">
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
@@ -134,14 +134,12 @@
 				<form:input path="companyPhone" htmlEscape="false" maxlength="30" class="span2 required" />
 			</div>
 		</div>
-		<c:if test="${not empty user.id}">
 			<div class="control-group">
 				<label class="control-label">单位邮编:</label>
 				<div class="controls">
 					<form:input path="companyMailcode" htmlEscape="false" maxlength="20" class="span2 required"/>
 				</div>
 			</div>
-		</c:if>
 		<div class="control-group">
 			<label class="control-label">工作经历:</label>
 			<div class="controls">

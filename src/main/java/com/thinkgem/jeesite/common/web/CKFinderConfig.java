@@ -17,7 +17,9 @@ import com.ckfinder.connector.configuration.Configuration;
 import com.ckfinder.connector.data.AccessControlLevel;
 import com.ckfinder.connector.utils.AccessControlUtil;
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * CKFinder配置
@@ -53,9 +55,31 @@ public class CKFinderConfig extends Configuration {
 //		}
 		AccessControlUtil.getInstance(this).loadACLConfig();
 		try {
-			Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
-			this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/"+
-					(principal!=null?principal.getId():0)+"/";
+			User user = UserUtils.getUser();
+			boolean isRoot = SecurityUtils.getSubject().isPermitted("sys:ckfinder:attach");
+			if(isRoot){
+				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/";
+			}else{
+				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/expert/"+user.getName()+"(ID"+
+						(user!=null?user.getId():0)+")/";
+			}
+
+			//this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/";
+			/*String prjNo = (String)this.servletConf.getServletContext().getAttribute("prjNo");
+			String userNo = (String)this.servletConf.getServletContext().getAttribute("userNo");
+			if(prjNo!=null&&!prjNo.equalsIgnoreCase("")){
+				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/prjfiles/"+
+						prjNo+"/";
+				
+			}else if(userNo!=null&&!userNo.equalsIgnoreCase("")){
+				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/"+
+						userNo+"/";
+				
+			}else{
+				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/"+
+				(principal!=null?principal.getId():0)+"/";
+				
+			}*/
 			/*Principal principal = (Principal) SecurityUtils.getSubject().getPrincipal();
 			String parentDir = principal != null ? principal.getId() : "0";
 			this.baseURL = ServletContextFactory.getServletContext().getContextPath() + CK_BASH_URL + parentDir + "/";

@@ -35,51 +35,84 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">申报信息</li>
+		<li class="active"><a href="${ctx}/experts/register">申报信息</a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/register" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/saveThree" method="post" class="form-horizontal">
+		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">申报类别:</label>
+			<label class="control-label">申报类别一:</label>
 			<div class="controls">
-                                 男<form:radiobutton path="sex"  value="M"/>   女 <form:radiobutton path="sex"  value="F"/>	
+				<form:select path="specialKind1" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
             </div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">申报专业:</label>
 			<div class="controls">
-          <form:input path="loginName" htmlEscape="false" maxlength="50" class="required"/>
+				<form:select path="kind1Special1" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<form:select path="kind1Special2" class="span2">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
           </div>	
 		</div>
 		<div class="control-group">
-			<label class="control-label">所属系列:</label>
+			<label class="control-label">申报类别二:</label>
 			<div class="controls">
-				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${user.loginName}">
-				<form:input path="loginName" htmlEscape="false" maxlength="50" class="required userName"/>
+				<form:select path="specialKind2" class="span2">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+            </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">申报专业:</label>
+			<div class="controls">
+				<form:select path="kind2Special1" class="span2">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<form:select path="kind2Special2" class="span2">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+          </div>	
+		</div>
+		<div class="control-group">
+			<label class="control-label">职称所属系列:</label>
+			<div class="controls">
+				<form:select path="certSeries" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">主要业绩:</label>
 			<div class="controls">
-				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
+					<form:textarea path="achievement" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">负责或参与评审的重大项目及学术论著:</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="50" class="required"/>
+					<form:textarea path="hardProjectsArticals" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">本人的专业特长（请从自己最熟悉的专业开始，依1、2、3、…排序说明）:</label>
 			<div class="controls">
-				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
-				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
+					<form:textarea path="mySpecials" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
 			</div>
 		</div>
 		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交审核"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
