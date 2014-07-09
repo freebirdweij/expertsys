@@ -29,8 +29,31 @@ import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 @Table(name = "project_info")
 @DynamicInsert @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class ProjectInfo extends IdEntity<ProjectInfo> {
+public class ProjectInfo extends DataEntity<ProjectInfo> {
 
+	private String id;		// 编号
+	
+	private String prjCode;		// 项目编号
+
+	@Transient
+	public String getPrjCode() {
+		return prjCode;
+	}
+
+	public void setPrjCode(String prjCode) {
+		this.prjCode = prjCode;
+	}
+
+	@Id
+	public String getId() {
+		// TODO 自动生成的方法存根
+		return id;
+	}
+
+	public void setId(String id) {
+		// TODO 自动生成的方法存根
+		this.id = id;
+	}
 
 	public ProjectInfo(String id){
 		this();
@@ -81,7 +104,14 @@ public class ProjectInfo extends IdEntity<ProjectInfo> {
 	 * Constructor.
 	 */
 	public ProjectInfo() {
-		super();
+		/** The set of 项目评委表. */
+		this.projectCommitteeSet = new HashSet<ProjectCommittee>();
+
+		/** The set of 专家附件. */
+		this.projectAttachSet = new HashSet<ProjectAttach>();
+
+		/** The set of 项目专家表. */
+		this.projectExpertSet = new HashSet<ProjectExpert>();
 	}
 
 	/**

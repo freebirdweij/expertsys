@@ -38,6 +38,9 @@ public class ExpertInfoService extends BaseService {
 		if (StringUtils.isNotEmpty(expertInfo.getName())){
 			dc.add(Restrictions.like("name", "%"+expertInfo.getName()+"%"));
 		}
+		if (StringUtils.isNotEmpty(expertInfo.getRegStep())){
+			dc.add(Restrictions.eq("regStep", expertInfo.getRegStep()));
+		}
 		dc.add(Restrictions.eq(ExpertInfo.FIELD_DEL_FLAG, ExpertInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return expertInfoDao.find(page, dc);

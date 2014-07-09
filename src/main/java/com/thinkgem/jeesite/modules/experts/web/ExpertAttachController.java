@@ -71,7 +71,7 @@ public class ExpertAttachController extends BaseController {
 			return form(expertAttach, model);
 		}
 		expertAttachService.save(expertAttach);
-		addMessage(redirectAttributes, "保存专家'" + expertAttach.getName() + "'成功");
+		addMessage(redirectAttributes, "保存专家'" + expertAttach.getAttachName() + "'成功");
 		return "redirect:"+Global.getAdminPath()+"/experts/expertAttach/?repage";
 	}
 	

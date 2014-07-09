@@ -1,7 +1,8 @@
 package com.thinkgem.jeesite.modules.project.entity;
 import java.io.Serializable;
 
-import com.thinkgem.jeesite.modules.experts.entity.CommitteeInfo;
+import com.thinkgem.jeesite.modules.expmanage.entity.CommitteeInfo;
+
 
 /**
  * Model class of 项目评委表.

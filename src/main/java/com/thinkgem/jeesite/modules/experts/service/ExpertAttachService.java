@@ -34,8 +34,8 @@ public class ExpertAttachService extends BaseService {
 	
 	public Page<ExpertAttach> find(Page<ExpertAttach> page, ExpertAttach expertAttach) {
 		DetachedCriteria dc = expertAttachDao.createDetachedCriteria();
-		if (StringUtils.isNotEmpty(expertAttach.getName())){
-			dc.add(Restrictions.like("name", "%"+expertAttach.getName()+"%"));
+		if (StringUtils.isNotEmpty(expertAttach.getAttachName())){
+			dc.add(Restrictions.like("name", "%"+expertAttach.getAttachName()+"%"));
 		}
 		dc.add(Restrictions.eq(ExpertAttach.FIELD_DEL_FLAG, ExpertAttach.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

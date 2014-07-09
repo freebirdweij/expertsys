@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>项目管理</title>
+	<title>专家审核</title>
 	<meta name="decorator" content="default"/>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
@@ -55,40 +55,22 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/project/list">项目列表</a></li>
+		<li class="active"><a href="${ctx}/experts/applylist">待审列表</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="projectInfo" action="${ctx}/project/list" method="post" class="breadcrumb form-search">
-		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
-		<div>
-			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
-		</div>
-		<div style="margin-top:8px;">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<form:select path="prjStatus" class="span2" ><form:option value="" label="项目状态"/>
-			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
-			<label>项目负责人：</label>
-			<form:input path="prjDuty" htmlEscape="false" maxlength="50" class="span2"/>&nbsp;&nbsp;
-			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
-		</div>
-	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th class="sort loginName">负责人</th><th class="sort name">状态</th><th>金额</th><th>时间</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>姓名</th><th>出生年月</th><th class="sort job">职务</th><th class="sort technical">职称</th><th>从事专业</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="projectInfo">
+		<c:forEach items="${page.list}" var="expertInfo">
 			<tr>
-				<td>${projectInfo.id}</td>
-				<td><a href="${ctx}/project/form?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
-				<td>${projectInfo.prjDuty}</td>
-				<td>${fns:getDictLabel('${projectInfo.prjStatus}','sys_prjstatus_type','1')}</td>
-				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
-				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/project/form?id=${projectInfo.id}">修改</a>
-					<a href="${ctx}/project/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
+				<td><a href="${ctx}/experts/binfo?id=${expertInfo.userId}">${expertInfo.name}</a></td>
+				<td>${expertInfo.birthdate}</td>
+				<td>${expertInfo.job}</td>
+				<td>${fns:getDictLabel('${expertInfo.technical}','sys_technical_type','1')}</td>
+				<td>${expertInfo.specialist}</td>
+				<td>${expertInfo.education}</td>
+				<shiro:hasPermission name="expmanage:expertConfirm:edit"><td>
+    				<a href="${ctx}/expmanage/verify?id=${expertInfo.userId}">进入审核</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

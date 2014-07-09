@@ -1,7 +1,7 @@
 /**
  * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
  */
-package com.thinkgem.jeesite.modules.experts.service;
+package com.thinkgem.jeesite.modules.expmanage.service;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.experts.entity.ExpertConfirm;
-import com.thinkgem.jeesite.modules.experts.dao.ExpertConfirmDao;
+import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
+import com.thinkgem.jeesite.modules.expmanage.dao.ExpertConfirmDao;
 
 /**
- * 专家Service
+ * 专家确认Service
  * @author Cloudman
- * @version 2014-06-23
+ * @version 2014-07-08
  */
 @Component
 @Transactional(readOnly = true)
@@ -34,8 +34,8 @@ public class ExpertConfirmService extends BaseService {
 	
 	public Page<ExpertConfirm> find(Page<ExpertConfirm> page, ExpertConfirm expertConfirm) {
 		DetachedCriteria dc = expertConfirmDao.createDetachedCriteria();
-		if (StringUtils.isNotEmpty(expertConfirm.getName())){
-			dc.add(Restrictions.like("name", "%"+expertConfirm.getName()+"%"));
+		if (StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getName())){
+			dc.add(Restrictions.like("name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
 		}
 		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

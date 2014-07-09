@@ -34,8 +34,17 @@ public class ProjectInfoService extends BaseService {
 	
 	public Page<ProjectInfo> find(Page<ProjectInfo> page, ProjectInfo projectInfo) {
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		if (StringUtils.isNotEmpty(projectInfo.getId())){
+			dc.add(Restrictions.eq("id", projectInfo.getId()));
+		}
 		if (StringUtils.isNotEmpty(projectInfo.getPrjName())){
-			dc.add(Restrictions.like("name", "%"+projectInfo.getPrjName()+"%"));
+			dc.add(Restrictions.like("prjName", "%"+projectInfo.getPrjName()+"%"));
+		}
+		if (StringUtils.isNotEmpty(projectInfo.getPrjDuty())){
+			dc.add(Restrictions.like("prjDuty", "%"+projectInfo.getPrjDuty()+"%"));
+		}
+		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
+			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
 		}
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
@@ -45,6 +54,11 @@ public class ProjectInfoService extends BaseService {
 	@Transactional(readOnly = false)
 	public void save(ProjectInfo projectInfo) {
 		projectInfoDao.save(projectInfo);
+	}
+	
+	@Transactional(readOnly = false)
+	public int updateRecordTwo(ProjectInfo projectInfo){
+		return projectInfoDao.updateRecordTwo(projectInfo);
 	}
 	
 	@Transactional(readOnly = false)

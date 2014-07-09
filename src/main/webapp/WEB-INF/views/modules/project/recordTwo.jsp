@@ -35,56 +35,11 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/project/record">项目信息</a></li>
+		<li class="active"><a href="${ctx}/project/record">附加信息</a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="projectInfo" action="${ctx}/project/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="projectInfo" action="${ctx}/project/savetwo" method="post" class="form-horizontal">
+		<form:hidden path="id" />
 		<tags:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">项目编号:</label>
-			<div class="controls">
-						<form:input path="id" htmlEscape="false" maxlength="20"
-							class="span3 required" />
-            </div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">项目名称:</label>
-			<div class="controls">
-						<form:input path="prjName" htmlEscape="false" maxlength="20"
-							class="span4 required" />
-          </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">项目类别:</label>
-			<div class="controls">
-				<form:select path="prjType" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_prjtype_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-            </div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">项目负责人:</label>
-			<div class="controls">
-						<form:input path="prjDuty" htmlEscape="false" maxlength="20"
-							class="span2 required" />
-          </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">投资金额:</label>
-			<div class="controls">
-						<form:input path="prjMoney" htmlEscape="false" maxlength="20"
-							class="span3 required" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">项目级别:</label>
-			<div class="controls">
-				<form:select path="prjLevel" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_prjlevel_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
 		<div class="control-group">
 			<label class="control-label">项目预计时间:</label>
 			<div class="controls">
@@ -103,7 +58,7 @@
 		<div class="control-group">
 			<label class="control-label">项目状态:</label>
 			<div class="controls">
-				<form:select path="prjStatus" class="span2">
+				<form:select path="prjStatus" class="span2 required">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>

@@ -52,9 +52,24 @@ public class ExpertInfoController extends BaseController {
 	@RequestMapping(value = "baseinfo")
 	public String baseinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
-		expertInfo = expertInfoService.get(user.getId());
+			expertInfo = expertInfoService.get(user.getId());			
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+			return "modules/experts/editNote";
+		}
 			model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/baseInfo";
+	}
+	
+	@RequestMapping(value = "binfo")
+	public String binfo(ExpertInfo expertInfo, HttpServletRequest request, Model model) {
+		String id = request.getParameter("id");
+			expertInfo = expertInfoService.get(id);			
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+			return "modules/experts/editNote";
+		}
+		model.addAttribute("expertInfo", expertInfo);
+		model.addAttribute("id", id);
+		return "modules/experts/bInfo";
 	}
 	
 	@RequestMapping(value = "workinfo")
@@ -65,12 +80,30 @@ public class ExpertInfoController extends BaseController {
 		return "modules/experts/workInfo";
 	}
 	
+	@RequestMapping(value = "winfo")
+	public String winfo(ExpertInfo expertInfo, HttpServletRequest request, Model model) {
+		String id = request.getParameter("id");
+		expertInfo = expertInfoService.get(id);			
+			model.addAttribute("expertInfo", expertInfo);
+			model.addAttribute("id", id);
+		return "modules/experts/wInfo";
+	}
+	
 	@RequestMapping(value = "applyinfo")
 	public String applyinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 		expertInfo = expertInfoService.get(user.getId());
 			model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/applyInfo";
+	}
+	
+	@RequestMapping(value = "ainfo")
+	public String ainfo(ExpertInfo expertInfo, HttpServletRequest request, Model model) {
+		String id = request.getParameter("id");
+		expertInfo = expertInfoService.get(id);			
+			model.addAttribute("expertInfo", expertInfo);
+			model.addAttribute("id", id);
+		return "modules/experts/aInfo";
 	}
 	
 	@RequestMapping(value = "baseform")

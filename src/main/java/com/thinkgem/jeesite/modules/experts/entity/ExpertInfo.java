@@ -27,6 +27,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 
 /**

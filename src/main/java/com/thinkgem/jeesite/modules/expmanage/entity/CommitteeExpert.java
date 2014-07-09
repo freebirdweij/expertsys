@@ -1,3 +1,5 @@
+package com.thinkgem.jeesite.modules.expmanage.entity;
+
 import java.io.Serializable;
 
 /**

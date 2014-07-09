@@ -30,6 +30,12 @@ public class ExpertInfo implements Serializable {
 	/** 政治面貌. */
 	private String politics;
 
+	/** 民族. */
+	private String nation;
+
+	/** 身份证号. */
+	private String identifyCode;
+
 	/** 工作单位. */
 	private String company;
 
@@ -177,6 +183,9 @@ public class ExpertInfo implements Serializable {
 	/** 行业部门〈或管理单位)初审意见. */
 	private String deptormanageAdvice;
 
+	/** 注册资料完成状态. */
+	private String regStep;
+
 	/** 创建者. */
 	private String createBy;
 
@@ -302,6 +311,44 @@ public class ExpertInfo implements Serializable {
 	 */
 	public String getPolitics() {
 		return this.politics;
+	}
+
+	/**
+	 * Set the 民族.
+	 * 
+	 * @param nation
+	 *            民族
+	 */
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
+
+	/**
+	 * Get the 民族.
+	 * 
+	 * @return 民族
+	 */
+	public String getNation() {
+		return this.nation;
+	}
+
+	/**
+	 * Set the 身份证号.
+	 * 
+	 * @param identifyCode
+	 *            身份证号
+	 */
+	public void setIdentifyCode(String identifyCode) {
+		this.identifyCode = identifyCode;
+	}
+
+	/**
+	 * Get the 身份证号.
+	 * 
+	 * @return 身份证号
+	 */
+	public String getIdentifyCode() {
+		return this.identifyCode;
 	}
 
 	/**
@@ -1233,6 +1280,25 @@ public class ExpertInfo implements Serializable {
 	 */
 	public String getDeptormanageAdvice() {
 		return this.deptormanageAdvice;
+	}
+
+	/**
+	 * Set the 注册资料完成状态.
+	 * 
+	 * @param regStep
+	 *            注册资料完成状态
+	 */
+	public void setRegStep(String regStep) {
+		this.regStep = regStep;
+	}
+
+	/**
+	 * Get the 注册资料完成状态.
+	 * 
+	 * @return 注册资料完成状态
+	 */
+	public String getRegStep() {
+		return this.regStep;
 	}
 
 	/**

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -54,25 +55,59 @@ public class ProjectInfoController extends BaseController {
 		}
         Page<ProjectInfo> page = projectInfoService.find(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
-		return "project/projectInfoList";
+		return "modules/project/projectList";
 	}
 
 	@RequiresPermissions("project:projectInfo:view")
 	@RequestMapping(value = "record")
-	public String form(ProjectInfo projectInfo, Model model) {
+	public String record(ProjectInfo projectInfo, Model model) {
+		model.addAttribute("projectInfo", projectInfo);
+		return "modules/project/recordOne";
+	}
+
+	@RequiresPermissions("project:projectInfo:edit")
+	@RequestMapping(value = "form")
+	public String form(HttpServletRequest request,ProjectInfo projectInfo, Model model) {
+		String id = request.getParameter("id");
+		projectInfo = get(id);
 		model.addAttribute("projectInfo", projectInfo);
 		return "modules/project/projectForm";
 	}
 
 	@RequiresPermissions("project:projectInfo:edit")
-	@RequestMapping(value = "save")
+	@RequestMapping(value = "save", method=RequestMethod.POST)
 	public String save(ProjectInfo projectInfo, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, projectInfo)){
-			return form(projectInfo, model);
+			return record(projectInfo, model);
 		}
+		projectInfo.setId(projectInfo.getPrjCode());
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"modules/project/recordNote";
+		return "modules/project/recordNote";
+	}
+	
+	@RequiresPermissions("project:projectInfo:edit")
+	@RequestMapping(value = "saveone", method=RequestMethod.POST)
+	public String saveone(ProjectInfo projectInfo, Model model, RedirectAttributes redirectAttributes) {
+		ProjectInfo pi = projectInfo;
+		if (!beanValidator(model, projectInfo)){
+			return record(projectInfo, model);
+		}
+		projectInfo.setId(projectInfo.getPrjCode());
+		projectInfoService.save(projectInfo);
+		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
+		return "modules/project/recordTwo";
+	}
+	
+	@RequiresPermissions("project:projectInfo:edit")
+	@RequestMapping(value = "savetwo", method=RequestMethod.POST)
+	public String savetwo(ProjectInfo projectInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, projectInfo)){
+			return record(projectInfo, model);
+		}
+		projectInfoService.updateRecordTwo(projectInfo);
+		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
+		return "modules/project/recordNote";
 	}
 	
 	@RequiresPermissions("project:projectInfo:edit")
@@ -80,7 +115,7 @@ public class ProjectInfoController extends BaseController {
 	public String delete(String id, RedirectAttributes redirectAttributes) {
 		projectInfoService.delete(id);
 		addMessage(redirectAttributes, "删除项目信息成功");
-		return "redirect:"+Global.getAdminPath()+"/project/projectInfo/?repage";
+		return "redirect:"+Global.getAdminPath()+"/project/list/?repage";
 	}
 
 }

@@ -76,6 +76,19 @@ public class ExpertRegisterController extends BaseController {
 		return "experts/expertInfoList";
 	}
 
+	@RequiresPermissions("experts:expertInfo:view")
+	@RequestMapping(value = "applylist")
+	public String applylist(ExpertInfo expertInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			expertInfo.setCreateBy(user);
+		}
+		expertInfo.setRegStep("3");
+        Page<ExpertInfo> page = expertInfoService.find(new Page<ExpertInfo>(request, response), expertInfo); 
+        model.addAttribute("page", page);
+		return "modules/expmanage/confirmList";
+	}
+
 	@RequestMapping(value = "picture", method=RequestMethod.POST)
 	public String uploadPicture(ExpertInfo expertInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();

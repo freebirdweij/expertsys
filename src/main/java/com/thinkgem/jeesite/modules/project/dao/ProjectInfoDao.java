@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.thinkgem.jeesite.common.persistence.BaseDao;
 import com.thinkgem.jeesite.common.persistence.Parameter;
+import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 
 /**
@@ -16,5 +17,11 @@ import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
  */
 @Repository
 public class ProjectInfoDao extends BaseDao<ProjectInfo> {
+	
+	public int updateRecordTwo(ProjectInfo projectInfo){
+		return update("update ProjectInfo set prjBegin=:p1, prjEnd=:p2, prjNotes=:p3, prjStatus=:p4 where id = :p5", 
+				new Parameter(projectInfo.getPrjBegin(), projectInfo.getPrjEnd(), projectInfo.getPrjNotes(),
+				projectInfo.getPrjStatus(),projectInfo.getId()));
+	}
 	
 }
