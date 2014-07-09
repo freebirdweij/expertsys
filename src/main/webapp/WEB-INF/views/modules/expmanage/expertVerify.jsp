@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>专家注册</title>
+	<title>专家审核</title>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
@@ -35,87 +35,77 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/experts/binfo?id=${id}">基本信息</a></li>
-		<li><a href="${ctx}/experts/winfo?id=${id}">职业信息</a></li>
-		<li class="active"><a href="${ctx}/experts/ainfo?id=${id}">申报信息</a></li>
+		<li class="active">专家审核</li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/expmanage/verify" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="expertConfirm" action="${ctx}/expmanage/confirm" method="post" class="form-horizontal">
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
+				<div class="control-group">
+					<label class="control-label">输入专家编号:</label>
+					<div class="controls">
+						<form:input path="expertCode" htmlEscape="false" maxlength="20"
+							class="span10 required userName"/>
+					</div>
+				</div>
 		<div class="control-group">
-			<label class="control-label">申报类别一:</label>
+			<label class="control-label">批准类别一:</label>
 			<div class="controls">
-				<form:select path="specialKind1" class="span2 required" disabled="true">
+				<form:select path="kindOne" class="span2 required">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
             </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">申报专业:</label>
+			<label class="control-label">批准专业:</label>
 			<div class="controls">
-				<form:select path="kind1Special1" class="span2 required" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-				<form:select path="kind1Special2" class="span2" disabled="true">
+				<form:select path="specialOne" class="span2 required">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
           </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">申报类别二:</label>
+			<label class="control-label">所属系列:</label>
 			<div class="controls">
-				<form:select path="specialKind2" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-            </div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">申报专业:</label>
-			<div class="controls">
-				<form:select path="kind2Special1" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-				<form:select path="kind2Special2" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-          </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">职称所属系列:</label>
-			<div class="controls">
-				<form:select path="certSeries" class="span2 required" disabled="true">
+				<form:select path="seriesOne" class="span2 required">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">主要业绩:</label>
+			<label class="control-label">批准类别二:</label>
 			<div class="controls">
-						<label class="lbl">${expertInfo.achievement}</label>
+				<form:select path="kindTwo" class="span2">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+            </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">批准专业:</label>
+			<div class="controls">
+				<form:select path="specialTwo" class="span2">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+          </div>	
+			<label class="control-label">所属系列:</label>
+			<div class="controls">
+				<form:select path="seriesTwo" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">负责或参与评审的重大项目及学术论著:</label>
+			<label class="control-label">行业部门〈或管理单位)初审意见:</label>
 			<div class="controls">
-						<label class="lbl">${expertInfo.hardProjectsArticals}</label>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">本人的专业特长（请从自己最熟悉的专业开始，依1、2、3、…排序说明）:</label>
-			<div class="controls">
-						<label class="lbl">${expertInfo.mySpecials}</label>
+					<form:textarea path="deptormanageAdvice" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
 			</div>
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(ID${id})/">专家资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="填写审核表"/>&nbsp;
+			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(ID${id})/">上传审核资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

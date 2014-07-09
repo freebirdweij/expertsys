@@ -70,7 +70,7 @@
 				<td>${expertInfo.specialist}</td>
 				<td>${expertInfo.education}</td>
 				<shiro:hasPermission name="expmanage:expertConfirm:edit"><td>
-    				<a href="${ctx}/expmanage/verify?id=${expertInfo.userId}">进入审核</a>
+    				<a href="${ctx}/expmanage/binfo?id=${expertInfo.userId}">进入审核</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

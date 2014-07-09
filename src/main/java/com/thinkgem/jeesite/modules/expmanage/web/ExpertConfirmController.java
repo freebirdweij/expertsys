@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.mapper.BeanMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 
@@ -30,7 +32,7 @@ import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
  * @version 2014-07-08
  */
 @Controller
-@RequestMapping(value = "${adminPath}/expmanage/expertConfirm")
+@RequestMapping(value = "${adminPath}/expmanage")
 public class ExpertConfirmController extends BaseController {
 
 	@Autowired
@@ -64,6 +66,28 @@ public class ExpertConfirmController extends BaseController {
 		return "expmanage/expertConfirmForm";
 	}
 
+	@RequiresPermissions("expmanage:expertConfirm:edit")
+	@RequestMapping(value = "verify")
+	public String verify(ExpertConfirm expertConfirm, Model model,@ModelAttribute("expertInfo") ExpertInfo expertInfo, RedirectAttributes redirectAttributes) {
+		if(expertInfo!=null){
+			BeanMapper.copy(expertInfo, expertConfirm);
+			expertConfirm.setExpertInfo(expertInfo);
+		}
+		model.addAttribute("expertConfirm", expertConfirm);
+		return "modules/expmanage/expertVerify";
+	}
+	
+	@RequiresPermissions("expmanage:expertConfirm:edit")
+	@RequestMapping(value = "confirm")
+	public String confirm(ExpertConfirm expertConfirm, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertConfirm)){
+			return form(expertConfirm, model);
+		}
+		expertConfirmService.save(expertConfirm);
+		addMessage(redirectAttributes, "保存专家确认'" + expertConfirm.getExpertInfo().getName() + "'成功");
+		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
+	}
+	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "save")
 	public String save(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {

@@ -21,6 +21,18 @@ public class ExpertConfirm implements Serializable {
 	/** 专家信息表. */
 	private ExpertInfo expertInfo;
 
+	/** 专家类别. */
+	private String expertKind;
+
+	/** 专家专业. */
+	private String expertSpecial;
+
+	/** 专家所属系列. */
+	private String expertSeries;
+
+	/** 专家级别. */
+	private String expertLevel;
+
 	/** 照片. */
 	private Blob photo;
 
@@ -81,14 +93,14 @@ public class ExpertConfirm implements Serializable {
 	/** 删除标记. */
 	private String delFlag;
 
+	/** The set of 评委会信息表. */
+	private Set<CommitteeInfo> committeeInfoSet;
+
 	/** The set of 委员会专家（评委）表. */
 	private Set<CommitteeExpert> committeeExpertSet;
 
 	/** The set of 专家请假表. */
 	private Set<ExpertLeave> expertLeaveSet;
-
-	/** The set of 评委会信息表. */
-	private Set<CommitteeInfo> committeeInfoSet;
 
 	/**
 	 * Constructor.
@@ -135,6 +147,82 @@ public class ExpertConfirm implements Serializable {
 	 */
 	public ExpertInfo getExpertInfo() {
 		return this.expertInfo;
+	}
+
+	/**
+	 * Set the 专家类别.
+	 * 
+	 * @param expertKind
+	 *            专家类别
+	 */
+	public void setExpertKind(String expertKind) {
+		this.expertKind = expertKind;
+	}
+
+	/**
+	 * Get the 专家类别.
+	 * 
+	 * @return 专家类别
+	 */
+	public String getExpertKind() {
+		return this.expertKind;
+	}
+
+	/**
+	 * Set the 专家专业.
+	 * 
+	 * @param expertSpecial
+	 *            专家专业
+	 */
+	public void setExpertSpecial(String expertSpecial) {
+		this.expertSpecial = expertSpecial;
+	}
+
+	/**
+	 * Get the 专家专业.
+	 * 
+	 * @return 专家专业
+	 */
+	public String getExpertSpecial() {
+		return this.expertSpecial;
+	}
+
+	/**
+	 * Set the 专家所属系列.
+	 * 
+	 * @param expertSeries
+	 *            专家所属系列
+	 */
+	public void setExpertSeries(String expertSeries) {
+		this.expertSeries = expertSeries;
+	}
+
+	/**
+	 * Get the 专家所属系列.
+	 * 
+	 * @return 专家所属系列
+	 */
+	public String getExpertSeries() {
+		return this.expertSeries;
+	}
+
+	/**
+	 * Set the 专家级别.
+	 * 
+	 * @param expertLevel
+	 *            专家级别
+	 */
+	public void setExpertLevel(String expertLevel) {
+		this.expertLevel = expertLevel;
+	}
+
+	/**
+	 * Get the 专家级别.
+	 * 
+	 * @return 专家级别
+	 */
+	public String getExpertLevel() {
+		return this.expertLevel;
 	}
 
 	/**
@@ -518,6 +606,35 @@ public class ExpertConfirm implements Serializable {
 	}
 
 	/**
+	 * Set the set of the 评委会信息表.
+	 * 
+	 * @param committeeInfoSet
+	 *            The set of 评委会信息表
+	 */
+	public void setCommitteeInfoSet(Set<CommitteeInfo> committeeInfoSet) {
+		this.committeeInfoSet = committeeInfoSet;
+	}
+
+	/**
+	 * Add the 评委会信息表.
+	 * 
+	 * @param committeeInfo
+	 *            评委会信息表
+	 */
+	public void addCommitteeInfo(CommitteeInfo committeeInfo) {
+		this.committeeInfoSet.add(committeeInfo);
+	}
+
+	/**
+	 * Get the set of the 评委会信息表.
+	 * 
+	 * @return The set of 评委会信息表
+	 */
+	public Set<CommitteeInfo> getCommitteeInfoSet() {
+		return this.committeeInfoSet;
+	}
+
+	/**
 	 * Set the set of the 委员会专家（评委）表.
 	 * 
 	 * @param committeeExpertSet
@@ -573,35 +690,6 @@ public class ExpertConfirm implements Serializable {
 	 */
 	public Set<ExpertLeave> getExpertLeaveSet() {
 		return this.expertLeaveSet;
-	}
-
-	/**
-	 * Set the set of the 评委会信息表.
-	 * 
-	 * @param committeeInfoSet
-	 *            The set of 评委会信息表
-	 */
-	public void setCommitteeInfoSet(Set<CommitteeInfo> committeeInfoSet) {
-		this.committeeInfoSet = committeeInfoSet;
-	}
-
-	/**
-	 * Add the 评委会信息表.
-	 * 
-	 * @param committeeInfo
-	 *            评委会信息表
-	 */
-	public void addCommitteeInfo(CommitteeInfo committeeInfo) {
-		this.committeeInfoSet.add(committeeInfo);
-	}
-
-	/**
-	 * Get the set of the 评委会信息表.
-	 * 
-	 * @return The set of 评委会信息表
-	 */
-	public Set<CommitteeInfo> getCommitteeInfoSet() {
-		return this.committeeInfoSet;
 	}
 
 	/**
