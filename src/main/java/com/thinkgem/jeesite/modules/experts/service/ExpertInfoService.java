@@ -33,6 +33,10 @@ public class ExpertInfoService extends BaseService {
 		return expertInfoDao.get(id);
 	}
 	
+	public int updateRegStep(String regStep,String userId){
+		return expertInfoDao.updateRegStep(regStep, userId);
+	}
+	
 	public Page<ExpertInfo> find(Page<ExpertInfo> page, ExpertInfo expertInfo) {
 		DetachedCriteria dc = expertInfoDao.createDetachedCriteria();
 		if (StringUtils.isNotEmpty(expertInfo.getName())){

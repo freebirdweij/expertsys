@@ -91,7 +91,7 @@
           </div>	
 			<label class="control-label">所属系列:</label>
 			<div class="controls">
-				<form:select path="seriesTwo" class="span2 required">
+				<form:select path="seriesTwo" class="span2">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>

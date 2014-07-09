@@ -23,6 +23,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
+import com.thinkgem.jeesite.modules.experts.service.ExpertInfoService;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 
@@ -37,6 +38,9 @@ public class ExpertConfirmController extends BaseController {
 
 	@Autowired
 	private ExpertConfirmService expertConfirmService;
+	
+	@Autowired
+	private ExpertInfoService expertInfoService;
 	
 	@ModelAttribute
 	public ExpertConfirm get(@RequestParam(required=false) String id) {
@@ -79,13 +83,30 @@ public class ExpertConfirmController extends BaseController {
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "confirm")
-	public String confirm(ExpertConfirm expertConfirm, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+	public String confirm(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, expertConfirm)){
 			return form(expertConfirm, model);
 		}
-		expertConfirmService.save(expertConfirm);
+		if(expertConfirm.getKindOne()!=null&&expertConfirm.getSpecialOne()!=null){
+			expertConfirm.setId(expertConfirm.getExpertCode());
+			expertConfirm.setExpertKind(expertConfirm.getKindOne());
+			expertConfirm.setExpertSpecial(expertConfirm.getSpecialOne());
+			expertConfirm.setExpertSeries(expertConfirm.getSeriesOne());
+			expertConfirmService.save(expertConfirm);			
+		}
+		
+		if(expertConfirm.getKindTwo()!=null&&expertConfirm.getSpecialTwo()!=null){
+			expertConfirm.setId(expertConfirm.getExpertCode()+"-2");
+			expertConfirm.setExpertKind(expertConfirm.getKindTwo());
+			expertConfirm.setExpertSpecial(expertConfirm.getSpecialTwo());
+			expertConfirm.setExpertSeries(expertConfirm.getSeriesTwo());
+			expertConfirmService.save(expertConfirm);			
+		}
+		
+		//已审核通过的专家记为4
+		expertInfoService.updateRegStep("4", expertConfirm.getExpertInfo().getUserId());
 		addMessage(redirectAttributes, "保存专家确认'" + expertConfirm.getExpertInfo().getName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
+		return "modules/expmanage/confirmNote";
 	}
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
