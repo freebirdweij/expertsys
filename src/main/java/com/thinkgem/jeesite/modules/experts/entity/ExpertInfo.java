@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * Model class of 专家信息表.
@@ -236,6 +238,20 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 
 	public void setRegStep(String regStep) {
 		this.regStep = regStep;
+	}
+
+	private User user;	// 归属公司
+	
+	@OneToOne
+	@JoinColumn(name="userId")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	private Office unit;	// 归属公司

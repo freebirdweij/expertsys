@@ -33,7 +33,7 @@
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
-						$("#searchForm").attr("action","${ctx}/sys/user/export");
+						$("#searchForm").attr("action","${ctx}/expmanage/export");
 						$("#searchForm").submit();
 					}
 				},{buttonsFocus:1});
@@ -47,7 +47,7 @@
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
-			$("#searchForm").attr("action","${ctx}/expmanage/");
+			$("#searchForm").attr("action","${ctx}/expmanage/explist");
 			$("#searchForm").submit();
 	    	return false;
 	    }
@@ -55,18 +55,18 @@
 </head>
 <body>
 	<div id="importBox" class="hide">
-		<form id="importForm" action="${ctx}/sys/user/import" method="post" enctype="multipart/form-data"
+		<form id="importForm" action="${ctx}/expmanage/import" method="post" enctype="multipart/form-data"
 			style="padding-left:20px;text-align:center;" class="form-search" onsubmit="loading('正在导入，请稍等...');"><br/>
 			<input id="uploadFile" name="file" type="file" style="width:330px"/><br/><br/>　　
 			<input id="btnImportSubmit" class="btn btn-primary" type="submit" value="   导    入   "/>
-			<a href="${ctx}/sys/user/import/template">下载模板</a>
+			<a href="${ctx}/expmanage/import/template">下载模板</a>
 		</form>
 	</div>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/sys/user/">用户列表</a></li>
-		<shiro:hasPermission name="sys:user:edit"><li><a href="${ctx}/sys/user/form">用户添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/expmanage/explist">专家列表</a></li>
+		<shiro:hasPermission name="sys:user:edit"><li><a href="${ctx}/expmanage/expnew">新增专家</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="expertConfirm" action="${ctx}/expmanage/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="expertConfirm" action="${ctx}/expmanage/explist" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
@@ -89,7 +89,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
-				<td><a href="${ctx}/expmanage/form?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
+				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
 				<td>${expertConfirm.expertKind}</td>
 				<td>${expertConfirm.expertSpecial}</td>
@@ -97,8 +97,8 @@
 				<td>${expertConfirm.expertInfo.technical}</td>
 				<td>${expertConfirm.expertInfo.education}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>
-    				<a href="${ctx}/expmanage/form?id=${expertConfirm.id}">修改</a>
-					<a href="${ctx}/expmanage/delete?id=${expertConfirm.id}" onclick="return confirmx('确认要删除该用户吗？', this.href)">删除</a>
+    				<a href="${ctx}/expmanage/expedit?id=${expertConfirm.id}">修改</a>
+					<a href="${ctx}/expmanage/expdelete?id=${expertConfirm.id}" onclick="return confirmx('确认要删除该专家吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
