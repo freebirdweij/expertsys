@@ -120,8 +120,12 @@ public class ExpertManageController extends BaseController {
 	@RequestMapping(value = "applyform")
 	public String applyform(@RequestParam("id") String id, Model model) {
 		ExpertConfirm expertConfirm = expertConfirmService.get(id);
-		model.addAttribute("expertConfirm", expertConfirm);
+		expertConfirm.getExpertInfo().setSpecialKind1(expertConfirm.getExpertKind());
+		expertConfirm.getExpertInfo().setKind1Special1(expertConfirm.getExpertSpecial());
+		expertConfirm.getExpertInfo().setCertSeries(expertConfirm.getCertSeries());
+		model.addAttribute("expertInfo", expertConfirm.getExpertInfo());
 		model.addAttribute("id", id);
+		model.addAttribute("deptormanageAdvice", expertConfirm.getDeptormanageAdvice());
 		return "modules/expmanage/applyForm";
 	}
 
@@ -226,11 +230,11 @@ public class ExpertManageController extends BaseController {
 			user.setPassword(SystemService.entryptPassword(newPassword));
 		}
 		if (!beanValidator(model, user)){
-			//return form(user, model);
+			return expedit(request.getParameter("expid"), model);
 		}
 		if (!"true".equals(checkLoginName(oldLoginName, user.getLoginName()))){
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
-			//return form(user, model);
+			return expedit(request.getParameter("expid"), model);
 		}
 		// 角色数据有效性验证，过滤不在授权内的角色
 		List<Role> roleList = Lists.newArrayList();
@@ -248,16 +252,16 @@ public class ExpertManageController extends BaseController {
 			UserUtils.getCacheMap().clear();
 		}
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
+		return expedit(request.getParameter("expid"), model);
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "savebase", method=RequestMethod.POST)
-	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file, HttpServletRequest request) {
 		User user = UserUtils.getUser();
 		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
-			//return form(expertInfo, model);
+			return baseform(request.getParameter("expid"), model);
 		}
 		
 		try {
@@ -267,41 +271,46 @@ public class ExpertManageController extends BaseController {
 			e.printStackTrace();
 		}
 		//保留注册状态
-		expertInfo.setRegStep("3");
+		expertInfo.setRegStep("4");
 		expertInfoService.updateStepOne(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "modules/experts/baseInfo";
+		return baseform(request.getParameter("expid"), model);
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "savework", method=RequestMethod.POST)
-	public String savework(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+	public String savework(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		if (!beanValidator(model, expertInfo)){
-			//return formm(expertInfo, model);
+			return workform(request.getParameter("expid"), model);
 		}
 		
 		
 		//保留注册状态
-		expertInfo.setRegStep("3");
+		expertInfo.setRegStep("4");
 		
 		expertInfoService.updateStepTwo(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "modules/experts/workInfo";
+	    return workform(request.getParameter("expid"), model);
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "saveapply", method=RequestMethod.POST)
-	public String saveapply(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+	public String saveapply(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		if (!beanValidator(model, expertInfo)){
-			//return formm(expertInfo, model);
+			return applyform(request.getParameter("expid"), model);
 		}
-		
+		ExpertConfirm expertConfirm = get(request.getParameter("expid"));
+		expertConfirm.setExpertKind(expertInfo.getSpecialKind1());
+		expertConfirm.setExpertSpecial(expertInfo.getKind1Special1());
+		expertConfirm.setExpertSeries(expertInfo.getCertSeries());
+		expertConfirm.setDeptormanageAdvice(request.getParameter("deptormanageAdvice"));
 		//保留注册状态
-		expertInfo.setRegStep("3");
+		expertInfo.setRegStep("4");
 				
 		expertInfoService.updateStepThree(expertInfo);
+		expertConfirmService.save(expertConfirm);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "modules/experts/applyInfo";
+		return applyform(request.getParameter("expid"), model);
 	}
 	
 	@RequiresPermissions("sys:user:view")
@@ -417,4 +426,137 @@ public class ExpertManageController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
 	}
 
+	@RequiresPermissions("experts:expertInfo:reg")
+	@RequestMapping(value = "expnew")
+	public String expnew(ExpertInfo expertInfo, Model model) {
+		User user = UserUtils.getUser();
+		expertInfo = expertInfoService.get(user.getId());
+		if(expertInfo==null){
+			expertInfo = new ExpertInfo();
+			expertInfo.setName(user.getName());
+			expertInfo.setUserId(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/expmanage/stepOne";
+		}else if(expertInfo.getUserId()==null||expertInfo.getUserId().equalsIgnoreCase("")){
+			expertInfo = new ExpertInfo();
+			expertInfo.setName(user.getName());
+			expertInfo.setUserId(user.getId());
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/stepOne";
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("1")){
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/stepTwo";
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("2")){
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/stepThree";
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("3")){
+			model.addAttribute("expertInfo", expertInfo);
+			return "modules/experts/regNotice";
+		}
+		return "modules/expmanage/userNew";
+	}
+
+	@RequiresPermissions("experts:expertInfo:view")
+	@RequestMapping(value = "form")
+	public String form(ExpertInfo expertInfo, Model model) {
+		model.addAttribute("expertInfo", expertInfo);
+		return "experts/expertInfoForm";
+	}
+
+	@RequiresPermissions("sys:user:edit")
+	@RequestMapping(value = "adduser")
+	public String adduser(@ModelAttribute("user") User user, String oldLoginName, String newPassword, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+		if(Global.isDemoMode()){
+			addMessage(redirectAttributes, "演示模式，不允许操作！");
+			return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
+		}
+		// 修正引用赋值问题，不知道为何，Company和Office引用的一个实例地址，修改了一个，另外一个跟着修改。
+		user.setCompany(new Office(request.getParameter("company.id")));
+		user.setOffice(new Office(request.getParameter("office.id")));
+		// 如果新密码为空，则不更换密码
+		if (StringUtils.isNotBlank(newPassword)) {
+			user.setPassword(SystemService.entryptPassword(newPassword));
+		}
+		if (!beanValidator(model, user)){
+			return expedit(request.getParameter("expid"), model);
+		}
+		if (!"true".equals(checkLoginName(oldLoginName, user.getLoginName()))){
+			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
+			return expedit(request.getParameter("expid"), model);
+		}
+		// 角色数据有效性验证，过滤不在授权内的角色
+		List<Role> roleList = Lists.newArrayList();
+		List<String> roleIdList = user.getRoleIdList();
+		for (Role r : systemService.findAllRole()){
+			if (roleIdList.contains(r.getId())){
+				roleList.add(r);
+			}
+		}
+		user.setRoleList(roleList);
+		// 保存用户信息
+		systemService.saveUser(user);
+		// 清除当前用户缓存
+		if (user.getLoginName().equals(UserUtils.getUser().getLoginName())){
+			UserUtils.getCacheMap().clear();
+		}
+		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
+		return "modules/expmanage/baseNew";
+	}
+	
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "addbase", method=RequestMethod.POST)
+	public String addbase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+		User user = UserUtils.getUser();
+		expertInfo.setUnit(user.getCompany());
+		if (!beanValidator(model, expertInfo)){
+			return form(expertInfo, model);
+		}
+		
+		try {
+			expertInfo.setPicture(file.getBytes());
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		
+		//表示已作过第一步录入
+		expertInfo.setRegStep("1");
+		
+		expertInfoService.save(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/expmanage/workNew";
+	}
+	
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "addwork", method=RequestMethod.POST)
+	public String addwork(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertInfo)){
+			return form(expertInfo, model);
+		}
+		
+		
+		//表示已作过第二步录入
+		expertInfo.setRegStep("2");
+		
+		expertInfoService.updateStepTwo(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/expmanage/applyNew";
+	}
+	
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "addapply", method=RequestMethod.POST)
+	public String addapply(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertInfo)){
+			return form(expertInfo, model);
+		}
+		
+		
+		//表示已作过第三步录入
+		expertInfo.setRegStep("3");
+		
+		expertInfoService.updateStepThree(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/experts/regNotice";
+	}
+	
 }

@@ -35,11 +35,8 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/expmanage/userform?id=${id}">专家个人信息</a></li>
-		<li><a href="${ctx}/expmanage/baseform?id=${id}">专家基本信息</a></li>
-		<li><a href="${ctx}/expmanage/workform?id=${id}">专家职业信息</a></li>
-		<li><a href="${ctx}/expmanage/applyform?id=${id}">审核通过信息</a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="user" action="${ctx}/expmanage/saveuser" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="user" action="${ctx}/expmanage/adduser" method="post" class="form-horizontal">
 		<input id="expid" name="expid" type="hidden" value="${id}">
 		<form:hidden path="id"/>
 		<tags:message content="${message}"/>
@@ -143,7 +140,7 @@
 			</div>
 		</c:if>
 		<div class="form-actions">
-			<shiro:hasPermission name="sys:user:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="sys:user:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;</shiro:hasPermission>
 		</div>
 	</form:form>
 </body>

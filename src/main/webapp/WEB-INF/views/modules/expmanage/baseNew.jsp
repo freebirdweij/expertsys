@@ -111,13 +111,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/expmanage/userform?id=${id}">专家个人信息</a></li>
-		<li class="active"><a href="${ctx}/expmanage/baseform?id=${id}">专家基本信息</a></li>
-		<li><a href="${ctx}/expmanage/workform?id=${id}">专家职业信息</a></li>
-		<li><a href="${ctx}/expmanage/applyform?id=${id}">审核通过信息</a></li>
+		<li class="active"><a href="${ctx}/expmanage/basenew">专家基本信息</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo"
-		action="${ctx}/expmanage/savebase" enctype="multipart/form-data" method="post" class="form-horizontal">
+		action="${ctx}/expmanage/addbase" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<input id="expid" name="expid" type="hidden" value="${id}">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
@@ -233,7 +230,7 @@
 			</div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit"
-				value="保存" />&nbsp; <input id="btnCancel" class="btn" type="button"
+				value="下一步" />&nbsp; <input id="btnCancel" class="btn" type="button"
 				value="返 回" onclick="history.go(-1)" />
 		</div>
 	</form:form>
