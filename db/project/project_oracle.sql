@@ -1,4 +1,8 @@
 
+/* Drop Indexes */
+
+DROP INDEX attach_name_index;
+DROP INDEX attach_type_index;
 
 
 
@@ -46,16 +50,19 @@ CREATE TABLE project_attach
 );
 
 
+
 CREATE TABLE project_info
 (
 	id nvarchar2(64) NOT NULL,
 	prj_name varchar2(200) NOT NULL,
 	prj_type char(3),
 	prj_duty varchar2(100),
+	prj_unit nvarchar2(64),
 	prj_money number(19,4),
 	prj_level char,
+	prj_address varchar2(500),
 	prj_notes varchar2(1000),
-	prj_status char,
+	prj_status char(2),
 	prj_begin timestamp,
 	prj_end timestamp,
 	-- 创建者
@@ -74,12 +81,15 @@ CREATE TABLE project_info
 );
 
 
+
 CREATE TABLE project_expert
 (
 	prj_id nvarchar2(64) NOT NULL,
 	expert_id nvarchar2(64) NOT NULL,
 	fetch_time number NOT NULL,
+	expert_count number(3,0),
 	fetch_status char(2),
+	committee_name varchar2(100),
 	review_begin timestamp,
 	review_end timestamp,
 	expert_accept char,
@@ -100,10 +110,15 @@ CREATE TABLE project_expert
 
 
 
-
 /* Create Foreign Keys */
 
-ALTER TABLE project_attach
+ALTER TABLE project_expert
+	ADD FOREIGN KEY (expert_id)
+	REFERENCES expert_confirm (id)
+;
+
+
+ALTER TABLE project_expert
 	ADD FOREIGN KEY (prj_id)
 	REFERENCES project_info (id)
 ;
@@ -115,15 +130,9 @@ ALTER TABLE project_committee
 ;
 
 
-ALTER TABLE project_expert
+ALTER TABLE project_attach
 	ADD FOREIGN KEY (prj_id)
 	REFERENCES project_info (id)
-;
-
-
-ALTER TABLE project_expert
-	ADD FOREIGN KEY (expert_id)
-	REFERENCES expert_confirm (id)
 ;
 
 
@@ -133,6 +142,11 @@ ALTER TABLE project_committee
 ;
 
 
+
+/* Create Indexes */
+
+CREATE INDEX attach_name_index ON project_attach (attach_name);
+CREATE INDEX attach_type_index ON project_attach (attach_type);
 
 
 
@@ -159,8 +173,10 @@ COMMENT ON COLUMN project_info.id IS '项目ID';
 COMMENT ON COLUMN project_info.prj_name IS '项目名称';
 COMMENT ON COLUMN project_info.prj_type IS '项目类别';
 COMMENT ON COLUMN project_info.prj_duty IS '项目负责人';
+COMMENT ON COLUMN project_info.prj_unit IS '项目主体单位';
 COMMENT ON COLUMN project_info.prj_money IS '投资金额';
 COMMENT ON COLUMN project_info.prj_level IS '项目级别';
+COMMENT ON COLUMN project_info.prj_address IS '项目地址';
 COMMENT ON COLUMN project_info.prj_notes IS '项目说明';
 COMMENT ON COLUMN project_info.prj_status IS '项目状态';
 COMMENT ON COLUMN project_info.prj_begin IS '项目开始时间';
@@ -175,7 +191,9 @@ COMMENT ON TABLE project_expert IS '项目专家表';
 COMMENT ON COLUMN project_expert.prj_id IS '项目ID';
 COMMENT ON COLUMN project_expert.expert_id IS '专家确认ID';
 COMMENT ON COLUMN project_expert.fetch_time IS '第几次抽取';
+COMMENT ON COLUMN project_expert.expert_count IS '本次所需专家数';
 COMMENT ON COLUMN project_expert.fetch_status IS '抽取有效标志';
+COMMENT ON COLUMN project_expert.committee_name IS '本次抽取组成的评委会名称';
 COMMENT ON COLUMN project_expert.review_begin IS '执行评审开始时间';
 COMMENT ON COLUMN project_expert.review_end IS '执行评审结束时间';
 COMMENT ON COLUMN project_expert.expert_accept IS '专家接受任务标志。';
