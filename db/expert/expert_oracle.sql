@@ -203,6 +203,7 @@ CREATE TABLE expert_confirm
 	expert_kind char(3) NOT NULL,
 	expert_special char(3) NOT NULL,
 	expert_series char(3),
+	expert_technical char(3),
 	expert_level char,
 	photo blob,
 	specialist varchar2(200),
@@ -407,6 +408,7 @@ COMMENT ON COLUMN expert_confirm.expert_company IS '专家所属单位';
 COMMENT ON COLUMN expert_confirm.expert_kind IS '专家类别';
 COMMENT ON COLUMN expert_confirm.expert_special IS '专家专业';
 COMMENT ON COLUMN expert_confirm.expert_series IS '专家所属行业';
+COMMENT ON COLUMN expert_confirm.expert_technical IS '专家职称';
 COMMENT ON COLUMN expert_confirm.expert_level IS '专家级别';
 COMMENT ON COLUMN expert_confirm.photo IS '照片';
 COMMENT ON COLUMN expert_confirm.specialist IS '现从事专业';
