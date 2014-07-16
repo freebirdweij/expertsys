@@ -72,11 +72,17 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	/** 项目负责人. */
 	private String prjDuty;
 
+	/** 项目主体单位. */
+	private String prjUnit;
+
 	/** 投资金额. */
 	private Double prjMoney;
 
 	/** 项目级别. */
 	private String prjLevel;
+
+	/** 项目地址. */
+	private String prjAddress;
 
 	/** 项目说明. */
 	private String prjNotes;
@@ -112,6 +118,22 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 
 		/** The set of 项目专家表. */
 		this.projectExpertSet = new HashSet<ProjectExpert>();
+	}
+
+	public String getPrjUnit() {
+		return prjUnit;
+	}
+
+	public void setPrjUnit(String prjUnit) {
+		this.prjUnit = prjUnit;
+	}
+
+	public String getPrjAddress() {
+		return prjAddress;
+	}
+
+	public void setPrjAddress(String prjAddress) {
+		this.prjAddress = prjAddress;
 	}
 
 	/**

@@ -21,8 +21,20 @@ public class ProjectExpert implements Serializable {
 	/** 第几次抽取. */
 	private Integer fetchTime;
 
+	/** 本次所需专家数. */
+	private Byte expertCount;
+
+	/** 专家在本次小组中的身份. */
+	private String expertRate;
+
 	/** 抽取有效标志. */
 	private String fetchStatus;
+
+	/** 专家获取的方式：单位、个人、选取、随机抽取。. */
+	private String fetchMethod;
+
+	/** 本次抽取组成的评委会名称. */
+	private String committeeName;
 
 	/** 执行评审开始时间. */
 	private Date reviewBegin;
@@ -115,6 +127,44 @@ public class ProjectExpert implements Serializable {
 	}
 
 	/**
+	 * Set the 本次所需专家数.
+	 * 
+	 * @param expertCount
+	 *            本次所需专家数
+	 */
+	public void setExpertCount(Byte expertCount) {
+		this.expertCount = expertCount;
+	}
+
+	/**
+	 * Get the 本次所需专家数.
+	 * 
+	 * @return 本次所需专家数
+	 */
+	public Byte getExpertCount() {
+		return this.expertCount;
+	}
+
+	/**
+	 * Set the 专家在本次小组中的身份.
+	 * 
+	 * @param expertRate
+	 *            专家在本次小组中的身份
+	 */
+	public void setExpertRate(String expertRate) {
+		this.expertRate = expertRate;
+	}
+
+	/**
+	 * Get the 专家在本次小组中的身份.
+	 * 
+	 * @return 专家在本次小组中的身份
+	 */
+	public String getExpertRate() {
+		return this.expertRate;
+	}
+
+	/**
 	 * Set the 抽取有效标志.
 	 * 
 	 * @param fetchStatus
@@ -131,6 +181,44 @@ public class ProjectExpert implements Serializable {
 	 */
 	public String getFetchStatus() {
 		return this.fetchStatus;
+	}
+
+	/**
+	 * Set the 专家获取的方式：单位、个人、选取、随机抽取。.
+	 * 
+	 * @param fetchMethod
+	 *            专家获取的方式：单位、个人、选取、随机抽取。
+	 */
+	public void setFetchMethod(String fetchMethod) {
+		this.fetchMethod = fetchMethod;
+	}
+
+	/**
+	 * Get the 专家获取的方式：单位、个人、选取、随机抽取。.
+	 * 
+	 * @return 专家获取的方式：单位、个人、选取、随机抽取。
+	 */
+	public String getFetchMethod() {
+		return this.fetchMethod;
+	}
+
+	/**
+	 * Set the 本次抽取组成的评委会名称.
+	 * 
+	 * @param committeeName
+	 *            本次抽取组成的评委会名称
+	 */
+	public void setCommitteeName(String committeeName) {
+		this.committeeName = committeeName;
+	}
+
+	/**
+	 * Get the 本次抽取组成的评委会名称.
+	 * 
+	 * @return 本次抽取组成的评委会名称
+	 */
+	public String getCommitteeName() {
+		return this.committeeName;
 	}
 
 	/**

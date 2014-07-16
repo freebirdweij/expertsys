@@ -19,6 +19,8 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
+import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
@@ -30,9 +32,12 @@ import com.thinkgem.jeesite.modules.expfetch.service.ProjectExpertService;
  * @version 2014-07-12
  */
 @Controller
-@RequestMapping(value = "${adminPath}/expfetch/projectExpert")
+@RequestMapping(value = "${adminPath}/expfetch")
 public class ProjectExpertController extends BaseController {
 
+	@Autowired
+	private ProjectInfoService projectInfoService;
+	
 	@Autowired
 	private ProjectExpertService projectExpertService;
 	
@@ -55,6 +60,30 @@ public class ProjectExpertController extends BaseController {
         Page<ProjectExpert> page = projectExpertService.find(new Page<ProjectExpert>(request, response), projectExpert); 
         model.addAttribute("page", page);
 		return "expfetch/projectExpertList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"reviewinglist", ""})
+	public String reviewinglist(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectInfo.setCreateBy(user);
+		}
+        Page<ProjectInfo> page = projectInfoService.find(new Page<ProjectInfo>(request, response), projectInfo); 
+        model.addAttribute("page", page);
+		return "modules/expfetch/reviewingList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"acceptinglist", ""})
+	public String acceptinglist(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectInfo.setCreateBy(user);
+		}
+        Page<ProjectInfo> page = projectInfoService.find(new Page<ProjectInfo>(request, response), projectInfo); 
+        model.addAttribute("page", page);
+		return "modules/expfetch/acceptingList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
