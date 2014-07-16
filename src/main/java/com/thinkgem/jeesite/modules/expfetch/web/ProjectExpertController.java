@@ -69,7 +69,7 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectInfo.setCreateBy(user);
 		}
-        Page<ProjectInfo> page = projectInfoService.find(new Page<ProjectInfo>(request, response), projectInfo); 
+        Page<ProjectInfo> page = projectInfoService.findReviewing(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
 		return "modules/expfetch/reviewingList";
 	}
@@ -81,7 +81,7 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectInfo.setCreateBy(user);
 		}
-        Page<ProjectInfo> page = projectInfoService.find(new Page<ProjectInfo>(request, response), projectInfo); 
+        Page<ProjectInfo> page = projectInfoService.findAccepting(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
 		return "modules/expfetch/acceptingList";
 	}
@@ -93,6 +93,20 @@ public class ProjectExpertController extends BaseController {
 		return "expfetch/projectExpertForm";
 	}
 
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = "unitmethod")
+	public String unitmethod(ProjectExpert projectExpert, Model model) {
+		model.addAttribute("projectExpert", projectExpert);
+		return "modules/expfetch/unitMethodForm";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = "expertmethod")
+	public String expertmethod(ProjectExpert projectExpert, Model model) {
+		model.addAttribute("projectExpert", projectExpert);
+		return "modules/expfetch/expMethodForm";
+	}
+
 	@RequiresPermissions("expfetch:projectExpert:edit")
 	@RequestMapping(value = "save")
 	public String save(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes) {
@@ -100,7 +114,7 @@ public class ProjectExpertController extends BaseController {
 			return form(projectExpert, model);
 		}
 		projectExpertService.save(projectExpert);
-		addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getName() + "'成功");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
 		return "redirect:"+Global.getAdminPath()+"/expfetch/projectExpert/?repage";
 	}
 	

@@ -65,13 +65,14 @@
 		<c:forEach items="${page.list}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
-				<td><a href="${ctx}/expfetch/prjinfo?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
-				<td>${projectInfo.prjDuty}</td>
+				<td><a href="${ctx}/project/form?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel('${projectInfo.prjStatus}','sys_prjstatus_type','1')}</td>
 				<td>${projectInfo.prjMoney}</td>
 				<td>${projectInfo.prjBegin}</td>
 				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/reviewfetch?id=${projectInfo.id}">进入抽取</a>
+    				<a href="${ctx}/expfetch/unitmethod?prjid=${projectInfo.id}">单位方式抽取</a>
+    				<a href="${ctx}/expfetch/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a>
 					<a href="${ctx}/expfetch/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

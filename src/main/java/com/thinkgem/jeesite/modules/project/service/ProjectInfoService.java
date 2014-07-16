@@ -24,6 +24,16 @@ import com.thinkgem.jeesite.modules.project.dao.ProjectInfoDao;
 @Component
 @Transactional(readOnly = true)
 public class ProjectInfoService extends BaseService {
+	
+	private final String PROJECT_STATUS_DISCUSS = "1";//讨论阶段的项目状态
+
+	private final String PROJECT_STATUS_BEFORE_REVIEW = "3";//评审前的项目状态
+
+	private final String PROJECT_STATUS_REVIEW_PASSED = "4";//评审通过
+
+	private final String PROJECT_STATUS_DONE = "7";//完工的项目
+
+	private final String PROJECT_STATUS_ACCEPTED = "8";//验收通过的项目
 
 	@Autowired
 	private ProjectInfoDao projectInfoDao;
@@ -46,6 +56,22 @@ public class ProjectInfoService extends BaseService {
 		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
 			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
 		}
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
+	public Page<ProjectInfo> findReviewing(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		dc.add(Restrictions.between("prjStatus", PROJECT_STATUS_DISCUSS,PROJECT_STATUS_BEFORE_REVIEW));
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
+	public Page<ProjectInfo> findAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		dc.add(Restrictions.eq("prjStatus", PROJECT_STATUS_DONE));
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);

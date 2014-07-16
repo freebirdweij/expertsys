@@ -34,8 +34,8 @@ public class ProjectExpertService extends BaseService {
 	
 	public Page<ProjectExpert> find(Page<ProjectExpert> page, ProjectExpert projectExpert) {
 		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();
-		if (StringUtils.isNotEmpty(projectExpert.getName())){
-			dc.add(Restrictions.like("name", "%"+projectExpert.getName()+"%"));
+		if (StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){
+			dc.add(Restrictions.like("name", "%"+projectExpert.getPrjProjectInfo().getPrjName()+"%"));
 		}
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

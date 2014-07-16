@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
@@ -14,11 +16,14 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.persistence.IdEntity;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 
 /**
  * 项目信息Entity
@@ -72,9 +77,6 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	/** 项目负责人. */
 	private String prjDuty;
 
-	/** 项目主体单位. */
-	private String prjUnit;
-
 	/** 投资金额. */
 	private Double prjMoney;
 
@@ -95,6 +97,20 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 
 	/** 项目结束时间. */
 	private Date prjEnd;
+
+	private Office unit;	// 主体单位
+	
+	@ManyToOne
+	@JoinColumn(name="prjUnit")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
+	public Office getUnit() {
+		return unit;
+	}
+
+	public void setUnit(Office unit) {
+		this.unit = unit;
+	}
 
 
 	/** The set of 项目评委表. */
@@ -118,14 +134,6 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 
 		/** The set of 项目专家表. */
 		this.projectExpertSet = new HashSet<ProjectExpert>();
-	}
-
-	public String getPrjUnit() {
-		return prjUnit;
-	}
-
-	public void setPrjUnit(String prjUnit) {
-		this.prjUnit = prjUnit;
 	}
 
 	public String getPrjAddress() {
