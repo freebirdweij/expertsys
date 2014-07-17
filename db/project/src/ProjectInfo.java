@@ -68,11 +68,11 @@ public class ProjectInfo implements Serializable {
 	/** 删除标记. */
 	private String delFlag;
 
-	/** The set of 项目评委表. */
-	private Set<ProjectCommittee> projectCommitteeSet;
-
 	/** The set of 专家附件. */
 	private Set<ProjectAttach> projectAttachSet;
+
+	/** The set of 项目评委表. */
+	private Set<ProjectCommittee> projectCommitteeSet;
 
 	/** The set of 项目专家表. */
 	private Set<ProjectExpert> projectExpertSet;
@@ -429,35 +429,6 @@ public class ProjectInfo implements Serializable {
 	}
 
 	/**
-	 * Set the set of the 项目评委表.
-	 * 
-	 * @param projectCommitteeSet
-	 *            The set of 项目评委表
-	 */
-	public void setProjectCommitteeSet(Set<ProjectCommittee> projectCommitteeSet) {
-		this.projectCommitteeSet = projectCommitteeSet;
-	}
-
-	/**
-	 * Add the 项目评委表.
-	 * 
-	 * @param projectCommittee
-	 *            项目评委表
-	 */
-	public void addProjectCommittee(ProjectCommittee projectCommittee) {
-		this.projectCommitteeSet.add(projectCommittee);
-	}
-
-	/**
-	 * Get the set of the 项目评委表.
-	 * 
-	 * @return The set of 项目评委表
-	 */
-	public Set<ProjectCommittee> getProjectCommitteeSet() {
-		return this.projectCommitteeSet;
-	}
-
-	/**
 	 * Set the set of the 专家附件.
 	 * 
 	 * @param projectAttachSet
@@ -484,6 +455,35 @@ public class ProjectInfo implements Serializable {
 	 */
 	public Set<ProjectAttach> getProjectAttachSet() {
 		return this.projectAttachSet;
+	}
+
+	/**
+	 * Set the set of the 项目评委表.
+	 * 
+	 * @param projectCommitteeSet
+	 *            The set of 项目评委表
+	 */
+	public void setProjectCommitteeSet(Set<ProjectCommittee> projectCommitteeSet) {
+		this.projectCommitteeSet = projectCommitteeSet;
+	}
+
+	/**
+	 * Add the 项目评委表.
+	 * 
+	 * @param projectCommittee
+	 *            项目评委表
+	 */
+	public void addProjectCommittee(ProjectCommittee projectCommittee) {
+		this.projectCommitteeSet.add(projectCommittee);
+	}
+
+	/**
+	 * Get the set of the 项目评委表.
+	 * 
+	 * @return The set of 项目评委表
+	 */
+	public Set<ProjectCommittee> getProjectCommitteeSet() {
+		return this.projectCommitteeSet;
 	}
 
 	/**

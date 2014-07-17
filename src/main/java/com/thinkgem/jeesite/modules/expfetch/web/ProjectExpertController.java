@@ -22,6 +22,9 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.AreaService;
+import com.thinkgem.jeesite.modules.sys.service.OfficeService;
+import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expfetch.service.ProjectExpertService;
@@ -35,6 +38,12 @@ import com.thinkgem.jeesite.modules.expfetch.service.ProjectExpertService;
 @RequestMapping(value = "${adminPath}/expfetch")
 public class ProjectExpertController extends BaseController {
 
+	@Autowired
+	private AreaService areaService;
+	
+	@Autowired
+	private OfficeService officeService;
+	
 	@Autowired
 	private ProjectInfoService projectInfoService;
 	
@@ -97,6 +106,11 @@ public class ProjectExpertController extends BaseController {
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model) {
 		model.addAttribute("projectExpert", projectExpert);
+		model.addAttribute("areaList", areaService.findAll());
+		model.addAttribute("unitList", officeService.findAll());
+		model.addAttribute("kindList", DictUtils.getDictList("sys_specialkind_type"));
+		model.addAttribute("specialList",  DictUtils.getDictList("sys_special_type"));
+		model.addAttribute("seriesList",  DictUtils.getDictList("sys_series_type"));
 		return "modules/expfetch/unitMethodForm";
 	}
 
@@ -104,6 +118,12 @@ public class ProjectExpertController extends BaseController {
 	@RequestMapping(value = "expertmethod")
 	public String expertmethod(ProjectExpert projectExpert, Model model) {
 		model.addAttribute("projectExpert", projectExpert);
+		model.addAttribute("areaList", areaService.findAll());
+		model.addAttribute("unitList", officeService.findAll());
+		model.addAttribute("kindList",  DictUtils.getDictList("sys_specialkind_type"));
+		model.addAttribute("specialList",  DictUtils.getDictList("sys_special_type"));
+		model.addAttribute("seriesList",  DictUtils.getDictList("sys_series_type"));
+		model.addAttribute("techList",  DictUtils.getDictList("sys_tech_type"));
 		return "modules/expfetch/expMethodForm";
 	}
 
