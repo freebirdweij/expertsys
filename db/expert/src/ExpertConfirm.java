@@ -21,14 +21,23 @@ public class ExpertConfirm implements Serializable {
 	/** 专家信息表. */
 	private ExpertInfo expertInfo;
 
+	/** 专家所属区域. */
+	private String expertArea;
+
+	/** 专家所属单位. */
+	private String expertCompany;
+
 	/** 专家类别. */
 	private String expertKind;
 
 	/** 专家专业. */
 	private String expertSpecial;
 
-	/** 专家所属系列. */
+	/** 专家所属行业. */
 	private String expertSeries;
+
+	/** 专家职称. */
+	private String expertTechnical;
 
 	/** 专家级别. */
 	private String expertLevel;
@@ -93,14 +102,14 @@ public class ExpertConfirm implements Serializable {
 	/** 删除标记. */
 	private String delFlag;
 
-	/** The set of 评委会信息表. */
-	private Set<CommitteeInfo> committeeInfoSet;
+	/** The set of 专家请假表. */
+	private Set<ExpertLeave> expertLeaveSet;
 
 	/** The set of 委员会专家（评委）表. */
 	private Set<CommitteeExpert> committeeExpertSet;
 
-	/** The set of 专家请假表. */
-	private Set<ExpertLeave> expertLeaveSet;
+	/** The set of 评委会信息表. */
+	private Set<CommitteeInfo> committeeInfoSet;
 
 	/**
 	 * Constructor.
@@ -150,6 +159,44 @@ public class ExpertConfirm implements Serializable {
 	}
 
 	/**
+	 * Set the 专家所属区域.
+	 * 
+	 * @param expertArea
+	 *            专家所属区域
+	 */
+	public void setExpertArea(String expertArea) {
+		this.expertArea = expertArea;
+	}
+
+	/**
+	 * Get the 专家所属区域.
+	 * 
+	 * @return 专家所属区域
+	 */
+	public String getExpertArea() {
+		return this.expertArea;
+	}
+
+	/**
+	 * Set the 专家所属单位.
+	 * 
+	 * @param expertCompany
+	 *            专家所属单位
+	 */
+	public void setExpertCompany(String expertCompany) {
+		this.expertCompany = expertCompany;
+	}
+
+	/**
+	 * Get the 专家所属单位.
+	 * 
+	 * @return 专家所属单位
+	 */
+	public String getExpertCompany() {
+		return this.expertCompany;
+	}
+
+	/**
 	 * Set the 专家类别.
 	 * 
 	 * @param expertKind
@@ -188,22 +235,41 @@ public class ExpertConfirm implements Serializable {
 	}
 
 	/**
-	 * Set the 专家所属系列.
+	 * Set the 专家所属行业.
 	 * 
 	 * @param expertSeries
-	 *            专家所属系列
+	 *            专家所属行业
 	 */
 	public void setExpertSeries(String expertSeries) {
 		this.expertSeries = expertSeries;
 	}
 
 	/**
-	 * Get the 专家所属系列.
+	 * Get the 专家所属行业.
 	 * 
-	 * @return 专家所属系列
+	 * @return 专家所属行业
 	 */
 	public String getExpertSeries() {
 		return this.expertSeries;
+	}
+
+	/**
+	 * Set the 专家职称.
+	 * 
+	 * @param expertTechnical
+	 *            专家职称
+	 */
+	public void setExpertTechnical(String expertTechnical) {
+		this.expertTechnical = expertTechnical;
+	}
+
+	/**
+	 * Get the 专家职称.
+	 * 
+	 * @return 专家职称
+	 */
+	public String getExpertTechnical() {
+		return this.expertTechnical;
 	}
 
 	/**
@@ -606,32 +672,32 @@ public class ExpertConfirm implements Serializable {
 	}
 
 	/**
-	 * Set the set of the 评委会信息表.
+	 * Set the set of the 专家请假表.
 	 * 
-	 * @param committeeInfoSet
-	 *            The set of 评委会信息表
+	 * @param expertLeaveSet
+	 *            The set of 专家请假表
 	 */
-	public void setCommitteeInfoSet(Set<CommitteeInfo> committeeInfoSet) {
-		this.committeeInfoSet = committeeInfoSet;
+	public void setExpertLeaveSet(Set<ExpertLeave> expertLeaveSet) {
+		this.expertLeaveSet = expertLeaveSet;
 	}
 
 	/**
-	 * Add the 评委会信息表.
+	 * Add the 专家请假表.
 	 * 
-	 * @param committeeInfo
-	 *            评委会信息表
+	 * @param expertLeave
+	 *            专家请假表
 	 */
-	public void addCommitteeInfo(CommitteeInfo committeeInfo) {
-		this.committeeInfoSet.add(committeeInfo);
+	public void addExpertLeave(ExpertLeave expertLeave) {
+		this.expertLeaveSet.add(expertLeave);
 	}
 
 	/**
-	 * Get the set of the 评委会信息表.
+	 * Get the set of the 专家请假表.
 	 * 
-	 * @return The set of 评委会信息表
+	 * @return The set of 专家请假表
 	 */
-	public Set<CommitteeInfo> getCommitteeInfoSet() {
-		return this.committeeInfoSet;
+	public Set<ExpertLeave> getExpertLeaveSet() {
+		return this.expertLeaveSet;
 	}
 
 	/**
@@ -664,32 +730,32 @@ public class ExpertConfirm implements Serializable {
 	}
 
 	/**
-	 * Set the set of the 专家请假表.
+	 * Set the set of the 评委会信息表.
 	 * 
-	 * @param expertLeaveSet
-	 *            The set of 专家请假表
+	 * @param committeeInfoSet
+	 *            The set of 评委会信息表
 	 */
-	public void setExpertLeaveSet(Set<ExpertLeave> expertLeaveSet) {
-		this.expertLeaveSet = expertLeaveSet;
+	public void setCommitteeInfoSet(Set<CommitteeInfo> committeeInfoSet) {
+		this.committeeInfoSet = committeeInfoSet;
 	}
 
 	/**
-	 * Add the 专家请假表.
+	 * Add the 评委会信息表.
 	 * 
-	 * @param expertLeave
-	 *            专家请假表
+	 * @param committeeInfo
+	 *            评委会信息表
 	 */
-	public void addExpertLeave(ExpertLeave expertLeave) {
-		this.expertLeaveSet.add(expertLeave);
+	public void addCommitteeInfo(CommitteeInfo committeeInfo) {
+		this.committeeInfoSet.add(committeeInfo);
 	}
 
 	/**
-	 * Get the set of the 专家请假表.
+	 * Get the set of the 评委会信息表.
 	 * 
-	 * @return The set of 专家请假表
+	 * @return The set of 评委会信息表
 	 */
-	public Set<ExpertLeave> getExpertLeaveSet() {
-		return this.expertLeaveSet;
+	public Set<CommitteeInfo> getCommitteeInfoSet() {
+		return this.committeeInfoSet;
 	}
 
 	/**
