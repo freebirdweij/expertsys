@@ -8,6 +8,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -15,9 +17,14 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 
 /**
  * Model class of 专家确认表.
@@ -112,10 +119,10 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	private ExpertInfo expertInfo;
 
 	/** 专家所属区域. */
-	private String expertArea;
+	private Area expertArea;
 
 	/** 专家所属单位. */
-	private String expertCompany;
+	private Office expertCompany;
 	
 	/** 专家类别. */
 	private String expertKind;
@@ -192,19 +199,27 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 		this.expertLeaveSet = new HashSet<ExpertLeave>();
 	}
 
-	public String getExpertArea() {
+	@ManyToOne
+	@JoinColumn(name="expertArea")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
+	public Area getExpertArea() {
 		return expertArea;
 	}
 
-	public void setExpertArea(String expertArea) {
+	public void setExpertArea(Area expertArea) {
 		this.expertArea = expertArea;
 	}
 
-	public String getExpertCompany() {
+	@ManyToOne
+	@JoinColumn(name="expertCompany")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
+	public Office getExpertCompany() {
 		return expertCompany;
 	}
 
-	public void setExpertCompany(String expertCompany) {
+	public void setExpertCompany(Office expertCompany) {
 		this.expertCompany = expertCompany;
 	}
 
@@ -251,6 +266,10 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 专家信息表
 	 */
+	@ManyToOne
+	@JoinColumn(name="userId")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
 	public ExpertInfo getExpertInfo() {
 		return this.expertInfo;
 	}

@@ -80,7 +80,7 @@ public class ProjectExpertController extends BaseController {
 		}
         Page<ProjectExpert> page = projectExpertService.find(new Page<ProjectExpert>(request, response), projectExpert); 
         model.addAttribute("page", page);
-		return "expfetch/projectExpertList";
+		return "modules/expfetch/unitFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
