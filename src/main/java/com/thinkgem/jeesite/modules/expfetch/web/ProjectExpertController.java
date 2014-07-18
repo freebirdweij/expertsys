@@ -72,6 +72,30 @@ public class ProjectExpertController extends BaseController {
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"unitfetch", ""})
+	public String unitfetch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+        Page<ProjectExpert> page = projectExpertService.find(new Page<ProjectExpert>(request, response), projectExpert); 
+        model.addAttribute("page", page);
+		return "expfetch/projectExpertList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"expertfetch", ""})
+	public String expertfetch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+        Page<ProjectExpert> page = projectExpertService.find(new Page<ProjectExpert>(request, response), projectExpert); 
+        model.addAttribute("page", page);
+		return "expfetch/projectExpertList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = {"reviewinglist", ""})
 	public String reviewinglist(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
