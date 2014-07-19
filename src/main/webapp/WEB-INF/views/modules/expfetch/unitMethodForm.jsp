@@ -179,12 +179,6 @@
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/unitfetch" method="post" class="form-horizontal">
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">请先确定抽取的专家数:</label>
-			<div class="controls">
-				<form:input path="expertCount" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
       <div class="span10">
         <h4>请选择符合性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h4>
       </div>
