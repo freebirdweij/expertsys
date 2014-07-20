@@ -3,6 +3,12 @@
  */
 package com.thinkgem.jeesite.modules.expfetch.web;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
+import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
@@ -204,6 +212,58 @@ public class ProjectExpertController extends BaseController {
         Page<ExpertConfirm> page = projectExpertService.findExperts(new Page<ExpertConfirm>(request, response), projectExpert); 
         model.addAttribute("page", page);
 		return "modules/expfetch/unitExpertList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"directdrawunit", ""})
+	public String directdrawunit(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		Byte expertCount = projectExpert.getExpertCount();
+		String discIds = projectExpert.getDiscIds();
+		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		String unitIdsYes = projectExpert.getUnitIdsYes();
+		String unitIdsNo = projectExpert.getUnitIdsNo();
+		List<String> unitList = Lists.newArrayList();
+		
+		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
+			
+			if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
+				  String[] dids = StringUtils.split(discIds, ",");
+				  String[] ids = StringUtils.split(unitIdsYes, ",");
+			  for (String id : ids) {
+				  unitList.add(id);
+				  for (String discId : dids) {
+					  if(discId.equalsIgnoreCase(id)){	
+						  unitList.remove(id);
+					  }
+				  }
+			  }
+				projectExpert.setUnitIdsYes(StringUtils.join(unitList, ","));
+				projectExpert.setUnitIdsNo(null);
+			}
+			
+			if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
+				  String[] dids = StringUtils.split(discIds, ",");
+				  String[] ids = StringUtils.split(unitIdsYes, ",");
+				  unitList.addAll(Arrays.asList(dids));
+				  unitList.addAll(Arrays.asList(ids));
+				  
+					projectExpert.setUnitIdsYes(null);
+					projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
+			}
+		}
+		projectExpert.setExpertCount(expertCount);
+        List<ExpertConfirm> rlist = projectExpertService.findUnitExpertByCount(new Page<ExpertConfirm>(request, response), projectExpert); 
+        model.addAttribute("rlist", rlist);
+        
+        ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+        Page<Office> page = projectExpertService.findExpertUnits(new Page<Office>(request, response), pExpert); 
+        model.addAttribute("page", page);
+        
+		return "modules/expfetch/unitFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

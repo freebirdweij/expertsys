@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>专家抽取</title>
+	<title>结果专家列表</title>
 	<meta name="decorator" content="default"/>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
@@ -51,69 +51,17 @@
 			$("#searchForm").submit();
 	    	return false;
 	    }
-	    
-	    var disc = [];
-		function discard(id){
-			disc.push(id);
-			$("#discIds").val(disc);
-			$("#btnDiscard"+id).hide();
-			$("#discCancel"+id).show();
-	    	return true;
-	    }
-	    
-		function discancel(id){
-			for(var i=0; i<disc.length; i++) {
-				if(disc[i]=id){
-				disc.remove(i);						
-				}
-		   }
-			$("#discIds").val(disc);
-			$("#discCancel"+id).hide();
-			$("#btnDiscard"+id).show();
-	    	return true;
-	    }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">单位列表</li>
+		<li class="active"><a href="${ctx}/expmanage/explist">专家列表</a></li>
 	</ul>
-	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
-			<input id="discIds" name="discIds" type="hidden"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>归属区域</th><th>单位名称</th><th class="sort loginName">单位类型</th><th class="sort name">上级机构</th><th>电话</th><th>联系地址</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="office">
-			<tr>
-				<td><a href="${ctx}/expfetch/unitexp?id=${office.id}">${office.area.name}</a></td>
-				<td>${office.name}</td>
-				<td>${fns:getDictLabel('${office.type}','sys_office_type','1')}</td>
-				<td>${office.parent.name}</td>
-				<td>${office.phone}</td>
-				<td>${office.address}</td>
-				<td>
-			<input id="btnDiscard${office.id}" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${office.id}')"/>
-			<input id="discCancel${office.id}" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${office.id}')"/>
-				</td>
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
-	<div class="pagination">${page}</div>
-		<div class="form-actions">
-			<input id="expertCount" class="btn btn-primary" type="text" value="输入抽取数"/>
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
-		</div>
-	</form:form>
-      <div class="span10">
-        <h4>以下为抽选结果：</h4>
-      </div>
-			<input id="resIds" name="resIds" type="hidden"/>
-	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
-		<tbody>
-		<c:forEach items="${rlist}" var="expertConfirm">
+		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
 				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
@@ -122,15 +70,49 @@
 				<td>${expertConfirm.expertInfo.job}</td>
 				<td>${expertConfirm.expertInfo.technical}</td>
 				<td>${expertConfirm.expertInfo.education}</td>
+				<shiro:hasPermission name="sys:user:edit"><td>
+ 			<input id="btnSelect" class="btn btn-primary" type="button" value="选择" onclick="discard('${expertConfirm.id}')"/>
+			<input id="selCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
+			<input id="btnDiscard" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${expertConfirm.id}')"/>
+			<input id="discCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
+			<input id="discIds" name="discIds" type="hidden"/>
+				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
+	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="submit" value="确认采用本次抽选结果"/>
-			<input id="resCancel" class="btn" type="button" value="放弃本次抽选" onclick=""/>
-			<input id="btnCancel" class="btn" type="button" value="返回重新选择筛选条件" onclick="history.go(-1)"/>
+			<input id="expertCount" class="btn btn-primary" type="text" value="输入抽取数"/>
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+      <div class="span10">
+        <h4>以下为抽选结果：</h4>
+      </div>
+	<table id="resultTable" class="table table-striped table-bordered table-condensed">
+		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<tbody>
+		<c:forEach items="${page.list}" var="expertConfirm">
+			<tr>
+				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
+				<td>${expertConfirm.expertInfo.unit.name}</td>
+				<td>${expertConfirm.expertKind}</td>
+				<td>${expertConfirm.expertSpecial}</td>
+				<td>${expertConfirm.expertInfo.job}</td>
+				<td>${expertConfirm.expertInfo.technical}</td>
+				<td>${expertConfirm.expertInfo.education}</td>
+				<shiro:hasPermission name="sys:user:edit"><td>
+ 			<input id="btnSelect" class="btn btn-primary" type="button" value="选择" onclick="discard('${expertConfirm.id}')"/>
+			<input id="selCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
+			<input id="btnDiscard" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${expertConfirm.id}')"/>
+			<input id="discCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
+			<input id="discIds" name="discIds" type="hidden"/>
+				</td></shiro:hasPermission>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
 
 </body>
 </html>
