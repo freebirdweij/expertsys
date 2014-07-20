@@ -57,6 +57,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/expmanage/explist">专家列表</a></li>
 	</ul>
+	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
@@ -71,11 +72,7 @@
 				<td>${expertConfirm.expertInfo.technical}</td>
 				<td>${expertConfirm.expertInfo.education}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>
- 			<input id="btnSelect" class="btn btn-primary" type="button" value="选择" onclick="discard('${expertConfirm.id}')"/>
-			<input id="selCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
-			<input id="btnDiscard" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${expertConfirm.id}')"/>
-			<input id="discCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
-			<input id="discIds" name="discIds" type="hidden"/>
+ 			<input id="btnSelect${expertConfirm.id}" class="btn btn-primary" type="button" value="选择" onclick="discard('${expertConfirm.id}')"/>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
@@ -85,13 +82,12 @@
 		<div class="form-actions">
 			<input id="expertCount" class="btn btn-primary" type="text" value="输入抽取数"/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
@@ -102,17 +98,14 @@
 				<td>${expertConfirm.expertInfo.job}</td>
 				<td>${expertConfirm.expertInfo.technical}</td>
 				<td>${expertConfirm.expertInfo.education}</td>
-				<shiro:hasPermission name="sys:user:edit"><td>
- 			<input id="btnSelect" class="btn btn-primary" type="button" value="选择" onclick="discard('${expertConfirm.id}')"/>
-			<input id="selCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
-			<input id="btnDiscard" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${expertConfirm.id}')"/>
-			<input id="discCancel" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
-			<input id="discIds" name="discIds" type="hidden"/>
-				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
+		<div class="form-actions">
+			<input id="resSubmit" class="btn btn-primary" type="button" value="确认返回" onclick="resBack()"/>
+		</div>
+	</form:form>
 
 </body>
 </html>

@@ -52,6 +52,24 @@
 	    	return false;
 	    }
 	    
+		function resSubmit(){
+			$("#inputForm").attr("action","${ctx}/expfetch/receiveunitresult");
+			$("#inputForm").submit();
+	    	return false;
+	    }
+	    
+		function resCancel(){
+			$("#inputForm").attr("action","${ctx}/expfetch/cancelunitresult");
+			$("#inputForm").submit();
+	    	return false;
+	    }
+	    
+		function btnCancel(){
+			$("#inputForm").attr("action","${ctx}/expfetch/unitmethod");
+			$("#inputForm").submit();
+	    	return false;
+	    }
+	    
 	    var disc = [];
 		function discard(id){
 			disc.push(id);
@@ -105,7 +123,6 @@
 			<input id="expertCount" class="btn btn-primary" type="text" value="输入抽取数"/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
 		</div>
-	</form:form>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
       </div>
@@ -127,10 +144,11 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="submit" value="确认采用本次抽选结果"/>
-			<input id="resCancel" class="btn" type="button" value="放弃本次抽选" onclick=""/>
-			<input id="btnCancel" class="btn" type="button" value="返回重新选择筛选条件" onclick="history.go(-1)"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="resSubmit()"/>
+			<input id="resCancel" class="btn" type="button" value="放弃本次抽选" onclick="resCancel()"/>
+			<input id="btnCancel" class="btn" type="button" value="返回重新选择筛选条件" onclick="btnCancel()"/>
 		</div>
+	</form:form>
 
 </body>
 </html>
