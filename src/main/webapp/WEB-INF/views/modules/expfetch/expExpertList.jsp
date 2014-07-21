@@ -71,7 +71,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/expmanage/explist">专家列表</a></li>
+		<li class="active">专家列表</li>
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/drawunitexpert" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>

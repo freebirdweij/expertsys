@@ -157,7 +157,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active">按专家个人方式抽取</li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expmanage/confirm" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/expertfetch" method="post" class="form-horizontal">
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">

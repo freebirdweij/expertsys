@@ -226,6 +226,47 @@ public class ProjectExpertController extends BaseController {
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"conditionexp", ""})
+	public String conditionexp(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		String unitid = request.getParameter("unitid");
+		String kind = request.getParameter("kind");
+		String special = request.getParameter("special");
+		String technical = request.getParameter("technical");
+		String resIds = request.getParameter("resIds");
+		if(unitid!=null&&!unitid.equalsIgnoreCase("")){
+			projectExpert.setUnitIdsYes(unitid);
+			projectExpert.setUnitIdsNo(null);
+		}
+		if(kind!=null&&!kind.equalsIgnoreCase("")){
+			projectExpert.setKindIdsYes(kind);
+			projectExpert.setKindIdsNo(null);
+		}
+		if(special!=null&&!special.equalsIgnoreCase("")){
+			projectExpert.setSeriesIdsYes(special);
+			projectExpert.setSpecialIdsNo(null);
+		}
+		if(technical!=null&&!technical.equalsIgnoreCase("")){
+			projectExpert.setTechIdsYes(technical);
+			projectExpert.setTechIdsNo(null);
+		}
+        List<ExpertConfirm> rlist = null; 
+		if(resIds!=null&&!resIds.equalsIgnoreCase("")){
+			projectExpert.setResIds(resIds);
+	        rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert); 
+		}
+        Page<ExpertConfirm> page = projectExpertService.findExperts(new Page<ExpertConfirm>(request, response), projectExpert); 
+        model.addAttribute("page", page);
+        model.addAttribute("projectExpert", projectExpert);
+        model.addAttribute("rlist", rlist);
+		return "modules/expfetch/expExpertList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = {"directdrawunit", ""})
 	public String directdrawunit(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
 		User user = UserUtils.getUser();
@@ -284,6 +325,48 @@ public class ProjectExpertController extends BaseController {
         request.getSession().setAttribute("projectExpert",pExpert);       
         
 		return "modules/expfetch/unitFetchResult";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"directdrawexpert", ""})
+	public String directdrawexpert(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		Byte expertCount = projectExpert.getExpertCount();
+		String discIds = projectExpert.getDiscIds();
+		String resIds = projectExpert.getResIds();
+		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		List<String> eList = Lists.newArrayList();
+		
+		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
+			
+				  String[] dids = StringUtils.split(discIds, ",");
+				  String[] ids = StringUtils.split(resIds, ",");
+				  eList.addAll(Arrays.asList(dids));
+				  eList.addAll(Arrays.asList(ids));
+				projectExpert.setResIds(StringUtils.join(eList, ","));
+			
+		}
+		projectExpert.setExpertCount(expertCount);
+        List<ExpertConfirm> rlist = projectExpertService.findExpertsByCountRest(new Page<ExpertConfirm>(request, response), projectExpert); 
+        model.addAttribute("rlist", rlist);
+        
+        ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+        pExpert.setExpertCount(expertCount);
+        Page<ExpertConfirm> page = projectExpertService.findExperts(new Page<ExpertConfirm>(request, response), pExpert); 
+        model.addAttribute("page", page);
+        
+        List<String> eclist =  Lists.newArrayList();
+        for(ExpertConfirm ec : rlist){
+        	eclist.add(ec.getId());
+        }
+        pExpert.setResIds(StringUtils.join(eclist, ","));
+        model.addAttribute("projectExpert", pExpert);
+        request.getSession().setAttribute("projectExpert",pExpert);       
+        
+		return "modules/expfetch/expFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -457,7 +540,30 @@ public class ProjectExpertController extends BaseController {
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")
-	@RequestMapping(value = "receiveunitresult")
+	@RequestMapping(value = "receiveexpertresult")
+	public String receiveexpertresult(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		if (!beanValidator(model, projectExpert)){
+			return form(projectExpert, model);
+		}
+		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		int fcount = pExpert.getFetchTime()+1;
+		projectExpert.setFetchTime(fcount);
+		String resIds = projectExpert.getResIds();
+		  String[] ids = StringUtils.split(resIds, ",");
+	    for (String id : ids) {
+	    	projectExpert.getExpertExpertConfirm().setId(id);
+	    	projectExpert.setFetchMethod("1");
+	    	//本次抽取状态标志。重要
+	    	projectExpert.setFetchStatus("1");
+			projectExpertService.save(projectExpert);
+	    }
+	    request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
+		return "redirect:"+Global.getAdminPath()+"/expfetch/reviewinglist/?repage";
+	}
+	
+	@RequiresPermissions("expfetch:projectExpert:edit")
+	@RequestMapping(value = "cancelunitresult")
 	public String cancelunitresult(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
@@ -477,6 +583,29 @@ public class ProjectExpertController extends BaseController {
 	    request.getSession().removeAttribute("projectExpert");
 		addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
 		return "redirect:"+Global.getAdminPath()+"/expfetch/unitfetch/?repage";
+	}
+	
+	@RequiresPermissions("expfetch:projectExpert:edit")
+	@RequestMapping(value = "cancelexpertresult")
+	public String cancelexpertresult(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		if (!beanValidator(model, projectExpert)){
+			return form(projectExpert, model);
+		}
+		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		int fcount = pExpert.getFetchTime()+1;
+		projectExpert.setFetchTime(fcount);
+		String resIds = projectExpert.getResIds();
+		  String[] ids = StringUtils.split(resIds, ",");
+	    for (String id : ids) {
+	    	projectExpert.getExpertExpertConfirm().setId(id);
+	    	projectExpert.setFetchMethod("1");
+	    	//本次抽取状态标志。重要
+	    	projectExpert.setFetchStatus("0");
+			projectExpertService.save(projectExpert);
+	    }
+	    request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
+		return "redirect:"+Global.getAdminPath()+"/expfetch/expertfetch/?repage";
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")
