@@ -104,7 +104,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="office">
 			<tr>
-				<td><a href="${ctx}/expfetch/unitexp?id=${office.id}">${office.area.name}</a></td>
+				<td><a href="${ctx}/expfetch/unitexp?id=${office.id}&resIds=$('#resIds').val()">${office.area.name}</a></td>
 				<td>${office.name}</td>
 				<td>${fns:getDictLabel('${office.type}','sys_office_type','1')}</td>
 				<td>${office.parent.name}</td>

@@ -60,15 +60,23 @@
 			$("#btnSelect"+id).disabled = true;
 	    	return false;
 	    }
+	    
+		function resBack(){
+			$("#inputForm").attr("action","${ctx}/expfetch/backunitresult");
+			$("#inputForm").submit();
+	    	return false;
+	    }
+	    
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/expmanage/explist">专家列表</a></li>
 	</ul>
-	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawexpert" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/drawunitexpert" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
 			<input id="resIds" name="resIds" type="hidden"/>
+			<input id="unitIdsYes" name="unitIdsYes" type="hidden"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
@@ -99,7 +107,7 @@
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="expertConfirm">
+		<c:forEach items="${rlist}" var="expertConfirm">
 			<tr>
 				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
