@@ -46,7 +46,7 @@ import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
  * @version 2014-07-12
  */
 @Controller
-@RequestMapping(value = "${adminPath}/expfetch")
+@RequestMapping(value = "${adminPath}/expfetch/redraw")
 public class RedrawExpertController extends BaseController {
 
 	@Autowired

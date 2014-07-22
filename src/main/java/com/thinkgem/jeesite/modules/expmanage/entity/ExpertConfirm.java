@@ -641,6 +641,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return The set of 评委会信息表
 	 */
+	@Transient
 	public Set<CommitteeInfo> getCommitteeInfoSet() {
 		return this.committeeInfoSet;
 	}
@@ -670,6 +671,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return The set of 委员会专家（评委）表
 	 */
+	@Transient
 	public Set<CommitteeExpert> getCommitteeExpertSet() {
 		return this.committeeExpertSet;
 	}
@@ -699,6 +701,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return The set of 专家请假表
 	 */
+	@Transient
 	public Set<ExpertLeave> getExpertLeaveSet() {
 		return this.expertLeaveSet;
 	}

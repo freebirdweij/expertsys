@@ -457,8 +457,8 @@ public class ExpertManageController extends BaseController {
 	}
 
 	@RequiresPermissions("experts:expertInfo:view")
-	@RequestMapping(value = "form")
-	public String form(ExpertInfo expertInfo, Model model) {
+	@RequestMapping(value = "formi")
+	public String formi(ExpertInfo expertInfo, Model model) {
 		model.addAttribute("expertInfo", expertInfo);
 		return "experts/expertInfoForm";
 	}
@@ -509,7 +509,7 @@ public class ExpertManageController extends BaseController {
 		User user = UserUtils.getUser();
 		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
-			return form(expertInfo, model);
+			return formi(expertInfo, model);
 		}
 		
 		try {
@@ -531,7 +531,7 @@ public class ExpertManageController extends BaseController {
 	@RequestMapping(value = "addwork", method=RequestMethod.POST)
 	public String addwork(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, expertInfo)){
-			return form(expertInfo, model);
+			return formi(expertInfo, model);
 		}
 		
 		
@@ -547,7 +547,7 @@ public class ExpertManageController extends BaseController {
 	@RequestMapping(value = "addapply", method=RequestMethod.POST)
 	public String addapply(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, expertInfo)){
-			return form(expertInfo, model);
+			return formi(expertInfo, model);
 		}
 		
 		

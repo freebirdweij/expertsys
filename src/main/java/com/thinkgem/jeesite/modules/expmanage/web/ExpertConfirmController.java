@@ -64,15 +64,15 @@ public class ExpertConfirmController extends BaseController {
 	}
 
 	@RequiresPermissions("expmanage:expertConfirm:view")
-	@RequestMapping(value = "form")
-	public String form(ExpertConfirm expertConfirm, Model model) {
+	@RequestMapping(value = "formm")
+	public String formm(ExpertConfirm expertConfirm, Model model) {
 		model.addAttribute("expertConfirm", expertConfirm);
 		return "expmanage/expertConfirmForm";
 	}
 
 	@RequiresPermissions("expmanage:expertConfirm:edit")
-	@RequestMapping(value = "verify")
-	public String verify(ExpertConfirm expertConfirm, Model model,@ModelAttribute("expertInfo") ExpertInfo expertInfo, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "verifyc")
+	public String verifyc(ExpertConfirm expertConfirm, Model model,@ModelAttribute("expertInfo") ExpertInfo expertInfo, RedirectAttributes redirectAttributes) {
 		if(expertInfo!=null){
 			BeanMapper.copy(expertInfo, expertConfirm);
 			expertConfirm.setExpertInfo(expertInfo);
@@ -82,10 +82,10 @@ public class ExpertConfirmController extends BaseController {
 	}
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
-	@RequestMapping(value = "confirm")
-	public String confirm(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "confirmc")
+	public String confirmc(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, expertConfirm)){
-			return form(expertConfirm, model);
+			return formm(expertConfirm, model);
 		}
 		if(expertConfirm.getKindOne()!=null&&expertConfirm.getSpecialOne()!=null){
 			expertConfirm.setId(expertConfirm.getExpertCode());
@@ -110,10 +110,10 @@ public class ExpertConfirmController extends BaseController {
 	}
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
-	@RequestMapping(value = "save")
-	public String save(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "savec")
+	public String savec(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, expertConfirm)){
-			return form(expertConfirm, model);
+			return formm(expertConfirm, model);
 		}
 		expertConfirmService.save(expertConfirm);
 		addMessage(redirectAttributes, "保存专家确认'" + expertConfirm.getExpertInfo().getName() + "'成功");
@@ -121,8 +121,8 @@ public class ExpertConfirmController extends BaseController {
 	}
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
-	@RequestMapping(value = "delete")
-	public String delete(String id, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "deletec")
+	public String deletec(String id, RedirectAttributes redirectAttributes) {
 		expertConfirmService.delete(id);
 		addMessage(redirectAttributes, "删除专家确认成功");
 		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";

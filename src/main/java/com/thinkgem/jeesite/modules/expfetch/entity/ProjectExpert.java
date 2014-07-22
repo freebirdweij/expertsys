@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,6 +31,7 @@ import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
  */
 @Entity
 @Table(name = "project_expert")
+@IdClass(ProjectExpertKey.class)
 @DynamicInsert @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ProjectExpert extends DataEntity<ProjectExpert> {
@@ -37,7 +40,7 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	private static final long serialVersionUID = 1L;
 
 	/** 项目信息表. */
-	private ProjectInfo prjProjectInfo;
+    private ProjectInfo prjProjectInfo;
 
 	/** 专家确认表. */
 	private ExpertConfirm expertExpertConfirm;
@@ -224,6 +227,14 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	private String techIdsNo;
 
 
+	public ProjectExpert(ProjectInfo prjProjectInfo,
+			ExpertConfirm expertExpertConfirm, Integer fetchTime) {
+		super();
+		this.prjProjectInfo = prjProjectInfo;
+		this.expertExpertConfirm = expertExpertConfirm;
+		this.fetchTime = fetchTime;
+	}
+
 	/**
 	 * Constructor.
 	 */
@@ -249,6 +260,7 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	@JoinColumn(name="prjId")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
+    @Id 
 	public ProjectInfo getPrjProjectInfo() {
 		return this.prjProjectInfo;
 	}
@@ -272,6 +284,7 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	@JoinColumn(name="expertId")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
+    @Id 
 	public ExpertConfirm getExpertExpertConfirm() {
 		return this.expertExpertConfirm;
 	}
@@ -291,6 +304,7 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	 * 
 	 * @return 第几次抽取
 	 */
+    @Id 
 	public Integer getFetchTime() {
 		return this.fetchTime;
 	}
