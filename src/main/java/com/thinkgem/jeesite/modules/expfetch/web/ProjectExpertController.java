@@ -427,6 +427,30 @@ public class ProjectExpertController extends BaseController {
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"backexpresult", ""})
+	public String backexpresult(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		String resIds = projectExpert.getResIds();
+		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		if(resIds!=null&&!resIds.equalsIgnoreCase("")){
+			projectExpert.setResIds(resIds);
+		}
+        List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert); 
+        model.addAttribute("rlist", rlist);
+        
+        Page<ExpertConfirm> page = projectExpertService.findExperts(new Page<ExpertConfirm>(request, response), projectExpert); 
+        model.addAttribute("page", page);
+        
+        model.addAttribute("projectExpert", projectExpert);
+        request.getSession().setAttribute("projectExpert", projectExpert);
+        
+		return "modules/expfetch/expFetchResult";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = {"drawunitexpert", ""})
 	public String drawunitexpert(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
 		User user = UserUtils.getUser();
@@ -457,6 +481,54 @@ public class ProjectExpertController extends BaseController {
         model.addAttribute("projectExpert", projectExpert);
         
 		return "modules/expfetch/unitExpertList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"drawexpert", ""})
+	public String drawexpert(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		Byte expertCount = projectExpert.getExpertCount();
+		String unitid = projectExpert.getUnitIdsYes();
+		String kind = projectExpert.getKindIdsYes();
+		String special = projectExpert.getSpecialIdsYes();
+		String technical = projectExpert.getTechIdsYes();
+		String resIds = projectExpert.getResIds();
+		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		
+			
+		if(unitid!=null&&!unitid.equalsIgnoreCase("")){
+			projectExpert.setUnitIdsYes(unitid);
+			projectExpert.setUnitIdsNo(null);
+		}
+		if(kind!=null&&!kind.equalsIgnoreCase("")){
+			projectExpert.setKindIdsYes(kind);
+			projectExpert.setKindIdsNo(null);
+		}
+		if(special!=null&&!special.equalsIgnoreCase("")){
+			projectExpert.setSeriesIdsYes(special);
+			projectExpert.setSpecialIdsNo(null);
+		}
+		if(technical!=null&&!technical.equalsIgnoreCase("")){
+			projectExpert.setTechIdsYes(technical);
+			projectExpert.setTechIdsNo(null);
+		}
+			
+		projectExpert.setExpertCount(expertCount);
+        projectExpert.setResIds(resIds);
+        List<ExpertConfirm> dlist = projectExpertService.findUnitExpertByCountRest(new Page<ExpertConfirm>(request, response), projectExpert); 
+        List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
+        rlist.addAll(dlist);
+        model.addAttribute("rlist", rlist);
+        
+        Page<ExpertConfirm> page = projectExpertService.findExperts(new Page<ExpertConfirm>(request, response), projectExpert); 
+        model.addAttribute("page", page);
+        
+        model.addAttribute("projectExpert", projectExpert);
+        
+		return "modules/expfetch/expExpertList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

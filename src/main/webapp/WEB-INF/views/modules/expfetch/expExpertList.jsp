@@ -62,7 +62,7 @@
 	    }
 	    
 		function resBack(){
-			$("#inputForm").attr("action","${ctx}/expfetch/backunitresult");
+			$("#inputForm").attr("action","${ctx}/expfetch/backexpresult");
 			$("#inputForm").submit();
 	    	return false;
 	    }
@@ -73,10 +73,13 @@
 	<ul class="nav nav-tabs">
 		<li class="active">专家列表</li>
 	</ul>
-	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/drawunitexpert" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/drawexpert" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
 			<input id="resIds" name="resIds" type="hidden"/>
 			<input id="unitIdsYes" name="unitIdsYes" type="hidden"/>
+			<input id="kindIdsYes" name="unitIdsYes" type="hidden"/>
+			<input id="specialIdsYes" name="unitIdsYes" type="hidden"/>
+			<input id="techIdsYes" name="unitIdsYes" type="hidden"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
