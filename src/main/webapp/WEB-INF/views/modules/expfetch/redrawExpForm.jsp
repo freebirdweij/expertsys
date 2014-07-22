@@ -161,15 +161,6 @@
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">请输入项目的评审时间:</label>
-			<div class="controls">
-				从<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">请先确定抽取的专家数:</label>
 			<div class="controls">
 				<form:input path="expertCount" htmlEscape="false" maxlength="50" class="required"/>

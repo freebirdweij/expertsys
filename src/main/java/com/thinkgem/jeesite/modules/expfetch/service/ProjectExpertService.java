@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expfetch.dao.ProjectExpertDao;
@@ -57,6 +58,20 @@ public class ProjectExpertService extends BaseService {
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectExpertDao.find(page, dc);
+	}
+	
+	public List<ProjectExpert> findMyJob(Page<ProjectExpert> page, ProjectExpert projectExpert) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "e");
+		if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId())){
+			dc.add(Restrictions.eq("e.expertExpertConfirm.expertInfo.userId", projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId()));
+		}
+		dc.add(Restrictions.eq("e.fetchStatus", "1"));
+		dc.add(Restrictions.eq("e.prjProjectInfo.prjStatus", "3"));
+		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.getDateTime()));
+		
+		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectExpertDao.find(dc);
 	}
 	
 	public Page<ExpertConfirm> findExperts(Page<ExpertConfirm> page, ProjectExpert projectExpert) {

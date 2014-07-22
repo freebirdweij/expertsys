@@ -179,6 +179,15 @@
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/unitfetch" method="post" class="form-horizontal">
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
+		<div class="control-group">
+			<label class="control-label">请输入项目的评审时间:</label>
+			<div class="controls">
+				从<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				至<form:input path="reviewEnd" maxlength="20"
+						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+			</div>
+		</div>
       <div class="span10">
         <h4>请选择符合性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h4>
       </div>
