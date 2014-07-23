@@ -258,14 +258,14 @@ ALTER TABLE expert_confirm
 ;
 
 
-ALTER TABLE expert_leave
-	ADD FOREIGN KEY (expert_id)
+ALTER TABLE committee_info
+	ADD FOREIGN KEY (team_leader)
 	REFERENCES expert_confirm (id)
 ;
 
 
-ALTER TABLE committee_info
-	ADD FOREIGN KEY (team_leader)
+ALTER TABLE expert_leave
+	ADD FOREIGN KEY (expert_id)
 	REFERENCES expert_confirm (id)
 ;
 
@@ -286,7 +286,7 @@ CREATE INDEX expert_name_index ON expert_info (name);
 CREATE INDEX expert_tech_index ON expert_info (technical);
 CREATE INDEX expert_special_index ON expert_info (specialist);
 CREATE INDEX confirm_special_index ON expert_confirm (expert_special);
-CREATE INDEX confirm_nowcert_index ON expert_confirm (nowcert_kind);
+CREATE INDEX confirm_nowcert_index ON expert_confirm (expert_technical);
 CREATE INDEX confirm_series_index ON expert_confirm (expert_series);
 
 
