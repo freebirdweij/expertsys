@@ -2,6 +2,14 @@ package com.thinkgem.jeesite.modules.expfetch.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 
@@ -25,6 +33,10 @@ public class ProjectExpertKey implements Serializable{
 		// TODO 自动生成的构造函数存根
 	}
 
+	@ManyToOne
+	@JoinColumn(name="prjId")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
 	public ProjectInfo getPrjProjectInfo() {
 		return prjProjectInfo;
 	}
@@ -33,7 +45,11 @@ public class ProjectExpertKey implements Serializable{
 		this.prjProjectInfo = prjProjectInfo;
 	}
 
-	public ExpertConfirm getExpertExpertConfirm() {
+	@ManyToOne
+	@JoinColumn(name="expertId")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnore
+ 	public ExpertConfirm getExpertExpertConfirm() {
 		return expertExpertConfirm;
 	}
 

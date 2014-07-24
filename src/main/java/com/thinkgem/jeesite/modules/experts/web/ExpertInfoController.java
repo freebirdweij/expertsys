@@ -76,6 +76,9 @@ public class ExpertInfoController extends BaseController {
 	public String workinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 		expertInfo = expertInfoService.get(user.getId());
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+			return "modules/experts/editNote";
+		}
 			model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/workInfo";
 	}
@@ -93,6 +96,9 @@ public class ExpertInfoController extends BaseController {
 	public String applyinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 		expertInfo = expertInfoService.get(user.getId());
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+			return "modules/experts/editNote";
+		}
 			model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/applyInfo";
 	}

@@ -62,12 +62,17 @@ public class ProjectExpertService extends BaseService {
 	
 	public List<ProjectExpert> findMyJob(Page<ProjectExpert> page, ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "e");
-		if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId())){
-			dc.add(Restrictions.eq("e.expertExpertConfirm.expertInfo.userId", projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId()));
+		if (projectExpert.getExpertExpertConfirm()!=null){
+			if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId())){
+				dc.createAlias("e.expertExpertConfirm", "c");
+				dc.createAlias("c.expertInfo", "i");
+				dc.add(Restrictions.eq("i.userId", projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId()));
+			}
 		}
+		dc.createAlias("e.prjProjectInfo", "p");
 		dc.add(Restrictions.eq("e.fetchStatus", "1"));
-		dc.add(Restrictions.eq("e.prjProjectInfo.prjStatus", "3"));
-		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.getDateTime()));
+		dc.add(Restrictions.eq("p.prjStatus", "3"));
+		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.parseDate(DateUtils.getDateTime())));
 		
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

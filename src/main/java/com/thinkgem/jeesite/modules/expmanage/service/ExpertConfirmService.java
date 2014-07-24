@@ -34,8 +34,10 @@ public class ExpertConfirmService extends BaseService {
 	
 	public Page<ExpertConfirm> find(Page<ExpertConfirm> page, ExpertConfirm expertConfirm) {
 		DetachedCriteria dc = expertConfirmDao.createDetachedCriteria();
-		if (StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getName())){
+		if (expertConfirm.getExpertInfo()!=null){
+			if(StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getName())){
 			dc.add(Restrictions.like("name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
+			}
 		}
 		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

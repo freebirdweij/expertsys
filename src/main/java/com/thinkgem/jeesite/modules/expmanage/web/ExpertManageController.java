@@ -79,7 +79,7 @@ public class ExpertManageController extends BaseController {
 		}
         Page<ExpertConfirm> page = expertConfirmService.find(new Page<ExpertConfirm>(request, response), expertConfirm); 
         model.addAttribute("page", page);
-		return "expmanage/expertConfirmList";
+		return "modules/expmanage/expertList";
 	}
 
 	@RequiresPermissions("expmanage:expertConfirm:view")
