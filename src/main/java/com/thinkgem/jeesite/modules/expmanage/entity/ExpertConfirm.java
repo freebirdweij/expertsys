@@ -115,9 +115,20 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 		this.seriesTwo = seriesTwo;
 	}
 
+	private String uid;
+
+	@Transient
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 	/** 专家信息表. */
 	private ExpertInfo expertInfo;
-
+	
 	/** 专家所属区域. */
 	private Area expertArea;
 
@@ -140,7 +151,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	private String expertLevel;
 
 	/** 照片. */
-	private Blob photo;
+	private byte[] photo;
 
 	/** 现从事专业. */
 	private String specialist;
@@ -356,7 +367,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * @param photo
 	 *            照片
 	 */
-	public void setPhoto(Blob photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
 
@@ -365,7 +376,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 照片
 	 */
-	public Blob getPhoto() {
+	public byte[] getPhoto() {
 		return this.photo;
 	}
 

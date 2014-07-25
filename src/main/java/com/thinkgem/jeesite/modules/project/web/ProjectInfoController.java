@@ -80,7 +80,7 @@ public class ProjectInfoController extends BaseController {
 		if (!beanValidator(model, projectInfo)){
 			return record(projectInfo, model);
 		}
-		projectInfo.setId(projectInfo.getPrjCode());
+		//projectInfo.setId(projectInfo.getPrjCode());
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
 		return "modules/project/recordNote";

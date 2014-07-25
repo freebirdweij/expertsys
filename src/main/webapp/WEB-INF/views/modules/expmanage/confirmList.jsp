@@ -69,9 +69,9 @@
 				<td>${fns:getDictLabel('${expertInfo.technical}','sys_technical_type','1')}</td>
 				<td>${expertInfo.specialist}</td>
 				<td>${expertInfo.education}</td>
-				<shiro:hasPermission name="expmanage:expertConfirm:edit"><td>
-    				<a href="${ctx}/expmanage/binfo?id=${expertInfo.userId}">进入审核</a>
-				</td></shiro:hasPermission>
+				<td>
+    				<a href="${ctx}/experts/binfo?id=${expertInfo.userId}">进入审核</a>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>

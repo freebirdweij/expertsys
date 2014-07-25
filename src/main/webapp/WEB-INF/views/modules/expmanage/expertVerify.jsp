@@ -38,13 +38,13 @@
 		<li class="active">专家审核</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertConfirm" action="${ctx}/expmanage/confirm" method="post" class="form-horizontal">
-		<form:hidden path="userId"/>
+		<form:hidden path="uid"/>
 		<tags:message content="${message}"/>
 				<div class="control-group">
 					<label class="control-label">输入专家编号:</label>
 					<div class="controls">
 						<form:input path="expertCode" htmlEscape="false" maxlength="20"
-							class="span10 required userName"/>
+							class="span4 required"/>
 					</div>
 				</div>
 		<div class="control-group">
@@ -104,7 +104,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(ID${id})/">上传审核资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertConfirm.expertInfo.name}(ID${uid})/">上传审核资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>

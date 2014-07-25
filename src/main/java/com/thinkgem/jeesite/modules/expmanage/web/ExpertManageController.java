@@ -4,12 +4,16 @@
 package com.thinkgem.jeesite.modules.expmanage.web;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.mapper.BeanMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.DateUtils;
@@ -168,9 +171,28 @@ public class ExpertManageController extends BaseController {
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "verify")
 	public String verify(ExpertConfirm expertConfirm, Model model,@ModelAttribute("expertInfo") ExpertInfo expertInfo, RedirectAttributes redirectAttributes) {
-		if(expertInfo!=null){
-			BeanMapper.copy(expertInfo, expertConfirm);
+		String userId = expertInfo.getUserId();
+		if(userId!=null){
+			expertInfo = expertInfoService.get(userId);
 			expertConfirm.setExpertInfo(expertInfo);
+			expertConfirm.setExpertArea(expertInfo.getUnit().getArea());
+			expertConfirm.setExpertCompany(expertInfo.getUnit());
+			expertConfirm.setExpertTechnical(expertInfo.getTechnical());
+			expertConfirm.setKindOne(expertInfo.getSpecialKind1());
+			expertConfirm.setSpecialOne(expertInfo.getKind1Special1());
+			expertConfirm.setKindTwo(expertInfo.getSpecialKind2());
+			expertConfirm.setSpecialTwo(expertInfo.getKind2Special1());
+			try {
+				ConvertUtils.register(new DateConverter(null), java.util.Date.class); 
+				BeanUtils.copyProperties(expertConfirm, expertInfo);
+			} catch (IllegalAccessException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			expertConfirm.setUid(userId);
 		}
 		model.addAttribute("expertConfirm", expertConfirm);
 		return "modules/expmanage/expertVerify";
@@ -182,19 +204,23 @@ public class ExpertManageController extends BaseController {
 		if (!beanValidator(model, expertConfirm)){
 			return form(expertConfirm, model);
 		}
-		if(expertConfirm.getKindOne()!=null&&expertConfirm.getSpecialOne()!=null){
+		ExpertInfo expertInfo = expertInfoService.get(expertConfirm.getUid());
+		if(expertConfirm.getKindOne()!=null&&!expertConfirm.getKindOne().equalsIgnoreCase("")&&expertConfirm.getSpecialOne()!=null&&!expertConfirm.getSpecialOne().equalsIgnoreCase("")){
 			expertConfirm.setId(expertConfirm.getExpertCode());
 			expertConfirm.setExpertKind(expertConfirm.getKindOne());
 			expertConfirm.setExpertSpecial(expertConfirm.getSpecialOne());
 			expertConfirm.setExpertSeries(expertConfirm.getSeriesOne());
+			expertConfirm.setExpertInfo(expertInfo);
 			expertConfirmService.save(expertConfirm);			
 		}
 		
-		if(expertConfirm.getKindTwo()!=null&&expertConfirm.getSpecialTwo()!=null){
+		if(expertConfirm.getKindTwo()!=null&&!expertConfirm.getKindTwo().equalsIgnoreCase("")&&expertConfirm.getSpecialTwo()!=null&&!expertConfirm.getSpecialTwo().equalsIgnoreCase("")){
+			expertConfirm = new ExpertConfirm();
 			expertConfirm.setId(expertConfirm.getExpertCode()+"-2");
 			expertConfirm.setExpertKind(expertConfirm.getKindTwo());
 			expertConfirm.setExpertSpecial(expertConfirm.getSpecialTwo());
 			expertConfirm.setExpertSeries(expertConfirm.getSeriesTwo());
+			expertConfirm.setExpertInfo(expertInfo);
 			expertConfirmService.save(expertConfirm);			
 		}
 		
