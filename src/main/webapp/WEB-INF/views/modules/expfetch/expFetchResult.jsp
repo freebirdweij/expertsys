@@ -8,28 +8,6 @@
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
-				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
-			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
@@ -44,51 +22,68 @@
 					bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
 			});
 		});
-		function page(n,s){
+		
+
+		Array.prototype.remove = function(dx) {
+			if (isNaN(dx) || dx > this.length) {
+				return false;
+			}
+
+			for ( var i = 0, n = 0; i < this.length; i++) {
+				if (this[i] != this[dx]) {
+					this[n++] = this[i];
+				}
+			}
+			this.length -= 1;
+		};
+		
+		function page(n, s) {
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
-			$("#searchForm").attr("action","${ctx}/expmanage/explist");
+			$("#searchForm").attr("action", "${ctx}/expmanage/explist");
 			$("#searchForm").submit();
-	    	return false;
-	    }
-		function resSubmit(){
-			$("#inputForm").attr("action","${ctx}/expfetch/receiveexpertresult");
+			return false;
+		}
+		function resSubmit() {
+			$("#inputForm").attr("action",
+					"${ctx}/expfetch/receiveexpertresult");
 			$("#inputForm").submit();
-	    	return false;
-	    }
-	    
-		function resCancel(){
-			$("#inputForm").attr("action","${ctx}/expfetch/cancelexpertresult");
+			return false;
+		}
+
+		function resCancel() {
+			$("#inputForm")
+					.attr("action", "${ctx}/expfetch/cancelexpertresult");
 			$("#inputForm").submit();
-	    	return false;
-	    }
-	    
-		function btnCancel(){
-			$("#inputForm").attr("action","${ctx}/expfetch/expertmethod");
+			return false;
+		}
+
+		function btnCancel() {
+			$("#inputForm").attr("action", "${ctx}/expfetch/expertmethod");
 			$("#inputForm").submit();
-	    	return false;
-	    }
-	    
-	    var disc = [];
-		function discard(id){
+			return false;
+		}
+
+		var disc = [];
+		function discard(id) {
 			disc.push(id);
 			$("#discIds").val(disc);
-			$("#btnDiscard"+id).hide();
-			$("#discCancel"+id).show();
-	    	return true;
-	    }
-	    
-		function discancel(id){
-			for(var i=0; i<disc.length; i++) {
-				if(disc[i]=id){
-				disc.remove(i);						
+			$("#btnDiscard" + id).hide();
+			$("#discCancel" + id).show();
+			return false;
+		}
+
+		function discancel(id) {
+			for ( var i = 0; i < disc.length; i++) {
+				if (disc[i] = id) {
+					disc.remove(i);
 				}
-		   }
+			}
 			$("#discIds").val(disc);
-			$("#discCancel"+id).hide();
-			$("#btnDiscard"+id).show();
-	    	return true;
-	    }
+			$("#discCancel" + id).hide();
+			$("#btnDiscard" + id).show();
+			return false;
+		}
 	</script>
 </head>
 <body>
@@ -112,7 +107,7 @@
 				<td>${expertConfirm.expertInfo.education}</td>
 				<td>
 			<input id="btnDiscard${expertConfirm.id}" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${expertConfirm.id}')"/>
-			<input id="discCancel${expertConfirm.id}" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${expertConfirm.id}')"/>
+			<input id="discCancel${expertConfirm.id}" class="btn btn-primary" type="button" value="取消" onclick="discancel('${expertConfirm.id}')" style="display:none;"/>
 				</td>
 			</tr>
 		</c:forEach>
@@ -120,7 +115,7 @@
 	</table>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			<input id="expertCount" name="expertCount" type="text" value="输入抽取数"/>
+			输入抽取数<input id="expertCount" name="expertCount" type="text" value=""/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
 		</div>
       <div class="span10">

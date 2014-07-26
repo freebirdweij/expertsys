@@ -3,3 +3,5 @@
 改成：
 <Connector port="8080" 	protocol="HTTP/1.1" 　connectionTimeout="20000" 　redirectPort="8443" 　URIEncoding="UTF-8"/>
 否则上下传文件不正常，没有缩略图。
+2、The request sent by the client was syntactically incorrect
+往往是Form里返回的某个参数不对，名称或者类型与值对象中的不一致。

@@ -53,7 +53,7 @@
 	    }
 	    
 	    var resIds = [];
-		function select(id){
+		function selectExp(id){
 			$("#resultTable").append($("#row"+id).clone());
 			resIds.push(id);
 			$("#resIds").val(resIds);
@@ -90,7 +90,7 @@
 				<td>${expertConfirm.expertInfo.technical}</td>
 				<td>${expertConfirm.expertInfo.education}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>
- 			<input id="btnSelect${expertConfirm.id}" class="btn btn-primary" type="button" value="选择" onclick="select('${expertConfirm.id}')"/>
+ 			<input id="btnSelect${expertConfirm.id}" class="btn btn-primary" type="button" value="选择" onclick="selectExp('${expertConfirm.id}')"/>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

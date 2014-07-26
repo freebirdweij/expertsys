@@ -17,6 +17,15 @@
 				},{buttonsFocus:1});
 				top.$('.jbox-body .jbox-icon').css('top','55px');
 			});
+			$("#resSubmit").click(function(){
+				top.$.jBox.confirm("确返回吗？","系统提示",function(v,h,f){
+					if(v=="ok"){
+						$("#inputForm").attr("action","${ctx}/expfetch/backexpresult");
+						$("#inputForm").submit();
+					}
+				},{buttonsFocus:1});
+				top.$('.jbox-body .jbox-icon').css('top','55px');
+			});
 			$("#btnImport").click(function(){
 				$.jBox($("#importBox").html(), {title:"导入数据", buttons:{"关闭":true}, 
 					bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
@@ -31,17 +40,11 @@
 	    }
 	    
 	    var resIds = [];
-		function select(id){
+		function selectExp(id){
+			$("#btnSelect"+id).hide();
 			$("#resultTable").append($("#row"+id).clone());
 			resIds.push(id);
 			$("#resIds").val(resIds);
-			$("#btnSelect"+id).disabled = true;
-	    	return false;
-	    }
-	    
-		function resBack(){
-			$("#inputForm").attr("action","${ctx}/expfetch/backexpresult");
-			$("#inputForm").submit();
 	    	return false;
 	    }
 	    
@@ -55,9 +58,9 @@
 	<tags:message content="${message}"/>
 			<input id="resIds" name="resIds" type="hidden"/>
 			<input id="unitIdsYes" name="unitIdsYes" type="hidden"/>
-			<input id="kindIdsYes" name="unitIdsYes" type="hidden"/>
-			<input id="specialIdsYes" name="unitIdsYes" type="hidden"/>
-			<input id="techIdsYes" name="unitIdsYes" type="hidden"/>
+			<input id="kindIdsYes" name="kindIdsYes" type="hidden"/>
+			<input id="specialIdsYes" name="specialIdsYes" type="hidden"/>
+			<input id="techIdsYes" name="techIdsYes" type="hidden"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
@@ -71,7 +74,7 @@
 				<td>${expertConfirm.expertInfo.technical}</td>
 				<td>${expertConfirm.expertInfo.education}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>
- 			<input id="btnSelect${expertConfirm.id}" class="btn btn-primary" type="button" value="选择" onclick="select('${expertConfirm.id}')"/>
+ 			<input id="btnSelect${expertConfirm.id}" class="btn btn-primary" type="button" value="选择" onclick="selectExp('${expertConfirm.id}')"/>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
@@ -79,14 +82,14 @@
 	</table>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			<input id="expertCount" name="expertCount" type="text" value="输入抽取数"/>
+			输入抽取数<input id="expertCount" name="expertCount" type="text" value=""/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
 		</div>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>
 		<c:forEach items="${rlist}" var="expertConfirm">
 			<tr>
@@ -102,7 +105,7 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="确认返回" onclick="resBack()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="确认返回"/>
 		</div>
 	</form:form>
 
