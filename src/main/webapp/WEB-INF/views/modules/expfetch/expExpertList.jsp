@@ -8,28 +8,6 @@
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
-				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
-			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
@@ -81,7 +59,7 @@
 			<input id="specialIdsYes" name="unitIdsYes" type="hidden"/>
 			<input id="techIdsYes" name="unitIdsYes" type="hidden"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr id="row${expertConfirm.id}" >
@@ -101,7 +79,7 @@
 	</table>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			<input id="expertCount" class="btn btn-primary" type="text" value="输入抽取数"/>
+			<input id="expertCount" name="expertCount" type="text" value="输入抽取数"/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
 		</div>
       <div class="span10">

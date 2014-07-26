@@ -72,6 +72,17 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	/** 专家接受任务标志。. */
 	private String expertAccept;
 	
+	private String prjid;
+	
+	@Transient
+	public String getPrjid() {
+		return prjid;
+	}
+
+	public void setPrjid(String prjid) {
+		this.prjid = prjid;
+	}
+
 	private String resIds;
 	
 	@Transient

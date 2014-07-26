@@ -89,8 +89,6 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
-		String prjid = request.getParameter("request");
-		projectExpert.getPrjProjectInfo().setId(prjid);
 		
 		String areaIdsYes = projectExpert.getAreaIdsYes();
 		String unitIdsYes = projectExpert.getUnitIdsYes();
@@ -565,7 +563,8 @@ public class ProjectExpertController extends BaseController {
 	
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "unitmethod")
-	public String unitmethod(ProjectExpert projectExpert, Model model) {
+	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		projectExpert.setPrjid(prjid);
 		model.addAttribute("projectExpert", projectExpert);
 		model.addAttribute("areaList", areaService.findAll());
 		model.addAttribute("unitList", officeService.findAll());
@@ -577,7 +576,8 @@ public class ProjectExpertController extends BaseController {
 
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "expertmethod")
-	public String expertmethod(ProjectExpert projectExpert, Model model) {
+	public String expertmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		projectExpert.setPrjid(prjid);
 		model.addAttribute("projectExpert", projectExpert);
 		model.addAttribute("areaList", areaService.findAll());
 		model.addAttribute("unitList", officeService.findAll());

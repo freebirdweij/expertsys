@@ -479,6 +479,7 @@ public class ExpertManageController extends BaseController {
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/regNotice";
 		}
+		model.addAttribute("user", new User());
 		return "modules/expmanage/userNew";
 	}
 

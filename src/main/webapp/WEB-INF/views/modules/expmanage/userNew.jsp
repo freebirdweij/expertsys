@@ -119,26 +119,6 @@
 				</form:select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">用户角色:</label>
-			<div class="controls">
-				<form:checkboxes path="roleIdList" items="${allRoles}" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
-			</div>
-		</div>
-		<c:if test="${not empty user.id}">
-			<div class="control-group">
-				<label class="control-label">创建时间:</label>
-				<div class="controls">
-					<label class="lbl"><fmt:formatDate value="${user.createDate}" type="both" dateStyle="full"/></label>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">最后登陆:</label>
-				<div class="controls">
-					<label class="lbl">IP: ${user.loginIp}&nbsp;&nbsp;&nbsp;&nbsp;时间：<fmt:formatDate value="${user.loginDate}" type="both" dateStyle="full"/></label>
-				</div>
-			</div>
-		</c:if>
 		<div class="form-actions">
 			<shiro:hasPermission name="sys:user:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;</shiro:hasPermission>
 		</div>

@@ -1,11 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%@include file="/WEB-INF/views/include/treeview.jsp" %>
 <html>
 <head>
 	<title>专家抽取</title>
-	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
+    <%@include file="/WEB-INF/views/include/treeview.jsp" %>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#name").focus();
@@ -158,7 +157,7 @@
 		<li class="active">按专家个人方式抽取</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/expertfetch" method="post" class="form-horizontal">
-		<form:hidden path="userId"/>
+		<form:hidden path="prjid"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">请输入项目的评审时间:</label>
@@ -169,14 +168,8 @@
 						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">请先确定抽取的专家数:</label>
-			<div class="controls">
-				<form:input path="expertCount" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
-      <div class="span10">
-        <h4>请选择符合性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h4>
+      <div class="span12">
+        <h5>请选择符合性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h5>
       </div>
 				<div class="control-group">
 					<label class="control-label">专家所属区域:</label>
@@ -220,8 +213,8 @@
 		               <form:hidden path="techIdsYes"/>
 			</div>
 		</div>
-      <div class="span10">
-        <h4>请选择拒绝性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h4>
+      <div class="span12">
+        <h5>请选择拒绝性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h5>
       </div>
 				<div class="control-group">
 					<label class="control-label">专家所属区域:</label>

@@ -104,7 +104,7 @@
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
 				<td>${expertConfirm.expertInfo.name}</td>
-				<td><a href="${ctx}/expfetch/conditionexp?unitid=${expertConfirm.unit.id}&resIds=$('#resIds').val()">${expertConfirm.expertInfo.unit.name}</a></td>
+				<td><a href="${ctx}/expfetch/conditionexp?unitid=${expertConfirm.expertCompany.id}&resIds=$('#resIds').val()">${expertConfirm.expertInfo.unit.name}</a></td>
 				<td><a href="${ctx}/expfetch/conditionexp?kind=${expertConfirm.expertKind}&resIds=$('#resIds').val()">${expertConfirm.expertKind}</a></td>
 				<td><a href="${ctx}/expfetch/conditionexp?special=${expertConfirm.expertSpecial}&resIds=$('#resIds').val()">${expertConfirm.expertSpecial}</a></td>
 				<td>${expertConfirm.expertInfo.job}</td>
@@ -120,7 +120,7 @@
 	</table>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			<input id="expertCount" class="btn btn-primary" type="text" value="输入抽取数"/>
+			<input id="expertCount" name="expertCount" type="text" value="输入抽取数"/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
 		</div>
       <div class="span10">
