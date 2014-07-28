@@ -49,7 +49,7 @@ public class ExpertConfirmService extends BaseService {
 	public List<ExpertConfirm> findAExpert(String userid) {
 		DetachedCriteria dc = expertConfirmDao.createDetachedCriteria();
 			if(StringUtils.isNotEmpty(userid)){
-			dc.add(Restrictions.eq("userId", userid));
+			dc.add(Restrictions.eq("expertInfo.userId", userid));
 			}
 		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));
 		//dc.addOrder(Order.desc("id"));
@@ -64,6 +64,11 @@ public class ExpertConfirmService extends BaseService {
 	@Transactional(readOnly = false)
 	public void delete(String id) {
 		expertConfirmDao.deleteById(id);
+	}
+	
+	@Transactional(readOnly = false)
+	public void updateExpertLevel(String explevel,String userId) {
+		expertConfirmDao.updateExpertLevel(explevel,userId);
 	}
 	
 }
