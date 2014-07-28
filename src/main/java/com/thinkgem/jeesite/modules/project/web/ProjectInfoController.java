@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -71,7 +72,9 @@ public class ProjectInfoController extends BaseController {
 		String id = request.getParameter("id");
 		projectInfo = get(id);
 		if(projectInfo.getPrjStatus()==null||projectInfo.getPrjStatus().equalsIgnoreCase("")){
-			projectInfo.setPrjStatus("0");
+			projectInfo.setPrjStatus(Constants.Project_Status_Start);
+			projectInfoService.save(projectInfo);
+			
 		}
 		model.addAttribute("projectInfo", projectInfo);
 		return "modules/project/projectForm";

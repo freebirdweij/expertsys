@@ -218,13 +218,13 @@
 		               <form:hidden path="specialIdsYes"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">选择行业:</label>
 			<div class="controls">
 				       <div id="seriesTreeYes" class="ztree" style="margin-top:3px;float:left;"></div>
 		               <form:hidden path="seriesIdsYes"/>
 			</div>
-		</div>
+		</div> --%>
       <div class="span12">
         <h5>请选择拒绝性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h5>
       </div>
@@ -256,13 +256,13 @@
 		               <form:hidden path="specialIdsNo"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">选择行业:</label>
 			<div class="controls">
 				       <div id="seriesTreeNo" class="ztree" style="margin-top:3px;float:left;"></div>
 		               <form:hidden path="seriesIdsNo"/>
 			</div>
-		</div>
+		</div> --%>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="确定"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

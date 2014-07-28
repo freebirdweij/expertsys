@@ -35,7 +35,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/project/record">项目信息</a></li>
+		<li class="active">项目信息</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="projectInfo" action="${ctx}/project/save" method="post" class="form-horizontal">
 		<tags:message content="${message}"/>
