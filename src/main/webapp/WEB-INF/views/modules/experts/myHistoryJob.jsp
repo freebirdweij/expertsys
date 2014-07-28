@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>专家抽取</title>
+	<title>专家个人</title>
 	<meta name="decorator" content="default"/>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
@@ -55,26 +55,20 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/expfetch/reviewinglist">待评审项目</a></li>
-		<li class="active"><a href="${ctx}/expfetch/acceptinglist">待验收项目</a></li>
+		<li><a href="${ctx}/experts/job/myHistory">我的历史项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th class="sort loginName">主体单位</th><th class="sort name">状态</th><th>金额</th><th>时间</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="projectInfo">
+		<c:forEach items="${page.list}" var="projectExpert">
 			<tr>
-				<td>${projectInfo.id}</td>
-				<td><a href="${ctx}/project/form?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
-				<td>${projectInfo.unit.name}</td>
-				<td>${fns:getDictLabel('${projectInfo.prjStatus}','sys_prjstatus_type','1')}</td>
-				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
-				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/unitmethod?prjid=${projectInfo.id}">单位方式抽取</a>
-    				<a href="${ctx}/expfetch/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a>
-					<a href="${ctx}/expfetch/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				<td>${projectExpert.prjProjectInfo.id}</td>
+				<td><a href="${ctx}/experts/job/prjinfo?id=${projectExpert.prjProjectInfo.id}">${projectExpert.prjProjectInfo.prjName}</a></td>
+				<td>${projectExpert.prjProjectInfo.unit.name}</td>
+				<td>${fns:getDictLabel('${projectExpert.prjProjectInfo.prjStatus}','sys_prjstatus_type','1')}</td>
+				<td>${projectExpert.prjProjectInfo.prjMoney}</td>
+				<td>${projectExpert.reviewBegin}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

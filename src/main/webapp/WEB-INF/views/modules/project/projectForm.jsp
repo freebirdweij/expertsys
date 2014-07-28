@@ -42,7 +42,7 @@
 		<div class="control-group">
 			<label class="control-label">项目编号:</label>
 			<div class="controls">
-						<form:input path="id" htmlEscape="false" maxlength="20"
+						<form:input path="id" htmlEscape="false" maxlength="50"
 							class="span3 required" />
             </div>
 		</div>
@@ -103,7 +103,7 @@
 		<div class="control-group">
 			<label class="control-label">项目状态:</label>
 			<div class="controls">
-				<form:select path="prjStatus" class="span2">
+				<form:select path="prjStatus" class="span2" disabled="true">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>

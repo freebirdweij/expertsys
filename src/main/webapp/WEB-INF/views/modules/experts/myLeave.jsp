@@ -24,7 +24,7 @@
 	<form:form id="inputForm" modelAttribute="expertConfirm" action="${ctx}/experts/job/myleave" method="post" class="form-horizontal">
 		<form:hidden path="expertLevel"/>
 		<tags:message content="${message}"/>
-		<c:if test="${expertConfirm.expertLevel eq '1'}">
+		<c:if test="${expertConfirm.expertLevel eq '0'}">
 		<div class="control-group">
 			<label class="control-label">确定要请假吗，请假后，将不能被抽取！:</label>
 			<div class="controls">
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${expertConfirm.expertLevel eq '0'}">
+		<c:if test="${expertConfirm.expertLevel eq '1'}">
 		<div class="control-group">
 			<label class="control-label">您已请假，确定要取消请假吗？:</label>
 			<div class="controls">

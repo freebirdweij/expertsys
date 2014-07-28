@@ -35,7 +35,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/expmanage/userform?id=${id}">专家个人信息</a></li>
+		<li><a href="${ctx}/expmanage/expedit?id=${id}">专家个人信息</a></li>
 		<li><a href="${ctx}/expmanage/baseform?id=${id}">专家基本信息</a></li>
 		<li><a href="${ctx}/expmanage/workform?id=${id}">专家职业信息</a></li>
 		<li class="active"><a href="${ctx}/expmanage/applyform?id=${id}">审核通过信息</a></li>

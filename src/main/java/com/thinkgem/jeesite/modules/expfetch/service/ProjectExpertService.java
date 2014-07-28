@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
@@ -70,13 +71,34 @@ public class ProjectExpertService extends BaseService {
 			}
 		}
 		dc.createAlias("e.prjProjectInfo", "p");
-		dc.add(Restrictions.eq("e.fetchStatus", "1"));
-		dc.add(Restrictions.eq("p.prjStatus", "3"));
+		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Status_Sussess));
+		String sts[] = {Constants.Project_Status_Apply,Constants.Project_Status_Receive};
+		dc.add(Restrictions.in("p.prjStatus", sts));
 		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.parseDate(DateUtils.getDateTime())));
 		
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("id"));
+		//dc.addOrder(Order.desc("id"));
 		return projectExpertDao.find(dc);
+	}
+	
+	public Page<ProjectExpert> findMyHistory(Page<ProjectExpert> page, ProjectExpert projectExpert) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "e");
+		if (projectExpert.getExpertExpertConfirm()!=null){
+			if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId())){
+				dc.createAlias("e.expertExpertConfirm", "c");
+				dc.createAlias("c.expertInfo", "i");
+				dc.add(Restrictions.eq("i.userId", projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId()));
+			}
+		}
+		dc.createAlias("e.prjProjectInfo", "p");
+		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Status_Sussess));
+		String sts[] = {Constants.Project_Status_Work,Constants.Project_Status_Receive,Constants.Project_Status_Save};
+		dc.add(Restrictions.in("p.prjStatus", sts));
+		dc.add(Restrictions.le("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
+		
+		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		//dc.addOrder(Order.desc("id"));
+		return projectExpertDao.find(page,dc);
 	}
 	
 	public Page<ExpertConfirm> findExperts(Page<ExpertConfirm> page, ProjectExpert projectExpert) {

@@ -18,7 +18,7 @@ import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 public class ExpertConfirmDao extends BaseDao<ExpertConfirm> {
 	
 	public int updateExpertLevel(String explevel,String userId){
-		return update("update ExpertConfirm set expertLevel=:p1 where userId = :p2", 
+		return update("update ExpertConfirm set expertLevel=:p1 where expertInfo.userId = :p2", 
 				new Parameter(explevel,userId));
 	}
 	

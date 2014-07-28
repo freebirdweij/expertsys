@@ -452,6 +452,14 @@ public class ExpertManageController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
 	}
 
+	@RequiresPermissions("expmanage:expertConfirm:edit")
+	@RequestMapping(value = "expdelete")
+	public String expdelete(String id, RedirectAttributes redirectAttributes) {
+		expertConfirmService.delete(id);
+		addMessage(redirectAttributes, "删除专家确认成功");
+		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
+	}
+
 	@RequiresPermissions("experts:expertInfo:reg")
 	@RequestMapping(value = "expnew")
 	public String expnew(ExpertInfo expertInfo, Model model) {

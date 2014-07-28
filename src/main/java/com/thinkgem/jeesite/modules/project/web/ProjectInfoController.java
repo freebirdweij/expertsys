@@ -70,6 +70,9 @@ public class ProjectInfoController extends BaseController {
 	public String form(HttpServletRequest request,ProjectInfo projectInfo, Model model) {
 		String id = request.getParameter("id");
 		projectInfo = get(id);
+		if(projectInfo.getPrjStatus()==null||projectInfo.getPrjStatus().equalsIgnoreCase("")){
+			projectInfo.setPrjStatus("0");
+		}
 		model.addAttribute("projectInfo", projectInfo);
 		return "modules/project/projectForm";
 	}

@@ -59,7 +59,7 @@
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>出生年月</th><th class="sort job">职务</th><th class="sort technical">职称</th><th>从事专业</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>姓名</th><th>出生年月</th><th>职务</th><th>职称</th><th>从事专业</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="expertInfo">
 			<tr>

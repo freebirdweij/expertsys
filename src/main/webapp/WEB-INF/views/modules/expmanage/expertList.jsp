@@ -89,7 +89,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
-				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
+				<td><a href="${ctx}/expmanage/expedit?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
 				<td>${expertConfirm.expertKind}</td>
 				<td>${expertConfirm.expertSpecial}</td>
