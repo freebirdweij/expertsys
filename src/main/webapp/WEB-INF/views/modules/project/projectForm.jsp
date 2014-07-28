@@ -63,11 +63,11 @@
             </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">项目负责人:</label>
+			<label class="control-label">主体单位:</label>
 			<div class="controls">
-						<form:input path="prjDuty" htmlEscape="false" maxlength="20"
-							class="span2 required" />
-          </div>	
+                <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}"
+					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
+			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">投资金额:</label>

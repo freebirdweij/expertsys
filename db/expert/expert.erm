@@ -12,7 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>57</x>
-	<y>440</y>
+	<y>390</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -128,7 +128,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2014-06-21 08:37:55</creation_date>
-			<updated_date>2014-07-13 15:51:13</updated_date>
+			<updated_date>2014-07-28 11:15:05</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -652,7 +652,7 @@
 			<binary>false</binary>
 			<args></args>
 			<description></description>
-			<logical_name>专家级别</logical_name>
+			<logical_name>是否请假</logical_name>
 			<physical_name>expert_level</physical_name>
 			<type>char</type>
 		</word>
@@ -1501,7 +1501,7 @@
 			<connections>
 				<relation>
 					<id>0</id>
-					<source>5</source>
+					<source>3</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -1523,7 +1523,7 @@
 				</relation>
 				<relation>
 					<id>1</id>
-					<source>3</source>
+					<source>5</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -1554,7 +1554,7 @@
 				<normal_column>
 					<id>18</id>
 					<referenced_column>33</referenced_column>
-					<relation>1</relation>
+					<relation>0</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -1588,7 +1588,7 @@
 				<normal_column>
 					<id>19</id>
 					<referenced_column>96</referenced_column>
-					<relation>0</relation>
+					<relation>1</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>

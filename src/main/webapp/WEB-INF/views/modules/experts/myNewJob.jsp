@@ -59,7 +59,7 @@
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th class="sort loginName">主体单位</th><th class="sort name">状态</th><th>金额</th><th>时间</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th class="sort loginName">主体单位</th><th class="sort name">状态</th><th>金额</th><th>时间</th></tr></thead>
 		<tbody>
 		<c:forEach items="${list}" var="projectExpert">
 			<tr>
@@ -69,10 +69,6 @@
 				<td>${fns:getDictLabel('${projectInfo.prjStatus}','sys_prjstatus_type','1')}</td>
 				<td>${projectInfo.prjMoney}</td>
 				<td>${projectInfo.prjBegin}</td>
-				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/unitmethod?prjid=${projectInfo.id}">接受任务</a>
-    				<a href="${ctx}/expfetch/expertmethod?prjid=${projectInfo.id}">拒绝任务</a>
-				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>

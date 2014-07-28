@@ -5,3 +5,4 @@
 否则上下传文件不正常，没有缩略图。
 2、The request sent by the client was syntactically incorrect
 往往是Form里返回的某个参数不对，名称或者类型与值对象中的不一致。
+3、专家确认表中的expert_level字段作为专家是否请假标志。

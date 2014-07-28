@@ -39,6 +39,7 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expfetch.service.ProjectExpertService;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
+import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 
 /**
  * 对项目进行专家抽取Controller
@@ -60,6 +61,9 @@ public class ExpertJobController extends BaseController {
 	
 	@Autowired
 	private ProjectExpertService projectExpertService;
+	
+	@Autowired
+	private ExpertConfirmService expertConfirmService;
 	
 	@ModelAttribute
 	public ProjectExpert get(@RequestParam(required=false) String id) {
@@ -540,6 +544,29 @@ public class ExpertJobController extends BaseController {
 		}
         List<ProjectExpert> list = projectExpertService.findMyJob(new Page<ProjectExpert>(request, response), projectExpert); 
         model.addAttribute("list", list);
+		return "modules/expfetch/reviewingList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"myleave", ""})
+	public String myLeave(ExpertConfirm expertConfirm, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			expertConfirm.setCreateBy(user);
+		}
+		if(expertConfirm==null){
+			expertConfirm = new ExpertConfirm();
+	        List<ExpertConfirm> list = expertConfirmService.findAExpert(user.getId());
+	        if(list==null||list.size()==0){
+	        	expertConfirm.setExpertLevel("2");//表示不存在
+	        }else{
+	        	expertConfirm.setExpertLevel(list.get(0).getExpertLevel());
+	        }
+		}else{
+			
+		}
+        
+        model.addAttribute("expertConfirm", expertConfirm);
 		return "modules/expfetch/reviewingList";
 	}
 

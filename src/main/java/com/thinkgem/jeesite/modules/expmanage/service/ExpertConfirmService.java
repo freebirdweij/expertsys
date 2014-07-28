@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.expmanage.service;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -42,6 +44,16 @@ public class ExpertConfirmService extends BaseService {
 		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return expertConfirmDao.find(page, dc);
+	}
+	
+	public List<ExpertConfirm> findAExpert(String userid) {
+		DetachedCriteria dc = expertConfirmDao.createDetachedCriteria();
+			if(StringUtils.isNotEmpty(userid)){
+			dc.add(Restrictions.eq("userId", userid));
+			}
+		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));
+		//dc.addOrder(Order.desc("id"));
+		return expertConfirmDao.find(dc);
 	}
 	
 	@Transactional(readOnly = false)
