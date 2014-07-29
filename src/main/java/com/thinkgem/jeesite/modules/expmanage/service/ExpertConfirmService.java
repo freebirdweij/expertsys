@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.expmanage.dao.ExpertConfirmDao;
 
@@ -35,14 +36,24 @@ public class ExpertConfirmService extends BaseService {
 	}
 	
 	public Page<ExpertConfirm> find(Page<ExpertConfirm> page, ExpertConfirm expertConfirm) {
-		DetachedCriteria dc = expertConfirmDao.createDetachedCriteria();
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+
 		if (expertConfirm.getExpertInfo()!=null){
 			if(StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getName())){
-			dc.add(Restrictions.like("name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
+				dc.createAlias("e.expertInfo", "i");
+			dc.add(Restrictions.like("i.name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
+			}
+			if(StringUtils.isNotEmpty(expertConfirm.getExpertCompany().getId())){
+				dc.createAlias("e.expertCompany", "c");
+			dc.add(Restrictions.like("c.id", "%"+expertConfirm.getExpertCompany().getId()+"%"));
+			}
+			if(StringUtils.isNotEmpty(expertConfirm.getExpertArea().getId())){
+				dc.createAlias("e.expertArea", "a");
+			dc.add(Restrictions.like("a.id", "%"+expertConfirm.getExpertArea().getId()+"%"));
 			}
 		}
-		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("id"));
+		dc.add(Restrictions.eq("e.delFlag", ExpertConfirm.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("e.id"));
 		return expertConfirmDao.find(page, dc);
 	}
 	

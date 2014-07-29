@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,8 @@ import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.experts.service.ExpertInfoService;
+import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
+import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 
 /**
  * 专家注册Controller
@@ -51,6 +54,9 @@ public class ExpertRegisterController extends BaseController {
 
 	@Autowired
 	private ExpertInfoService expertInfoService;
+	
+	@Autowired
+	private ExpertConfirmService expertConfirmService;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -196,7 +202,6 @@ public class ExpertRegisterController extends BaseController {
 			return form(expertInfo, model);
 		}
 		
-		
 		//表示已作过第三步录入
 		expertInfo.setRegStep(Constants.Register_Status_Third);
 		
@@ -212,6 +217,11 @@ public class ExpertRegisterController extends BaseController {
 			return form(expertInfo, model);
 		}
 		
+		List<ExpertConfirm> list = expertConfirmService.findAExpert(expertInfo.getUserId());
+		if(list!=null&&list.size()>0){
+			ExpertConfirm expertConfirm = list.get(0);
+			expertConfirmService.delete(expertConfirm.getId());
+		}
 		
 		//表示已作过第三步录入
 		expertInfo.setRegStep(Constants.Register_Status_Apply);

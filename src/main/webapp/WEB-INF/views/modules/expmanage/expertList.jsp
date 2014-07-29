@@ -64,23 +64,27 @@
 	</div>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/expmanage/explist">专家列表</a></li>
-		<shiro:hasPermission name="sys:user:edit"><li><a href="${ctx}/expmanage/expnew">新增专家</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="expertConfirm" action="${ctx}/expmanage/explist" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
 		<div>
-			<label>归属公司：</label><tags:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}" 
+			<label>归属公司：</label><tags:treeselect id="expertCompany" name="expertCompany.id" value="${expertConfirm.expertCompany.id}" labelName="expertCompany.name" labelValue="${expertConfirm.expertCompany.name}" 
 				title="公司" url="/sys/office/treeData?type=1" cssClass="input-small" allowClear="true"/>
-			<label>专业：</label><form:input path="expertSpecial" htmlEscape="false" maxlength="50" class="input-small"/>
-		</div><div style="margin-top:8px;">
-			<label>归属部门：</label><tags:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}" 
+			<%-- <label>专业：</label>
+				<form:select path="expertSpecial" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select> --%>
+		</div>
+		<div style="margin-top:8px;">
+			<label>归属地区：</label><tags:treeselect id="expertArea" name="expertArea.id" value="${expertConfirm.expertArea.id}" labelName="expertArea.name" labelValue="${expertConfirm.expertArea.name}" 
 				title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true"/>
-			<label>姓名：</label><form:input path="id" htmlEscape="false" maxlength="50" class="input-small"/>
+			<label>姓名：</label><form:input path="expertInfo.name" htmlEscape="false" maxlength="50" class="input-small"/>
 			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
-			&nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
-			&nbsp;<input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
+			<!-- &nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
+			&nbsp;<input id="btnImport" class="btn btn-primary" type="button" value="导入"/> -->
 		</div>
 	</form:form>
 	<tags:message content="${message}"/>

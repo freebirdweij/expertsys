@@ -111,7 +111,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/expmanage/basenew">专家基本信息</a></li>
+		<li class="active">专家基本信息</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo"
 		action="${ctx}/expmanage/addbase" enctype="multipart/form-data" method="post" class="form-horizontal">
@@ -124,7 +124,7 @@
 					<label class="control-label">姓名:</label>
 					<div class="controls">
 						<form:input path="name" htmlEscape="false" maxlength="20"
-							class="span10 required userName" disabled="true"/>
+							class="span10 required userName" readonly="true"/>
 					</div>
 				</div>
 				<div class="control-group">

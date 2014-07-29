@@ -34,7 +34,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/expmanage/userform?id=${id}">专家个人信息</a></li>
+		<li class="active">专家个人信息</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/expmanage/adduser" method="post" class="form-horizontal">
 		<input id="expid" name="expid" type="hidden" value="${id}">
@@ -76,8 +76,7 @@
 		<div class="control-group">
 			<label class="control-label">密码:</label>
 			<div class="controls">
-				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="${empty user.id?'required':''}"/>
-				<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
+				<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="required"/>				
 			</div>
 		</div>
 		<div class="control-group">
@@ -110,7 +109,13 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
+        <div class="control-group">
+			<label class="control-label">用户角色:</label>
+			<div class="controls">
+				<form:checkboxes path="roleIdList" items="${allRoles}" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
+			</div>
+		</div>
+<%-- 		<div class="control-group">
 			<label class="control-label">用户类型:</label>
 			<div class="controls">
 				<form:select path="userType">
@@ -119,7 +124,7 @@
 				</form:select>
 			</div>
 		</div>
-		<div class="form-actions">
+ --%>		<div class="form-actions">
 			<shiro:hasPermission name="sys:user:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;</shiro:hasPermission>
 		</div>
 	</form:form>

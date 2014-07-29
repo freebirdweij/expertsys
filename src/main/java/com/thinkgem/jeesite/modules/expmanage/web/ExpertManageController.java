@@ -83,6 +83,7 @@ public class ExpertManageController extends BaseController {
 		}
         Page<ExpertConfirm> page = expertConfirmService.find(new Page<ExpertConfirm>(request, response), expertConfirm); 
         model.addAttribute("page", page);
+        //model.addAttribute("expertConfirm", expertConfirm);
 		return "modules/expmanage/expertList";
 	}
 
@@ -99,6 +100,7 @@ public class ExpertManageController extends BaseController {
 		ExpertConfirm expertConfirm = expertConfirmService.get(id);
 		model.addAttribute("user", expertConfirm.getExpertInfo().getUser());
 		model.addAttribute("id", id);
+		model.addAttribute("allRoles", systemService.findAllRole());
 		return "modules/expmanage/userForm";
 	}
 
@@ -255,6 +257,8 @@ public class ExpertManageController extends BaseController {
 		// 如果新密码为空，则不更换密码
 		if (StringUtils.isNotBlank(newPassword)) {
 			user.setPassword(SystemService.entryptPassword(newPassword));
+		}else{
+			user.setPassword(UserUtils.getUserById(user.getId()).getPassword());
 		}
 		if (!beanValidator(model, user)){
 			return expedit(request.getParameter("expid"), model);
@@ -466,31 +470,8 @@ public class ExpertManageController extends BaseController {
 	@RequiresPermissions("experts:expertInfo:reg")
 	@RequestMapping(value = "expnew")
 	public String expnew(ExpertInfo expertInfo, Model model) {
-		User user = UserUtils.getUser();
-		expertInfo = expertInfoService.get(user.getId());
-		if(expertInfo==null){
-			expertInfo = new ExpertInfo();
-			expertInfo.setName(user.getName());
-			expertInfo.setUserId(user.getId());
-			model.addAttribute("expertInfo", expertInfo);
-			return "modules/expmanage/stepOne";
-		}else if(expertInfo.getUserId()==null||expertInfo.getUserId().equalsIgnoreCase("")){
-			expertInfo = new ExpertInfo();
-			expertInfo.setName(user.getName());
-			expertInfo.setUserId(user.getId());
-			model.addAttribute("expertInfo", expertInfo);
-			return "modules/experts/stepOne";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)){
-			model.addAttribute("expertInfo", expertInfo);
-			return "modules/experts/stepTwo";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
-			model.addAttribute("expertInfo", expertInfo);
-			return "modules/experts/stepThree";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Third)){
-			model.addAttribute("expertInfo", expertInfo);
-			return "modules/experts/regNotice";
-		}
 		model.addAttribute("user", new User());
+		model.addAttribute("allRoles", systemService.findAllRole());
 		return "modules/expmanage/userNew";
 	}
 
@@ -544,8 +525,6 @@ public class ExpertManageController extends BaseController {
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "addbase", method=RequestMethod.POST)
 	public String addbase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
-		User user = UserUtils.getUser();
-		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
 			return formi(expertInfo, model);
 		}

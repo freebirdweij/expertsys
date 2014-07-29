@@ -113,7 +113,7 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
+<%-- 		<div class="control-group">
 			<label class="control-label">用户类型:</label>
 			<div class="controls">
 				<form:select path="userType">
@@ -122,12 +122,13 @@
 				</form:select>
 			</div>
 		</div>
-		<%-- <div class="control-group">
+--%>		
+        <div class="control-group">
 			<label class="control-label">用户角色:</label>
 			<div class="controls">
 				<form:checkboxes path="roleIdList" items="${allRoles}" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
 			</div>
-		</div> --%>
+		</div>
 		<c:if test="${not empty user.id}">
 			<div class="control-group">
 				<label class="control-label">创建时间:</label>

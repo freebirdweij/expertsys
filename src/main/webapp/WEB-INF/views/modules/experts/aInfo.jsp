@@ -61,15 +61,6 @@
           </div>	
 		</div>
 		<div class="control-group">
-			<label class="control-label">职称所属系列:</label>
-			<div class="controls">
-				<form:select path="certSeries" class="span2 required" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">负责或参与评审的重大项目及学术论著:</label>
 			<div class="controls">
 						<label class="lbl">${expertInfo.hardProjectsArticals}</label>

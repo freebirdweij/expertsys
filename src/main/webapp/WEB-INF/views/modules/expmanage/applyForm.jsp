@@ -42,6 +42,7 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/expmanage/saveapply" method="post" class="form-horizontal">
 		<form:hidden path="userId"/>
+		<input id="expid" name="expid" type="hidden" value="${id}">
 		<tags:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">专家类别:</label>
@@ -82,11 +83,11 @@
 		<div class="control-group">
 			<label class="control-label">行业部门〈或管理单位)初审意见:</label>
 			<div class="controls">
-		        <input id="deptormanageAdvice" name="deptormanageAdvice" type="textarea" value="${deptormanageAdvice}">
+		        <input id="deptormanageAdvice" name="deptormanageAdvice" type="textarea" rows="6" cols="50" value="${deptormanageAdvice}">
 			</div>
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=expert">上传专家资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(ID${expertInfo.userId})/">上传专家资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
