@@ -56,12 +56,6 @@
           </div>	
 		</div>
 		<div class="control-group">
-			<label class="control-label">所属系列:</label>
-			<div class="controls">
-				<label class="lbl">${fns:getDictLabel(expertConfirm.expertSeries, 'sys_series_type', '无')}</label>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">主要业绩:</label>
 			<div class="controls">
 						<label class="lbl">${expertConfirm.expertInfo.achievement}</label>

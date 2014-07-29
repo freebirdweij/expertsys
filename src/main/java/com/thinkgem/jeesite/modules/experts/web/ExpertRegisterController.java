@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.FileUtils;
 import com.thinkgem.jeesite.common.utils.HibernateSessionFactory;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -83,7 +84,7 @@ public class ExpertRegisterController extends BaseController {
 		if (!user.isAdmin()){
 			expertInfo.setCreateBy(user);
 		}
-		expertInfo.setRegStep("3");
+		expertInfo.setRegStep(Constants.Register_Status_Apply);
         Page<ExpertInfo> page = expertInfoService.find(new Page<ExpertInfo>(request, response), expertInfo); 
         model.addAttribute("page", page);
 		return "modules/expmanage/confirmList";
@@ -128,13 +129,13 @@ public class ExpertRegisterController extends BaseController {
 			expertInfo.setUserId(user.getId());
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepOne";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("1")){
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)){
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepTwo";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("2")){
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepThree";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("3")){
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Third)){
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/regNotice";
 		}
@@ -165,7 +166,7 @@ public class ExpertRegisterController extends BaseController {
 		}
 		
 		//表示已作过第一步录入
-		expertInfo.setRegStep("1");
+		expertInfo.setRegStep(Constants.Register_Status_First);
 		
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
@@ -181,9 +182,9 @@ public class ExpertRegisterController extends BaseController {
 		
 		
 		//表示已作过第二步录入
-		expertInfo.setRegStep("2");
+		expertInfo.setRegStep(Constants.Register_Status_Second);
 		
-		expertInfoService.updateStepTwo(expertInfo);
+		expertInfoService.saveStepTwo(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/stepThree";
 	}
@@ -197,9 +198,25 @@ public class ExpertRegisterController extends BaseController {
 		
 		
 		//表示已作过第三步录入
-		expertInfo.setRegStep("3");
+		expertInfo.setRegStep(Constants.Register_Status_Third);
 		
-		expertInfoService.updateStepThree(expertInfo);
+		expertInfoService.saveStepThree(expertInfo);
+		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		return "modules/experts/regNotice";
+	}
+	
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "applySave", method=RequestMethod.POST)
+	public String applySave(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, expertInfo)){
+			return form(expertInfo, model);
+		}
+		
+		
+		//表示已作过第三步录入
+		expertInfo.setRegStep(Constants.Register_Status_Apply);
+		
+		expertInfoService.saveStepThree(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/regNotice";
 	}

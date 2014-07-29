@@ -62,15 +62,6 @@
           </div>	
 		</div>
 		<div class="control-group">
-			<label class="control-label">所属系列:</label>
-			<div class="controls">
-				<form:select path="certSeries" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">主要业绩:</label>
 			<div class="controls">
 					<form:textarea path="achievement" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>

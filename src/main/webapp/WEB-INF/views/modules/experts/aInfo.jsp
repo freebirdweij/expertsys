@@ -43,7 +43,7 @@
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">申报类别一:</label>
+			<label class="control-label">申报类别:</label>
 			<div class="controls">
 				<form:select path="specialKind1" class="span2 required" disabled="true">
 					<form:option value="" label="请选择"/>
@@ -58,32 +58,6 @@
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-				<form:select path="kind1Special2" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-          </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">申报类别二:</label>
-			<div class="controls">
-				<form:select path="specialKind2" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-            </div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">申报专业:</label>
-			<div class="controls">
-				<form:select path="kind2Special1" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-				<form:select path="kind2Special2" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
           </div>	
 		</div>
 		<div class="control-group">
@@ -93,12 +67,6 @@
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">主要业绩:</label>
-			<div class="controls">
-						<label class="lbl">${expertInfo.achievement}</label>
 			</div>
 		</div>
 		<div class="control-group">

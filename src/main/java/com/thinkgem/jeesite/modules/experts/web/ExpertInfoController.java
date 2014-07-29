@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -53,7 +54,7 @@ public class ExpertInfoController extends BaseController {
 	public String baseinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 			expertInfo = expertInfoService.get(user.getId());			
-		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
 			return "modules/experts/editNote";
 		}
 			model.addAttribute("expertInfo", expertInfo);
@@ -64,7 +65,7 @@ public class ExpertInfoController extends BaseController {
 	public String binfo(ExpertInfo expertInfo, HttpServletRequest request, Model model) {
 		String id = request.getParameter("id");
 			expertInfo = expertInfoService.get(id);			
-		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
 			return "modules/experts/editNote";
 		}
 		model.addAttribute("expertInfo", expertInfo);
@@ -76,7 +77,7 @@ public class ExpertInfoController extends BaseController {
 	public String workinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 		expertInfo = expertInfoService.get(user.getId());
-		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
 			return "modules/experts/editNote";
 		}
 			model.addAttribute("expertInfo", expertInfo);
@@ -96,7 +97,7 @@ public class ExpertInfoController extends BaseController {
 	public String applyinfo(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 		expertInfo = expertInfoService.get(user.getId());
-		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase("1")||expertInfo.getRegStep().equalsIgnoreCase("2")){
+		if(expertInfo==null||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)||expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
 			return "modules/experts/editNote";
 		}
 			model.addAttribute("expertInfo", expertInfo);
@@ -160,7 +161,7 @@ public class ExpertInfoController extends BaseController {
 			e.printStackTrace();
 		}
 		//保留注册状态
-		expertInfo.setRegStep("3");
+		//expertInfo.setRegStep("3");
 		expertInfoService.updateStepOne(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/baseInfo";
@@ -175,7 +176,7 @@ public class ExpertInfoController extends BaseController {
 		
 		
 		//保留注册状态
-		expertInfo.setRegStep("3");
+		//expertInfo.setRegStep("3");
 		
 		expertInfoService.updateStepTwo(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
@@ -190,7 +191,7 @@ public class ExpertInfoController extends BaseController {
 		}
 		
 		//保留注册状态
-		expertInfo.setRegStep("3");
+		//expertInfo.setRegStep("3");
 				
 		expertInfoService.updateStepThree(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");

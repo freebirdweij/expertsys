@@ -71,4 +71,16 @@ public class ExpertInfoService extends BaseService {
     public int updateStepThree(ExpertInfo expertInfo){
 	return expertInfoDao.updateStepThree(expertInfo);
     }
+    
+	public int saveStepOne(ExpertInfo expertInfo){
+		return expertInfoDao.saveStepOne(expertInfo);
+	}
+	
+	public int saveStepTwo(ExpertInfo expertInfo){
+		return expertInfoDao.saveStepTwo(expertInfo);
+	}
+	
+    public int saveStepThree(ExpertInfo expertInfo){
+	return expertInfoDao.saveStepThree(expertInfo);
+    }
 }

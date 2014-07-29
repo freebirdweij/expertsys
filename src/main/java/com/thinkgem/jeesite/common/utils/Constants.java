@@ -13,4 +13,11 @@ public class Constants {
 	public static final String Fetch_Status_Failure = "00";//无效
 	public static final String Fetch_Status_Sussess = "01";//有效
 
+	//个人注册专家时的状态
+	public static final String Register_Status_First = "1";//完成第一步
+	public static final String Register_Status_Second = "2";//完成第二步
+	public static final String Register_Status_Third = "3";//完成第三步
+	public static final String Register_Status_Apply = "4";//已提交申请
+	public static final String Register_Status_Accept = "5";//批准成为专家
+
 }

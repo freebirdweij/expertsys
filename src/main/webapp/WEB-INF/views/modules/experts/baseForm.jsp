@@ -125,7 +125,7 @@
 					<label class="control-label">姓名:</label>
 					<div class="controls">
 						<form:input path="name" htmlEscape="false" maxlength="20"
-							class="span10 required userName" disabled="true"/>
+							class="span10 required userName" readonly="readonly"/>
 					</div>
 				</div>
 				<div class="control-group">

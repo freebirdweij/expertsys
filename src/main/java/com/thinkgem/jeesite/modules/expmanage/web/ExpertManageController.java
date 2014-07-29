@@ -32,6 +32,7 @@ import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
@@ -225,7 +226,7 @@ public class ExpertManageController extends BaseController {
 		}
 		
 		//已审核通过的专家记为4
-		expertInfoService.updateRegStep("4", expertConfirm.getExpertInfo().getUserId());
+		expertInfoService.updateRegStep(Constants.Register_Status_Accept, expertConfirm.getExpertInfo().getUserId());
 		addMessage(redirectAttributes, "保存专家确认'" + expertConfirm.getExpertInfo().getName() + "'成功");
 		return "modules/expmanage/confirmNote";
 	}
@@ -297,7 +298,7 @@ public class ExpertManageController extends BaseController {
 			e.printStackTrace();
 		}
 		//保留注册状态
-		expertInfo.setRegStep("4");
+		//expertInfo.setRegStep("4");
 		expertInfoService.updateStepOne(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return baseform(request.getParameter("expid"), model);
@@ -312,7 +313,7 @@ public class ExpertManageController extends BaseController {
 		
 		
 		//保留注册状态
-		expertInfo.setRegStep("4");
+		//expertInfo.setRegStep("4");
 		
 		expertInfoService.updateStepTwo(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
@@ -331,9 +332,9 @@ public class ExpertManageController extends BaseController {
 		expertConfirm.setExpertSeries(expertInfo.getCertSeries());
 		expertConfirm.setDeptormanageAdvice(request.getParameter("deptormanageAdvice"));
 		//保留注册状态
-		expertInfo.setRegStep("4");
+		expertInfo.setRegStep(Constants.Register_Status_Accept);
 				
-		expertInfoService.updateStepThree(expertInfo);
+		expertInfoService.saveStepThree(expertInfo);
 		expertConfirmService.save(expertConfirm);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return applyform(request.getParameter("expid"), model);
@@ -447,7 +448,9 @@ public class ExpertManageController extends BaseController {
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "delete")
 	public String delete(String id, RedirectAttributes redirectAttributes) {
+		ExpertConfirm expertConfirm = get(id);
 		expertConfirmService.delete(id);
+		expertInfoService.updateRegStep(Constants.Register_Status_Third, expertConfirm.getExpertInfo().getUserId());
 		addMessage(redirectAttributes, "删除专家确认成功");
 		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
 	}
@@ -477,13 +480,13 @@ public class ExpertManageController extends BaseController {
 			expertInfo.setUserId(user.getId());
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepOne";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("1")){
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)){
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepTwo";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("2")){
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepThree";
-		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase("3")){
+		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Third)){
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/regNotice";
 		}
@@ -555,7 +558,7 @@ public class ExpertManageController extends BaseController {
 		}
 		
 		//表示已作过第一步录入
-		expertInfo.setRegStep("1");
+		expertInfo.setRegStep(Constants.Register_Status_First);
 		
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
@@ -571,7 +574,7 @@ public class ExpertManageController extends BaseController {
 		
 		
 		//表示已作过第二步录入
-		expertInfo.setRegStep("2");
+		expertInfo.setRegStep(Constants.Register_Status_Second);
 		
 		expertInfoService.updateStepTwo(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
@@ -587,9 +590,9 @@ public class ExpertManageController extends BaseController {
 		
 		
 		//表示已作过第三步录入
-		expertInfo.setRegStep("3");
+		expertInfo.setRegStep(Constants.Register_Status_Apply);
 		
-		expertInfoService.updateStepThree(expertInfo);
+		expertInfoService.saveStepThree(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/regNotice";
 	}

@@ -48,7 +48,7 @@
 					</div>
 				</div>
 		<div class="control-group">
-			<label class="control-label">批准类别一:</label>
+			<label class="control-label">批准类别:</label>
 			<div class="controls">
 				<form:select path="kindOne" class="span2 required">
 					<form:option value="" label="请选择"/>
@@ -64,38 +64,6 @@
 					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
           </div>	
-			<label class="control-label">所属系列:</label>
-			<div class="controls">
-				<form:select path="seriesOne" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">批准类别二:</label>
-			<div class="controls">
-				<form:select path="kindTwo" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-            </div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">批准专业:</label>
-			<div class="controls">
-				<form:select path="specialTwo" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-          </div>	
-			<label class="control-label">所属系列:</label>
-			<div class="controls">
-				<form:select path="seriesTwo" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">行业部门〈或管理单位)初审意见:</label>
@@ -105,7 +73,7 @@
 		</div>
 		<div class="form-actions">
 			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertConfirm.expertInfo.name}(ID${uid})/">上传审核资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="通过"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

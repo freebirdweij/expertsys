@@ -8,6 +8,10 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#loginName").focus();
+			$("#btnSubmit").click(function(){
+						$("#inputForm").attr("action","${ctx}/experts/applySave");
+						$("#inputForm").submit();
+			});
 			$("#inputForm").validate({
 				rules: {
 					loginName: {remote: "${ctx}/sys/checkLoginName?oldLoginName=" + encodeURIComponent('${user.loginName}')}
@@ -41,7 +45,7 @@
 		<form:hidden path="userId"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">申报类别一:</label>
+			<label class="control-label">申报类别:</label>
 			<div class="controls">
 				<form:select path="specialKind1" class="span2 required">
 					<form:option value="" label="请选择"/>
@@ -56,42 +60,7 @@
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-				<form:select path="kind1Special2" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
           </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">申报类别二:</label>
-			<div class="controls">
-				<form:select path="specialKind2" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-            </div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">申报专业:</label>
-			<div class="controls">
-				<form:select path="kind2Special1" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-				<form:select path="kind2Special2" class="span2">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-          </div>	
-		</div>
-		<div class="control-group">
-			<label class="control-label">职称所属系列:</label>
-			<div class="controls">
-				<form:select path="certSeries" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_series_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">主要业绩:</label>
@@ -113,7 +82,8 @@
 		</div>
 		<div class="form-actions">
 			<a href="../../static/ckfinder/ckfinder.html?type=expert">上传资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="提交审核"/>&nbsp;
+			<input id="btnSave" class="btn btn-primary" type="submit" value="仅保存"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="button" value="提交审核"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
