@@ -134,11 +134,11 @@
 			<tr>
 				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
-				<td>${expertConfirm.expertKind}</td>
-				<td>${expertConfirm.expertSpecial}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
 				<td>${expertConfirm.expertInfo.job}</td>
-				<td>${expertConfirm.expertInfo.technical}</td>
-				<td>${expertConfirm.expertInfo.education}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

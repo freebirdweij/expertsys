@@ -100,11 +100,11 @@
 			<tr>
 				<td>${expertConfirm.expertInfo.name}</td>
 				<td><a href="${ctx}/expfetch/conditionexp?unitid=${expertConfirm.expertCompany.id}&resIds=$('#resIds').val()">${expertConfirm.expertInfo.unit.name}</a></td>
-				<td><a href="${ctx}/expfetch/conditionexp?kind=${expertConfirm.expertKind}&resIds=$('#resIds').val()">${expertConfirm.expertKind}</a></td>
-				<td><a href="${ctx}/expfetch/conditionexp?special=${expertConfirm.expertSpecial}&resIds=$('#resIds').val()">${expertConfirm.expertSpecial}</a></td>
+				<td><a href="${ctx}/expfetch/conditionexp?kind=${expertConfirm.expertKind}&resIds=$('#resIds').val()">${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</a></td>
+				<td><a href="${ctx}/expfetch/conditionexp?special=${expertConfirm.expertSpecial}&resIds=$('#resIds').val()">${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</a></td>
 				<td>${expertConfirm.expertInfo.job}</td>
-				<td><a href="${ctx}/expfetch/conditionexp?technical=${expertConfirm.expertTechnical}&resIds=$('#resIds').val()">${expertConfirm.expertTechnical}</a></td>
-				<td>${expertConfirm.expertInfo.education}</td>
+				<td><a href="${ctx}/expfetch/conditionexp?technical=${expertConfirm.expertTechnical}&resIds=$('#resIds').val()">${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</a></td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<td>
 			<input id="btnDiscard${expertConfirm.id}" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${expertConfirm.id}')"/>
 			<input id="discCancel${expertConfirm.id}" class="btn btn-primary" type="button" value="取消" onclick="discancel('${expertConfirm.id}')" style="display:none;"/>
@@ -129,11 +129,11 @@
 			<tr>
 				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
-				<td>${expertConfirm.expertKind}</td>
-				<td>${expertConfirm.expertSpecial}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
 				<td>${expertConfirm.expertInfo.job}</td>
-				<td>${expertConfirm.expertInfo.technical}</td>
-				<td>${expertConfirm.expertInfo.education}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

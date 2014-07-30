@@ -214,10 +214,12 @@ public class ExpertManageController extends BaseController {
 			expertConfirm.setExpertSpecial(expertConfirm.getSpecialOne());
 			expertConfirm.setExpertSeries(expertConfirm.getSeriesOne());
 			expertConfirm.setExpertInfo(expertInfo);
+			expertConfirm.setExpertCompany(expertInfo.getUnit());
+			expertConfirm.setExpertArea(expertInfo.getUnit().getArea());
 			expertConfirmService.save(expertConfirm);			
 		}
 		
-		if(expertConfirm.getKindTwo()!=null&&!expertConfirm.getKindTwo().equalsIgnoreCase("")&&expertConfirm.getSpecialTwo()!=null&&!expertConfirm.getSpecialTwo().equalsIgnoreCase("")){
+		/*if(expertConfirm.getKindTwo()!=null&&!expertConfirm.getKindTwo().equalsIgnoreCase("")&&expertConfirm.getSpecialTwo()!=null&&!expertConfirm.getSpecialTwo().equalsIgnoreCase("")){
 			expertConfirm = new ExpertConfirm();
 			expertConfirm.setId(expertConfirm.getExpertCode()+"-2");
 			expertConfirm.setExpertKind(expertConfirm.getKindTwo());
@@ -225,7 +227,7 @@ public class ExpertManageController extends BaseController {
 			expertConfirm.setExpertSeries(expertConfirm.getSeriesTwo());
 			expertConfirm.setExpertInfo(expertInfo);
 			expertConfirmService.save(expertConfirm);			
-		}
+		}*/
 		
 		//已审核通过的专家记为4
 		expertInfoService.updateRegStep(Constants.Register_Status_Accept, expertConfirm.getExpertInfo().getUserId());

@@ -45,11 +45,11 @@ public class ExpertConfirmService extends BaseService {
 			}
 			if(StringUtils.isNotEmpty(expertConfirm.getExpertCompany().getId())){
 				dc.createAlias("e.expertCompany", "c");
-			dc.add(Restrictions.like("c.id", "%"+expertConfirm.getExpertCompany().getId()+"%"));
+			dc.add(Restrictions.eq("c.id", expertConfirm.getExpertCompany().getId()));
 			}
 			if(StringUtils.isNotEmpty(expertConfirm.getExpertArea().getId())){
 				dc.createAlias("e.expertArea", "a");
-			dc.add(Restrictions.like("a.id", "%"+expertConfirm.getExpertArea().getId()+"%"));
+			dc.add(Restrictions.eq("a.id", expertConfirm.getExpertArea().getId()));
 			}
 		}
 		dc.add(Restrictions.eq("e.delFlag", ExpertConfirm.DEL_FLAG_NORMAL));

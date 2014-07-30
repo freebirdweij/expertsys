@@ -80,7 +80,7 @@
 		</div>
 		<div style="margin-top:8px;">
 			<label>归属地区：</label><tags:treeselect id="expertArea" name="expertArea.id" value="${expertConfirm.expertArea.id}" labelName="expertArea.name" labelValue="${expertConfirm.expertArea.name}" 
-				title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true"/>
+				title="部门" url="/sys/area/treeData" cssClass="input-small" allowClear="true"/>
 			<label>姓名：</label><form:input path="expertInfo.name" htmlEscape="false" maxlength="50" class="input-small"/>
 			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 			<!-- &nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
@@ -89,17 +89,17 @@
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
 				<td><a href="${ctx}/expmanage/expedit?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
-				<td>${expertConfirm.expertKind}</td>
-				<td>${expertConfirm.expertSpecial}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
 				<td>${expertConfirm.expertInfo.job}</td>
-				<td>${expertConfirm.expertInfo.technical}</td>
-				<td>${expertConfirm.expertInfo.education}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>
     				<a href="${ctx}/expmanage/expedit?id=${expertConfirm.id}">修改</a>
 					<a href="${ctx}/expmanage/expdelete?id=${expertConfirm.id}" onclick="return confirmx('确认要删除该专家吗？', this.href)">删除</a>
