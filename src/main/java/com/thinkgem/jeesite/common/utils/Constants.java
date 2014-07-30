@@ -12,6 +12,10 @@ public class Constants {
 	//每次专家抽取的状态
 	public static final String Fetch_Status_Failure = "10";//无效
 	public static final String Fetch_Status_Sussess = "11";//有效
+	
+	//专家请假标志
+	public static final String Expert_Status_Leave = "1";//无效
+	public static final String Expert_Status_Work = "0";//有效
 
 	//个人注册专家时的状态
 	public static final String Register_Status_First = "1";//完成第一步
