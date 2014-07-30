@@ -13,6 +13,11 @@ public class Constants {
 	public static final String Fetch_Status_Failure = "10";//无效
 	public static final String Fetch_Status_Sussess = "11";//有效
 	
+	//冲突屏蔽方式
+	public static final String Time_Clash_Ignore = "0";//无效
+	public static final String Time_Clash_OneDay = "1";//有效
+	public static final String Time_Clash_HalfDay = "2";//有效
+	
 	//专家请假标志
 	public static final String Expert_Status_Leave = "1";//无效
 	public static final String Expert_Status_Work = "0";//有效

@@ -44,6 +44,20 @@
 					bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
 			});
 		});
+		
+		Array.prototype.remove = function(dx) {
+			if (isNaN(dx) || dx > this.length) {
+				return false;
+			}
+
+			for ( var i = 0, n = 0; i < this.length; i++) {
+				if (this[i] != this[dx]) {
+					this[n++] = this[i];
+				}
+			}
+			this.length -= 1;
+		};
+		
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
@@ -52,19 +66,19 @@
 	    	return false;
 	    }
 	    
-		function resSubmit(){
+		function rSubmit(){
 			$("#inputForm").attr("action","${ctx}/expfetch/receiveunitresult");
 			$("#inputForm").submit();
 	    	return false;
 	    }
 	    
-		function resCancel(){
+		function rCancel(){
 			$("#inputForm").attr("action","${ctx}/expfetch/cancelunitresult");
 			$("#inputForm").submit();
 	    	return false;
 	    }
 	    
-		function btnCancel(){
+		function bCancel(){
 			$("#inputForm").attr("action","${ctx}/expfetch/unitmethod");
 			$("#inputForm").submit();
 	    	return false;
@@ -90,6 +104,35 @@
 			$("#btnDiscard"+id).show();
 	    	return true;
 	    }
+	    
+		function cUnit(){
+			$("#rejectUnit").val('1');
+			$("#cancelUnit").hide();
+			$("#backUnit").show();
+	    	return true;
+	    }
+	    
+		function bUnit(){
+			$("#rejectUnit").val('0');
+			$("#backUnit").hide();
+			$("#cancelUnit").show();
+	    	return true;
+	    }
+	    
+		function cThree(){
+			$("#rejectRecent").val('1');
+			$("#cancelThree").hide();
+			$("#backThree").show();
+	    	return true;
+	    }
+	    
+		function bThree(){
+			$("#rejectRecent").val('0');
+			$("#backThree").hide();
+			$("#cancelThree").show();
+	    	return true;
+	    }
+	    
 	</script>
 </head>
 <body>
@@ -104,24 +147,30 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="office">
 			<tr>
-				<td><a href="${ctx}/expfetch/unitexp?id=${office.id}&resIds=$('#resIds').val()">${office.area.name}</a></td>
+				<td>${office.area.name}</td>
 				<td>${office.name}</td>
-				<td>${fns:getDictLabel('${office.type}','sys_office_type','1')}</td>
+				<td>${fns:getDictLabel(office.type,'sys_office_type','')}</td>
 				<td>${office.parent.name}</td>
 				<td>${office.phone}</td>
 				<td>${office.address}</td>
 				<td>
-			<input id="btnDiscard${office.id}" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${office.id}')"/>
-			<input id="discCancel${office.id}" class="btn btn-primary" type="hidden" value="取消" onclick="discancel('${office.id}')"/>
+				<a id="btnDiscard${office.id}" href="javascript:discard('${office.id}')">屏蔽</a>
+				<a id="discCancel${office.id}" href="javascript:discancel('${office.id}')"  style="display:none;">取消</a>
 				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
+			<input id="rejectUnit" name="rejectUnit" type="hidden"/>
+			<input id="rejectRecent" name="rejectRecent" type="hidden"/>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			<input id="expertCount" name="expertCount" type="text" value="输入抽取数"/>
+			输入抽取数<input id="expertCount" name="expertCount" type="text" value=""/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
+			<input id="cancelUnit" class="btn btn-primary" type="button" onclick="cUnit()" value="屏蔽项目主体单位"/>
+			<input id="backUnit" class="btn btn-primary" type="button" onclick="bUnit()" value="取消屏蔽" style="display:none;"/>
+			<input id="cancelThree" class="btn btn-primary" type="button" onclick="cThree()" value="屏蔽最近三次抽选"/>
+			<input id="backThree" class="btn btn-primary" type="button" onclick="bThree()" value="取消屏蔽" style="display:none;"/>
 		</div>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
@@ -132,7 +181,7 @@
 		<tbody>
 		<c:forEach items="${rlist}" var="expertConfirm">
 			<tr>
-				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
+				<td><a href="${ctx}/expmanage/binfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
@@ -144,9 +193,9 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="resSubmit()"/>
-			<input id="resCancel" class="btn" type="button" value="放弃本次抽选" onclick="resCancel()"/>
-			<input id="btnCancel" class="btn" type="button" value="返回重新选择筛选条件" onclick="btnCancel()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="rSubmit()"/>
+			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次抽选" onclick="rCancel()"/>
+			<input id="btnCancel" class="btn btn-primary" type="button" value="返回重新选择筛选条件" onclick="bCancel()"/>
 		</div>
 	</form:form>
 

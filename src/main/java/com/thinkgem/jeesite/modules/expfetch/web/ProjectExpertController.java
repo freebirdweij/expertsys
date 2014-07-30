@@ -205,7 +205,7 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setCreateBy(user);
 		}
 		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
-		String unitid = request.getParameter("id");
+		String unitid = request.getParameter("unitid");
 		String resIds = request.getParameter("resIds");
 		if(unitid!=null&&!unitid.equalsIgnoreCase("")){
 			projectExpert.setUnitIdsYes(unitid);

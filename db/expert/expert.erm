@@ -12,7 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>57</x>
-	<y>390</y>
+	<y>429</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -128,7 +128,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2014-06-21 08:37:55</creation_date>
-			<updated_date>2014-07-29 11:03:17</updated_date>
+			<updated_date>2014-07-30 20:26:04</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -4729,10 +4729,10 @@
 					<physical_name></physical_name>
 					<type>char</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>0</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
-					<not_null>false</not_null>
+					<not_null>true</not_null>
 					<primary_key>false</primary_key>
 					<unique_key>false</unique_key>
 					<character_set></character_set>

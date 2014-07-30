@@ -44,21 +44,21 @@
 			$("#searchForm").submit();
 			return false;
 		}
-		function resSubmit() {
+		function rSubmit() {
 			$("#inputForm").attr("action",
 					"${ctx}/expfetch/receiveexpertresult");
 			$("#inputForm").submit();
 			return false;
 		}
 
-		function resCancel() {
+		function rCancel() {
 			$("#inputForm")
 					.attr("action", "${ctx}/expfetch/cancelexpertresult");
 			$("#inputForm").submit();
 			return false;
 		}
 
-		function btnCancel() {
+		function bCancel() {
 			$("#inputForm").attr("action", "${ctx}/expfetch/expertmethod");
 			$("#inputForm").submit();
 			return false;
@@ -84,6 +84,21 @@
 			$("#btnDiscard" + id).show();
 			return false;
 		}
+		
+		function cUnit(){
+			$("#rejectUnit").val('1');
+			$("#cancelUnit").hide();
+			$("#backUnit").show();
+	    	return true;
+	    }
+	    
+		function bUnit(){
+			$("#rejectUnit").val('0');
+			$("#backUnit").hide();
+			$("#cancelUnit").show();
+	    	return true;
+	    }
+	    
 	</script>
 </head>
 <body>
@@ -106,17 +121,22 @@
 				<td><a href="${ctx}/expfetch/conditionexp?technical=${expertConfirm.expertTechnical}&resIds=$('#resIds').val()">${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</a></td>
 				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<td>
-			<input id="btnDiscard${expertConfirm.id}" class="btn btn-primary" type="button" value="屏蔽" onclick="discard('${expertConfirm.id}')"/>
-			<input id="discCancel${expertConfirm.id}" class="btn btn-primary" type="button" value="取消" onclick="discancel('${expertConfirm.id}')" style="display:none;"/>
+				<a id="btnDiscard${expertConfirm.id}" href="javascript:discard('${expertConfirm.id}')">屏蔽</a>
+				<a id="discCancel${expertConfirm.id}" href="javascript:discancel('${expertConfirm.id}')"  style="display:none;">取消</a>
 				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
+			<input id="rejectUnit" name="rejectUnit" type="hidden"/>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			输入抽取数<input id="expertCount" name="expertCount" type="text" value=""/>
+			&nbsp;&nbsp;&nbsp;&nbsp;<label>输入抽取数</label><input id="expertCount" name="expertCount" type="text" value=""/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
+			<input id="cancelUnit" class="btn btn-primary" type="button" onclick="cUnit()" value="屏蔽项目主体单位"/>
+			<input id="backUnit" class="btn btn-primary" type="button" onclick="bUnit()" value="取消屏蔽" style="display:none;"/>
+			<form:select path="timeClash" class="span2" ><form:option value="" label="冲突屏蔽方式"/>
+			<form:options items="${fns:getDictList('sys_time_clash')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
 		</div>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
@@ -139,9 +159,9 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="resSubmit()"/>
-			<input id="resCancel" class="btn" type="button" value="放弃本次抽选" onclick="resCancel()"/>
-			<input id="btnCancel" class="btn" type="button" value="返回重新选择筛选条件" onclick="btnCancel()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="rSubmit()"/>
+			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次抽选" onclick="rCancel()"/>
+			<input id="btnCancel" class="btn btn-primary" type="button" value="返回重新选择筛选条件" onclick="bCancel()"/>
 		</div>
 	</form:form>
 </body>

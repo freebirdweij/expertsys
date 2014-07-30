@@ -308,19 +308,24 @@ public class RedrawExpertController extends BaseController {
 			}
 		}
 		projectExpert.setExpertCount(expertCount);
-        List<ExpertConfirm> rlist = projectExpertService.findUnitExpertByCount(new Page<ExpertConfirm>(request, response), projectExpert); 
-        model.addAttribute("rlist", rlist);
+        List<Office> rlist = projectExpertService.findUnitExpertByCount(new Page<Office>(request, response), projectExpert); 
+        List<ExpertConfirm> eclist =  Lists.newArrayList();
+        for(Office ec : rlist){
+        	eclist.add(projectExpertService.findAExpertByUnit(ec, projectExpert));
+        }
+        
+        model.addAttribute("rlist", eclist);
         
         ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
         pExpert.setExpertCount(expertCount);
         Page<Office> page = projectExpertService.findExpertUnits(new Page<Office>(request, response), pExpert); 
         model.addAttribute("page", page);
         
-        List<String> eclist =  Lists.newArrayList();
-        for(ExpertConfirm ec : rlist){
-        	eclist.add(ec.getId());
+        List<String> dclist =  Lists.newArrayList();
+        for(ExpertConfirm ec : eclist){
+        	dclist.add(ec.getId());
         }
-        pExpert.setResIds(StringUtils.join(eclist, ","));
+        pExpert.setResIds(StringUtils.join(dclist, ","));
         model.addAttribute("projectExpert", pExpert);
         request.getSession().setAttribute("projectExpert",pExpert);       
         

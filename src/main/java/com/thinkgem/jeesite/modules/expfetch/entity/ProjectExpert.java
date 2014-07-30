@@ -72,6 +72,40 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	/** 专家接受任务标志。. */
 	private String expertAccept;
 	
+	
+	@Transient
+	public String getRejectUnit() {
+		return rejectUnit;
+	}
+
+	public void setRejectUnit(String rejectUnit) {
+		this.rejectUnit = rejectUnit;
+	}
+
+	@Transient
+	public String getRejectRecent() {
+		return rejectRecent;
+	}
+
+	public void setRejectRecent(String rejectRecent) {
+		this.rejectRecent = rejectRecent;
+	}
+
+	@Transient
+	public String getTimeClash() {
+		return timeClash;
+	}
+
+	public void setTimeClash(String timeClash) {
+		this.timeClash = timeClash;
+	}
+
+	private String rejectUnit;
+	
+	private String rejectRecent;
+	
+	private String timeClash;
+		
 	private String prjid;
 	
 	@Transient
