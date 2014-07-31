@@ -3,15 +3,18 @@
  */
 package com.thinkgem.jeesite.modules.expfetch.web;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +137,23 @@ public class ProjectExpertController extends BaseController {
         Page<Office> page = projectExpertService.findExpertUnits(new Page<Office>(request, response), projectExpert); 
         model.addAttribute("page", page);
         request.getSession().setAttribute("projectExpert", projectExpert);
+        //ProjectExpert pExpert = new ProjectExpert();
+        
+        try {
+			request.getSession().setAttribute("projectExpertBak", BeanUtils.cloneBean(projectExpert));
+		} catch (IllegalAccessException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
 		return "modules/expfetch/unitFetchResult";
 	}
 
@@ -272,53 +292,77 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
+		//需要获取的专家数
 		Byte expertCount = projectExpert.getExpertCount();
+		//从页面得到的屏蔽的单位id
 		String discIds = projectExpert.getDiscIds();
+		//屏蔽主体单位标志
 		String rejectUnit = projectExpert.getRejectUnit();
+		//屏蔽最近三次抽取标志
 		String rejectRecent = projectExpert.getRejectRecent();
+		
 		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
 		String unitIdsYes = projectExpert.getUnitIdsYes();
 		String unitIdsNo = projectExpert.getUnitIdsNo();
+		//构造最终需要的单位集合
 		List<String> unitList = Lists.newArrayList();
+		
+		//存储需屏蔽的单位集合
+		List<String> uidslist = Lists.newArrayList();
 		
 		if(rejectUnit.equalsIgnoreCase(Constants.Reject_Main_Unit)){
 			String prjid = projectExpert.getPrjid();
 			rejectUnit = projectInfoService.get(prjid).getUnit().getId();
+			uidslist.add(rejectUnit);
 		}
 		
 		if(rejectRecent.equalsIgnoreCase(Constants.Reject_Recent_Three)){
-			List<String> uidslist = projectExpertService.findUnitRecentThree(projectExpert);
+			uidslist.addAll(projectExpertService.findUnitRecentThree(projectExpert));
 		}
 		
 		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
-			
+			  String[] dids = StringUtils.split(discIds, ",");
+			  uidslist.addAll(Arrays.asList(dids));
+		}
+		
+		if(uidslist.size()>0){
 			if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
-				  String[] dids = StringUtils.split(discIds, ",");
-				  String[] ids = StringUtils.split(unitIdsYes, ",");
-			  for (String id : ids) {
-				  unitList.add(id);
-				  for (String discId : dids) {
-					  if(discId.equalsIgnoreCase(id)){	
-						  unitList.remove(id);
-					  }
-				  }
-			  }
+				String[] ids = StringUtils.split(unitIdsYes, ",");
+				for (String id : ids) {
+					unitList.add(id);
+					for (String discId : uidslist) {
+						if(discId.equalsIgnoreCase(id)){	
+							unitList.remove(id);
+						}
+					}
+				}
 				projectExpert.setUnitIdsYes(StringUtils.join(unitList, ","));
 				projectExpert.setUnitIdsNo(null);
-			}
-			
-			if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
-				  String[] dids = StringUtils.split(discIds, ",");
-				  String[] ids = StringUtils.split(unitIdsYes, ",");
-				  unitList.addAll(Arrays.asList(dids));
-				  unitList.addAll(Arrays.asList(ids));
-				  
-					projectExpert.setUnitIdsYes(null);
-					projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
+			}else if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
+				String[] ids = StringUtils.split(unitIdsNo, ",");
+				unitList.addAll(uidslist);
+				unitList.addAll(Arrays.asList(ids));
+
+				projectExpert.setUnitIdsYes(null);
+				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
+			}else{
+				unitList.addAll(uidslist);
+				projectExpert.setUnitIdsYes(null);
+				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
 			}
 		}
 		projectExpert.setExpertCount(expertCount);
         List<Office> rlist = projectExpertService.findUnitExpertByCount(new Page<Office>(request, response), projectExpert); 
+        
+        //以下进行随机选取计算
+		int resSize =rlist.size(); 
+		if(expertCount<resSize){
+	        Random r=new Random();   
+	        int n = resSize - expertCount+1;  
+	        int ri = r.nextInt(n);
+	        rlist = rlist.subList(ri,ri+expertCount);
+		}
+        
         List<ExpertConfirm> eclist =  Lists.newArrayList();
         for(Office ec : rlist){
         	eclist.add(projectExpertService.findAExpertByUnit(ec, projectExpert));
@@ -337,7 +381,7 @@ public class ProjectExpertController extends BaseController {
         }
         pExpert.setResIds(StringUtils.join(dclist, ","));
         model.addAttribute("projectExpert", pExpert);
-        request.getSession().setAttribute("projectExpert",pExpert);       
+        //request.getSession().setAttribute("projectExpert",pExpert);       
         
 		return "modules/expfetch/unitFetchResult";
 	}
@@ -653,11 +697,11 @@ public class ProjectExpertController extends BaseController {
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")
 	@RequestMapping(value = "cancelunitresult")
-	public String cancelunitresult(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+	public String cancelunitresult(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,HttpServletResponse response) {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
-		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		/*ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
 		int fcount = pExpert.getFetchTime()+1;
 		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
@@ -668,10 +712,11 @@ public class ProjectExpertController extends BaseController {
 	    	//本次抽取状态标志。重要
 	    	projectExpert.setFetchStatus("0");
 			projectExpertService.save(projectExpert);
-	    }
+	    }*/
 	    request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/expfetch/unitfetch/?repage";
+		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
+		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
+		return unitfetch(projectExpert, request, response, model, redirectAttributes);
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")

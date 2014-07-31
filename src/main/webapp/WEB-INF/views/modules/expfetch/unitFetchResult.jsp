@@ -156,7 +156,7 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
-			<input id="discIds" name="discIds" type="hidden"/>
+			<form:hidden path="discIds"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>归属区域</th><th>单位名称</th><th>单位类型</th><th>上级机构</th><th>电话</th><th>联系地址</th><th>操作</th></tr></thead>
 		<tbody>
@@ -176,8 +176,8 @@
 		</c:forEach>
 		</tbody>
 	</table>
-			<input id="rejectUnit" name="rejectUnit" type="hidden"/>
-			<input id="rejectRecent" name="rejectRecent" type="hidden"/>
+			<form:hidden path="rejectUnit"/>
+			<form:hidden path="rejectRecent"/>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
 			输入抽取数<form:input path="expertCount" htmlEscape="false" max="${page.list.size()}" class="required digits"/>
@@ -190,7 +190,7 @@
       <div class="span10">
         <h4>以下为抽选结果：</h4>
       </div>
-			<input id="resIds" name="resIds" type="hidden"/>
+			<form:hidden path="resIds"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>

@@ -138,9 +138,19 @@ public class ProjectExpertService extends BaseService {
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		
 		List<ExpertConfirm> list = expertConfirmDao.find(dc);
+		
+        //以下进行随机选取计算
+		int resSize =list.size(); 
+		int ri = 0;
+		if(1<resSize){
+	        Random r=new Random();   
+	        int n = resSize;  
+	         ri = r.nextInt(n);
+		}
+        
 
 
-		return list.get(0);
+		return list.get(ri);
 	}
 	
 	public Page<ExpertConfirm> findExperts(Page<ExpertConfirm> page, ProjectExpert projectExpert) {
@@ -472,11 +482,7 @@ public class ProjectExpertService extends BaseService {
 		dc.addOrder(Order.desc("o.id"));
 		
 		List<Office> res = officeDao.find(dc);
-		int resSize =res.size(); 
-        Random r=new Random();   
-        int n = resSize - projectExpert.getExpertCount().intValue();  
-        int ri = r.nextInt(n);
-		return res.subList(ri,ri+projectExpert.getExpertCount().intValue()); 
+		return res; 
 	}
 	
 	@SuppressWarnings("unchecked")
