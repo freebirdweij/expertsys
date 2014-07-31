@@ -18,6 +18,14 @@ public class Constants {
 	public static final String Time_Clash_OneDay = "1";//有效
 	public static final String Time_Clash_HalfDay = "2";//有效
 	
+	//屏蔽主体单位
+	public static final String Accept_Main_Unit = "0";//有效
+	public static final String Reject_Main_Unit = "1";//无效
+	
+	//屏蔽最近三次抽取
+	public static final String Accept_Recent_Three = "0";//无效
+	public static final String Reject_Recent_Three = "1";//有效
+	
 	//专家请假标志
 	public static final String Expert_Status_Leave = "1";//无效
 	public static final String Expert_Status_Work = "0";//有效

@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
@@ -273,10 +274,21 @@ public class ProjectExpertController extends BaseController {
 		}
 		Byte expertCount = projectExpert.getExpertCount();
 		String discIds = projectExpert.getDiscIds();
+		String rejectUnit = projectExpert.getRejectUnit();
+		String rejectRecent = projectExpert.getRejectRecent();
 		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
 		String unitIdsYes = projectExpert.getUnitIdsYes();
 		String unitIdsNo = projectExpert.getUnitIdsNo();
 		List<String> unitList = Lists.newArrayList();
+		
+		if(rejectUnit.equalsIgnoreCase(Constants.Reject_Main_Unit)){
+			String prjid = projectExpert.getPrjid();
+			rejectUnit = projectInfoService.get(prjid).getUnit().getId();
+		}
+		
+		if(rejectRecent.equalsIgnoreCase(Constants.Reject_Recent_Three)){
+			List<String> uidslist = projectExpertService.findUnitRecentThree(projectExpert);
+		}
 		
 		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
 			

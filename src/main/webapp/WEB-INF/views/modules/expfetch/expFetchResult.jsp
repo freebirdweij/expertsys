@@ -8,6 +8,21 @@
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$("#inputForm").validate({
+				submitHandler: function(form){
+					loading('正在提交，请稍等...');
+					form.submit();
+				},
+				errorContainer: "#messageBox",
+				errorPlacement: function(error, element) {
+					$("#messageBox").text("输入有误，请先更正。");
+					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+						error.appendTo(element.parent().parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
@@ -131,7 +146,7 @@
 			<input id="rejectUnit" name="rejectUnit" type="hidden"/>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
-			&nbsp;&nbsp;&nbsp;&nbsp;<label>输入抽取数</label><input id="expertCount" name="expertCount" type="text" value=""/>
+			&nbsp;&nbsp;&nbsp;&nbsp;<label>输入抽取数</label><form:input path="expertCount" htmlEscape="false" max="${page.list.size()}" class="required digits"/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
 			<input id="cancelUnit" class="btn btn-primary" type="button" onclick="cUnit()" value="屏蔽项目主体单位"/>
 			<input id="backUnit" class="btn btn-primary" type="button" onclick="bUnit()" value="取消屏蔽" style="display:none;"/>

@@ -480,6 +480,34 @@ public class ProjectExpertService extends BaseService {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<String> findUnitRecentThree(ProjectExpert projectExpert) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		
+				dc.add(Restrictions.eq("o.fetchStatus", Constants.Fetch_Status_Sussess));
+
+		dc.addOrder(Order.desc("o.fetchStatus"));
+		
+		List<ProjectExpert> res = projectExpertDao.find(dc);
+
+		List<String> ulist =  Lists.newArrayList();
+		int t=0,tmp = 0;
+		for(ProjectExpert pe:res){
+			if(tmp<pe.getFetchTime()){
+			  tmp = pe.getFetchTime();
+			  ulist.add(pe.getExpertExpertConfirm().getExpertCompany().getId());
+			}else if(tmp==pe.getFetchTime()){
+				  ulist.add(pe.getExpertExpertConfirm().getExpertCompany().getId());				
+			}else{
+				  tmp = pe.getFetchTime();
+				  ulist.add(pe.getExpertExpertConfirm().getExpertCompany().getId());
+				  t++;
+		    }
+			
+			if(t>2) break;
+		}
+		return ulist; 
+	}
+	
 	public List<ExpertConfirm> findUnitExpertByCountRest(Page<ExpertConfirm> page, ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(Office.class, "o");
 		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
