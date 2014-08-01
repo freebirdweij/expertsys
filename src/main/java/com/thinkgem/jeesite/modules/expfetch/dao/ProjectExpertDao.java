@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.expfetch.dao;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.thinkgem.jeesite.common.persistence.BaseDao;
@@ -16,5 +17,14 @@ import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
  */
 @Repository
 public class ProjectExpertDao extends BaseDao<ProjectExpert> {
+	
+	public Integer selectMaxFetchTime(){
+		Query query = createQuery("select max(p.fetchTime) from ProjectExpert p",null); 
+		Object result = query.uniqueResult(); 
+		
+		if(result==null) return new Integer(0);
+		
+		return (Integer)result;
+	}
 	
 }

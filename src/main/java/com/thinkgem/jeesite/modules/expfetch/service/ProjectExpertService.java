@@ -53,6 +53,10 @@ public class ProjectExpertService extends BaseService {
 		return projectExpertDao.get(id);
 	}
 	
+	public Integer selectMaxFetchTime(){
+		return projectExpertDao.selectMaxFetchTime();
+	}
+	
 	public Page<ProjectExpert> find(Page<ProjectExpert> page, ProjectExpert projectExpert) {
 		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();
 		if (StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){

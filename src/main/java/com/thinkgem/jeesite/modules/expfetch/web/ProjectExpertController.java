@@ -699,10 +699,12 @@ public class ProjectExpertController extends BaseController {
 			return form(projectExpert, model);
 		}
 		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		int fcount = 0;
 		if(pExpert.getFetchTime()==null){
-			
+			fcount = projectExpertService.selectMaxFetchTime()+1;
+		}else{
+		    fcount = pExpert.getFetchTime()+1;
 		}
-		int fcount = pExpert.getFetchTime()+1;
 		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
