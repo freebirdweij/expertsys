@@ -13,6 +13,10 @@ public class Constants {
 	public static final String Fetch_Status_Failure = "10";//无效
 	public static final String Fetch_Status_Sussess = "11";//有效
 	
+	//专家抽取的方式
+	public static final String Fetch_Method_Unit = "0";//无效
+	public static final String Fetch_Method_Expert = "1";//有效
+	
 	//冲突屏蔽方式
 	public static final String Time_Clash_Ignore = "0";//无效
 	public static final String Time_Clash_OneDay = "1";//有效
