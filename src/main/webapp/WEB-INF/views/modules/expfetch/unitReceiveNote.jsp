@@ -94,7 +94,7 @@
 	    }
 	    
 		function bCancel(){
-			$("#inputForm").attr("action","${ctx}/expfetch/backunitmethod");
+			$("#inputForm").attr("action","${ctx}/expfetch/reviewinglist");
 			$("#inputForm").submit();
 	    	return false;
 	    }

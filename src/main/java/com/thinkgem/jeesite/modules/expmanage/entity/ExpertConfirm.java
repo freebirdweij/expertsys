@@ -22,6 +22,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
@@ -48,6 +49,17 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	private String specialTwo;
 	private String seriesTwo;
 	private String expertCode;
+	private String expertPhone;
+
+	@Transient
+	@ExcelField(title="电话",align=2, sort=80)
+	public String getExpertPhone() {
+		return expertInfo.getMobile();
+	}
+
+	public void setExpertPhone(String expertPhone) {
+		expertInfo.setMobile(expertPhone);
+	}
 
 	@Transient
 	public String getExpertCode() {
@@ -214,6 +226,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@JoinColumn(name="expertArea")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
+	@ExcelField(title="地区", value="expertArea.name",align=2, sort=70)
 	public Area getExpertArea() {
 		return expertArea;
 	}
@@ -226,6 +239,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@JoinColumn(name="expertCompany")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
+	@ExcelField(title="单位", value="expertCompany.name", align=2, sort=60)
 	public Office getExpertCompany() {
 		return expertCompany;
 	}
@@ -234,6 +248,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 		this.expertCompany = expertCompany;
 	}
 
+	@ExcelField(title="职称", align=2, sort=50, dictType="sys_tech_type")
 	public String getExpertTechnical() {
 		return expertTechnical;
 	}
@@ -258,6 +273,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * @return 专家确认ID
 	 */
 	@Id
+	@ExcelField(title="专家编号", align=2, sort=10)
 	public String getId() {
 		return this.id;
 	}
@@ -281,6 +297,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@JoinColumn(name="userId")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
+	@ExcelField(title="专家姓名", value="expertInfo.name", align=2, sort=20)
 	public ExpertInfo getExpertInfo() {
 		return this.expertInfo;
 	}
@@ -300,6 +317,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 专家类别
 	 */
+	@ExcelField(title="专家类别", align=2, sort=30, dictType="sys_specialkind_type")
 	public String getExpertKind() {
 		return this.expertKind;
 	}
@@ -319,6 +337,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 专家专业
 	 */
+	@ExcelField(title="专业", align=2, sort=40, dictType="sys_special_type")
 	public String getExpertSpecial() {
 		return this.expertSpecial;
 	}
