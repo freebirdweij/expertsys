@@ -74,7 +74,7 @@
 		}
 
 		function bCancel() {
-			$("#inputForm").attr("action", "${ctx}/expfetch/expertmethod");
+			$("#inputForm").attr("action", "${ctx}/expfetch/backexpmethod");
 			$("#inputForm").submit();
 			return false;
 		}
@@ -158,7 +158,7 @@
       </div>
 			<input id="resIds" name="resIds" type="hidden"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>
 		<c:forEach items="${rlist}" var="expertConfirm">
 			<tr>

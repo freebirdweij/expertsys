@@ -76,7 +76,7 @@
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
-			$("#searchForm").attr("action","${ctx}/expmanage/explist");
+			$("#searchForm").attr("action","${ctx}/expfetch/unitfetch");
 			$("#searchForm").submit();
 	    	return false;
 	    }

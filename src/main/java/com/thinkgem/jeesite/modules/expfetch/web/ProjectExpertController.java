@@ -393,11 +393,57 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
+		//需要获取的专家数
 		Byte expertCount = projectExpert.getExpertCount();
+		//从页面得到的屏蔽的专家id
 		String discIds = projectExpert.getDiscIds();
+		//屏蔽主体单位标志
+		String rejectUnit = projectExpert.getRejectUnit();
+		//冲突屏蔽方式
+		String timeClash = projectExpert.getTimeClash();
 		String resIds = projectExpert.getResIds();
+		
 		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		String unitIdsYes = projectExpert.getUnitIdsYes();
+		String unitIdsNo = projectExpert.getUnitIdsNo();
+		//构造最终需要的单位集合
+		List<String> unitList = Lists.newArrayList();
+		
+		//存储需屏蔽的单位集合
+		List<String> uidslist = Lists.newArrayList();
 		List<String> eList = Lists.newArrayList();
+		
+		if(rejectUnit.equalsIgnoreCase(Constants.Reject_Main_Unit)){
+			String prjid = projectExpert.getPrjid();
+			rejectUnit = projectInfoService.get(prjid).getUnit().getId();
+			uidslist.add(rejectUnit);
+		}
+		if(uidslist.size()>0){
+			if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
+				String[] ids = StringUtils.split(unitIdsYes, ",");
+				for (String id : ids) {
+					unitList.add(id);
+					for (String discId : uidslist) {
+						if(discId.equalsIgnoreCase(id)){	
+							unitList.remove(id);
+						}
+					}
+				}
+				projectExpert.setUnitIdsYes(StringUtils.join(unitList, ","));
+				projectExpert.setUnitIdsNo(null);
+			}else if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
+				String[] ids = StringUtils.split(unitIdsNo, ",");
+				unitList.addAll(uidslist);
+				unitList.addAll(Arrays.asList(ids));
+
+				projectExpert.setUnitIdsYes(null);
+				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
+			}else{
+				unitList.addAll(uidslist);
+				projectExpert.setUnitIdsYes(null);
+				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
+			}
+		}
 		
 		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
 			
