@@ -648,25 +648,35 @@ public class ProjectExpertController extends BaseController {
 
 	@RequiresPermissions("expfetch:projectExpert:edit")
 	@RequestMapping(value = "receiveunitresult")
-	public String receiveunitresult(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+	public String receiveunitresult(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,HttpServletResponse response) {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
 		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
-		int fcount = pExpert.getFetchTime()+1;
+		int fcount = 0;
+		if(pExpert.getFetchTime()==null){
+			fcount = projectExpertService.selectMaxFetchTime()+1;
+		}else{
+		    fcount = pExpert.getFetchTime()+1;
+		}
 		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
-		  String[] ids = StringUtils.split(resIds, ",");
+		String[] ids = StringUtils.split(resIds, ",");
+	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
+    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
+    	//本次抽取状态标志。重要
+    	projectExpert.setFetchStatus(Constants.Fetch_Status_Sussess);
 	    for (String id : ids) {
 	    	projectExpert.getExpertExpertConfirm().setId(id);
-	    	projectExpert.setFetchMethod("1");
-	    	//本次抽取状态标志。重要
-	    	projectExpert.setFetchStatus("1");
 			projectExpertService.save(projectExpert);
 	    }
-	    request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/expfetch/reviewinglist/?repage";
+	    //request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		
+		model.addAttribute("projectExpert", projectExpert);
+        List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
+        model.addAttribute("rlist", rlist);
+		return "modules/expfetch/unitReceiveNote";
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")
@@ -720,6 +730,39 @@ public class ProjectExpertController extends BaseController {
 		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
 		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
 		return unitfetch(projectExpert, request, response, model, redirectAttributes);
+	}
+	
+	@RequiresPermissions("expfetch:projectExpert:edit")
+	@RequestMapping(value = "backunitmethod")
+	public String backunitmethod(ProjectExpert projectExpert, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,HttpServletResponse response) {
+		if (!beanValidator(model, projectExpert)){
+			return form(projectExpert, model);
+		}
+		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		String prjid = pExpert.getPrjid();
+		int fcount = 0;
+		if(pExpert.getFetchTime()==null){
+			fcount = projectExpertService.selectMaxFetchTime()+1;
+		}else{
+		    fcount = pExpert.getFetchTime()+1;
+		}
+		projectExpert.setFetchTime(fcount);
+		String resIds = projectExpert.getResIds();
+		String[] ids = StringUtils.split(resIds, ",");
+	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
+    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
+    	//本次抽取状态标志。重要
+    	projectExpert.setFetchStatus(Constants.Fetch_Status_Failure);
+	    for (String id : ids) {
+	    	projectExpert.getExpertExpertConfirm().setId(id);
+			projectExpertService.save(projectExpert);
+	    }
+	    request.getSession().removeAttribute("projectExpert");
+	    request.getSession().removeAttribute("projectExpertBak");
+	    projectExpert = new ProjectExpert();
+		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
+		//projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
+		return unitmethod(projectExpert,model, prjid);
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")
