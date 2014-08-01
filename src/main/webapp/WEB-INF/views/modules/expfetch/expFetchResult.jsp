@@ -129,11 +129,11 @@
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
 				<td>${expertConfirm.expertInfo.name}</td>
-				<td><a href="${ctx}/expfetch/conditionexp?unitid=${expertConfirm.expertCompany.id}&resIds=$('#resIds').val()">${expertConfirm.expertInfo.unit.name}</a></td>
-				<td><a href="${ctx}/expfetch/conditionexp?kind=${expertConfirm.expertKind}&resIds=$('#resIds').val()">${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</a></td>
-				<td><a href="${ctx}/expfetch/conditionexp?special=${expertConfirm.expertSpecial}&resIds=$('#resIds').val()">${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</a></td>
+				<td>${expertConfirm.expertInfo.unit.name}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
 				<td>${expertConfirm.expertInfo.job}</td>
-				<td><a href="${ctx}/expfetch/conditionexp?technical=${expertConfirm.expertTechnical}&resIds=$('#resIds').val()">${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</a></td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<td>
 				<a id="btnDiscard${expertConfirm.id}" href="javascript:discard('${expertConfirm.id}')">屏蔽</a>
@@ -162,7 +162,7 @@
 		<tbody>
 		<c:forEach items="${rlist}" var="expertConfirm">
 			<tr>
-				<td><a href="${ctx}/expmanage/expinfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
+				<td><a href="${ctx}/expmanage/binfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>

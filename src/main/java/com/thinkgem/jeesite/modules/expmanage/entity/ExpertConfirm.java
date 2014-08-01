@@ -39,6 +39,11 @@ import com.thinkgem.jeesite.modules.sys.entity.Office;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 
+	public ExpertConfirm(String id) {
+		super();
+		this.id = id;
+	}
+
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 

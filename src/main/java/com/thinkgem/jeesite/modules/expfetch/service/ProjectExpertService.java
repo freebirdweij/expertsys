@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.expfetch.service;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -235,6 +236,13 @@ public class ProjectExpertService extends BaseService {
 			String[] techids = StringUtils.split(techIdsNo, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.expertTechnical", techids)));
 	    }
+		
+		String discIds = projectExpert.getDiscIds();
+		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
+			String[] resids = StringUtils.split(discIds, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.id", resids)));
+	    }
+		
 
 		subdc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		subdc.addOrder(Order.desc("id"));
@@ -321,9 +329,9 @@ public class ProjectExpertService extends BaseService {
 			subdc.add(Restrictions.not(Restrictions.in("e.expertTechnical", techids)));
 	    }
 		
-		String resIds = projectExpert.getResIds();
-		if(resIds!=null&&!resIds.equalsIgnoreCase("")){
-			String[] resids = StringUtils.split(resIds, ",");
+		String discIds = projectExpert.getDiscIds();
+		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
+			String[] resids = StringUtils.split(discIds, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.id", resids)));
 	    }
 		
@@ -331,11 +339,28 @@ public class ProjectExpertService extends BaseService {
 		subdc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		subdc.addOrder(Order.desc("id"));
 		List<ExpertConfirm> res = expertConfirmDao.find(subdc);
-		int resSize =res.size(); 
-        Random r=new Random();   
-        int n = resSize - projectExpert.getExpertCount().intValue();  
-        int ri = r.nextInt(n);
-		return res.subList(ri,ri+projectExpert.getExpertCount().intValue()); 
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> findExpertsByTimeClash(ProjectExpert projectExpert) {
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "e");
+		
+		Date reviewBegin = projectExpert.getReviewBegin();
+		Date reviewEnd = projectExpert.getReviewEnd();
+		if(reviewBegin!=null&&reviewEnd!=null){
+			subdc.add(Restrictions.between("e.reviewBegin", reviewBegin, reviewEnd));
+			subdc.add(Restrictions.or(Restrictions.between("e.reviewEnd", reviewBegin, reviewEnd)));
+		}
+
+		subdc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		subdc.addOrder(Order.desc("fetchTime"));
+		List<ProjectExpert> res = projectExpertDao.find(subdc);
+        List<String> eclist =  Lists.newArrayList();
+        for(ProjectExpert pe:res){
+        	eclist.add(pe.getExpertExpertConfirm().getId());
+        }
+		return eclist; 
 	}
 	
 	public Page<Office> findExpertUnits(Page<Office> page, ProjectExpert projectExpert) {
