@@ -152,41 +152,23 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">单位列表</li>
+		<li class="active">项目抽取信息</li>
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
-			<form:hidden path="discIds"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>归属区域</th><th>单位名称</th><th>单位类型</th><th>上级机构</th><th>电话</th><th>联系地址</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="office">
 			<tr>
-				<td>${office.area.name}</td>
-				<td>${office.name}</td>
-				<td>${fns:getDictLabel(office.type,'sys_office_type','')}</td>
-				<td>${office.parent.name}</td>
-				<td>${office.phone}</td>
-				<td>${office.address}</td>
-				<td>
-				<a id="btnDiscard${office.id}" href="javascript:discard('${office.id}')">屏蔽</a>
-				<a id="discCancel${office.id}" href="javascript:discancel('${office.id}')"  style="display:none;">取消</a>
-				</td>
+				<td>${projectExpert.prjProjectInfo.id}</td>
+				<td><a href="${ctx}/project/form?id=${projectExpert.prjProjectInfo.id}">${projectExpert.prjProjectInfo.prjName}</a></td>
+				<td>${projectExpert.prjProjectInfo.unit.name}</td>
+				<td>${fns:getDictLabel(projectExpert.prjProjectInfo.prjStatus,'sys_prjstatus_type','')}</td>
+				<td>${projectExpert.prjProjectInfo.prjMoney}</td>
+				<td>${projectExpert.prjProjectInfo.prjBegin}</td>
 			</tr>
-		</c:forEach>
 		</tbody>
 	</table>
-			<form:hidden path="rejectUnit"/>
-			<form:hidden path="rejectRecent"/>
-	<div class="pagination">${page}</div>
-		<div class="form-actions">
-			输入抽取数<form:input path="expertCount" htmlEscape="false" max="${page.list.size()}" class="required digits"/>
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
-			<input id="cancelUnit" class="btn btn-primary" type="button" onclick="cUnit()" value="屏蔽项目主体单位"/>
-			<input id="backUnit" class="btn btn-primary" type="button" onclick="bUnit()" value="取消屏蔽" style="display:none;"/>
-			<input id="cancelThree" class="btn btn-primary" type="button" onclick="cThree()" value="屏蔽最近三次抽选"/>
-			<input id="backThree" class="btn btn-primary" type="button" onclick="bThree()" value="取消屏蔽" style="display:none;"/>
-		</div>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
       </div>
@@ -208,9 +190,8 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="rSubmit()"/>
-			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次抽选" onclick="rCancel()"/>
-			<input id="btnCancel" class="btn btn-primary" type="button" value="返回重新选择筛选条件" onclick="bCancel()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="导出专家列表" onclick="rSubmit()"/>
+			<input id="btnCancel" class="btn btn-primary" type="button" value="退出" onclick="bCancel()"/>
 		</div>
 	</form:form>
 
