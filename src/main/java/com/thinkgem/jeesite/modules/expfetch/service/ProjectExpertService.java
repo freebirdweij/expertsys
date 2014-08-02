@@ -78,7 +78,8 @@ public class ProjectExpertService extends BaseService {
 			}
 		}
 		dc.createAlias("e.prjProjectInfo", "p");
-		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Review_Sussess));
+		String fts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+		dc.add(Restrictions.in("e.fetchStatus", fts));
 		String sts[] = {Constants.Project_Status_Apply,Constants.Project_Status_Receive};
 		dc.add(Restrictions.in("p.prjStatus", sts));
 		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.parseDate(DateUtils.getDateTime())));
@@ -88,17 +89,18 @@ public class ProjectExpertService extends BaseService {
 		return projectExpertDao.find(dc);
 	}
 	
-	public Page<ProjectExpert> findMyHistory(Page<ProjectExpert> page, ProjectExpert projectExpert) {
+	public Page<ProjectExpert> findMyHistory(Page<ProjectExpert> page, String userId) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "e");
-		if (projectExpert.getExpertExpertConfirm()!=null){
-			if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId())){
+		if (userId!=null){
+			if (StringUtils.isNotEmpty(userId)){
 				dc.createAlias("e.expertExpertConfirm", "c");
 				dc.createAlias("c.expertInfo", "i");
-				dc.add(Restrictions.eq("i.userId", projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId()));
+				dc.add(Restrictions.eq("i.userId", userId));
 			}
 		}
 		dc.createAlias("e.prjProjectInfo", "p");
-		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Review_Sussess));
+		String fts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+		dc.add(Restrictions.in("e.fetchStatus", fts));
 		String sts[] = {Constants.Project_Status_Work,Constants.Project_Status_Receive,Constants.Project_Status_Save};
 		dc.add(Restrictions.in("p.prjStatus", sts));
 		dc.add(Restrictions.le("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));

@@ -3,9 +3,14 @@
  */
 package com.thinkgem.jeesite.modules.project.service;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +19,10 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.persistence.Parameter;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.Constants;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
+import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.dao.ProjectInfoDao;
 
@@ -75,12 +83,67 @@ public class ProjectInfoService extends BaseService {
 		return projectInfoDao.find(page, dc);
 	}
 	
+	public Page<ProjectInfo> findRedrawReviewing(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		updateProjectStatusToWork();
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Apply));
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
 	public Page<ProjectInfo> findAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		updateProjectStatusToWork();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Work));
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
+	}
+	
+	public Page<ProjectInfo> findRedrawAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		updateProjectStatusToSave();
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Receive));
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
+	public boolean updateProjectStatusToWork(){
+		Criteria dc = projectInfoDao.getSession().createCriteria(ProjectInfo.class, "p");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "e");
+		subdc.add(Restrictions.eqProperty("p.id","e.prjProjectInfo.id")).setProjection(Projections.id());
+		
+		dc.add(Restrictions.eq("p.prjStatus", Constants.Project_Status_Apply));
+		subdc.add(Restrictions.eq("e.fetchStatus",Constants.Fetch_Review_Sussess));
+		subdc.add(Restrictions.lt("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
+		dc.add(Restrictions.eq("p.delFlag", ProjectInfo.DEL_FLAG_NORMAL));
+		dc.add(Subqueries.exists(subdc));
+		@SuppressWarnings("unchecked")
+		List<ProjectInfo> plist = dc.list();
+		for(ProjectInfo pi:plist){
+			updateProjectStatus(Constants.Project_Status_Work,pi.getId());
+		}
+		return true;
+	}
+	
+	public boolean updateProjectStatusToSave(){
+		Criteria dc = projectInfoDao.getSession().createCriteria(ProjectInfo.class, "p");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "e");
+		subdc.add(Restrictions.eqProperty("p.id","e.prjProjectInfo.id")).setProjection(Projections.id());
+		
+		dc.add(Restrictions.eq("p.prjStatus", Constants.Project_Status_Receive));
+		subdc.add(Restrictions.eq("e.fetchStatus",Constants.Fetch_Accept_Sussess));
+		subdc.add(Restrictions.lt("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
+		dc.add(Restrictions.eq("p.delFlag", ProjectInfo.DEL_FLAG_NORMAL));
+		dc.add(Subqueries.exists(subdc));
+		@SuppressWarnings("unchecked")
+		List<ProjectInfo> plist = dc.list();
+		for(ProjectInfo pi:plist){
+			updateProjectStatus(Constants.Project_Status_Save,pi.getId());
+		}
+		return true;
 	}
 	
 	@Transactional(readOnly = false)

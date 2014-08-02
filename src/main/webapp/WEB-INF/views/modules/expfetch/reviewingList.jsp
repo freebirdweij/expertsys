@@ -56,7 +56,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/expfetch/reviewinglist">待评审项目</a></li>
-		<li><a href="${ctx}/expfetch/acceptinglist">待验收项目</a></li>
+		<li><a href="${ctx}/expfetch/acptfetch/acceptinglist">待验收项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">

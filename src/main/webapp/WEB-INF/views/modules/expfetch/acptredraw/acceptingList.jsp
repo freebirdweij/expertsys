@@ -55,8 +55,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/expfetch/reviewinglist">待评审项目</a></li>
-		<li class="active"><a href="${ctx}/expfetch/acptfetch/acceptinglist">待验收项目</a></li>
+		<li><a href="${ctx}/expfetch/rewredraw/reviewinglist">待评审项目</a></li>
+		<li class="active"><a href="${ctx}/expfetch/acptredraw/acceptinglist">待验收项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
@@ -71,8 +71,8 @@
 				<td>${projectInfo.prjMoney}</td>
 				<td>${projectInfo.prjBegin}</td>
 				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/acptfetch/unitmethod?prjid=${projectInfo.id}">单位方式抽取</a>
-    				<a href="${ctx}/expfetch/acptfetch/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a>
+    				<a href="${ctx}/expfetch/acptredraw/unitmethod?prjid=${projectInfo.id}">单位方式抽取</a>
+    				<a href="${ctx}/expfetch/acptredraw/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
