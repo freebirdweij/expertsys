@@ -68,17 +68,17 @@ public class ProjectExpertService extends BaseService {
 		return projectExpertDao.find(page, dc);
 	}
 	
-	public List<ProjectExpert> findMyJob(Page<ProjectExpert> page, ProjectExpert projectExpert) {
+	public List<ProjectExpert> findMyJob(Page<ProjectExpert> page, String userId) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "e");
-		if (projectExpert.getExpertExpertConfirm()!=null){
-			if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId())){
+		if (userId!=null){
+			if (StringUtils.isNotEmpty(userId)){
 				dc.createAlias("e.expertExpertConfirm", "c");
 				dc.createAlias("c.expertInfo", "i");
-				dc.add(Restrictions.eq("i.userId", projectExpert.getExpertExpertConfirm().getExpertInfo().getUserId()));
+				dc.add(Restrictions.eq("i.userId", userId));
 			}
 		}
 		dc.createAlias("e.prjProjectInfo", "p");
-		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Status_Sussess));
+		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Review_Sussess));
 		String sts[] = {Constants.Project_Status_Apply,Constants.Project_Status_Receive};
 		dc.add(Restrictions.in("p.prjStatus", sts));
 		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.parseDate(DateUtils.getDateTime())));
@@ -98,7 +98,7 @@ public class ProjectExpertService extends BaseService {
 			}
 		}
 		dc.createAlias("e.prjProjectInfo", "p");
-		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Status_Sussess));
+		dc.add(Restrictions.eq("e.fetchStatus", Constants.Fetch_Review_Sussess));
 		String sts[] = {Constants.Project_Status_Work,Constants.Project_Status_Receive,Constants.Project_Status_Save};
 		dc.add(Restrictions.in("p.prjStatus", sts));
 		dc.add(Restrictions.le("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
@@ -518,7 +518,7 @@ public class ProjectExpertService extends BaseService {
 	public List<String> findUnitRecentThree(ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
 		
-				dc.add(Restrictions.eq("o.fetchStatus", Constants.Fetch_Status_Sussess));
+				dc.add(Restrictions.eq("o.fetchStatus", Constants.Fetch_Review_Sussess));
 
 		dc.addOrder(Order.desc("o.fetchStatus"));
 		
@@ -637,6 +637,8 @@ public class ProjectExpertService extends BaseService {
 		if(resIds!=null&&!resIds.equalsIgnoreCase("")){
 			String[] resids = StringUtils.split(resIds, ",");
 			dc.add(Restrictions.in("e.id", resids));
+	    }else{
+	    	return Lists.newArrayList();
 	    }
 		
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.persistence.Parameter;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -41,6 +42,10 @@ public class ProjectInfoService extends BaseService {
 	
 	public ProjectInfo get(String id) {
 		return projectInfoDao.get(id);
+	}
+	
+	public int updateProjectStatus(String prjStatus,String prjid){
+		return projectInfoDao.updateProjectStatus(prjStatus,prjid);
 	}
 	
 	public Page<ProjectInfo> find(Page<ProjectInfo> page, ProjectInfo projectInfo) {

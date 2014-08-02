@@ -94,7 +94,7 @@ public class ExpertJobController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
-        List<ProjectExpert> list = projectExpertService.findMyJob(new Page<ProjectExpert>(request, response), projectExpert); 
+        List<ProjectExpert> list = projectExpertService.findMyJob(new Page<ProjectExpert>(request, response), user.getId()); 
         model.addAttribute("list", list);
 		return "modules/experts/myNewJob";
 	}

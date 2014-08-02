@@ -496,7 +496,7 @@ public class ProjectExpertController extends BaseController {
         }
         projectExpert.setResIds(StringUtils.join(eclist, ","));
         model.addAttribute("projectExpert", projectExpert);
-        request.getSession().setAttribute("projectExpert",projectExpert);       
+        //request.getSession().setAttribute("projectExpert",projectExpert);       
         
 		return "modules/expfetch/expFetchResult";
 	}
@@ -735,20 +735,26 @@ public class ProjectExpertController extends BaseController {
 		}else{
 		    fcount = pExpert.getFetchTime()+1;
 		}
-		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
-	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
-    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
     	//本次抽取状态标志。重要
-    	projectExpert.setFetchStatus(Constants.Fetch_Status_Sussess);
 	    for (String id : ids) {
+	    	projectExpert = new ProjectExpert();
+			projectExpert.setFetchTime(fcount);
+		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
+	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
+	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Sussess);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
+	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
+	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
+	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, pExpert.getPrjid());
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
 		
+		
+		projectExpert.setResIds(resIds);
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
@@ -768,20 +774,25 @@ public class ProjectExpertController extends BaseController {
 		}else{
 		    fcount = pExpert.getFetchTime()+1;
 		}
-		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
-	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
-    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
     	//本次抽取状态标志。重要
-    	projectExpert.setFetchStatus(Constants.Fetch_Status_Sussess);
 	    for (String id : ids) {
+	    	projectExpert = new ProjectExpert();
+			projectExpert.setFetchTime(fcount);
+		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
+	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
+	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Sussess);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
+	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
+	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
+	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, pExpert.getPrjid());
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
 		
+		projectExpert.setResIds(resIds);
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
@@ -801,20 +812,28 @@ public class ProjectExpertController extends BaseController {
 		}else{
 		    fcount = pExpert.getFetchTime()+1;
 		}
-		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
-	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
-    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
     	//本次抽取状态标志。重要
-    	projectExpert.setFetchStatus(Constants.Fetch_Status_Failure);
 	    for (String id : ids) {
+	    	projectExpert = new ProjectExpert();
+			projectExpert.setFetchTime(fcount);
+		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
+	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
+	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
+	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
+	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
+	    //request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		
 	    request.getSession().removeAttribute("projectExpert");
 		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
 		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
+	    //projectExpert.setResIds(null);
+        model.addAttribute("projectExpert", projectExpert);
 		return unitfetch(projectExpert, request, response, model, redirectAttributes);
 	}
 	
@@ -832,17 +851,23 @@ public class ProjectExpertController extends BaseController {
 		}else{
 		    fcount = pExpert.getFetchTime()+1;
 		}
-		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
-	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
-    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
     	//本次抽取状态标志。重要
-    	projectExpert.setFetchStatus(Constants.Fetch_Status_Failure);
 	    for (String id : ids) {
+	    	projectExpert = new ProjectExpert();
+			projectExpert.setFetchTime(fcount);
+		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
+	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
+	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
+	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
+	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
+	    //request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		
 	    request.getSession().removeAttribute("projectExpert");
 	    request.getSession().removeAttribute("projectExpertBak");
 	    projectExpert = new ProjectExpert();
@@ -865,17 +890,23 @@ public class ProjectExpertController extends BaseController {
 		}else{
 		    fcount = pExpert.getFetchTime()+1;
 		}
-		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
-	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
-    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
     	//本次抽取状态标志。重要
-    	projectExpert.setFetchStatus(Constants.Fetch_Status_Failure);
 	    for (String id : ids) {
+	    	projectExpert = new ProjectExpert();
+			projectExpert.setFetchTime(fcount);
+		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
+	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
+	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
+	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
+	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
+	    //request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		
 	    request.getSession().removeAttribute("projectExpert");
 	    request.getSession().removeAttribute("projectExpertBak");
 	    projectExpert = new ProjectExpert();
@@ -897,20 +928,28 @@ public class ProjectExpertController extends BaseController {
 		}else{
 		    fcount = pExpert.getFetchTime()+1;
 		}
-		projectExpert.setFetchTime(fcount);
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
-	    projectExpert.setPrjProjectInfo(pExpert.getPrjProjectInfo());
-    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
     	//本次抽取状态标志。重要
-    	projectExpert.setFetchStatus(Constants.Fetch_Status_Failure);
 	    for (String id : ids) {
+	    	projectExpert = new ProjectExpert();
+			projectExpert.setFetchTime(fcount);
+		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
+	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
+	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
+	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
+	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
+	    //request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		
 	    request.getSession().removeAttribute("projectExpert");
 		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
 		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
+	    //projectExpert.setResIds(null);
+        model.addAttribute("projectExpert", projectExpert);
 		return expertfetch(projectExpert, request, response, model, redirectAttributes);
 	}
 	

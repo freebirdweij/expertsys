@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -15,6 +16,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -31,13 +33,27 @@ import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
  */
 @Entity
 @Table(name = "project_expert")
-@IdClass(ProjectExpertKey.class)
 @DynamicInsert @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class ProjectExpert extends DataEntity<ProjectExpert> {
+public class ProjectExpert extends DataEntity<ProjectExpert>  implements Serializable{
 
+	
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+
+	/** 主键. */
+    private Integer id;
+
+    @Id 
+    @GenericGenerator(name = "idGenerator", strategy = "increment")
+    @GeneratedValue(generator = "idGenerator")	
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	/** 项目信息表. */
     private ProjectInfo prjProjectInfo;
@@ -305,7 +321,6 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	@JoinColumn(name="prjId")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-    @Id 
 	public ProjectInfo getPrjProjectInfo() {
 		return this.prjProjectInfo;
 	}
@@ -329,7 +344,6 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	@JoinColumn(name="expertId")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-    @Id 
 	public ExpertConfirm getExpertExpertConfirm() {
 		return this.expertExpertConfirm;
 	}
@@ -349,7 +363,6 @@ public class ProjectExpert extends DataEntity<ProjectExpert> {
 	 * 
 	 * @return 第几次抽取
 	 */
-    @Id 
 	public Integer getFetchTime() {
 		return this.fetchTime;
 	}

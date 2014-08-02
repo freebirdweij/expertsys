@@ -24,4 +24,9 @@ public class ProjectInfoDao extends BaseDao<ProjectInfo> {
 				projectInfo.getPrjStatus(),projectInfo.getId()));
 	}
 	
+	public int updateProjectStatus(String prjStatus,String prjid){
+		return update("update ProjectInfo set prjStatus=:p1 where id = :p2", 
+				new Parameter(prjStatus,prjid));
+	}
+	
 }

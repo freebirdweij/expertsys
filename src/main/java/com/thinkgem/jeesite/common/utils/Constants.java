@@ -10,8 +10,14 @@ public class Constants {
 	public static final String Project_Status_Save = "14";//归档
 
 	//每次专家抽取的状态
-	public static final String Fetch_Status_Failure = "10";//无效
-	public static final String Fetch_Status_Sussess = "11";//有效
+	public static final String Fetch_Review_Failure = "10";//项目评审抽取无效
+	public static final String Fetch_Review_Sussess = "11";//项目评审首次抽取有效
+	public static final String Fetch_ReviewRedraw_Failure = "20";//项目评审补抽无效
+	public static final String Fetch_ReviewRedraw_Sussess = "21";//项目评审补抽有效
+	public static final String Fetch_Accept_Failure = "30";//项目验收抽取无效
+	public static final String Fetch_Accept_Sussess = "31";//项目验收首次抽取有效
+	public static final String Fetch_AcceptRedraw_Failure = "40";//项目验收补抽无效
+	public static final String Fetch_AcceptRedraw_Sussess = "41";//项目验收补抽有效
 	
 	//专家抽取的方式
 	public static final String Fetch_Method_Unit = "0";//无效

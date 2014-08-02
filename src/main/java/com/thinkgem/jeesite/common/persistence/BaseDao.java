@@ -236,16 +236,24 @@ public class BaseDao<T> {
 					break;
 				}
 			}
+			
+			//对id作类型检查
+			Object tid = null;
+			if(id instanceof String){
+				tid = id;
+			}else if(id instanceof Integer){
+				tid = ((Integer) id).toString();
+			}
 			// 插入前执行方法
-			if (StringUtils.isBlank((String)id)){
-				for (Method method : entity.getClass().getMethods()){
-					PrePersist pp = method.getAnnotation(PrePersist.class);
-					if (pp != null){
-						method.invoke(entity);
-						break;
+				if (StringUtils.isBlank((String)tid)){
+					for (Method method : entity.getClass().getMethods()){
+						PrePersist pp = method.getAnnotation(PrePersist.class);
+						if (pp != null){
+							method.invoke(entity);
+							break;
+						}
 					}
 				}
-			}
 			// 更新前执行方法
 			else{
 				for (Method method : entity.getClass().getMethods()){
