@@ -73,7 +73,7 @@
 				<shiro:hasPermission name="project:projectInfo:edit"><td>
     				<a href="${ctx}/expfetch/unitmethod?prjid=${projectInfo.id}">单位方式抽取</a>
     				<a href="${ctx}/expfetch/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a>
-					<a href="${ctx}/expfetch/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
+					<a href="${ctx}/project/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

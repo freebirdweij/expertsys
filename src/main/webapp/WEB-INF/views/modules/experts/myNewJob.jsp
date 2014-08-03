@@ -64,7 +64,7 @@
 		<c:forEach items="${list}" var="projectExpert">
 			<tr>
 				<td>${projectExpert.prjProjectInfo.id}</td>
-				<td><a href="${ctx}/experts/job/prjinfo?id=${projectExpert.prjProjectInfo.id}">${projectExpert.prjProjectInfo.prjName}</a></td>
+				<td><a href="${ctx}/project/info?id=${projectExpert.prjProjectInfo.id}">${projectExpert.prjProjectInfo.prjName}</a></td>
 				<td>${projectExpert.prjProjectInfo.unit.name}</td>
 				<td>${fns:getDictLabel('${projectExpert.prjProjectInfo.prjStatus}','sys_prjstatus_type','1')}</td>
 				<td>${projectExpert.prjProjectInfo.prjMoney}</td>

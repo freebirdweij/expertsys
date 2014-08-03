@@ -141,6 +141,7 @@ public class ProjectExpertService extends BaseService {
 			String[] specialids = StringUtils.split(specialIdsNo, ",");
 			dc.add(Restrictions.not(Restrictions.in("e.expertSpecial", specialids)));
 	    }
+		dc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
 		
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		
@@ -244,6 +245,7 @@ public class ProjectExpertService extends BaseService {
 			String[] resids = StringUtils.split(discIds, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.id", resids)));
 	    }
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
 		
 
 		subdc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
@@ -336,6 +338,7 @@ public class ProjectExpertService extends BaseService {
 			String[] resids = StringUtils.split(discIds, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.id", resids)));
 	    }
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
 		
 
 		subdc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
@@ -432,6 +435,7 @@ public class ProjectExpertService extends BaseService {
 			String[] seriesids = StringUtils.split(seriesIdsNo, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.expertSeries", seriesids)));
 	    }
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
 		
 		dc.add(Subqueries.exists(subdc));
 		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
@@ -507,6 +511,7 @@ public class ProjectExpertService extends BaseService {
 			String[] seriesids = StringUtils.split(seriesIdsNo, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.expertSeries", seriesids)));
 	    }
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
 		
 		dc.add(Subqueries.exists(subdc));
 		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
@@ -520,7 +525,8 @@ public class ProjectExpertService extends BaseService {
 	public List<String> findUnitRecentThree(ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
 		
-				dc.add(Restrictions.eq("o.fetchStatus", Constants.Fetch_Review_Sussess));
+		String ts[] = { Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+				dc.add(Restrictions.in("o.fetchStatus", ts));
 
 		dc.addOrder(Order.desc("o.fetchStatus"));
 		
@@ -618,6 +624,7 @@ public class ProjectExpertService extends BaseService {
 			String[] resids = StringUtils.split(resIds, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.id", resids)));
 	    }
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
 		
 		dc.add(Subqueries.exists(subdc));
 		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));

@@ -18,3 +18,6 @@
  二、java.lang.OutOfMemoryError: Java heap space Heap size 设置 JVM堆的设置是指java程序运行过程中JVM可以调配使用的内存空间的设置.JVM在启动的时候会自动设置Heap size的值，其初始空间(即-Xms)是物理内存的1/64，最大空间(-Xmx)是物理内存的1/4。可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行设置。Heap size 的大小是Young Generation 和Tenured Generaion 之和。提示：在JVM中如果98％的时间是用于GC且可用的Heap size 不足2％的时候将抛出此异常信息。提示：Heap Size 最大不要超过可用物理内存的80％，一般的要将-Xms和-Xmx选项设置为相同，而-Xmn为1/4的-Xmx值。 
  解决方法：手动设置Heap size 修改TOMCAT_HOME/bin/catalina.sh 在“echo "Using CATALINA_BASE: $CATALINA_BASE"”上面加入以下行： JAVA_OPTS="-server -Xms800m -Xmx800m -XX:MaxNewSize=256m" 
  三、实例，以下给出1G内存环境下java jvm 的参数设置参考： JAVA_OPTS="-server -Xms800m -Xmx800m -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m -Djava.awt.headless=true " 
+ 5、数据导入导出
+exp cloudman/cloudman@expertdb file=c:\expert.dmp
+imp cloudman/cloudman@expertdb file=c:\expert.dmp

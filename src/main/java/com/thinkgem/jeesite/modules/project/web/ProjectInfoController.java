@@ -81,6 +81,20 @@ public class ProjectInfoController extends BaseController {
 	}
 
 	@RequiresPermissions("project:projectInfo:edit")
+	@RequestMapping(value = "info")
+	public String info(HttpServletRequest request,ProjectInfo projectInfo, Model model) {
+		String id = request.getParameter("id");
+		projectInfo = get(id);
+		if(projectInfo.getPrjStatus()==null||projectInfo.getPrjStatus().equalsIgnoreCase("")){
+			projectInfo.setPrjStatus(Constants.Project_Status_Start);
+			projectInfoService.save(projectInfo);
+			
+		}
+		model.addAttribute("projectInfo", projectInfo);
+		return "modules/project/projectInfo";
+	}
+
+	@RequiresPermissions("project:projectInfo:edit")
 	@RequestMapping(value = "save", method=RequestMethod.POST)
 	public String save(ProjectInfo projectInfo, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, projectInfo)){
