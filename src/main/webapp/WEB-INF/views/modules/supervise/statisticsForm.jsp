@@ -66,7 +66,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active">抽取统计</li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="statisticsForm" action="${ctx}/supervise/statistics" enctype="multipart/form-data" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="fetchSupervise" action="${ctx}/supervise/statistics" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<tags:message content="${message}" />
       <div class="span10">
         <h4>统计一段时间内各专家被抽中的次数：</h4>

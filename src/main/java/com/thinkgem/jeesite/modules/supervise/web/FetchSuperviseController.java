@@ -91,7 +91,7 @@ public class FetchSuperviseController extends BaseController {
 			return form(fetchSupervise, model);
 		}
 		fetchSuperviseService.save(fetchSupervise);
-		addMessage(redirectAttributes, "保存对项目抽取进行监督'" + fetchSupervise.getName() + "'成功");
+		addMessage(redirectAttributes, "保存对项目抽取进行监督成功");
 		return "redirect:"+Global.getAdminPath()+"/supervise/fetchSupervise/?repage";
 	}
 	
@@ -253,11 +253,34 @@ public class FetchSuperviseController extends BaseController {
 		return "modules/supervise/expertFetchList";
 	}
 
-	@RequiresPermissions("supervise:fetchSupervise:view")
 	@RequestMapping(value = "statistics")
 	public String statistics(FetchSupervise fetchSupervise, Model model) {
 		model.addAttribute("fetchSupervise", fetchSupervise);
-		return "supervise/fetchSuperviseForm";
+		return "modules/supervise/statisticsForm";
+	}
+
+	@RequestMapping(value = "statisticsexpert")
+	public String statisticsexpert(FetchSupervise fetchSupervise, Model model) {
+		model.addAttribute("fetchSupervise", fetchSupervise);
+		return "modules/supervise/statisticsList";
+	}
+
+	@RequestMapping(value = "statisticsunit")
+	public String statisticsunit(FetchSupervise fetchSupervise, Model model) {
+		model.addAttribute("fetchSupervise", fetchSupervise);
+		return "modules/supervise/statisticsList";
+	}
+
+	@RequestMapping(value = "statisticskind")
+	public String statisticskind(FetchSupervise fetchSupervise, Model model) {
+		model.addAttribute("fetchSupervise", fetchSupervise);
+		return "modules/supervise/statisticsList";
+	}
+
+	@RequestMapping(value = "statisticsfetch")
+	public String statisticsfetch(FetchSupervise fetchSupervise, Model model) {
+		model.addAttribute("fetchSupervise", fetchSupervise);
+		return "modules/supervise/statisticsList";
 	}
 
 }

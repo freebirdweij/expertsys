@@ -34,8 +34,8 @@ public class FetchSuperviseService extends BaseService {
 	
 	public Page<FetchSupervise> find(Page<FetchSupervise> page, FetchSupervise fetchSupervise) {
 		DetachedCriteria dc = fetchSuperviseDao.createDetachedCriteria();
-		if (StringUtils.isNotEmpty(fetchSupervise.getName())){
-			dc.add(Restrictions.like("name", "%"+fetchSupervise.getName()+"%"));
+		if (StringUtils.isNotEmpty(fetchSupervise.getSticsKind())){
+			dc.add(Restrictions.like("name", "%"+fetchSupervise.getSticsKind()+"%"));
 		}
 		dc.add(Restrictions.eq(FetchSupervise.FIELD_DEL_FLAG, FetchSupervise.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

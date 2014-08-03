@@ -28,44 +28,88 @@ import com.thinkgem.jeesite.modules.sys.entity.User;
  * @author Cloudman
  * @version 2014-08-03
  */
-@Entity
-@Table(name = "supervise_fetchSupervise")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class FetchSupervise extends DataEntity {
 	
 	private static final long serialVersionUID = 1L;
-	private String id; 		// 编号
-	private String name; 	// 名称
+	private Date expertBegin;
+	private Date expertEnd;
+	private Date unitBegin;
+	private Date unitEnd;
+	private Date fetchBegin;
+	private Date fetchEnd;
+	private String sticsKind; 		// 编号
+	private String fetchKind; 	// 名称
 
 	public FetchSupervise() {
 		super();
 	}
 
-	public FetchSupervise(String id){
-		this();
-		this.id = id;
+	public Date getExpertBegin() {
+		return expertBegin;
 	}
+
+	public void setExpertBegin(Date expertBegin) {
+		this.expertBegin = expertBegin;
+	}
+
+	public Date getExpertEnd() {
+		return expertEnd;
+	}
+
+	public void setExpertEnd(Date expertEnd) {
+		this.expertEnd = expertEnd;
+	}
+
+	public Date getUnitBegin() {
+		return unitBegin;
+	}
+
+	public void setUnitBegin(Date unitBegin) {
+		this.unitBegin = unitBegin;
+	}
+
+	public Date getUnitEnd() {
+		return unitEnd;
+	}
+
+	public void setUnitEnd(Date unitEnd) {
+		this.unitEnd = unitEnd;
+	}
+
+	public Date getFetchBegin() {
+		return fetchBegin;
+	}
+
+	public void setFetchBegin(Date fetchBegin) {
+		this.fetchBegin = fetchBegin;
+	}
+
+	public Date getFetchEnd() {
+		return fetchEnd;
+	}
+
+	public void setFetchEnd(Date fetchEnd) {
+		this.fetchEnd = fetchEnd;
+	}
+
+	public String getSticsKind() {
+		return sticsKind;
+	}
+
+	public void setSticsKind(String sticsKind) {
+		this.sticsKind = sticsKind;
+	}
+
+	public String getFetchKind() {
+		return fetchKind;
+	}
+
+	public void setFetchKind(String fetchKind) {
+		this.fetchKind = fetchKind;
+	}
+
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_supervise_fetchSupervise")
-	//@SequenceGenerator(name = "seq_supervise_fetchSupervise", sequenceName = "seq_supervise_fetchSupervise")
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	@Length(min=1, max=200)
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
 }
 
