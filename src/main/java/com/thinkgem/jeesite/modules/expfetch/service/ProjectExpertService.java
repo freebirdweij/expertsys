@@ -522,6 +522,42 @@ public class ProjectExpertService extends BaseService {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public Page<ExpertConfirm> findReviewingExpertByProject(Page<ExpertConfirm> page, String prjid) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		subdc.add(Restrictions.eqProperty("e.id","o.expertExpertConfirm.id")).setProjection(Projections.id());
+		
+		subdc.add(Restrictions.eq("o.prjProjectInfo.id",prjid));
+		String st[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess};
+		subdc.add(Restrictions.in("o.fetchStatus", st));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("o.id"));
+		
+		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Page<ExpertConfirm> findAcceptingExpertByProject(Page<ExpertConfirm> page, String prjid) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		subdc.add(Restrictions.eqProperty("e.id","o.expertExpertConfirm.id")).setProjection(Projections.id());
+		
+		subdc.add(Restrictions.eq("o.prjProjectInfo.id",prjid));
+		String st[] = {Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+		subdc.add(Restrictions.in("o.fetchStatus", st));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("o.id"));
+		
+		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<String> findUnitRecentThree(ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
 		

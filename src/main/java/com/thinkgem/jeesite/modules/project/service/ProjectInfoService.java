@@ -83,6 +83,41 @@ public class ProjectInfoService extends BaseService {
 		return projectInfoDao.find(page, dc);
 	}
 	
+	public Page<ProjectInfo> findSuperviseReviewing(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		updateProjectStatusToWork();
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Apply));
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
+	public Page<ProjectInfo> findSuperviseProjects(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		if (StringUtils.isNotEmpty(projectInfo.getId())){
+			dc.add(Restrictions.eq("id", projectInfo.getId()));
+		}
+		if (StringUtils.isNotEmpty(projectInfo.getPrjName())){
+			dc.add(Restrictions.like("prjName", "%"+projectInfo.getPrjName()+"%"));
+		}
+		if (projectInfo.getPrjMoney()!=null){
+			dc.add(Restrictions.ge("prjMoney", projectInfo.getPrjMoney()));
+		}
+		if (projectInfo.getPrjBegin()!=null){
+			dc.add(Restrictions.le("prjBegin", projectInfo.getPrjBegin()));
+			dc.add(Restrictions.ge("prjEnd", projectInfo.getPrjBegin()));
+		}
+		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
+			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjDuty()));
+		}
+		if (StringUtils.isNotEmpty(projectInfo.getUnit().getId())){
+			dc.add(Restrictions.eq("unit.id", "projectInfo.getPrjDuty()"));
+		}
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
 	public Page<ProjectInfo> findRedrawReviewing(Page<ProjectInfo> page, ProjectInfo projectInfo) {
 		updateProjectStatusToWork();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
@@ -96,6 +131,15 @@ public class ProjectInfoService extends BaseService {
 		updateProjectStatusToWork();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Work));
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
+	public Page<ProjectInfo> findSuperviseAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		updateProjectStatusToSave();
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Receive));
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
