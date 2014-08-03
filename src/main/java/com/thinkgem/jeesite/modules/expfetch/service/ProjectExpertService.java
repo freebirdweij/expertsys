@@ -28,6 +28,8 @@ import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expfetch.dao.ProjectExpertDao;
 import com.thinkgem.jeesite.modules.expmanage.dao.ExpertConfirmDao;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
+import com.thinkgem.jeesite.modules.project.dao.ProjectInfoDao;
+import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.sys.dao.OfficeDao;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
@@ -49,6 +51,9 @@ public class ProjectExpertService extends BaseService {
 		
 	@Autowired
 	private ExpertConfirmDao expertConfirmDao;
+	
+	@Autowired
+	private ProjectInfoDao projectInfoDao;
 	
 	public ProjectExpert get(String id) {
 		return projectExpertDao.get(id);
@@ -554,6 +559,24 @@ public class ProjectExpertService extends BaseService {
 		dc.addOrder(Order.desc("o.id"));
 		
 		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Page<ProjectInfo> findFetchProjectsByExpertAndStatus(Page<ProjectInfo> page, String expid,String status[]) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ProjectInfo.class, "e");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		subdc.add(Restrictions.eqProperty("e.id","o.prjProjectInfo.id")).setProjection(Projections.id());
+		
+		subdc.add(Restrictions.eq("o.expertExpertConfirm.id",expid));
+		//String st[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess};
+		subdc.add(Restrictions.in("o.fetchStatus", status));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("o.id"));
+		
+		Page<ProjectInfo> res = projectInfoDao.find(page,dc);
 		return res; 
 	}
 	

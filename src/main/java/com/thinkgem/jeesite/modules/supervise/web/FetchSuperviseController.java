@@ -218,31 +218,31 @@ public class FetchSuperviseController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
-		String prjid =  request.getParameter("prjid");
-		//获取评审中首抽有效的专家
+		String expid =  request.getParameter("expid");
+		//获取评审中首抽有效的项目
 		String status1[] = {Constants.Fetch_Review_Sussess};
-        Page<ExpertConfirm> page1 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status1); 
-        List<ExpertConfirm> rewlist = page1.getList();
-		//获取评审中补抽有效的专家
+        Page<ProjectInfo> page1 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status1); 
+        List<ProjectInfo> rewlist = page1.getList();
+		//获取评审中补抽有效的项目
 		String status2[] = {Constants.Fetch_ReviewRedraw_Sussess};
-        Page<ExpertConfirm> page2 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status2); 
-        List<ExpertConfirm> rewrdlist = page2.getList();
-		//获取评审中抽取无效的专家
+        Page<ProjectInfo> page2 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status2); 
+        List<ProjectInfo> rewrdlist = page2.getList();
+		//获取评审中抽取无效的项目
 		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
-        Page<ExpertConfirm> page3 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status3); 
-        List<ExpertConfirm> rewnlist = page3.getList();
-		//获取验收中首抽有效的专家
+        Page<ProjectInfo> page3 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status3); 
+        List<ProjectInfo> rewnlist = page3.getList();
+		//获取验收中首抽有效的项目
 		String status4[] = {Constants.Fetch_Accept_Sussess};
-        Page<ExpertConfirm> page4 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status4); 
-        List<ExpertConfirm> acptlist = page4.getList();
-		//获取验收中补抽有效的专家
+        Page<ProjectInfo> page4 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status4); 
+        List<ProjectInfo> acptlist = page4.getList();
+		//获取验收中补抽有效的项目
 		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
-        Page<ExpertConfirm> page5 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status5); 
-        List<ExpertConfirm> acptrdlist = page5.getList();
-		//获取验收中抽取无效的专家
+        Page<ProjectInfo> page5 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status5); 
+        List<ProjectInfo> acptrdlist = page5.getList();
+		//获取验收中抽取无效的项目
 		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
-        Page<ExpertConfirm> page6 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status6); 
-        List<ExpertConfirm> acptnlist = page6.getList();
+        Page<ProjectInfo> page6 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status6); 
+        List<ProjectInfo> acptnlist = page6.getList();
         
         model.addAttribute("rewlist", rewlist);
         model.addAttribute("rewrdlist", rewrdlist);
@@ -250,7 +250,7 @@ public class FetchSuperviseController extends BaseController {
         model.addAttribute("acptlist", acptlist);
         model.addAttribute("acptrdlist", acptrdlist);
         model.addAttribute("acptnlist",acptnlist);
-		return "modules/supervise/projectFetchList";
+		return "modules/supervise/expertFetchList";
 	}
 
 }
