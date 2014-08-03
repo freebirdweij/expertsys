@@ -111,7 +111,7 @@ public class ProjectInfoService extends BaseService {
 			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjDuty()));
 		}
 		if (StringUtils.isNotEmpty(projectInfo.getUnit().getId())){
-			dc.add(Restrictions.eq("unit.id", "projectInfo.getPrjDuty()"));
+			dc.add(Restrictions.eq("unit.id", projectInfo.getUnit().getId()));
 		}
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.supervise.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expfetch.service.ProjectExpertService;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
+import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -49,6 +52,9 @@ public class FetchSuperviseController extends BaseController {
 
 	@Autowired
 	private ProjectExpertService projectExpertService;
+	
+	@Autowired
+	private ExpertConfirmService expertConfirmService;
 	
 	@ModelAttribute
 	public FetchSupervise get(@RequestParam(required=false) String id) {
@@ -149,9 +155,102 @@ public class FetchSuperviseController extends BaseController {
 		if (!user.isAdmin()){
 			projectInfo.setCreateBy(user);
 		}
-        Page<ProjectInfo> page = projectInfoService.findSuperviseReviewing(new Page<ProjectInfo>(request, response), projectInfo); 
+        Page<ProjectInfo> page = projectInfoService.findSuperviseProjects(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
 		return "modules/supervise/reviewingList";
+	}
+
+	@RequestMapping(value = {"expertsearch", ""})
+	public String expertsearch(ExpertConfirm expertConfirm, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			expertConfirm.setCreateBy(user);
+		}
+        Page<ExpertConfirm> page = expertConfirmService.findSuperviseExperts(new Page<ExpertConfirm>(request, response), expertConfirm); 
+        model.addAttribute("page", page);
+		return "modules/supervise/reviewingList";
+	}
+
+	@RequestMapping(value = {"checkprojectfetch", ""})
+	public String checkprojectfetch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		String prjid =  request.getParameter("prjid");
+		//获取评审中首抽有效的专家
+		String status1[] = {Constants.Fetch_Review_Sussess};
+        Page<ExpertConfirm> page1 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status1); 
+        List<ExpertConfirm> rewlist = page1.getList();
+		//获取评审中补抽有效的专家
+		String status2[] = {Constants.Fetch_ReviewRedraw_Sussess};
+        Page<ExpertConfirm> page2 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status2); 
+        List<ExpertConfirm> rewrdlist = page2.getList();
+		//获取评审中抽取无效的专家
+		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
+        Page<ExpertConfirm> page3 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status3); 
+        List<ExpertConfirm> rewnlist = page3.getList();
+		//获取验收中首抽有效的专家
+		String status4[] = {Constants.Fetch_Accept_Sussess};
+        Page<ExpertConfirm> page4 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status4); 
+        List<ExpertConfirm> acptlist = page4.getList();
+		//获取验收中补抽有效的专家
+		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
+        Page<ExpertConfirm> page5 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status5); 
+        List<ExpertConfirm> acptrdlist = page5.getList();
+		//获取验收中抽取无效的专家
+		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
+        Page<ExpertConfirm> page6 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status6); 
+        List<ExpertConfirm> acptnlist = page6.getList();
+        
+        model.addAttribute("rewlist", rewlist);
+        model.addAttribute("rewrdlist", rewrdlist);
+        model.addAttribute("rewnlist", rewnlist);
+        model.addAttribute("acptlist", acptlist);
+        model.addAttribute("acptrdlist", acptrdlist);
+        model.addAttribute("acptnlist",acptnlist);
+		return "modules/supervise/projectFetchList";
+	}
+
+	@RequestMapping(value = {"expertsearch", ""})
+	public String expertsearch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		String prjid =  request.getParameter("prjid");
+		//获取评审中首抽有效的专家
+		String status1[] = {Constants.Fetch_Review_Sussess};
+        Page<ExpertConfirm> page1 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status1); 
+        List<ExpertConfirm> rewlist = page1.getList();
+		//获取评审中补抽有效的专家
+		String status2[] = {Constants.Fetch_ReviewRedraw_Sussess};
+        Page<ExpertConfirm> page2 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status2); 
+        List<ExpertConfirm> rewrdlist = page2.getList();
+		//获取评审中抽取无效的专家
+		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
+        Page<ExpertConfirm> page3 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status3); 
+        List<ExpertConfirm> rewnlist = page3.getList();
+		//获取验收中首抽有效的专家
+		String status4[] = {Constants.Fetch_Accept_Sussess};
+        Page<ExpertConfirm> page4 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status4); 
+        List<ExpertConfirm> acptlist = page4.getList();
+		//获取验收中补抽有效的专家
+		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
+        Page<ExpertConfirm> page5 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status5); 
+        List<ExpertConfirm> acptrdlist = page5.getList();
+		//获取验收中抽取无效的专家
+		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
+        Page<ExpertConfirm> page6 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status6); 
+        List<ExpertConfirm> acptnlist = page6.getList();
+        
+        model.addAttribute("rewlist", rewlist);
+        model.addAttribute("rewrdlist", rewrdlist);
+        model.addAttribute("rewnlist", rewnlist);
+        model.addAttribute("acptlist", acptlist);
+        model.addAttribute("acptrdlist", acptrdlist);
+        model.addAttribute("acptnlist",acptnlist);
+		return "modules/supervise/projectFetchList";
 	}
 
 }
