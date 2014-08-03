@@ -21,3 +21,4 @@
  5、数据导入导出
 exp cloudman/cloudman@expertdb file=c:\expert.dmp
 imp cloudman/cloudman@expertdb file=c:\expert.dmp
+6、系统操作中有个地方需要注意，系统限制作为专家上下传文件的权限和作为管理员文件操作的权限是不同的，所以专家不能分给他管理员的权限，特别是“附件管理”这个权限，而管理员也不要作为专家操作，否则文件的操作会不太正常。

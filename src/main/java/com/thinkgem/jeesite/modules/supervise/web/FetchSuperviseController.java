@@ -253,4 +253,11 @@ public class FetchSuperviseController extends BaseController {
 		return "modules/supervise/expertFetchList";
 	}
 
+	@RequiresPermissions("supervise:fetchSupervise:view")
+	@RequestMapping(value = "statistics")
+	public String statistics(FetchSupervise fetchSupervise, Model model) {
+		model.addAttribute("fetchSupervise", fetchSupervise);
+		return "supervise/fetchSuperviseForm";
+	}
+
 }
