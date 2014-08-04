@@ -47,4 +47,10 @@ public class Constants {
 	public static final String Register_Status_Apply = "4";//已提交申请
 	public static final String Register_Status_Accept = "5";//批准成为专家
 
+	//统计分类定义
+	public static final String Statistics_Kind_Area = "1";//完成第一步
+	public static final String Statistics_Kind_Unit = "2";//完成第二步
+	public static final String Statistics_Kind_Type = "3";//完成第三步
+	public static final String Statistics_Kind_Special = "4";//已提交申请
+
 }

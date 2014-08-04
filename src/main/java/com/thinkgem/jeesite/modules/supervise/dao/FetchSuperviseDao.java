@@ -15,6 +15,6 @@ import com.thinkgem.jeesite.modules.supervise.entity.FetchSupervise;
  * @version 2014-08-03
  */
 @Repository
-public class FetchSuperviseDao extends BaseDao<FetchSupervise> {
+public class FetchSuperviseDao extends BaseDao<Object> {
 	
 }

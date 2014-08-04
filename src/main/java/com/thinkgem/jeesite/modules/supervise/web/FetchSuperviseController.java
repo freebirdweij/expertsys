@@ -66,18 +66,6 @@ public class FetchSuperviseController extends BaseController {
 	}
 	
 	@RequiresPermissions("supervise:fetchSupervise:view")
-	@RequestMapping(value = {"list", ""})
-	public String list(FetchSupervise fetchSupervise, HttpServletRequest request, HttpServletResponse response, Model model) {
-		User user = UserUtils.getUser();
-		if (!user.isAdmin()){
-			fetchSupervise.setCreateBy(user);
-		}
-        Page<FetchSupervise> page = fetchSuperviseService.find(new Page<FetchSupervise>(request, response), fetchSupervise); 
-        model.addAttribute("page", page);
-		return "supervise/fetchSuperviseList";
-	}
-
-	@RequiresPermissions("supervise:fetchSupervise:view")
 	@RequestMapping(value = "form")
 	public String form(FetchSupervise fetchSupervise, Model model) {
 		model.addAttribute("fetchSupervise", fetchSupervise);
@@ -261,25 +249,29 @@ public class FetchSuperviseController extends BaseController {
 
 	@RequestMapping(value = "statisticsexpert")
 	public String statisticsexpert(FetchSupervise fetchSupervise, Model model) {
-		model.addAttribute("fetchSupervise", fetchSupervise);
+		Page<Object> page = fetchSuperviseService.findStatisticsExperts(new Page<Object>(), fetchSupervise);
+        model.addAttribute("page", page);
 		return "modules/supervise/statisticsList";
 	}
 
 	@RequestMapping(value = "statisticsunit")
 	public String statisticsunit(FetchSupervise fetchSupervise, Model model) {
-		model.addAttribute("fetchSupervise", fetchSupervise);
+		Page<Object> page = fetchSuperviseService.findStatisticsUnits(new Page<Object>(), fetchSupervise);
+        model.addAttribute("page", page);
 		return "modules/supervise/statisticsList";
 	}
 
 	@RequestMapping(value = "statisticskind")
 	public String statisticskind(FetchSupervise fetchSupervise, Model model) {
-		model.addAttribute("fetchSupervise", fetchSupervise);
+		Page<Object> page = fetchSuperviseService.findStatisticsKinds(new Page<Object>(), fetchSupervise);
+        model.addAttribute("page", page);
 		return "modules/supervise/statisticsList";
 	}
 
 	@RequestMapping(value = "statisticsfetch")
 	public String statisticsfetch(FetchSupervise fetchSupervise, Model model) {
-		model.addAttribute("fetchSupervise", fetchSupervise);
+		Page<Object> page = fetchSuperviseService.findStatisticsFetchs(new Page<Object>(), fetchSupervise);
+        model.addAttribute("page", page);
 		return "modules/supervise/statisticsList";
 	}
 
