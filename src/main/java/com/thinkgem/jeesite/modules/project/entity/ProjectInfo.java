@@ -22,6 +22,7 @@ import org.hibernate.annotations.NotFoundAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.persistence.IdEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 
@@ -50,6 +51,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	}
 
 	@Id
+	@ExcelField(title="项目编号",align=2, sort=10)
 	public String getId() {
 		// TODO 自动生成的方法存根
 		return id;
@@ -104,6 +106,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	@JoinColumn(name="prjUnit")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
+	@ExcelField(title="主体单位", value="unit.name",align=2, sort=30)
 	public Office getUnit() {
 		return unit;
 	}
@@ -159,6 +162,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目名称
 	 */
+	@ExcelField(title="项目名称",align=2, sort=20)
 	public String getPrjName() {
 		return this.prjName;
 	}
@@ -216,6 +220,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 投资金额
 	 */
+	@ExcelField(title="金额", align=2, sort=40)
 	public Double getPrjMoney() {
 		return this.prjMoney;
 	}
@@ -273,6 +278,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目状态
 	 */
+	@ExcelField(title="项目状态", align=2, sort=50, dictType="sys_prjstatus_type")
 	public String getPrjStatus() {
 		return this.prjStatus;
 	}
@@ -292,6 +298,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目开始时间
 	 */
+	@ExcelField(title="时间", align=2, sort=60)
 	public Date getPrjBegin() {
 		return this.prjBegin;
 	}

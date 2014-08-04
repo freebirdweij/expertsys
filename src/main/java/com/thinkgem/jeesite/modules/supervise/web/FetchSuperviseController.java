@@ -145,7 +145,7 @@ public class FetchSuperviseController extends BaseController {
 		}
         Page<ProjectInfo> page = projectInfoService.findSuperviseProjects(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
-		return "modules/supervise/reviewingList";
+		return "modules/supervise/projectSearch";
 	}
 
 	@RequestMapping(value = {"expertsearch", ""})
@@ -156,7 +156,7 @@ public class FetchSuperviseController extends BaseController {
 		}
         Page<ExpertConfirm> page = expertConfirmService.findSuperviseExperts(new Page<ExpertConfirm>(request, response), expertConfirm); 
         model.addAttribute("page", page);
-		return "modules/supervise/reviewingList";
+		return "modules/supervise/expertSearch";
 	}
 
 	@RequestMapping(value = {"checkprojectfetch", ""})
