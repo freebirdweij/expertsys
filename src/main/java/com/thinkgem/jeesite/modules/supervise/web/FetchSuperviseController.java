@@ -212,8 +212,8 @@ public class FetchSuperviseController extends BaseController {
 		return "modules/supervise/projectFetchList";
 	}
 
-	@RequestMapping(value = {"expertsearch", ""})
-	public String expertsearch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = {"checkexpertfetch", ""})
+	public String checkexpertfetch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
