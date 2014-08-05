@@ -307,6 +307,7 @@ public class StatisticsSearchController extends BaseController {
         model.addAttribute("acptlist", acptlist);
         model.addAttribute("acptrdlist", acptrdlist);
         model.addAttribute("acptnlist",acptnlist);
+        model.addAttribute("prjid",prjid);
 		return "modules/infoview/projectFetchList";
 	}
 
@@ -348,6 +349,7 @@ public class StatisticsSearchController extends BaseController {
         model.addAttribute("acptlist", acptlist);
         model.addAttribute("acptrdlist", acptrdlist);
         model.addAttribute("acptnlist",acptnlist);
+        model.addAttribute("expid",expid);
 		return "modules/infoview/expertFetchList";
 	}
 

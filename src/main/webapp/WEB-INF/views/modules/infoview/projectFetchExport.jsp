@@ -159,6 +159,7 @@
       <div class="span10">
         <h4>以下为评审首次抽选的专家：</h4>
       </div>
+		<input id="prjid" name="prjid" type="hidden"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职务</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>
@@ -272,6 +273,7 @@
 	</table>
 		<div class="form-actions">
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			&nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
 		</div>
 	</form:form>
 
