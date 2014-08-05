@@ -63,8 +63,8 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="object">
 			<tr>
-				<td>${object.name}</td>
-				<td>${object.count}</td>
+				<td>${object[0]}</td>
+				<td>${object[1]}</td>
 			</tr>
 		</c:forEach>
 		</tbody>
