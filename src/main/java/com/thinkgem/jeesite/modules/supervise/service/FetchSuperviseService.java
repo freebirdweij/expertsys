@@ -52,7 +52,7 @@ public class FetchSuperviseService extends BaseService {
 		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertInfo", "i");
 		ProjectionList projList = Projections.projectionList(); 
 		projList.add(Projections.property("i.name").as("name")); 
-		projList.add(Projections.count("o.id").as("count")); 
+		projList.add(Projections.count("e.id").as("count")); 
 		projList.add(Projections.groupProperty("e.id")); 
 		dc.setProjection(projList);		
 		
@@ -73,7 +73,7 @@ public class FetchSuperviseService extends BaseService {
 		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertInfo", "i");
 		ProjectionList projList = Projections.projectionList(); 
 		projList.add(Projections.property("i.name").as("name")); 
-		projList.add(Projections.count("o.id").as("count")); 
+		projList.add(Projections.count("e.id").as("count")); 
 		projList.add(Projections.groupProperty("e.expertCompany")); 
 		dc.setProjection(projList);		
 		
@@ -119,7 +119,7 @@ public class FetchSuperviseService extends BaseService {
 	}
 	
 	public Page<Object> findStatisticsFetchs(Page<Object> page, FetchSupervise fetchSupervise) {
-		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "o");
+		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
 		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertCompany", "c").createAlias("e.expertArea", "a");
 		ProjectionList projList = Projections.projectionList();
 		
