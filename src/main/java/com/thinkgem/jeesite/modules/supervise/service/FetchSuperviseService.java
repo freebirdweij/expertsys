@@ -49,10 +49,11 @@ public class FetchSuperviseService extends BaseService {
 	
 	public Page<Object> findStatisticsExperts(Page<Object> page, FetchSupervise fetchSupervise) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertInfo", "i");
 		ProjectionList projList = Projections.projectionList(); 
-		projList.add(Projections.property("o.expertExpertConfirm.expertInfo.name").as("name")); 
+		projList.add(Projections.property("i.name").as("name")); 
 		projList.add(Projections.count("o.id").as("count")); 
-		projList.add(Projections.groupProperty("o.expertExpertConfirm.id")); 
+		projList.add(Projections.groupProperty("e.id")); 
 		dc.setProjection(projList);		
 		
 		if (fetchSupervise.getExpertBegin()!=null&&fetchSupervise.getExpertEnd()!=null){
@@ -69,10 +70,11 @@ public class FetchSuperviseService extends BaseService {
 	
 	public Page<Object> findStatisticsUnits(Page<Object> page, FetchSupervise fetchSupervise) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertInfo", "i");
 		ProjectionList projList = Projections.projectionList(); 
-		projList.add(Projections.property("o.expertExpertConfirm.expertCompany.name").as("name")); 
+		projList.add(Projections.property("i.name").as("name")); 
 		projList.add(Projections.count("o.id").as("count")); 
-		projList.add(Projections.groupProperty("o.expertExpertConfirm.expertCompany")); 
+		projList.add(Projections.groupProperty("e.expertCompany")); 
 		dc.setProjection(projList);		
 		
 		if (fetchSupervise.getUnitBegin()!=null&&fetchSupervise.getUnitEnd()!=null){
@@ -89,16 +91,17 @@ public class FetchSuperviseService extends BaseService {
 	
 	public Page<Object> findStatisticsKinds(Page<Object> page, FetchSupervise fetchSupervise) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		dc.createAlias("e.expertCompany", "c").createAlias("e.expertArea", "a");
 		ProjectionList projList = Projections.projectionList();
 		
 		if(StringUtils.isNotEmpty(fetchSupervise.getSticsKind())&&fetchSupervise.getSticsKind().equalsIgnoreCase(Constants.Statistics_Kind_Area)){
-			projList.add(Projections.property("e.expertArea.name").as("name")); 
+			projList.add(Projections.property("a.name").as("name")); 
 			projList.add(Projections.count("e.id").as("count")); 
-			projList.add(Projections.groupProperty("e.expertArea")); 
+			projList.add(Projections.groupProperty("a")); 
 		}else if(StringUtils.isNotEmpty(fetchSupervise.getSticsKind())&&fetchSupervise.getSticsKind().equalsIgnoreCase(Constants.Statistics_Kind_Unit)){
-			projList.add(Projections.property("e.expertCompany.name").as("name")); 
+			projList.add(Projections.property("c.name").as("name")); 
 			projList.add(Projections.count("e.id").as("count")); 
-			projList.add(Projections.groupProperty("e.expertCompany")); 
+			projList.add(Projections.groupProperty("c")); 
 		}else if(StringUtils.isNotEmpty(fetchSupervise.getSticsKind())&&fetchSupervise.getSticsKind().equalsIgnoreCase(Constants.Statistics_Kind_Type)){
 			projList.add(Projections.property("e.expertKind").as("name")); 
 			projList.add(Projections.count("e.id").as("count")); 
@@ -117,24 +120,25 @@ public class FetchSuperviseService extends BaseService {
 	
 	public Page<Object> findStatisticsFetchs(Page<Object> page, FetchSupervise fetchSupervise) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "o");
+		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertCompany", "c").createAlias("e.expertArea", "a");
 		ProjectionList projList = Projections.projectionList();
 		
 		if(StringUtils.isNotEmpty(fetchSupervise.getSticsKind())&&fetchSupervise.getSticsKind().equalsIgnoreCase(Constants.Statistics_Kind_Area)){
-			projList.add(Projections.property("o.expertExpertConfirm.expertArea.name").as("name")); 
+			projList.add(Projections.property("a.name").as("name")); 
 			projList.add(Projections.count("o.id").as("count")); 
-			projList.add(Projections.groupProperty("o.expertExpertConfirm.expertArea")); 
+			projList.add(Projections.groupProperty("a")); 
 		}else if(StringUtils.isNotEmpty(fetchSupervise.getSticsKind())&&fetchSupervise.getSticsKind().equalsIgnoreCase(Constants.Statistics_Kind_Unit)){
-			projList.add(Projections.property("o.expertExpertConfirm.expertCompany.name").as("name")); 
+			projList.add(Projections.property("c.name").as("name")); 
 			projList.add(Projections.count("o.id").as("count")); 
-			projList.add(Projections.groupProperty("o.expertExpertConfirm.expertCompany")); 
+			projList.add(Projections.groupProperty("c")); 
 		}else if(StringUtils.isNotEmpty(fetchSupervise.getSticsKind())&&fetchSupervise.getSticsKind().equalsIgnoreCase(Constants.Statistics_Kind_Type)){
-			projList.add(Projections.property("o.expertExpertConfirm.expertKind").as("name")); 
+			projList.add(Projections.property("e.expertKind").as("name")); 
 			projList.add(Projections.count("o.id").as("count")); 
-			projList.add(Projections.groupProperty("o.expertExpertConfirm.expertKind")); 
+			projList.add(Projections.groupProperty("e.expertKind")); 
 		}else if(StringUtils.isNotEmpty(fetchSupervise.getSticsKind())&&fetchSupervise.getSticsKind().equalsIgnoreCase(Constants.Statistics_Kind_Special)){
-			projList.add(Projections.property("o.expertExpertConfirm.expertSpecial").as("name")); 
+			projList.add(Projections.property("e.expertSpecial").as("name")); 
 			projList.add(Projections.count("o.id").as("count")); 
-			projList.add(Projections.groupProperty("o.expertExpertConfirm.expertSpecial")); 
+			projList.add(Projections.groupProperty("e.expertSpecial")); 
 		}
 		dc.setProjection(projList);		
 		

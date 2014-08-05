@@ -87,28 +87,28 @@ public class ExpertConfirmService extends BaseService {
 		if (StringUtils.isNotEmpty(expertConfirm.getId())){
 			dc.add(Restrictions.eq("id", expertConfirm.getId()));
 		}
-		if (StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getName())){
+		if (expertConfirm.getExpertInfo()!=null){
 			dc.add(Restrictions.like("expertInfo.name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
 		}
-		if (StringUtils.isNotEmpty(expertConfirm.getExpertCompany().getId())){
+		if (expertConfirm.getExpertCompany()!=null){
 			dc.add(Restrictions.eq("expertCompany.id", expertConfirm.getExpertCompany().getId()));
 		}
-		if (StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getMobile())){
+		if (expertConfirm.getExpertInfo()!=null){
 			dc.add(Restrictions.eq("expertInfo.mobile", expertConfirm.getExpertInfo().getMobile()));
 		}
-		if (StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getCollage())){
+		if (expertConfirm.getExpertInfo()!=null){
 			dc.add(Restrictions.eq("expertInfo.collage", expertConfirm.getExpertInfo().getCollage()));
 		}
 		if (StringUtils.isNotEmpty(expertConfirm.getExpertSpecial())){
 			dc.add(Restrictions.eq("expertSpecial", expertConfirm.getExpertSpecial()));
 		}
-		if (StringUtils.isNotEmpty(expertConfirm.getExpertArea().getId())){
+		if (expertConfirm.getExpertArea()!=null){
 			dc.add(Restrictions.eq("expertArea.id", expertConfirm.getExpertArea().getId()));
 		}
 		if (StringUtils.isNotEmpty(expertConfirm.getExpertTechnical())){
 			dc.add(Restrictions.eq("expertTechnical", expertConfirm.getExpertTechnical()));
 		}
-		if (StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getEducation())){
+		if (expertConfirm.getExpertInfo()!=null){
 			dc.add(Restrictions.eq("expertInfo.education", expertConfirm.getExpertInfo().getEducation()));
 		}
 		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));

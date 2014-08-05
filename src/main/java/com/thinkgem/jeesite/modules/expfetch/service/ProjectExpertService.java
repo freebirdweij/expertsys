@@ -537,8 +537,8 @@ public class ProjectExpertService extends BaseService {
 		subdc.add(Restrictions.in("o.fetchStatus", st));
 		
 		dc.add(Subqueries.exists(subdc));
-		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("o.id"));
+		dc.add(Restrictions.eq("e.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("e.id"));
 		
 		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
 		return res; 
@@ -555,8 +555,8 @@ public class ProjectExpertService extends BaseService {
 		subdc.add(Restrictions.in("o.fetchStatus", status));
 		
 		dc.add(Subqueries.exists(subdc));
-		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("o.id"));
+		dc.add(Restrictions.eq("e.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("e.id"));
 		
 		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
 		return res; 
@@ -573,8 +573,8 @@ public class ProjectExpertService extends BaseService {
 		subdc.add(Restrictions.in("o.fetchStatus", status));
 		
 		dc.add(Subqueries.exists(subdc));
-		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("o.id"));
+		dc.add(Restrictions.eq("e.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("e.id"));
 		
 		Page<ProjectInfo> res = projectInfoDao.find(page,dc);
 		return res; 
@@ -591,8 +591,8 @@ public class ProjectExpertService extends BaseService {
 		subdc.add(Restrictions.in("o.fetchStatus", st));
 		
 		dc.add(Subqueries.exists(subdc));
-		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("o.id"));
+		dc.add(Restrictions.eq("e.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("e.id"));
 		
 		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
 		return res; 
