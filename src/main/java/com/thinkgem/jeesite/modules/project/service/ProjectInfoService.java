@@ -93,25 +93,26 @@ public class ProjectInfoService extends BaseService {
 	}
 	
 	public Page<ProjectInfo> findSuperviseProjects(Page<ProjectInfo> page, ProjectInfo projectInfo) {
-		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		DetachedCriteria dc = DetachedCriteria.forClass(ProjectInfo.class,"p");
+		dc.createAlias("p.unit", "u");
 		if (StringUtils.isNotEmpty(projectInfo.getId())){
 			dc.add(Restrictions.eq("id", projectInfo.getId()));
 		}
 		if (StringUtils.isNotEmpty(projectInfo.getPrjName())){
 			dc.add(Restrictions.like("prjName", "%"+projectInfo.getPrjName()+"%"));
 		}
-		if (projectInfo.getPrjMoney()!=null){
+		if (projectInfo.getPrjMoney()!=null&&!projectInfo.getPrjMoney().equals("")){
 			dc.add(Restrictions.ge("prjMoney", projectInfo.getPrjMoney()));
 		}
-		if (projectInfo.getPrjBegin()!=null){
+		if (projectInfo.getPrjBegin()!=null&&!projectInfo.getPrjBegin().equals("")){
 			dc.add(Restrictions.le("prjBegin", projectInfo.getPrjBegin()));
 			dc.add(Restrictions.ge("prjEnd", projectInfo.getPrjBegin()));
 		}
 		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
-			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjDuty()));
+			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
 		}
-		if (projectInfo.getUnit()!=null){
-			dc.add(Restrictions.eq("unit.id", projectInfo.getUnit().getId()));
+		if (projectInfo.getUnit()!=null&&StringUtils.isNotEmpty(projectInfo.getUnit().getId())){
+			dc.add(Restrictions.eq("u.id", projectInfo.getUnit().getId()));
 		}
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

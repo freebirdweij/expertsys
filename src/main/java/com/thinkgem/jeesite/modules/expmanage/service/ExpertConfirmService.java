@@ -88,28 +88,28 @@ public class ExpertConfirmService extends BaseService {
 		if (StringUtils.isNotEmpty(expertConfirm.getId())){
 			dc.add(Restrictions.eq("id", expertConfirm.getId()));
 		}
-		if (expertConfirm.getExpertInfo()!=null){
+		if (expertConfirm.getExpertInfo()!=null&&StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getName())){
 			dc.add(Restrictions.like("i.name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
 		}
-		if (expertConfirm.getExpertCompany()!=null){
+		if (expertConfirm.getExpertCompany()!=null&&StringUtils.isNotEmpty(expertConfirm.getExpertCompany().getId())){
 			dc.add(Restrictions.eq("c.id", expertConfirm.getExpertCompany().getId()));
 		}
-		if (expertConfirm.getExpertInfo()!=null){
+		if (expertConfirm.getExpertInfo()!=null&&StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getMobile())){
 			dc.add(Restrictions.eq("i.mobile", expertConfirm.getExpertInfo().getMobile()));
 		}
-		if (expertConfirm.getExpertInfo()!=null){
+		if (expertConfirm.getExpertInfo()!=null&&StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getCollage())){
 			dc.add(Restrictions.eq("i.collage", expertConfirm.getExpertInfo().getCollage()));
 		}
 		if (StringUtils.isNotEmpty(expertConfirm.getExpertSpecial())){
 			dc.add(Restrictions.eq("expertSpecial", expertConfirm.getExpertSpecial()));
 		}
-		if (expertConfirm.getExpertArea()!=null){
+		if (expertConfirm.getExpertArea()!=null&&StringUtils.isNotEmpty(expertConfirm.getExpertArea().getId())){
 			dc.add(Restrictions.eq("a.id", expertConfirm.getExpertArea().getId()));
 		}
 		if (StringUtils.isNotEmpty(expertConfirm.getExpertTechnical())){
 			dc.add(Restrictions.eq("expertTechnical", expertConfirm.getExpertTechnical()));
 		}
-		if (expertConfirm.getExpertInfo()!=null){
+		if (expertConfirm.getExpertInfo()!=null&&StringUtils.isNotEmpty(expertConfirm.getExpertInfo().getEducation())){
 			dc.add(Restrictions.eq("i.education", expertConfirm.getExpertInfo().getEducation()));
 		}
 		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));

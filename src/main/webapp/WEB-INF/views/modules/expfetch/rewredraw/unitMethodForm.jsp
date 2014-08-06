@@ -187,8 +187,10 @@
 						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
 			</div>
 		</div>
+      <div class="row">
       <div class="span12">
         <h5>请选择符合性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h5>
+      </div>
       </div>
 				<div class="control-group">
 					<label class="control-label">选择区域:</label>
@@ -225,8 +227,10 @@
 		               <form:hidden path="seriesIdsYes"/>
 			</div>
 		</div> --%>
+      <div class="row">
       <div class="span12">
         <h5>请选择拒绝性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h5>
+      </div>
       </div>
 				<div class="control-group">
 					<label class="control-label">选择区域:</label>

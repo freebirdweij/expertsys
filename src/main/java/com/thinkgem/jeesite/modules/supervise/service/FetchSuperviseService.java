@@ -119,6 +119,8 @@ public class FetchSuperviseService extends BaseService {
 			projList.add(Projections.property("e.expertSpecial").as("name")); 
 			projList.add(Projections.count("e.expertSpecial").as("count")); 
 			projList.add(Projections.groupProperty("e.expertSpecial")); 
+		}else{
+			return null;
 		}
 		dc.setProjection(projList);		
 		
@@ -158,6 +160,8 @@ public class FetchSuperviseService extends BaseService {
 			projList.add(Projections.property("e.expertSpecial").as("name")); 
 			projList.add(Projections.count("e.expertSpecial").as("count")); 
 			projList.add(Projections.groupProperty("e.expertSpecial")); 
+		}else{
+			return null;
 		}
 		dc.setProjection(projList);		
 		
