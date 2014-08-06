@@ -83,33 +83,34 @@ public class ExpertConfirmService extends BaseService {
 	}
 	
 	public Page<ExpertConfirm> findSuperviseExperts(Page<ExpertConfirm> page, ExpertConfirm expertConfirm) {
-		DetachedCriteria dc = expertConfirmDao.createDetachedCriteria();
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		dc.createAlias("e.expertInfo", "i").createAlias("e.expertCompany", "c").createAlias("e.expertArea", "a");
 		if (StringUtils.isNotEmpty(expertConfirm.getId())){
 			dc.add(Restrictions.eq("id", expertConfirm.getId()));
 		}
 		if (expertConfirm.getExpertInfo()!=null){
-			dc.add(Restrictions.like("expertInfo.name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
+			dc.add(Restrictions.like("i.name", "%"+expertConfirm.getExpertInfo().getName()+"%"));
 		}
 		if (expertConfirm.getExpertCompany()!=null){
-			dc.add(Restrictions.eq("expertCompany.id", expertConfirm.getExpertCompany().getId()));
+			dc.add(Restrictions.eq("c.id", expertConfirm.getExpertCompany().getId()));
 		}
 		if (expertConfirm.getExpertInfo()!=null){
-			dc.add(Restrictions.eq("expertInfo.mobile", expertConfirm.getExpertInfo().getMobile()));
+			dc.add(Restrictions.eq("i.mobile", expertConfirm.getExpertInfo().getMobile()));
 		}
 		if (expertConfirm.getExpertInfo()!=null){
-			dc.add(Restrictions.eq("expertInfo.collage", expertConfirm.getExpertInfo().getCollage()));
+			dc.add(Restrictions.eq("i.collage", expertConfirm.getExpertInfo().getCollage()));
 		}
 		if (StringUtils.isNotEmpty(expertConfirm.getExpertSpecial())){
 			dc.add(Restrictions.eq("expertSpecial", expertConfirm.getExpertSpecial()));
 		}
 		if (expertConfirm.getExpertArea()!=null){
-			dc.add(Restrictions.eq("expertArea.id", expertConfirm.getExpertArea().getId()));
+			dc.add(Restrictions.eq("a.id", expertConfirm.getExpertArea().getId()));
 		}
 		if (StringUtils.isNotEmpty(expertConfirm.getExpertTechnical())){
 			dc.add(Restrictions.eq("expertTechnical", expertConfirm.getExpertTechnical()));
 		}
 		if (expertConfirm.getExpertInfo()!=null){
-			dc.add(Restrictions.eq("expertInfo.education", expertConfirm.getExpertInfo().getEducation()));
+			dc.add(Restrictions.eq("i.education", expertConfirm.getExpertInfo().getEducation()));
 		}
 		dc.add(Restrictions.eq(ExpertConfirm.FIELD_DEL_FLAG, ExpertConfirm.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
