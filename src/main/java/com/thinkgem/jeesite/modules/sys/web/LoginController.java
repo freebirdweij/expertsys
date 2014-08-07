@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,12 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.CookieUtils;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.LogService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -43,6 +47,8 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 @Controller
 public class LoginController extends BaseController{
 	
+	@Autowired
+	private LogService logService;
 	/**
 	 * 管理登录
 	 */
@@ -86,6 +92,16 @@ public class LoginController extends BaseController{
 		isValidateCodeLogin(user.getLoginName(), false, true);
 		// 登录成功后，获取上次登录的当前站点ID
 		UserUtils.putCache("siteId", CookieUtils.getCookie(request, "siteId"));
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
 		return "modules/sys/sysIndex";
 	}
 	

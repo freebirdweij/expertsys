@@ -34,7 +34,7 @@
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>所在公司</th><th>所在部门</th><th>操作用户</th><th>URI</th><th>提交方式</th><th>操作者IP</th><th>创建时间</th></thead>
+		<thead><tr><th>所在公司</th><th>所在部门</th><th>操作用户</th><th>URI</th><th>提交方式</th><th>操作者IP</th><th>操作时间</th></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="log">
 			<tr>
@@ -46,11 +46,11 @@
 				<td>${log.remoteAddr}</td>
 				<td><fmt:formatDate value="${log.createDate}" type="both"/></td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td colspan="8">用户代理: ${log.userAgent}<br/>提交参数: ${fns:escapeHtml(log.params)}
 				<c:if test="${not empty log.exception}"><br/>异常信息: <br/><%request.setAttribute("strEnter", "\n"); %>
 				${fn:replace(fns:escapeHtml(log.exception), strEnter, '<br/>')}</c:if></td>
-			</tr>
+			</tr> --%>
 		</c:forEach>
 		</tbody>
 	</table>

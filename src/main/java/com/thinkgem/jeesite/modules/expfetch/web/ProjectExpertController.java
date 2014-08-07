@@ -36,10 +36,12 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
+import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
+import com.thinkgem.jeesite.modules.sys.service.LogService;
 import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -55,6 +57,9 @@ import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 @Controller
 @RequestMapping(value = "${adminPath}/expfetch")
 public class ProjectExpertController extends BaseController {
+
+	@Autowired
+	private LogService logService;
 
 	@Autowired
 	private AreaService areaService;
@@ -758,6 +763,17 @@ public class ProjectExpertController extends BaseController {
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
 		return "modules/expfetch/unitReceiveNote";
 	}
 	
@@ -796,6 +812,17 @@ public class ProjectExpertController extends BaseController {
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
 		return "modules/expfetch/unitReceiveNote";
 	}
 	

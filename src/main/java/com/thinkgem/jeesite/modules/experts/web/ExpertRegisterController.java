@@ -33,10 +33,13 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.Constants;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.FileUtils;
 import com.thinkgem.jeesite.common.utils.HibernateSessionFactory;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.LogService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.experts.service.ExpertInfoService;
@@ -52,6 +55,9 @@ import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 @RequestMapping(value = "${adminPath}/experts")
 public class ExpertRegisterController extends BaseController {
 
+	@Autowired
+	private LogService logService;
+	
 	@Autowired
 	private ExpertInfoService expertInfoService;
 	
@@ -212,7 +218,7 @@ public class ExpertRegisterController extends BaseController {
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "applySave", method=RequestMethod.POST)
-	public String applySave(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes) {
+	public String applySave(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
 		if (!beanValidator(model, expertInfo)){
 			return form(expertInfo, model);
 		}
@@ -228,6 +234,17 @@ public class ExpertRegisterController extends BaseController {
 		
 		expertInfoService.saveStepThree(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
 		return "modules/experts/regNotice";
 	}
 	

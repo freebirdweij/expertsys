@@ -18,10 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
+import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.dao.LogDao;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.entity.Log;
+import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 
 /**
  * 日志Service
@@ -71,6 +74,18 @@ public class LogService extends BaseService {
 		
 		dc.addOrder(Order.desc("id"));
 		return logDao.find(page, dc);
+	}
+	
+	@Transactional(readOnly = false)
+	public void save(Log log) {
+		logDao.save(log);
+		//CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
+	}
+	
+	@Transactional(readOnly = false)
+	public void delete(String id) {
+		logDao.deleteById(id);
+		//CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
 	}
 	
 }

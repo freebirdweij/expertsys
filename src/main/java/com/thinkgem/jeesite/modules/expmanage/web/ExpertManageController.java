@@ -37,9 +37,11 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
+import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.LogService;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
@@ -56,6 +58,9 @@ import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 @RequestMapping(value = "${adminPath}/expmanage")
 public class ExpertManageController extends BaseController {
 
+	@Autowired
+	private LogService logService;
+	
 	@Autowired
 	private SystemService systemService;
 	
@@ -203,7 +208,7 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "confirm")
-	public String confirm(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {
+	public String confirm(ExpertConfirm expertConfirm, Model model,HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, expertConfirm)){
 			return form(expertConfirm, model);
 		}
@@ -232,6 +237,17 @@ public class ExpertManageController extends BaseController {
 		//已审核通过的专家记为4
 		expertInfoService.updateRegStep(Constants.Register_Status_Accept, expertConfirm.getExpertInfo().getUserId());
 		addMessage(redirectAttributes, "保存专家确认'" + expertConfirm.getExpertInfo().getName() + "'成功");
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
 		return "modules/expmanage/confirmNote";
 	}
 	
@@ -343,6 +359,17 @@ public class ExpertManageController extends BaseController {
 		expertInfoService.saveStepThree(expertInfo);
 		expertConfirmService.save(expertConfirm);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
 		return applyform(request.getParameter("expid"), model);
 	}
 	
@@ -463,9 +490,20 @@ public class ExpertManageController extends BaseController {
 
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "expdelete")
-	public String expdelete(String id, RedirectAttributes redirectAttributes) {
+	public String expdelete(String id, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		expertConfirmService.delete(id);
 		addMessage(redirectAttributes, "删除专家确认成功");
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
 		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
 	}
 
