@@ -240,7 +240,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 		this.regStep = regStep;
 	}
 
-	private User user;	// 归属公司
+	private User user;	
 	
 	@OneToOne
 	@JoinColumn(name="userId")

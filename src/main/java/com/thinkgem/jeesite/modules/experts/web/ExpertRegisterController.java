@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -133,6 +134,11 @@ public class ExpertRegisterController extends BaseController {
 			expertInfo = new ExpertInfo();
 			expertInfo.setName(user.getName());
 			expertInfo.setUserId(user.getId());
+			Date birthdate = DateUtils.parseDate(expertInfo.getBirthdate());
+			if (birthdate == null){
+				birthdate = DateUtils.setDays(new Date(), 1);
+				//expertInfo.setBirthdate(DateUtils.formatDate(birthdate, "yyyy-MM-dd"));
+			}
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepOne";
 		}else if(expertInfo.getUserId()==null||expertInfo.getUserId().equalsIgnoreCase("")){
