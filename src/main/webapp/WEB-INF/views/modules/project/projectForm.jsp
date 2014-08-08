@@ -89,9 +89,9 @@
 			<label class="control-label">项目预计时间:</label>
 			<div class="controls">
 				从<form:input path="prjBegin" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" value="${expertInfo.prjBegin}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 				至<form:input path="prjEnd" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" value="${expertInfo.prjEnd}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -19,6 +21,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.persistence.IdEntity;
@@ -298,6 +301,8 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目开始时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ExcelField(title="时间", align=2, sort=60)
 	public Date getPrjBegin() {
 		return this.prjBegin;
@@ -318,6 +323,8 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目结束时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getPrjEnd() {
 		return this.prjEnd;
 	}

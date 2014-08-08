@@ -2,6 +2,10 @@ package com.thinkgem.jeesite.modules.project.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 
 
@@ -152,6 +156,8 @@ public class ProjectExpert implements Serializable {
 	 * 
 	 * @return 执行评审开始时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getReviewBegin() {
 		return this.reviewBegin;
 	}
@@ -171,6 +177,8 @@ public class ProjectExpert implements Serializable {
 	 * 
 	 * @return 执行评审结束时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getReviewEnd() {
 		return this.reviewEnd;
 	}

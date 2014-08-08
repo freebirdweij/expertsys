@@ -15,9 +15,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
+
+import oracle.sql.TIMESTAMP;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -26,6 +30,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
@@ -58,7 +63,7 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 
 	/** 出生年月. */
 	private Date birthdate;
-
+	
 	/** 政治面貌. */
 	private String politics;
 	
@@ -364,6 +369,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 出生年月
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getBirthdate() {
 		return this.birthdate;
 	}
@@ -440,6 +447,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 职称评定时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getTechGettime() {
 		return this.techGettime;
 	}
@@ -478,6 +487,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 取得时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getCertGettime() {
 		return this.certGettime;
 	}
@@ -516,6 +527,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 专业从事时间-从
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getSpecialFrom() {
 		return this.specialFrom;
 	}
@@ -535,6 +548,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 专业从事时间-到
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getSpecialTo() {
 		return this.specialTo;
 	}
@@ -725,6 +740,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 毕业时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getGraduateTime() {
 		return this.graduateTime;
 	}
@@ -937,6 +954,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 参加工作时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getStartworkTime() {
 		return this.startworkTime;
 	}
@@ -1108,6 +1127,8 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	 * 
 	 * @return 曾任评委时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getEverRaterTime() {
 		return this.everRaterTime;
 	}

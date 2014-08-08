@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
@@ -20,6 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
@@ -438,6 +441,8 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 专业从事时间-从
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getSpecialFrom() {
 		return this.specialFrom;
 	}
@@ -457,6 +462,8 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 专业从事时间-到
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getSpecialTo() {
 		return this.specialTo;
 	}
@@ -514,6 +521,8 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 取得时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getCertGettime() {
 		return this.certGettime;
 	}
@@ -609,6 +618,8 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 曾任评委时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getEverRaterTime() {
 		return this.everRaterTime;
 	}

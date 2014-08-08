@@ -134,26 +134,46 @@ public class ExpertRegisterController extends BaseController {
 			expertInfo = new ExpertInfo();
 			expertInfo.setName(user.getName());
 			expertInfo.setUserId(user.getId());
-			Date birthdate = DateUtils.parseDate(expertInfo.getBirthdate());
+			/*Date birthdate = expertInfo.getBirthdate();
 			if (birthdate == null){
 				birthdate = DateUtils.setDays(new Date(), 1);
-				//expertInfo.setBirthdate(DateUtils.formatDate(birthdate, "yyyy-MM-dd"));
-			}
+				expertInfo.setBirthdate(birthdate);
+			}*/
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepOne";
 		}else if(expertInfo.getUserId()==null||expertInfo.getUserId().equalsIgnoreCase("")){
 			expertInfo = new ExpertInfo();
 			expertInfo.setName(user.getName());
 			expertInfo.setUserId(user.getId());
+			/*Date birthdate = expertInfo.getBirthdate();
+			if (birthdate == null){
+				birthdate = DateUtils.setDays(new Date(), 1);
+				expertInfo.setBirthdate(birthdate);
+			}*/
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepOne";
 		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_First)){
+			/*Date birthdate = expertInfo.getBirthdate();
+			if (birthdate == null){
+				birthdate = DateUtils.setDays(new Date(), 1);
+				expertInfo.setBirthdate(birthdate);
+			}*/
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepTwo";
 		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Second)){
+			/*Date birthdate = expertInfo.getBirthdate();
+			if (birthdate == null){
+				birthdate = DateUtils.setDays(new Date(), 1);
+				expertInfo.setBirthdate(birthdate);
+			}*/
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/stepThree";
 		}else if(expertInfo.getRegStep()!=null&&expertInfo.getRegStep().equalsIgnoreCase(Constants.Register_Status_Third)){
+			/*Date birthdate = expertInfo.getBirthdate();
+			if (birthdate == null){
+				birthdate = DateUtils.setDays(new Date(), 1);
+				expertInfo.setBirthdate(birthdate);
+			}*/
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/regNotice";
 		}
