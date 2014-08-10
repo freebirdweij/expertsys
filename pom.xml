@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.cloudroom.expert</groupId>
-	<artifactId>expert</artifactId>
+	<artifactId>expertsys</artifactId>
 	<version>1.1.0</version>
 	<packaging>war</packaging>
 	<name>ExpertSystem</name>

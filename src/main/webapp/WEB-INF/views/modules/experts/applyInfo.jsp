@@ -81,7 +81,6 @@
 		<div class="form-actions">
 			<a href="../../static/ckfinder/ckfinder.html?type=expert">上传资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="修改"/>&nbsp;
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>

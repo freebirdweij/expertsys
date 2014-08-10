@@ -119,8 +119,8 @@
 		action="${ctx}/experts/baseform" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
-		<div class="row-fluid">
-			<div class="span4">
+		<!-- <div class="row-fluid">
+			<div class="span4"> -->
 				<div class="control-group">
 					<label class="control-label">姓名:</label>
 					<div class="controls">
@@ -138,13 +138,13 @@
 						<label class="lbl">${expertInfo.birthdate}</label>
 					</div>
 				</div>				
-			</div>
-			<!-- <div class="span2">
+			<!-- </div>
+			<div class="span2">
 					<input type="file" name="picture0" accept="image/*" onchange="handleFiles(this)" alt="选择照片"/>
 												
 		           <div id="imgList" style="width:100;height:105px;"> 个人照片</div>
-			</div> -->				
-		</div>
+			</div>			
+		</div> -->	
 		<div class="control-group">
 			<label class="control-label">健康状况:</label>
 			<div class="controls">
@@ -225,8 +225,7 @@
 			</div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit"
-				value="修改" />&nbsp; <input id="btnCancel" class="btn" type="button"
-				value="返 回" onclick="history.go(-1)" />
+				value="修改" />&nbsp;
 		</div>
 	</form:form>
 </body>

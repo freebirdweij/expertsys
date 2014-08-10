@@ -143,7 +143,6 @@
 		</div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="修改"/>&nbsp;
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>

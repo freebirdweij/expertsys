@@ -189,19 +189,19 @@ public class ExpertRegisterController extends BaseController {
 
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "saveOne", method=RequestMethod.POST)
-	public String saveOne(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+	public String saveOne(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/) {
 		User user = UserUtils.getUser();
 		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
 			return form(expertInfo, model);
 		}
 		
-		try {
+		/*try {
 			expertInfo.setPicture(file.getBytes());
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
-		}
+		}*/
 		
 		//表示已作过第一步录入
 		expertInfo.setRegStep(Constants.Register_Status_First);

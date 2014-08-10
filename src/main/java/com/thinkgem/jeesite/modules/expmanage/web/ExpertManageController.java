@@ -306,19 +306,19 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "savebase", method=RequestMethod.POST)
-	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file, HttpServletRequest request) {
+	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/, HttpServletRequest request) {
 		User user = UserUtils.getUser();
 		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
 			return baseform(request.getParameter("expid"), model);
 		}
 		
-		try {
+		/*try {
 			expertInfo.setPicture(file.getBytes());
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
-		}
+		}*/
 		//保留注册状态
 		//expertInfo.setRegStep("4");
 		expertInfoService.updateStepOne(expertInfo);
@@ -564,17 +564,17 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "addbase", method=RequestMethod.POST)
-	public String addbase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+	public String addbase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/) {
 		if (!beanValidator(model, expertInfo)){
 			return formi(expertInfo, model);
 		}
 		
-		try {
+		/*try {
 			expertInfo.setPicture(file.getBytes());
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
-		}
+		}*/
 		
 		//表示已作过第一步录入
 		expertInfo.setRegStep(Constants.Register_Status_First);

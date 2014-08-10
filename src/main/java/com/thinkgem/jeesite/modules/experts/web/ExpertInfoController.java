@@ -147,24 +147,24 @@ public class ExpertInfoController extends BaseController {
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "savebase", method=RequestMethod.POST)
-	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,@RequestParam("picture0") MultipartFile file) {
+	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/) {
 		User user = UserUtils.getUser();
 		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
 			return formm(expertInfo, model);
 		}
 		
-		try {
+		/*try {
 			expertInfo.setPicture(file.getBytes());
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
-		}
+		}*/
 		//保留注册状态
 		//expertInfo.setRegStep("3");
 		expertInfoService.updateStepOne(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "modules/experts/baseInfo";
+		return "redirect:"+Global.getAdminPath()+"/experts/baseinfo/?repage";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
@@ -179,8 +179,8 @@ public class ExpertInfoController extends BaseController {
 		//expertInfo.setRegStep("3");
 		
 		expertInfoService.updateStepTwo(expertInfo);
-		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "modules/experts/workInfo";
+		addMessage(redirectAttributes, "保存专家信息成功");
+		return "redirect:"+Global.getAdminPath()+"/experts/workinfo/?repage";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
@@ -194,7 +194,7 @@ public class ExpertInfoController extends BaseController {
 		//expertInfo.setRegStep("3");
 				
 		expertInfoService.updateStepThree(expertInfo);
-		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		addMessage(redirectAttributes, "保存专家信息成功");
 		return "modules/experts/applyInfo";
 	}
 	

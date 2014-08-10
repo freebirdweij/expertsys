@@ -35,6 +35,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -121,6 +122,15 @@ public class RegisterController extends BaseController{
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
 			return form(user, model);
 		}
+		
+		//默认把专家角色分给新用户
+		List<Role> roleList = Lists.newArrayList();
+		Role role = systemService.getRole(Constants.Sys_Role_Expert);
+		if(role!=null){
+			roleList.add(role);
+			user.setRoleList(roleList);
+		}
+		
 		// 保存用户信息
 		systemService.saveUser(user);
 		// 清除当前用户缓存

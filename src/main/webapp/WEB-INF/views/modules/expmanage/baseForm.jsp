@@ -121,13 +121,13 @@
 		<input id="expid" name="expid" type="hidden" value="${id}">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
-		<div class="row-fluid">
-			<div class="span4">
+		<<!-- div class="row-fluid">
+			<div class="span4"> -->
 				<div class="control-group">
 					<label class="control-label">姓名:</label>
 					<div class="controls">
 						<form:input path="name" htmlEscape="false" maxlength="20"
-							class="span10 required userName" readonly="true"/>
+							class="span2 required userName" readonly="true"/>
 					</div>
 				</div>
 				<div class="control-group">
@@ -139,16 +139,16 @@
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span10 input-small Wdate" value="${expertInfo.birthdate}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span2 input-small Wdate" value="${expertInfo.birthdate}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
 				</div>				
-			</div>
-			<!-- <div class="span2">
+			<!-- </div>
+			<div class="span2">
 					<input type="file" name="picture0" accept="image/*" onchange="handleFiles(this)" alt="选择照片"/>
 												
 		           <div id="imgList" style="width:100;height:105px;"> 个人照片</div>
-			</div> -->				
-		</div>
+			</div>				
+		</div> -->
 		<div class="control-group">
 			<label class="control-label">健康状况:</label>
 			<div class="controls">

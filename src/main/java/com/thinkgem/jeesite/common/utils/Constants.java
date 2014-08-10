@@ -2,6 +2,9 @@ package com.thinkgem.jeesite.common.utils;
 
 public class Constants {
 	
+	//系统角色ID
+	public static final String Sys_Role_Expert = "41c9510047ec4a61ba247c11604da888";//专家
+
 	//项目状态
 	public static final String Project_Status_Start = "10";//立项
 	public static final String Project_Status_Apply = "11";//评审
