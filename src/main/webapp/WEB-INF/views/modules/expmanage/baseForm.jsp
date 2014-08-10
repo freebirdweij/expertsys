@@ -121,7 +121,7 @@
 		<input id="expid" name="expid" type="hidden" value="${id}">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
-		<<!-- div class="row-fluid">
+		<!-- div class="row-fluid">
 			<div class="span4"> -->
 				<div class="control-group">
 					<label class="control-label">姓名:</label>

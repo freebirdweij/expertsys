@@ -64,12 +64,12 @@
 				<form:input path="loginName" htmlEscape="false" maxlength="50" class="required userName"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">工号:</label>
 			<div class="controls">
-				<form:input path="no" htmlEscape="false" maxlength="50" class="required"/>
+				<form:input path="no" htmlEscape="false" maxlength="50"/>
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">姓名:</label>
 			<div class="controls">
@@ -143,9 +143,9 @@
 				</div>
 			</div>
 		</c:if>
-		<div class="form-actions">
+		<%-- <div class="form-actions">
 			<shiro:hasPermission name="sys:user:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-		</div>
+		</div> --%>
 	</form:form>
 </body>
 </html>

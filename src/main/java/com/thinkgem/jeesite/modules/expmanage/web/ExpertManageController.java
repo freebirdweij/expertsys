@@ -301,7 +301,8 @@ public class ExpertManageController extends BaseController {
 			UserUtils.getCacheMap().clear();
 		}
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
-		return expedit(request.getParameter("expid"), model);
+		//model.addAttribute("allRoles", systemService.findAllRole());
+		return "redirect:"+Global.getAdminPath()+"/expmanage/expedit/?repage";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")

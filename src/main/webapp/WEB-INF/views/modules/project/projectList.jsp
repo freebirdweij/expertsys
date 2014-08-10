@@ -62,21 +62,21 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
 		<div>
-			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
-		</div>
-		<div style="margin-top:8px;">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<form:select path="prjStatus" class="span2" ><form:option value="" label="项目状态"/>
 			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
-			<label>项目负责人：</label>
-			<form:input path="prjDuty" htmlEscape="false" maxlength="50" class="span2"/>&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>主体单位：</label>
+                <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}"
+					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
+		</div>
+		<div style="margin-top:8px;">
+			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
+			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
 			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 		</div>
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="projectInfo">
 			<tr>

@@ -41,7 +41,7 @@
 		<li class="active"><a href="${ctx}/expmanage/ainfo?id=${id}">审核通过信息</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertConfirm" action="${ctx}/expmanage/verify" method="post" class="form-horizontal">
-		<form:hidden path="userId"/>
+		<%-- <form:hidden path="userId"/> --%>
 		<tags:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">专家类别:</label>

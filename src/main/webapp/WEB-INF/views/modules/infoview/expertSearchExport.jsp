@@ -63,30 +63,27 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
 		<div>
+				<form:select path="expertSpecial" class="span2 required">
+					<form:option value="" label="专业："/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			<label>公司：</label><tags:treeselect id="expertCompany" name="expertCompany.id" value="${expertConfirm.expertCompany.id}" labelName="expertCompany.name" labelValue="${expertConfirm.expertCompany.name}" 
 				title="公司" url="/sys/office/treeData?type=1" cssClass="input-small" allowClear="true"/>
 			<label>电话：</label><form:input path="expertInfo.mobile" htmlEscape="false" maxlength="50" class="input-small"/>
-			<label>专业：</label>
-				<form:select path="expertSpecial" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
 			<label>学校：</label><form:input path="expertInfo.collage" htmlEscape="false" maxlength="50" class="input-small"/>
 		</div>
 		<div style="margin-top:8px;">
+				<form:select path="expertTechnical" class="span2 required">
+					<form:option value="" label="职称："/>
+					<form:options items="${fns:getDictList('sys_tech_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>				
+				<form:select path="expertInfo.education" class="span2 required">
+					<form:option value="" label="学历："/>
+					<form:options items="${fns:getDictList('sys_education_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			<label>地区：</label><tags:treeselect id="expertArea" name="expertArea.id" value="${expertConfirm.expertArea.id}" labelName="expertArea.name" labelValue="${expertConfirm.expertArea.name}" 
 				title="部门" url="/sys/area/treeData" cssClass="input-small" allowClear="true"/>
 			<label>姓名：</label><form:input path="expertInfo.name" htmlEscape="false" maxlength="50" class="input-small"/>
-			<label>职称：</label>
-				<form:select path="expertTechnical" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_tech_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			<label>学历：</label>
-				<form:select path="expertInfo.education" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_education_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
 			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 			&nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
 			<!-- &nbsp;<input id="btnImport" class="btn btn-primary" type="button" value="导入"/> -->

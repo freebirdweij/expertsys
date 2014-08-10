@@ -63,18 +63,17 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
 		<div>
-			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>金额大于：</label><form:input path="prjMoney" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>大约时间：</label><form:input path="prjBegin" maxlength="20" class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-		</div>
-		<div style="margin-top:8px;">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<form:select path="prjStatus" class="span2" ><form:option value="" label="项目状态"/>
 			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
 			<label>项目主体：</label>
             <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}" 
-				title="公司" url="/sys/office/treeData?type=1" cssClass="input-small" allowClear="true"/>			
+				title="公司" url="/sys/office/treeData?type=1" cssClass="required" allowClear="true"/>			
+			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
+		</div>
+		<div style="margin-top:8px;">
+			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
+			<label>金额大于：</label><form:input path="prjMoney" htmlEscape="false" maxlength="50" class="span2"/>
+			<label>大约时间：</label><form:input path="prjBegin" maxlength="20" class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 		</div>
 	</form:form>

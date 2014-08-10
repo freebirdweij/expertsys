@@ -64,8 +64,8 @@ public class ProjectInfoService extends BaseService {
 		if (StringUtils.isNotEmpty(projectInfo.getPrjName())){
 			dc.add(Restrictions.like("prjName", "%"+projectInfo.getPrjName()+"%"));
 		}
-		if (StringUtils.isNotEmpty(projectInfo.getPrjDuty())){
-			dc.add(Restrictions.like("prjDuty", "%"+projectInfo.getPrjDuty()+"%"));
+		if (projectInfo.getUnit()!=null&&StringUtils.isNotEmpty(projectInfo.getUnit().getId())){
+			dc.add(Restrictions.eq("prjDuty", projectInfo.getUnit().getId()));
 		}
 		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
 			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
