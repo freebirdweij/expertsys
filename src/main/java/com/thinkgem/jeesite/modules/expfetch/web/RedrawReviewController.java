@@ -754,6 +754,8 @@ public class RedrawReviewController extends BaseController {
 		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
 		
 		
+		ProjectInfo projectInfo = projectInfoService.get(pExpert.getPrjid());
+		projectExpert.setPrjProjectInfo(projectInfo);
 		projectExpert.setResIds(resIds);
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
@@ -792,6 +794,8 @@ public class RedrawReviewController extends BaseController {
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
 		
+		ProjectInfo projectInfo = projectInfoService.get(pExpert.getPrjid());
+		projectExpert.setPrjProjectInfo(projectInfo);
 		projectExpert.setResIds(resIds);
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
