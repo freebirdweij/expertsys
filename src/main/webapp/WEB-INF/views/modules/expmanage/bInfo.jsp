@@ -143,7 +143,7 @@
 					<input type="file" name="picture0" accept="image/*" onchange="handleFiles(this)" alt="选择照片"/>
 												
 		           <div id="imgList" style="width:100;height:105px;"> 个人照片</div>
-			</div> -->				
+			</div>				
 		</div> -->
 		<div class="control-group">
 			<label class="control-label">健康状况:</label>

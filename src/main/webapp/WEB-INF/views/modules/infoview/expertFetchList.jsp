@@ -162,7 +162,7 @@
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${rewlist}" var="expertConfirm">
+		<c:forEach items="${rewlist}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
@@ -183,7 +183,7 @@
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${rewrdlist}" var="expertConfirm">
+		<c:forEach items="${rewrdlist}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
@@ -204,7 +204,7 @@
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${rewnlist}" var="expertConfirm">
+		<c:forEach items="${rewnlist}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
@@ -225,7 +225,7 @@
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${acptlist}" var="expertConfirm">
+		<c:forEach items="${acptlist}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
@@ -246,7 +246,7 @@
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${acptrdlist}" var="expertConfirm">
+		<c:forEach items="${acptrdlist}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
@@ -267,7 +267,7 @@
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${acptnlist}" var="expertConfirm">
+		<c:forEach items="${acptnlist}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>

@@ -192,6 +192,8 @@
         <h5>请选择符合性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h5>
       </div>
       </div>
+      <div class="row-fluid">
+         <div class="span4">
 				<div class="control-group">
 					<label class="control-label">选择区域:</label>
 					<div class="controls">
@@ -199,6 +201,8 @@
 		               <form:hidden path="areaIdsYes"/>
 					</div>
 				</div>
+		</div>
+       <div class="span4">
 		<div class="control-group">
 			<label class="control-label">选择单位:</label>
 			<div class="controls">
@@ -206,6 +210,10 @@
 		               <form:hidden path="unitIdsYes"/>
             </div>
 		</div>
+	  </div>
+	</div>
+      <div class="row-fluid">
+       <div class="span4">
 		<div class="control-group">
 			<label class="control-label">选择类别:</label>
 			<div class="controls">
@@ -213,6 +221,8 @@
 		               <form:hidden path="kindIdsYes"/>
           </div>	
 		</div>
+		</div>
+       <div class="span4">
 		<div class="control-group">
 			<label class="control-label">选择专业:</label>
 			<div class="controls">
@@ -220,6 +230,8 @@
 		               <form:hidden path="specialIdsYes"/>
 			</div>
 		</div>
+	  </div>
+	</div>
 		<%-- <div class="control-group">
 			<label class="control-label">选择行业:</label>
 			<div class="controls">
@@ -232,6 +244,8 @@
         <h5>请选择拒绝性条件（以下选项可多选，如某项不选，则忽略该项作为筛选条件）</h5>
       </div>
       </div>
+      <div class="row-fluid">
+         <div class="span4">
 				<div class="control-group">
 					<label class="control-label">选择区域:</label>
 					<div class="controls">
@@ -239,6 +253,8 @@
 		               <form:hidden path="areaIdsNo"/>
 					</div>
 				</div>
+		</div>
+       <div class="span4">
 		<div class="control-group">
 			<label class="control-label">选择单位:</label>
 			<div class="controls">
@@ -246,6 +262,10 @@
 		               <form:hidden path="unitIdsNo"/>
             </div>
 		</div>
+	  </div>
+	</div>
+      <div class="row-fluid">
+         <div class="span4">
 		<div class="control-group">
 			<label class="control-label">选择类别:</label>
 			<div class="controls">
@@ -253,6 +273,8 @@
 		               <form:hidden path="kindIdsNo"/>
           </div>	
 		</div>
+		</div>
+       <div class="span4">
 		<div class="control-group">
 			<label class="control-label">选择专业:</label>
 			<div class="controls">
@@ -260,6 +282,8 @@
 		               <form:hidden path="specialIdsNo"/>
 			</div>
 		</div>
+	  </div>
+	</div>
 		<%-- <div class="control-group">
 			<label class="control-label">选择行业:</label>
 			<div class="controls">
