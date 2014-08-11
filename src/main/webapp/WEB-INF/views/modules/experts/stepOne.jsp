@@ -128,7 +128,7 @@
 				</div>
 				<div class="control-group">
 					<label class="control-label">性别:</label>
-					<div class="controls">男<form:radiobutton path="sex" value="1" />&nbsp;&nbsp;&nbsp;&nbsp;女<form:radiobutton path="sex" value="0" />
+					<div class="controls">男<form:radiobutton path="sex" value="1" class="required"/>&nbsp;&nbsp;&nbsp;&nbsp;女<form:radiobutton path="sex" value="0" />
 					</div>
 				</div>
 				<div class="control-group">

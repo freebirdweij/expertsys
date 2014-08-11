@@ -50,7 +50,7 @@
 		<div class="control-group">
 			<label class="control-label">是否所属单位组长人员:</label>
 			<div class="controls">
-                                         是<form:radiobutton path="ifTeamleader"  value="1"/>   否 <form:radiobutton path="ifTeamleader"  value="0"/>	
+                                         是<form:radiobutton path="ifTeamleader"  value="1" class="required"/>   否 <form:radiobutton path="ifTeamleader"  value="0"/>	
             </div>
 		</div>
 		<div class="control-group">
