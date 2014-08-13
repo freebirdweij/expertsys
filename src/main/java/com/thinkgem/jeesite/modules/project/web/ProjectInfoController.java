@@ -116,7 +116,7 @@ public class ProjectInfoController extends BaseController {
 		projectInfo.setId(projectInfo.getPrjCode());
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
-		return "modules/project/recordTwo";
+		return "modules/project/recordNote";
 	}
 	
 	@RequiresPermissions("project:projectInfo:edit")

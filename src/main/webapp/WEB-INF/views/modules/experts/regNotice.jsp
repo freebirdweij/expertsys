@@ -22,12 +22,22 @@
 	<%@include file="/WEB-INF/views/include/head.jsp" %>
 </head>
 <body>
+	<form:form id="inputForm" modelAttribute="expertInfo" action="${ctx}/experts/register" method="post" class="form-horizontal">
 	<div class="container-fluid">
 		<div class="page-header"><h1>专家注册提示.</h1></div>
 		<p>提示信息：</p><p>
-		您已完成专家注册信息录入，如需求修改注册信息，请进入信息维护功能模块进行。
+		<c:if test="${expertInfo.regStep eq '3'}">
+		您已完成专家注册信息录入，如需要修改注册信息或者提交审核，请进入信息维护功能模块进行。
+		</c:if>
+		<c:if test="${expertInfo.regStep eq '4'}">
+		您已完成专家注册信息录入并提交了申请，目前正等待审核当中,如需要修改注册信息，请进入信息维护功能模块进行。
+		</c:if>
+		<c:if test="${expertInfo.regStep eq '5'}">
+		您已被批准成为专家！如需要修改专家信息或者重新提交申请，请进入信息维护功能模块进行。
+		</c:if>
 		</p>
 		<script>try{top.$.jBox.closeTip();}catch(e){}</script>
 	</div>
+	</form:form>
 </body>
 </html>

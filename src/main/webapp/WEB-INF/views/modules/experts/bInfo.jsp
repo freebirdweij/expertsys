@@ -111,12 +111,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/experts/binfo?id=${id}">基本信息</a></li>
-		<li><a href="${ctx}/experts/winfo?id=${id}">职业信息</a></li>
-		<li><a href="${ctx}/experts/ainfo?id=${id}">申报信息</a></li>
+		<li class="active"><a href="${ctx}/experts/binfo?id=${id}">专家信息</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo"
-		action="${ctx}/experts/baseform" enctype="multipart/form-data" method="post" class="form-horizontal">
+		action="${ctx}/expmanage/verify" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<form:hidden path="userId" />
 		<tags:message content="${message}" />
 		<!-- <div class="row-fluid">
@@ -146,24 +144,6 @@
 			</div>				
 		</div> -->
 		<div class="control-group">
-			<label class="control-label">健康状况:</label>
-			<div class="controls">
-				<form:select path="health" class="span2 required" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_health_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">民 族:</label>
-			<div class="controls">
-				<form:select path="nation" class="span2 required" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">身份证号:</label>
 			<div class="controls">
 				<label class="lbl">${expertInfo.identifyCode}</label>
@@ -173,12 +153,6 @@
 			<label class="control-label">毕业学校:</label>
 			<div class="controls">
 				<label class="lbl">${expertInfo.collage}</label>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">毕业时间:</label>
-			<div class="controls">
-				<label class="lbl">${expertInfo.graduateTime}</label>
 			</div>
 		</div>
 		<div class="control-group">
@@ -197,35 +171,63 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">所 获学 位:</label>
+			<label class="control-label">从事专业:</label>
 			<div class="controls">
-				<form:select path="myDegree" class="span2 required" disabled="true">
+						<label class="lbl">${expertInfo.specialist}</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">现从事专业时间:</label>
+			<div class="controls">
+				从
+						<label class="lbl">${expertInfo.specialFrom}</label>
+				至
+						<label class="lbl">${expertInfo.specialTo}</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">职    称:</label>
+			<div class="controls">
+				<form:select path="technical" class="span2 required" disabled="true">
 					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_degree_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('sys_tech_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">家庭地址:</label>
+			<label class="control-label">参加工作时间:</label>
+			<div class="controls">
+						<label class="lbl">${expertInfo.startworkTime}</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">地址:</label>
 			<div class="controls">
 				<label class="lbl">${expertInfo.homeAddr}</label>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">住宅电话:</label>
+			<label class="control-label">申报类别:</label>
 			<div class="controls">
-				<label class="lbl">${expertInfo.homePhone}</label>
-			</div>
+				<form:select path="specialKind1" class="span2 required" disabled="true">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+            </div>
 		</div>
-			<div class="control-group">
-				<label class="control-label">邮政编码:</label>
-				<div class="controls">
-				<label class="lbl">${expertInfo.homeMailcode}</label>
-				</div>
-			</div>
+		<div class="control-group">
+			<label class="control-label">申报专业:</label>
+			<div class="controls">
+				<form:select path="kind1Special1" class="span2 required" disabled="true">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+          </div>	
+		</div>
 		<div class="form-actions">
-			 <input id="btnCancel" class="btn" type="button"
-				value="返 回" onclick="history.go(-1)" />
+			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(ID${id})/">专家资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="填写审核表"/>&nbsp;
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>

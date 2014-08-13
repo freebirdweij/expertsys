@@ -177,6 +177,7 @@ public class ExpertRegisterController extends BaseController {
 			model.addAttribute("expertInfo", expertInfo);
 			return "modules/experts/regNotice";
 		}
+		model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/regNotice";
 	}
 
@@ -203,12 +204,12 @@ public class ExpertRegisterController extends BaseController {
 			e.printStackTrace();
 		}*/
 		
-		//表示已作过第一步录入
-		expertInfo.setRegStep(Constants.Register_Status_First);
+		//表示已作过第三步录入
+		expertInfo.setRegStep(Constants.Register_Status_Third);
 		
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "modules/experts/stepTwo";
+		return "modules/experts/regNotice";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
@@ -255,11 +256,12 @@ public class ExpertRegisterController extends BaseController {
 			expertConfirmService.delete(expertConfirm.getId());
 		}
 		
-		//表示已作过第三步录入
+		//表示已提出申请
 		expertInfo.setRegStep(Constants.Register_Status_Apply);
 		
-		expertInfoService.saveStepThree(expertInfo);
+		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
+		
 		User user = UserUtils.getUser();
 		//记录系统日志
 		Log log = new Log();
