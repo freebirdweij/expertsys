@@ -23,33 +23,11 @@
 					}
 				}
 			});
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
-				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
-			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
-						$("#searchForm").attr("action","${ctx}/infoview/exportExpertFetch");
-						$("#searchForm").submit();
+						$("#inputForm").attr("action","${ctx}/infoview/exportExpertFetch");
+						$("#inputForm").submit();
 					}
 				},{buttonsFocus:1});
 				top.$('.jbox-body .jbox-icon').css('top','55px');
@@ -159,7 +137,7 @@
       <div class="span10">
         <h4>以下为评审首次抽选的项目：</h4>
       </div>
-		<input id="expid" name="expid" type="hidden"/>
+		<input id="expid" name="expid" type="hidden" value="${expid}"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
