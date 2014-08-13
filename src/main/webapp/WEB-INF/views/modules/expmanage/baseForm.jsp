@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html> 
 <head>
-	<title>专家修改</title>
+	<title>专家注册</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -29,6 +29,11 @@
 					}
 				}
 			});
+			
+			$("#btnSubmit").click(function(){
+				$("#inputForm").attr("action","${ctx}/experts/applySave");
+				$("#inputForm").submit();
+	        });
 		});
 		
 	function ajaxFileUpload()
@@ -111,18 +116,14 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/expmanage/expedit?id=${id}">专家个人信息</a></li>
-		<li class="active"><a href="${ctx}/expmanage/baseform?id=${id}">专家基本信息</a></li>
-		<li><a href="${ctx}/expmanage/workform?id=${id}">专家职业信息</a></li>
-		<li><a href="${ctx}/expmanage/applyform?id=${id}">审核通过信息</a></li>
+		<li class="active">专家信息</li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="expertInfo"
 		action="${ctx}/expmanage/savebase" enctype="multipart/form-data" method="post" class="form-horizontal">
-		<input id="expid" name="expid" type="hidden" value="${id}">
-		<form:hidden path="userId" />
+		<input id="expid" name="expid" type="hidden" value="${expid}"/>
 		<tags:message content="${message}" />
-		<!-- div class="row-fluid">
-			<div class="span4"> -->
+		<!--<div class="row-fluid">
+			 <div class="span4"> -->
 				<div class="control-group">
 					<label class="control-label">姓名:</label>
 					<div class="controls">
@@ -132,41 +133,23 @@
 				</div>
 				<div class="control-group">
 					<label class="control-label">性别:</label>
-					<div class="controls">男<form:radiobutton path="sex" value="1" />&nbsp;&nbsp;&nbsp;&nbsp;女<form:radiobutton path="sex" value="0" />
+					<div class="controls">男<form:radiobutton path="sex" value="1" class="required"/>&nbsp;&nbsp;&nbsp;&nbsp;女<form:radiobutton path="sex" value="0" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span2 input-small Wdate" value="${expertInfo.birthdate}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
 				</div>				
-			<!-- </div>
-			<div class="span2">
+			<!-- </div> -->
+			<!-- <div class="span2">
 					<input type="file" name="picture0" accept="image/*" onchange="handleFiles(this)" alt="选择照片"/>
 												
 		           <div id="imgList" style="width:100;height:105px;"> 个人照片</div>
-			</div>				
-		</div> -->
-		<div class="control-group">
-			<label class="control-label">健康状况:</label>
-			<div class="controls">
-				<form:select path="health" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_health_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">民 族:</label>
-			<div class="controls">
-				<form:select path="nation" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
+			</div> 				
+		</div>-->
 		<div class="control-group">
 			<label class="control-label">身份证号:</label>
 			<div class="controls">
@@ -179,13 +162,6 @@
 			<div class="controls">
 				<form:input path="collage" htmlEscape="false" maxlength="50"
 					class="required" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">毕业时间:</label>
-			<div class="controls">
-			  <form:input path="graduateTime" maxlength="20"
-				class="span2 input-small Wdate" value="${expertInfo.graduateTime}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
@@ -205,36 +181,71 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">所 获学 位:</label>
+			<label class="control-label">现从事专业:</label>
 			<div class="controls">
-				<form:select path="myDegree" class="span2 required">
+				<form:input path="specialist" htmlEscape="false" maxlength="20"
+					class="span3 required" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">现从事专业时间:</label>
+			<div class="controls">
+				从<form:input path="specialFrom" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				至<form:input path="specialTo" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">职    称:</label>
+			<div class="controls">
+				<form:select path="technical" class="span2 required">
 					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_degree_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('sys_tech_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">家庭地址:</label>
+			<label class="control-label">参加工作时间:</label>
 			<div class="controls">
-				<form:input path="homeAddr" htmlEscape="false" maxlength="200" class="span5 required" />
+				<form:input path="startworkTime" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">住宅电话:</label>
+			<label class="control-label">地址:</label>
 			<div class="controls">
-				<form:input path="homePhone" htmlEscape="false" maxlength="30" class="span2 required" />
+				<form:input path="homeAddr" htmlEscape="false" maxlength="200" class="span5" />
 			</div>
 		</div>
-			<div class="control-group">
-				<label class="control-label">邮政编码:</label>
-				<div class="controls">
-					<form:input path="homeMailcode" htmlEscape="false" maxlength="20" class="span2 required"/>
-				</div>
+		<div class="control-group">
+			<label class="control-label">申请的专家类别:</label>
+			<div class="controls">
+				<form:select path="specialKind1" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_specialkind_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+            </div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">申请的专业:</label>
+			<div class="controls">
+				<form:select path="kind1Special1" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+          </div>	
+		</div>
+		<div class="control-group">
+			<label class="control-label">行业部门〈或管理单位)初审意见:</label>
+			<div class="controls">
+		        <textarea id="deptormanageAdvice" name="deptormanageAdvice" value="${deptormanageAdvice}"  rows="5" cols="80"></textarea>
 			</div>
+		</div>
 		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit"
-				value="保存" />&nbsp; <input id="btnCancel" class="btn" type="button"
-				value="返 回" onclick="history.go(-1)" />
+			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(ID${expertInfo.userId})/">专家资料</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input id="btnSave" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>

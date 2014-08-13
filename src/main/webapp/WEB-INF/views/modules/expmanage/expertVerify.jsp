@@ -72,7 +72,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertConfirm.expertInfo.name}(ID${uid})/">上传审核资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%-- <a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertConfirm.expertInfo.name}(ID${uid})/">上传审核资料</a> --%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="通过"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>

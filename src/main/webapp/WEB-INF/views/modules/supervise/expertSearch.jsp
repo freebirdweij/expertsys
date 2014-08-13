@@ -95,7 +95,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
-				<td><a href="${ctx}/expmanage/expedit?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
+				<td><a href="${ctx}/expmanage/binfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
 				<td>${expertConfirm.expertInfo.unit.name}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>

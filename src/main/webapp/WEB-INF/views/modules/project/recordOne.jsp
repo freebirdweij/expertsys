@@ -97,7 +97,7 @@
 		<div class="control-group">
 			<label class="control-label">项目说明:</label>
 			<div class="controls">
-					<form:textarea path="prjNotes" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
+					<form:textarea path="prjNotes" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span3 required"/>
 			</div>
 		</div>
 		<div class="form-actions">

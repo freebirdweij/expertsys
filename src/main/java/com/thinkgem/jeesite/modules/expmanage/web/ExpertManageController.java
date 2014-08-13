@@ -103,10 +103,10 @@ public class ExpertManageController extends BaseController {
 	@RequestMapping(value = "expedit")
 	public String expedit(@RequestParam("id") String id, Model model) {
 		ExpertConfirm expertConfirm = expertConfirmService.get(id);
-		model.addAttribute("user", expertConfirm.getExpertInfo().getUser());
-		model.addAttribute("id", id);
-		model.addAttribute("allRoles", systemService.findAllRole());
-		return "modules/expmanage/userForm";
+		model.addAttribute("expertInfo", expertConfirm.getExpertInfo());
+		model.addAttribute("expid", id);
+		//model.addAttribute("allRoles", systemService.findAllRole());
+		return "modules/expmanage/baseForm";
 	}
 
 	@RequiresPermissions("expmanage:expertConfirm:edit")
@@ -307,12 +307,19 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "savebase", method=RequestMethod.POST)
-	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/, HttpServletRequest request) {
+	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/, HttpServletRequest request,HttpServletResponse response) {
 		User user = UserUtils.getUser();
 		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
 			return baseform(request.getParameter("expid"), model);
 		}
+		ExpertConfirm expertConfirm = get(request.getParameter("expid"));
+		expertConfirm.setExpertKind(expertInfo.getSpecialKind1());
+		expertConfirm.setExpertSpecial(expertInfo.getKind1Special1());
+		expertConfirm.setDeptormanageAdvice(request.getParameter("deptormanageAdvice"));
+		//保留注册状态
+		expertInfo.setRegStep(Constants.Register_Status_Accept);
+				
 		
 		/*try {
 			expertInfo.setPicture(file.getBytes());
@@ -322,9 +329,10 @@ public class ExpertManageController extends BaseController {
 		}*/
 		//保留注册状态
 		//expertInfo.setRegStep("4");
-		expertInfoService.updateStepOne(expertInfo);
+		expertInfoService.save(expertInfo);
+		expertConfirmService.save(expertConfirm);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return baseform(request.getParameter("expid"), model);
+		return explist(expertConfirm,request,response, model);
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
@@ -481,12 +489,23 @@ public class ExpertManageController extends BaseController {
     
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "delete")
-	public String delete(String id, RedirectAttributes redirectAttributes) {
+	public String delete(String id, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		ExpertConfirm expertConfirm = get(id);
 		expertConfirmService.delete(id);
 		expertInfoService.updateRegStep(Constants.Register_Status_Third, expertConfirm.getExpertInfo().getUserId());
 		addMessage(redirectAttributes, "删除专家确认成功");
-		return "redirect:"+Global.getAdminPath()+"/expmanage/expertConfirm/?repage";
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
+		return "redirect:"+Global.getAdminPath()+"/expmanage/explist/?repage";
 	}
 
 	@RequiresPermissions("expmanage:expertConfirm:edit")

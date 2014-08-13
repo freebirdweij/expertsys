@@ -102,7 +102,7 @@
 				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>
     				<a href="${ctx}/expmanage/expedit?id=${expertConfirm.id}">修改</a>
-					<a href="${ctx}/expmanage/expdelete?id=${expertConfirm.id}" onclick="return confirmx('确认要删除该专家吗？', this.href)">删除</a>
+					<a href="${ctx}/expmanage/delete?id=${expertConfirm.id}" onclick="return confirmx('确认要删除该专家吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
