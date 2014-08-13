@@ -59,13 +59,12 @@
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>出生年月</th><th>职务</th><th>职称</th><th>从事专业</th><th>学历</th><th>操作</th></tr></thead>
+		<thead><tr><th>姓名</th><th>出生年月</th><th>职称</th><th>从事专业</th><th>学历</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="expertInfo">
 			<tr>
 				<td><a href="${ctx}/experts/binfo?id=${expertInfo.userId}">${expertInfo.name}</a></td>
 				<td>${expertInfo.birthdate}</td>
-				<td>${expertInfo.job}</td>
 				<td>${fns:getDictLabel(expertInfo.technical,'sys_tech_type','')}</td>
 				<td>${expertInfo.specialist}</td>
 				<td>${fns:getDictLabel(expertInfo.education,'sys_education_type','')}</td>

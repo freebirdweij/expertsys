@@ -89,7 +89,7 @@
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职务</th><th>职称</th><th>学历</th><th>操作</th></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职称</th><th>学历</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="expertConfirm">
 			<tr>
@@ -97,7 +97,6 @@
 				<td>${expertConfirm.expertInfo.unit.name}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
-				<td>${expertConfirm.expertInfo.job}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>

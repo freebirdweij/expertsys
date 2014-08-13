@@ -114,6 +114,7 @@ public class ProjectInfoController extends BaseController {
 			return record(projectInfo, model);
 		}
 		projectInfo.setId(projectInfo.getPrjCode());
+		projectInfo.setPrjStatus(Constants.Project_Status_Start);
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
 		return "modules/project/recordNote";

@@ -246,6 +246,8 @@ public class ExpertRegisterController extends BaseController {
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "applySave", method=RequestMethod.POST)
 	public String applySave(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request) {
+		User user = UserUtils.getUser();
+		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
 			return form(expertInfo, model);
 		}
@@ -262,7 +264,6 @@ public class ExpertRegisterController extends BaseController {
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		
-		User user = UserUtils.getUser();
 		//记录系统日志
 		Log log = new Log();
 		log.setCreateBy(user);
