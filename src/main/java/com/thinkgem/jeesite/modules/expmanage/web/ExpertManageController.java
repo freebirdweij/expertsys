@@ -37,11 +37,13 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.LogService;
+import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
@@ -58,6 +60,9 @@ import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 @RequestMapping(value = "${adminPath}/expmanage")
 public class ExpertManageController extends BaseController {
 
+	@Autowired
+	private OfficeService officeService;
+	
 	@Autowired
 	private LogService logService;
 	
@@ -617,13 +622,17 @@ public class ExpertManageController extends BaseController {
 		
 		// 保存用户信息
 		systemService.saveUser(user);
-		user = systemService.getUserByLoginName(user.getLoginName());
+		User ur = null;
+		ur = systemService.getUserByLoginName(user.getLoginName());
+		
+		Office cy = officeService.get(ur.getCompany().getId());
 		
 		//表示已成为专家
 		expertInfo.setRegStep(Constants.Register_Status_Accept);
 		
 		// 保存专家信息
-		expertInfo.setUserId(user.getId());
+		expertInfo.setUserId(ur.getId());
+		expertInfo.setUnit(ur.getCompany());
 		expertInfoService.save(expertInfo);
 		
 		//保存专家审批
@@ -635,9 +644,12 @@ public class ExpertManageController extends BaseController {
 		expertConfirm.setExpertTechnical(expertInfo.getTechnical());
 		//expertConfirm.setExpertSeries(expertConfirm.getSeriesOne());
 		expertConfirm.setExpertInfo(expertInfo);
-		expertConfirm.setExpertCompany(user.getCompany());
-		expertConfirm.setExpertArea(user.getCompany().getArea());
-		try {
+		expertConfirm.setExpertCompany(ur.getCompany());
+		expertConfirm.setExpertArea(cy.getArea());
+		expertConfirm.setSpecialist(expertInfo.getSpecialist());
+		expertConfirm.setSpecialFrom(expertInfo.getSpecialFrom());
+		expertConfirm.setSpecialTo(expertInfo.getSpecialTo());
+		/*try {
 			ConvertUtils.register(new DateConverter(null), java.util.Date.class); 
 			BeanUtils.copyProperties(expertConfirm, expertInfo);
 		} catch (IllegalAccessException e) {
@@ -646,7 +658,7 @@ public class ExpertManageController extends BaseController {
 		} catch (InvocationTargetException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
-		}
+		}*/
 		expertConfirmService.save(expertConfirm);			
 		
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
