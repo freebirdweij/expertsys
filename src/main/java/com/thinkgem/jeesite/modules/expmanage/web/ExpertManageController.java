@@ -530,9 +530,9 @@ public class ExpertManageController extends BaseController {
 	@RequiresPermissions("experts:expertInfo:reg")
 	@RequestMapping(value = "expnew")
 	public String expnew(ExpertInfo expertInfo, Model model) {
-		model.addAttribute("user", new User());
-		model.addAttribute("allRoles", systemService.findAllRole());
-		return "modules/expmanage/userNew";
+		model.addAttribute("expertInfo",expertInfo);
+		//model.addAttribute("allRoles", systemService.findAllRole());
+		return "modules/expmanage/baseNew";
 	}
 
 	@RequiresPermissions("experts:expertInfo:view")
@@ -584,24 +584,73 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "addbase", method=RequestMethod.POST)
-	public String addbase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/) {
+	public String addbase(ExpertInfo expertInfo, Model model, String oldLoginName, String newPassword, HttpServletRequest request, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/) {
 		if (!beanValidator(model, expertInfo)){
 			return formi(expertInfo, model);
 		}
 		
-		/*try {
-			expertInfo.setPicture(file.getBytes());
-		} catch (IOException e) {
+		if(Global.isDemoMode()){
+			addMessage(redirectAttributes, "演示模式，不允许操作！");
+			return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
+		}
+		User user = new User();
+		// 修正引用赋值问题，不知道为何，Company和Office引用的一个实例地址，修改了一个，另外一个跟着修改。
+		user.setCompany(new Office(request.getParameter("company.id")));
+		user.setOffice(new Office(request.getParameter("office.id")));
+		user.setName(expertInfo.getName());
+		user.setLoginName(expertInfo.getUser().getLoginName());
+		// 如果新密码为空，则不更换密码
+		if (StringUtils.isNotBlank(newPassword)) {
+			user.setPassword(SystemService.entryptPassword(newPassword));
+		}
+		if (!"true".equals(checkLoginName(oldLoginName, user.getLoginName()))){
+			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
+			return expnew(expertInfo, model);
+		}
+		//默认把专家角色分给新用户
+		List<Role> roleList = Lists.newArrayList();
+		Role role = systemService.getRole(Constants.Sys_Role_Expert);
+		if(role!=null){
+			roleList.add(role);
+			user.setRoleList(roleList);
+		}
+		
+		// 保存用户信息
+		systemService.saveUser(user);
+		user = systemService.getUserByLoginName(user.getLoginName());
+		
+		//表示已成为专家
+		expertInfo.setRegStep(Constants.Register_Status_Accept);
+		
+		// 保存专家信息
+		expertInfo.setUserId(user.getId());
+		expertInfoService.save(expertInfo);
+		
+		//保存专家审批
+		ExpertConfirm expertConfirm = new ExpertConfirm();
+		expertConfirm.setId(request.getParameter("expertCode"));
+		expertConfirm.setDeptormanageAdvice(request.getParameter("deptormanageAdvice"));
+		expertConfirm.setExpertKind(expertInfo.getSpecialKind1());
+		expertConfirm.setExpertSpecial(expertInfo.getKind1Special1());
+		expertConfirm.setExpertTechnical(expertInfo.getTechnical());
+		//expertConfirm.setExpertSeries(expertConfirm.getSeriesOne());
+		expertConfirm.setExpertInfo(expertInfo);
+		expertConfirm.setExpertCompany(user.getCompany());
+		expertConfirm.setExpertArea(user.getCompany().getArea());
+		try {
+			ConvertUtils.register(new DateConverter(null), java.util.Date.class); 
+			BeanUtils.copyProperties(expertConfirm, expertInfo);
+		} catch (IllegalAccessException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
-		}*/
+		} catch (InvocationTargetException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		expertConfirmService.save(expertConfirm);			
 		
-		//表示已作过第一步录入
-		expertInfo.setRegStep(Constants.Register_Status_First);
-		
-		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "modules/expmanage/workNew";
+		return "redirect:"+Global.getAdminPath()+"/expmanage/expnew/?repage";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
