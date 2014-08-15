@@ -31,9 +31,13 @@
 				}
 			});
 		});
+		
+		function startTime(){
+			document.getElementById("prjBegin").Value = '111';
+	   }
 	</script>
 </head>
-<body>
+<body onLoad="startTime()">
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/project/record">基本信息</a></li>
 	</ul><br/>
@@ -88,10 +92,10 @@
 		<div class="control-group">
 			<label class="control-label">项目预计时间:</label>
 			<div class="controls">
-				从<form:input path="prjBegin" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				从<form:input id="prjBegin" path="prjBegin" maxlength="20"
+						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',isShowClear:true});" />
 				至<form:input path="prjEnd" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',isShowClear:true});" />
 			</div>
 		</div>
 		<div class="control-group">
