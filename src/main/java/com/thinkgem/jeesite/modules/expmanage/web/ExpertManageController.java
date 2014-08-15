@@ -456,7 +456,7 @@ public class ExpertManageController extends BaseController {
 					
 					// 保存专家信息
 					expertInfo.setUserId(ur.getId());
-					expertInfo.setSex("1");
+					expertInfo.setSex(Constants.Expert_Sex_Boy);
 					expertInfo.setUnit(ur.getCompany());
 					expertInfo.setSpecialKind1(expert.getExpertKind());
 					expertInfo.setKind1Special1(expert.getExpertSpecial());

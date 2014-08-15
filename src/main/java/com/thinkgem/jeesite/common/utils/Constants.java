@@ -26,6 +26,10 @@ public class Constants {
 	public static final String Fetch_Method_Unit = "0";//无效
 	public static final String Fetch_Method_Expert = "1";//有效
 	
+	//专家性别
+	public static final String Expert_Sex_Girl = "0";//女
+	public static final String Expert_Sex_Boy = "1";//男
+	
 	//冲突屏蔽方式
 	public static final String Time_Clash_Ignore = "0";//忽略冲突
 	public static final String Time_Clash_OneDay = "1";//当日冲突
