@@ -401,9 +401,17 @@ public class ExpertManageController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
     }
 
-	@RequiresPermissions("sys:user:edit")
+	@RequiresPermissions("expmanage:expertConfirm:edit")
+	@RequestMapping(value = "impnote")
+	public String impnote(ExpertConfirm expertConfirm, Model model, RedirectAttributes redirectAttributes) {
+		expertConfirm.setKindTwo("init");
+		model.addAttribute("expertConfirm", expertConfirm);
+		return "modules/expmanage/importNote";
+	}
+	
+	@RequiresPermissions("expmanage:expertConfirm:edit")
     @RequestMapping(value = "import", method=RequestMethod.POST)
-    public String importFile(MultipartFile file, RedirectAttributes redirectAttributes) {
+    public String importFile(ExpertConfirm expertConfirm,MultipartFile file, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
@@ -413,8 +421,8 @@ public class ExpertManageController extends BaseController {
 			int failureNum = 0;
 			StringBuilder failureMsg = new StringBuilder();
 			ImportExcel ei = new ImportExcel(file, 1, 0);
-			List<User> list = ei.getDataList(User.class);
-			for (User user : list){
+			List<ExpertConfirm> list = ei.getDataList(ExpertConfirm.class);
+			for (ExpertConfirm user : list){
 				try{
 					if ("true".equals(checkLoginName("", user.getLoginName()))){
 						user.setPassword(SystemService.entryptPassword("123456"));
@@ -443,21 +451,23 @@ public class ExpertManageController extends BaseController {
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入用户失败！失败信息："+e.getMessage());
 		}
-		return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
+		return "modules/expmanage/importNote";
     }
 	
-	@RequiresPermissions("sys:user:view")
+	@RequiresPermissions("expmanage:expertConfirm:edit")
     @RequestMapping(value = "import/template")
-    public String importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
+    public String importFileTemplate(ExpertConfirm expertConfirm, Model model,HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "用户数据导入模板.xlsx";
+            String fileName = "专家数据导入模板.xlsx";
     		List<User> list = Lists.newArrayList(); list.add(UserUtils.getUser());
-    		new ExportExcel("用户数据", User.class, 2).setDataList(list).write(response, fileName).dispose();
+    		new ExportExcel("专家数据", ExpertConfirm.class, 2).setDataList(list).write(response, fileName).dispose();
     		return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
 		}
-		return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
+		expertConfirm.setKindTwo("init");
+		model.addAttribute("expertConfirm", expertConfirm);
+		return "modules/expmanage/importNote";
     }
 
 	@ResponseBody
