@@ -5,6 +5,40 @@
 	<title>专家注册</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+    jQuery(function(){        
+        jQuery.validator.methods.compareDate = function(value, element, param) {
+            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+            //value = value + ":00";
+            
+            var startDate = jQuery(param).val();
+            
+            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+            var date2 = new Date(Date.parse(value.replace("-", "/")));
+            return date1 < date2;
+        };
+        
+        jQuery("#inputForm").validate({
+            focusInvalid:false,
+            rules:{
+                "specialFrom":{
+                    required: true
+                },
+                "specialTo": {
+                    required: true,
+                    compareDate: "#specialFrom"
+                }
+            },
+            messages:{
+                "specialFrom":{
+                    required: "开始时间不能为空"
+                },
+                "specialTo":{
+                    required: "结束时间不能为空",
+                    compareDate: "结束日期必须大于开始日期!"
+                }
+            }
+        });
+    });
 		$(document).ready(function() {
 			$("#loginName").focus();
 			$("#inputForm").validate({
@@ -140,7 +174,7 @@
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span2 input-small Wdate required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
 				</div>				
 			<!-- </div> -->
@@ -209,7 +243,7 @@
 			<label class="control-label">参加工作时间:</label>
 			<div class="controls">
 				<form:input path="startworkTime" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">

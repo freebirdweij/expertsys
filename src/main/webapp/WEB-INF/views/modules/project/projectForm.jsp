@@ -6,6 +6,40 @@
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+    jQuery(function(){        
+        jQuery.validator.methods.compareDate = function(value, element, param) {
+            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+            //value = value + ":00";
+            
+            var startDate = jQuery(param).val();
+            
+            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+            var date2 = new Date(Date.parse(value.replace("-", "/")));
+            return date1 < date2;
+        };
+        
+        jQuery("#inputForm").validate({
+            focusInvalid:false,
+            rules:{
+                "prjBegin":{
+                    required: true
+                },
+                "prjEnd": {
+                    required: true,
+                    compareDate: "#prjBegin"
+                }
+            },
+            messages:{
+                "prjBegin":{
+                    required: "开始时间不能为空"
+                },
+                "prjEnd":{
+                    required: "结束时间不能为空",
+                    compareDate: "结束日期必须大于开始日期!"
+                }
+            }
+        });
+    });
 		$(document).ready(function() {
 			$("#loginName").focus();
 			$("#inputForm").validate({

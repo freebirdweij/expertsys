@@ -6,6 +6,40 @@
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+    jQuery(function(){        
+        jQuery.validator.methods.compareDate = function(value, element, param) {
+            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+            //value = value + ":00";
+            
+            var startDate = jQuery(param).val();
+            
+            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+            var date2 = new Date(Date.parse(value.replace("-", "/")));
+            return date1 < date2;
+        };
+        
+        jQuery("#inputForm").validate({
+            focusInvalid:false,
+            rules:{
+                "prjBegin":{
+                    required: true
+                },
+                "prjEnd": {
+                    required: true,
+                    compareDate: "#prjBegin"
+                }
+            },
+            messages:{
+                "prjBegin":{
+                    required: "开始时间不能为空"
+                },
+                "prjEnd":{
+                    required: "结束时间不能为空",
+                    compareDate: "结束日期必须大于开始日期!"
+                }
+            }
+        });
+    });
 		$(document).ready(function() {
 			$("#loginName").focus();
 			$("#inputForm").validate({
@@ -32,12 +66,10 @@
 			});
 		});
 		
-		function startTime(){
-			document.getElementById("prjBegin").Value = '111';
-	   }
+
 	</script>
 </head>
-<body onLoad="startTime()">
+<body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/project/record">基本信息</a></li>
 	</ul><br/>
@@ -92,10 +124,10 @@
 		<div class="control-group">
 			<label class="control-label">项目预计时间:</label>
 			<div class="controls">
-				从<form:input id="prjBegin" path="prjBegin" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',isShowClear:true});" />
+				从<form:input path="prjBegin" maxlength="20"
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" onpropertychange="checkBeginDate()"/>
 				至<form:input path="prjEnd" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',isShowClear:true});" />
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"  onpropertychange="checkEndDate()"/>
 			</div>
 		</div>
 		<div class="control-group">

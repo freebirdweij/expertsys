@@ -5,6 +5,40 @@
 	<title>专家修改</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+    jQuery(function(){        
+        jQuery.validator.methods.compareDate = function(value, element, param) {
+            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+            //value = value + ":00";
+            
+            var startDate = jQuery(param).val();
+            
+            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+            var date2 = new Date(Date.parse(value.replace("-", "/")));
+            return date1 < date2;
+        };
+        
+        jQuery("#inputForm").validate({
+            focusInvalid:false,
+            rules:{
+                "specialFrom":{
+                    required: true
+                },
+                "specialTo": {
+                    required: true,
+                    compareDate: "#specialFrom"
+                }
+            },
+            messages:{
+                "specialFrom":{
+                    required: "开始时间不能为空"
+                },
+                "specialTo":{
+                    required: "结束时间不能为空",
+                    compareDate: "结束日期必须大于开始日期!"
+                }
+            }
+        });
+    });
 		$(document).ready(function() {
 			$("#loginName").focus();
 			$("#inputForm").validate({
@@ -167,7 +201,7 @@
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span2 input-small Wdate required" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
 				</div>				
 			<!-- </div> -->
@@ -218,9 +252,9 @@
 			<label class="control-label">现从事专业时间:</label>
 			<div class="controls">
 				从<form:input path="specialFrom" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 				至<form:input path="specialTo" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
@@ -236,7 +270,7 @@
 			<label class="control-label">参加工作时间:</label>
 			<div class="controls">
 				<form:input path="startworkTime" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate required" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">

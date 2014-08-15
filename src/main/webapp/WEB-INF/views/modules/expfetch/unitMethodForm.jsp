@@ -6,6 +6,40 @@
 	<meta name="decorator" content="default"/>
      <%@ include file="/WEB-INF/views/include/treeview.jsp"%>
 	<script type="text/javascript">
+    jQuery(function(){        
+        jQuery.validator.methods.compareDate = function(value, element, param) {
+            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+            //value = value + ":00";
+            
+            var startDate = jQuery(param).val();
+            
+            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+            var date2 = new Date(Date.parse(value.replace("-", "/")));
+            return date1 < date2;
+        };
+        
+        jQuery("#inputForm").validate({
+            focusInvalid:false,
+            rules:{
+                "reviewBegin":{
+                    required: true
+                },
+                "reviewEnd": {
+                    required: true,
+                    compareDate: "#reviewBegin"
+                }
+            },
+            messages:{
+                "reviewBegin":{
+                    required: "开始时间不能为空"
+                },
+                "reviewEnd":{
+                    required: "结束时间不能为空",
+                    compareDate: "结束日期必须大于开始日期!"
+                }
+            }
+        });
+    });
 		$(document).ready(function(){
 			$("#name").focus();
 			$("#inputForm").validate({
@@ -182,9 +216,9 @@
 			<label class="control-label">请输入项目的评审时间:</label>
 			<div class="controls">
 				从<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
       <div class="row">
