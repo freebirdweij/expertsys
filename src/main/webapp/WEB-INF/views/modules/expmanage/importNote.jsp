@@ -49,10 +49,7 @@
 		批量录入专家信息，注意严格遵守模板格式，否则导入会失败！
 		</c:if>
 		<c:if test="${expertConfirm.kindTwo eq 'import'}">
-		您已完成专家注册信息录入并提交了申请，目前正等待审核当中,如需要修改注册信息，请进入信息维护功能模块进行。
-		</c:if>
-		<c:if test="${expertConfirm.kindTwo eq '5'}">
-		您已被批准成为专家！如需要修改专家信息或者重新提交申请，请进入信息维护功能模块进行。
+		批量录入完成，录入成功数：${expertConfirm.specialTwo}，失败数：${expertConfirm.specialist}。
 		</c:if>
 		</p>
 		<script>try{top.$.jBox.closeTip();}catch(e){}</script>
