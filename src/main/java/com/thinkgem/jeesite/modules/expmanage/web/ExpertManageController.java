@@ -497,10 +497,10 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
     @RequestMapping(value = "import/template")
-    public String importFileTemplate(ExpertConfirm expertConfirm, Model model,HttpServletResponse response, RedirectAttributes redirectAttributes) {
+    public String importFileTemplate(ExpertConfirm expertConfirm, Model model,HttpServletResponse response, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		try {
             String fileName = "专家数据导入模板.xlsx";
-    		List<User> list = Lists.newArrayList(); list.add(UserUtils.getUser());
+    		List<ExpertConfirm> list = Lists.newArrayList(); list.add(expertConfirmService.find(new Page<ExpertConfirm>(request, response), expertConfirm).getList().get(0));
     		new ExportExcel("专家数据", ExpertConfirm.class, 2).setDataList(list).write(response, fileName).dispose();
     		return null;
 		} catch (Exception e) {
