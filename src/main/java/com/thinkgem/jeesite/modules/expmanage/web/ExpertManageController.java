@@ -411,37 +411,74 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
     @RequestMapping(value = "import", method=RequestMethod.POST)
-    public String importFile(ExpertConfirm expertConfirm,MultipartFile file, RedirectAttributes redirectAttributes) {
+    public String importFile(ExpertConfirm expertConfirm, Model model,MultipartFile file, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:"+Global.getAdminPath()+"/sys/user/?repage";
 		}
+		int successNum = 0;
+		int failureNum = 0;
 		try {
-			int successNum = 0;
-			int failureNum = 0;
 			StringBuilder failureMsg = new StringBuilder();
 			ImportExcel ei = new ImportExcel(file, 1, 0);
 			List<ExpertConfirm> list = ei.getDataList(ExpertConfirm.class);
-			for (ExpertConfirm user : list){
+			for (ExpertConfirm expert : list){
 				try{
+					User user = new User();
+					user.setName(expert.getExpertInfo().getName());
+					user.setCompany(expert.getExpertCompany());
+					user.setOffice(expert.getExpertCompany());
+					user.setLoginName(expert.getId());
 					if ("true".equals(checkLoginName("", user.getLoginName()))){
 						user.setPassword(SystemService.entryptPassword("123456"));
 						BeanValidators.validateWithException(validator, user);
+						//默认把专家角色分给新用户
+						List<Role> roleList = Lists.newArrayList();
+						Role role = systemService.getRole(Constants.Sys_Role_Expert);
+						if(role!=null){
+							roleList.add(role);
+							user.setRoleList(roleList);
+						}
+						
 						systemService.saveUser(user);
-						successNum++;
 					}else{
 						failureMsg.append("<br/>登录名 "+user.getLoginName()+" 已存在; ");
 						failureNum++;
 					}
+					User ur = null;
+					ur = systemService.getUserByLoginName(user.getLoginName());
+					
+					Office cy = officeService.get(ur.getCompany().getId());
+					
+					//表示已成为专家
+					ExpertInfo expertInfo = new ExpertInfo();
+					expertInfo.setRegStep(Constants.Register_Status_Accept);
+					
+					// 保存专家信息
+					expertInfo.setUserId(ur.getId());
+					expertInfo.setSex("1");
+					expertInfo.setUnit(ur.getCompany());
+					expertInfo.setSpecialKind1(expert.getExpertKind());
+					expertInfo.setKind1Special1(expert.getExpertSpecial());
+					expertInfo.setTechnical(expert.getExpertTechnical());
+					expertInfoService.save(expertInfo);
+					
+					//保存专家审批
+					expert.setExpertInfo(expertInfo);
+					expert.setExpertArea(cy.getArea());
+					expertConfirmService.save(expert);			
+					
+					successNum++;
+					
 				}catch(ConstraintViolationException ex){
-					failureMsg.append("<br/>登录名 "+user.getLoginName()+" 导入失败：");
+					failureMsg.append("<br/>登录名 "+expert.getId()+" 导入失败：");
 					List<String> messageList = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
 					for (String message : messageList){
 						failureMsg.append(message+"; ");
 						failureNum++;
 					}
 				}catch (Exception ex) {
-					failureMsg.append("<br/>登录名 "+user.getLoginName()+" 导入失败："+ex.getMessage());
+					failureMsg.append("<br/>登录名 "+expert.getId()+" 导入失败："+ex.getMessage());
 				}
 			}
 			if (failureNum>0){
@@ -451,6 +488,10 @@ public class ExpertManageController extends BaseController {
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入用户失败！失败信息："+e.getMessage());
 		}
+		expertConfirm.setKindTwo("import");
+		expertConfirm.setSpecialTwo(String.valueOf(successNum));
+		expertConfirm.setSpecialist(String.valueOf(failureNum));
+		model.addAttribute("expertConfirm", expertConfirm);
 		return "modules/expmanage/importNote";
     }
 	
