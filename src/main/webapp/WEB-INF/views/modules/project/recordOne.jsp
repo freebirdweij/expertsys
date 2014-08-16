@@ -6,6 +6,47 @@
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+	$(document).ready(function() {
+		$("#prjCode").focus();
+		$("#inputForm").validate({
+			rules: {
+				prjCode: {remote: "${ctx}/project/checkProjectID?oldProjectId=" + encodeURIComponent('${projectInfo.id}')},
+                "prjBegin":{
+                    required: true
+                },
+                "prjEnd": {
+                    required: true,
+                    compareDate: "#prjBegin"
+                }
+			},
+			messages: {
+				prjCode: {remote: "项目编号已存在"},
+				confirmNewPassword: {equalTo: "输入与上面相同的密码"},
+                "prjBegin":{
+                    required: "开始时间不能为空"
+                },
+                "prjEnd":{
+                    required: "结束时间不能为空",
+                    compareDate: "结束日期必须大于开始日期!"
+                }
+
+			},
+			submitHandler: function(form){
+				loading('正在提交，请稍等...');
+				form.submit();
+			},
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+	
     jQuery(function(){        
         jQuery.validator.methods.compareDate = function(value, element, param) {
             //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
@@ -40,32 +81,6 @@
             }
         });
     });
-		$(document).ready(function() {
-			$("#loginName").focus();
-			$("#inputForm").validate({
-				rules: {
-					loginName: {remote: "${ctx}/sys/checkLoginName?oldLoginName=" + encodeURIComponent('${user.loginName}')}
-				},
-				messages: {
-					loginName: {remote: "用户登录名已存在"},
-					confirmNewPassword: {equalTo: "输入与上面相同的密码"}
-				},
-				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
-				},
-				errorContainer: "#messageBox",
-				errorPlacement: function(error, element) {
-					$("#messageBox").text("输入有误，请先更正。");
-					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-						error.appendTo(element.parent().parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-		});
-		
 
 	</script>
 </head>
@@ -78,6 +93,7 @@
 		<div class="control-group">
 			<label class="control-label">项目编号:</label>
 			<div class="controls">
+				<input id="oldProjectId" name="oldProjectId" type="hidden" value="${projectInfo.id}">
 						<form:input path="prjCode" htmlEscape="false" maxlength="40"
 							class="span3 required" />
             </div>

@@ -15,7 +15,7 @@
             
             var date1 = new Date(Date.parse(startDate.replace("-", "/")));
             var date2 = new Date(Date.parse(value.replace("-", "/")));
-            return date1 < date2;
+            return date1 <= date2;
         };
         
         jQuery("#inputForm").validate({
@@ -35,7 +35,7 @@
                 },
                 "reviewEnd":{
                     required: "结束时间不能为空",
-                    compareDate: "结束日期必须大于开始日期!"
+                    compareDate: "结束日期必须大于等于开始日期!"
                 }
             }
         });

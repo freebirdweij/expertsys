@@ -67,6 +67,18 @@ public class ExpertInfo extends DataEntity<ExpertInfo> {
 	/** 政治面貌. */
 	private String politics;
 	
+	/** 专家编号. */
+	private String expertCode;
+	
+	@Transient
+	public String getExpertCode() {
+		return expertCode;
+	}
+
+	public void setExpertCode(String expertCode) {
+		this.expertCode = expertCode;
+	}
+
 	/** 身份证号. */
 	private String identifyCode;
 	

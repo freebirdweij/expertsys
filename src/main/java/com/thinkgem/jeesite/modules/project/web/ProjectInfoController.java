@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -137,6 +138,18 @@ public class ProjectInfoController extends BaseController {
 		projectInfoService.delete(id);
 		addMessage(redirectAttributes, "删除项目信息成功");
 		return "redirect:"+Global.getAdminPath()+"/project/list/?repage";
+	}
+
+	@ResponseBody
+	@RequiresPermissions("project:projectInfo:edit")
+	@RequestMapping(value = "checkProjectID")
+	public String checkProjectID(String oldProjectId, String prjCode) {
+		if (prjCode !=null && prjCode.equals(oldProjectId)) {
+			return "true";
+		} else if (prjCode !=null && projectInfoService.get(prjCode) == null) {
+			return "true";
+		}
+		return "false";
 	}
 
 }

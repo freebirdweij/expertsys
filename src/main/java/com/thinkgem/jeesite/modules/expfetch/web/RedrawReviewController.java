@@ -698,7 +698,10 @@ public class RedrawReviewController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Review_Sussess);
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(pExpert.getReviewBegin());
+		projectExpert.setReviewEnd(pExpert.getReviewEnd());
 		model.addAttribute("projectExpert", projectExpert);
 		model.addAttribute("areaList", areaService.findAll());
 		model.addAttribute("unitList", officeService.findAll());
@@ -711,7 +714,10 @@ public class RedrawReviewController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "expertmethod")
 	public String expertmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Review_Sussess);
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(pExpert.getReviewBegin());
+		projectExpert.setReviewEnd(pExpert.getReviewEnd());
 		model.addAttribute("projectExpert", projectExpert);
 		model.addAttribute("areaList", areaService.findAll());
 		model.addAttribute("unitList", officeService.findAll());
@@ -986,7 +992,7 @@ public class RedrawReviewController extends BaseController {
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出专家失败！失败信息："+e.getMessage());
 		}
-		return "redirect:"+Global.getAdminPath()+"/expfetch/rewredraw/receiveunitresult/?repage";
+		return "redirect:"+Global.getAdminPath()+"/expfetch/rewredraw/reviewinglist/?repage";
     }
 
 }

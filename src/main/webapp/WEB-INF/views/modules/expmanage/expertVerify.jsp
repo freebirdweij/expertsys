@@ -7,13 +7,13 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#loginName").focus();
+			$("#expertCode").focus();
 			$("#inputForm").validate({
 				rules: {
-					loginName: {remote: "${ctx}/sys/checkLoginName?oldLoginName=" + encodeURIComponent('${user.loginName}')}
+					expertCode: {remote: "${ctx}/expmanage/checkExpertID?oldExpertId=" + encodeURIComponent('${expertConfirm.id}')}
 				},
 				messages: {
-					loginName: {remote: "用户登录名已存在"},
+					expertCode: {remote: "专家编号已存在"},
 					confirmNewPassword: {equalTo: "输入与上面相同的密码"}
 				},
 				submitHandler: function(form){
@@ -43,6 +43,7 @@
 				<div class="control-group">
 					<label class="control-label">输入专家编号:</label>
 					<div class="controls">
+				<input id="oldExpertId" name="oldExpertId" type="hidden" value="${expertConfirm.id}">
 						<form:input path="expertCode" htmlEscape="false" maxlength="20"
 							class="span4 required"/>
 					</div>

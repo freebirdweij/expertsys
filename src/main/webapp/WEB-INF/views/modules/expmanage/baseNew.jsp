@@ -5,6 +5,46 @@
 	<title>专家修改</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+	$(document).ready(function() {
+		$("#expertCode").focus();
+		$("#inputForm").validate({
+			rules: {
+			    expertCode: {remote: "${ctx}/expmanage/checkExpertID?oldExpertId=" + encodeURIComponent('')},
+                "specialFrom":{
+                    required: true
+                },
+                "specialTo": {
+                    required: true,
+                    compareDate: "#specialFrom"
+                }
+			},
+			messages: {
+				expertCode: {remote: "专家编号已存在"},
+				confirmNewPassword: {equalTo: "输入与上面相同的密码"},
+	               "specialFrom":{
+	                    required: "开始时间不能为空"
+	                },
+	                "specialTo":{
+	                    required: "结束时间不能为空",
+	                    compareDate: "结束日期必须大于开始日期!"
+	                }
+			},
+			submitHandler: function(form){
+				loading('正在提交，请稍等...');
+				form.submit();
+			},
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+	
     jQuery(function(){        
         jQuery.validator.methods.compareDate = function(value, element, param) {
             //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
@@ -39,32 +79,7 @@
             }
         });
     });
-		$(document).ready(function() {
-			$("#loginName").focus();
-			$("#inputForm").validate({
-				rules: {
-					loginName: {remote: "${ctx}/sys/checkLoginName?oldLoginName=" + encodeURIComponent('${user.loginName}')}
-				},
-				messages: {
-					loginName: {remote: "用户登录名已存在"},
-					confirmNewPassword: {equalTo: "输入与上面相同的密码"}
-				},
-				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
-				},
-				errorContainer: "#messageBox",
-				errorPlacement: function(error, element) {
-					$("#messageBox").text("输入有误，请先更正。");
-					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-						error.appendTo(element.parent().parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-		});
-		
+    
 	function ajaxFileUpload()
 	{
 	
@@ -169,7 +184,7 @@
 		<div class="control-group">
 			<label class="control-label">登录名:</label>
 			<div class="controls">
-				<input id="oldLoginName" name="oldLoginName" type="hidden" value="${expertInfo.user.loginName}">
+				<input id="oldLoginName" name="oldLoginName" type="hidden"/>
 				<form:input path="user.loginName" htmlEscape="false" maxlength="50" class="required userName"/>
 			</div>
 		</div>
@@ -282,7 +297,8 @@
 				<div class="control-group">
 					<label class="control-label">输入专家编号:</label>
 					<div class="controls">
-						<input id="expertCode" name="expertCode" htmlEscape="false" maxlength="20"
+				<input id="oldExpertId" name="oldExpertId" type="hidden" value="">
+						<form:input path="expertCode" htmlEscape="false" maxlength="20"
 							class="span4 required"/>
 					</div>
 				</div>

@@ -226,6 +226,7 @@ public class ExpertManageController extends BaseController {
 			expertConfirm.setExpertInfo(expertInfo);
 			expertConfirm.setExpertCompany(expertInfo.getUnit());
 			expertConfirm.setExpertArea(expertInfo.getUnit().getArea());
+			expertConfirm.setExpertLevel(Constants.Expert_Status_Work);
 			expertConfirmService.save(expertConfirm);			
 		}
 		
@@ -456,6 +457,7 @@ public class ExpertManageController extends BaseController {
 					
 					// 保存专家信息
 					expertInfo.setUserId(ur.getId());
+					expertInfo.setName(ur.getName());
 					expertInfo.setSex(Constants.Expert_Sex_Boy);
 					expertInfo.setUnit(ur.getCompany());
 					expertInfo.setSpecialKind1(expert.getExpertKind());
@@ -466,6 +468,7 @@ public class ExpertManageController extends BaseController {
 					//保存专家审批
 					expert.setExpertInfo(expertInfo);
 					expert.setExpertArea(cy.getArea());
+					expert.setExpertLevel(Constants.Expert_Status_Work);
 					expertConfirmService.save(expert);			
 					
 					successNum++;
@@ -661,7 +664,8 @@ public class ExpertManageController extends BaseController {
 		}
 		if (!"true".equals(checkLoginName(oldLoginName, user.getLoginName()))){
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
-			return expnew(expertInfo, model);
+			model.addAttribute("expertInfo",expertInfo);
+			return "modules/expmanage/baseNew";
 		}
 		//默认把专家角色分给新用户
 		List<Role> roleList = Lists.newArrayList();
@@ -688,12 +692,12 @@ public class ExpertManageController extends BaseController {
 		
 		//保存专家审批
 		ExpertConfirm expertConfirm = new ExpertConfirm();
-		expertConfirm.setId(request.getParameter("expertCode"));
+		expertConfirm.setId(expertInfo.getExpertCode());
 		expertConfirm.setDeptormanageAdvice(request.getParameter("deptormanageAdvice"));
 		expertConfirm.setExpertKind(expertInfo.getSpecialKind1());
 		expertConfirm.setExpertSpecial(expertInfo.getKind1Special1());
 		expertConfirm.setExpertTechnical(expertInfo.getTechnical());
-		//expertConfirm.setExpertSeries(expertConfirm.getSeriesOne());
+		expertConfirm.setExpertLevel(Constants.Expert_Status_Work);
 		expertConfirm.setExpertInfo(expertInfo);
 		expertConfirm.setExpertCompany(ur.getCompany());
 		expertConfirm.setExpertArea(cy.getArea());
@@ -748,4 +752,16 @@ public class ExpertManageController extends BaseController {
 		return "modules/experts/regNotice";
 	}
 	
+	@ResponseBody
+	@RequiresPermissions("experts:expertInfo:edit")
+	@RequestMapping(value = "checkExpertID")
+	public String checkExpertID(String oldExpertId, String expertCode) {
+		if (expertCode !=null && expertCode.equals(oldExpertId)) {
+			return "true";
+		} else if (expertCode !=null && expertConfirmService.get(expertCode) == null) {
+			return "true";
+		}
+		return "false";
+	}
+
 }

@@ -174,7 +174,7 @@
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span2 input-small Wdate required" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span2 input-small Wdate required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
 				</div>				
 			<!-- </div> -->
@@ -225,9 +225,9 @@
 			<label class="control-label">现从事专业时间:</label>
 			<div class="controls">
 				从<form:input path="specialFrom" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 				至<form:input path="specialTo" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">
@@ -243,7 +243,7 @@
 			<label class="control-label">参加工作时间:</label>
 			<div class="controls">
 				<form:input path="startworkTime" maxlength="20"
-						class="span2 input-small Wdate required" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
 		<div class="control-group">

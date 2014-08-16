@@ -15,7 +15,7 @@
             
             var date1 = new Date(Date.parse(startDate.replace("-", "/")));
             var date2 = new Date(Date.parse(value.replace("-", "/")));
-            return date1 < date2;
+            return date1 <= date2;
         };
         
         jQuery("#inputForm").validate({
@@ -35,7 +35,7 @@
                 },
                 "reviewEnd":{
                     required: "结束时间不能为空",
-                    compareDate: "结束日期必须大于开始日期!"
+                    compareDate: "结束日期必须大于等于开始日期!"
                 }
             }
         });
@@ -197,9 +197,9 @@
 			<label class="control-label">请输入项目的评审时间:</label>
 			<div class="controls">
 				从<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
 				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonlu="true"/>
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonlu="true"/>
 			</div>
 		</div>
       <div class="row">

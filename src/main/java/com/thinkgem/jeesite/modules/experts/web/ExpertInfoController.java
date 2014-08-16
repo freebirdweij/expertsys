@@ -117,6 +117,9 @@ public class ExpertInfoController extends BaseController {
 	public String baseform(ExpertInfo expertInfo, Model model) {
 		User user = UserUtils.getUser();
 		expertInfo = expertInfoService.get(user.getId());
+		if(expertInfo==null){
+			return "modules/experts/editNote";
+		}
 			model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/baseForm";
 	}

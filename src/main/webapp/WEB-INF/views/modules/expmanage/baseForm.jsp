@@ -159,6 +159,12 @@
 		<!--<div class="row-fluid">
 			 <div class="span4"> -->
 				<div class="control-group">
+					<label class="control-label">专家编号:</label>
+					<div class="controls">
+						${expid}
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label">姓名:</label>
 					<div class="controls">
 						<form:input path="name" htmlEscape="false" maxlength="20"

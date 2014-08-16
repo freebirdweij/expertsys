@@ -10,6 +10,8 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
@@ -20,6 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
@@ -477,6 +480,8 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	 * 
 	 * @return 执行评审开始时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getReviewBegin() {
 		return this.reviewBegin;
 	}
@@ -496,6 +501,8 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	 * 
 	 * @return 执行评审结束时间
 	 */
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getReviewEnd() {
 		return this.reviewEnd;
 	}

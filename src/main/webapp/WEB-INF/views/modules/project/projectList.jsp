@@ -88,7 +88,9 @@
 				<td>${projectInfo.prjBegin}</td>
 				<shiro:hasPermission name="project:projectInfo:edit"><td>
     				<a href="${ctx}/project/form?id=${projectInfo.id}">修改</a>
+		            <c:if test="${projectInfo.prjStatus eq '10'}">
 					<a href="${ctx}/project/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
+		            </c:if>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

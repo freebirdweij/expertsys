@@ -77,7 +77,7 @@
 			<label class="control-label">项目编号:</label>
 			<div class="controls">
 						<form:input path="id" htmlEscape="false" maxlength="50"
-							class="span3 required" />
+							class="span3 required" readonly="true"/>
             </div>
 		</div>
 		<div class="control-group">

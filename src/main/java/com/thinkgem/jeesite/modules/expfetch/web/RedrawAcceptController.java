@@ -698,7 +698,10 @@ public class RedrawAcceptController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Accept_Sussess);
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(pExpert.getReviewBegin());
+		projectExpert.setReviewEnd(pExpert.getReviewEnd());
 		model.addAttribute("projectExpert", projectExpert);
 		model.addAttribute("areaList", areaService.findAll());
 		model.addAttribute("unitList", officeService.findAll());
@@ -711,7 +714,10 @@ public class RedrawAcceptController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "expertmethod")
 	public String expertmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Accept_Sussess);
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(pExpert.getReviewBegin());
+		projectExpert.setReviewEnd(pExpert.getReviewEnd());
 		model.addAttribute("projectExpert", projectExpert);
 		model.addAttribute("areaList", areaService.findAll());
 		model.addAttribute("unitList", officeService.findAll());

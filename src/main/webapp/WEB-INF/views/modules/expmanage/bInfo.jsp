@@ -119,6 +119,12 @@
 		<!-- <div class="row-fluid">
 			<div class="span4"> -->
 				<div class="control-group">
+					<label class="control-label">专家编号:</label>
+					<div class="controls">
+						${id}
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label">姓名:</label>
 					<div class="controls">
 						<label class="lbl">${expertInfo.name}</label>
