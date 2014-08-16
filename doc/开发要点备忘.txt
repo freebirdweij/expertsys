@@ -28,3 +28,10 @@ imp cloudman/cloudman@expertdb file=c:\expert.dmp
 6、系统操作中有个地方需要注意，系统限制作为专家上下传文件的权限和作为管理员文件操作的权限是不同的，所以专家不能分给他管理员的权限，特别是“附件管理”这个权限，而管理员也不要作为专家操作，否则文件的操作会不太正常。
 7、关于CKFinder的使用，根目录不能有expert与project这种目录存在。有问题找三个文件：ckfinder.xml，CKFinderConfig.java，CKFinderConnectorServlet.java。
 8、如果管理员更改了专家角色（删除后再添加），自己注册的用户将不能自动分配专家角色，需要管理员分配给他。
+9\ JVM
+-Xmx768m
+-XX:MaxPermSize=384m
+-XX:ReservedCodeCacheSize=64m
+
+
+
