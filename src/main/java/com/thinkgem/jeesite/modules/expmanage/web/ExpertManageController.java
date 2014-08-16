@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.expmanage.web;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -411,6 +413,7 @@ public class ExpertManageController extends BaseController {
 	}
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
+	@Transactional(rollbackFor={Exception.class}) 
     @RequestMapping(value = "import", method=RequestMethod.POST)
     public String importFile(ExpertConfirm expertConfirm, Model model,MultipartFile file, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
@@ -456,6 +459,7 @@ public class ExpertManageController extends BaseController {
 					expertInfo.setRegStep(Constants.Register_Status_Accept);
 					
 					// 保存专家信息
+					Date dt = DateUtils.parseDate("1900-01-01");
 					expertInfo.setUserId(ur.getId());
 					expertInfo.setName(ur.getName());
 					expertInfo.setSex(Constants.Expert_Sex_Boy);
@@ -463,12 +467,18 @@ public class ExpertManageController extends BaseController {
 					expertInfo.setSpecialKind1(expert.getExpertKind());
 					expertInfo.setKind1Special1(expert.getExpertSpecial());
 					expertInfo.setTechnical(expert.getExpertTechnical());
+					expertInfo.setBirthdate(dt);
+					expertInfo.setSpecialFrom(dt);
+					expertInfo.setSpecialTo(dt);
+					expertInfo.setStartworkTime(dt);
 					expertInfoService.save(expertInfo);
 					
 					//保存专家审批
 					expert.setExpertInfo(expertInfo);
 					expert.setExpertArea(cy.getArea());
 					expert.setExpertLevel(Constants.Expert_Status_Work);
+					expert.setSpecialFrom(dt);
+					expert.setSpecialTo(dt);
 					expertConfirmService.save(expert);			
 					
 					successNum++;

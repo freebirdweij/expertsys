@@ -77,9 +77,9 @@
 			<label class="control-label">选择时间:</label>
 			<div class="controls">
 			  从<form:input path="expertBegin" maxlength="20"
-				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			  至<form:input path="expertEnd" maxlength="20"
-				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a id="btnExpert" href="javascript:sticsExpert()">开始</a>
 			</div>
@@ -93,9 +93,9 @@
 			<label class="control-label">选择时间:</label>
 			<div class="controls">
 			  从<form:input path="unitBegin" maxlength="20"
-				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			  至<form:input path="unitEnd" maxlength="20"
-				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a id="btnUnit" href="javascript:sticsUnit()">开始</a>
 			</div>
@@ -123,9 +123,9 @@
 			<label class="control-label">选择时间和分类:</label>
 			<div class="controls">
 			  从<form:input path="fetchBegin" maxlength="20"
-				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			  至<form:input path="fetchEnd" maxlength="20"
-				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 				地区<form:radiobutton path="fetchKind" value="1" />&nbsp;&nbsp;&nbsp;&nbsp;
 				类别<form:radiobutton path="fetchKind" value="3" />&nbsp;&nbsp;&nbsp;&nbsp;专业<form:radiobutton path="fetchKind" value="4" />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

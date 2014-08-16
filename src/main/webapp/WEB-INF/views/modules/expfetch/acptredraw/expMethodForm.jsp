@@ -197,9 +197,9 @@
 			<label class="control-label">请输入项目的评审时间:</label>
 			<div class="controls">
 				从<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" disabled="true"/>
 				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonlu="true"/>
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" disabled="true"/>
 			</div>
 		</div>
       <div class="row">
@@ -322,7 +322,6 @@
 		</div> --%>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="确定"/>&nbsp;
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>
