@@ -102,6 +102,12 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setCreateBy(user);
 		}
 		
+		//这一段用于翻页的处理
+		String repage = request.getParameter("repage");
+		if(repage!=null&&repage.equalsIgnoreCase("1")){
+			projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		}
+		
 		String areaIdsYes = projectExpert.getAreaIdsYes();
 		String unitIdsYes = projectExpert.getUnitIdsYes();
 		String kindIdsYes = projectExpert.getKindIdsYes();
@@ -172,6 +178,13 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
+		
+		//这一段用于翻页的处理
+		String repage = request.getParameter("repage");
+		if(repage!=null&&repage.equalsIgnoreCase("1")){
+			projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
+		}
+		
 		String areaIdsYes = projectExpert.getAreaIdsYes();
 		String unitIdsYes = projectExpert.getUnitIdsYes();
 		String kindIdsYes = projectExpert.getKindIdsYes();

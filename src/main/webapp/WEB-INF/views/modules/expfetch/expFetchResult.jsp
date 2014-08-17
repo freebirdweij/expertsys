@@ -55,8 +55,8 @@
 		function page(n, s) {
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
-			$("#searchForm").attr("action", "${ctx}/expmanage/explist");
-			$("#searchForm").submit();
+			$("#inputForm").attr("action", "${ctx}/expfetch/expertfetch?repage=1");
+			$("#inputForm").submit();
 			return false;
 		}
 		function rSubmit() {
@@ -120,6 +120,9 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawexpert" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
+		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
 			<form:hidden path="discIds"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th class="sort loginName">类别</th><th class="sort name">专业</th><th>职称</th><th>学历</th><th>操作</th></tr></thead>
@@ -140,9 +143,9 @@
 		</c:forEach>
 		</tbody>
 	</table>
-			<form:hidden path="rejectUnit"/>
 	<div class="pagination">${page}</div>
 		<div class="form-actions">
+			<form:hidden path="rejectUnit"/>
 			<form:select path="timeClash" class="span2" ><form:option value="" label="冲突屏蔽方式"/>
 			<form:options items="${fns:getDictList('sys_time_clash')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
 			&nbsp;&nbsp;&nbsp;&nbsp;<label>输入抽取数</label><form:input path="expertCount" htmlEscape="false" max="${page.list.size()}" class="required digits"/>
@@ -174,6 +177,6 @@
 			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次抽选" onclick="rCancel()"/>
 			<input id="btnCancel" class="btn btn-primary" type="button" value="返回重新选择筛选条件" onclick="bCancel()"/>
 		</div>
-	</form:form>
+</form:form>
 </body>
 </html>

@@ -76,8 +76,8 @@
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
-			$("#searchForm").attr("action","${ctx}/expfetch/acptfetch/unitfetch");
-			$("#searchForm").submit();
+			$("#inputForm").attr("action","${ctx}/expfetch/acptfetch/unitfetch?repage=1");
+			$("#inputForm").submit();
 	    	return false;
 	    }
 	    
@@ -154,6 +154,9 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/acptfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
+		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
 			<form:hidden path="discIds"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>归属区域</th><th>单位名称</th><th>单位类型</th><th>上级机构</th><th>电话</th><th>联系地址</th><th>操作</th></tr></thead>
