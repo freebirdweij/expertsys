@@ -265,6 +265,9 @@ public class FetchSuperviseController extends BaseController {
 	public String statisticskind(FetchSupervise fetchSupervise, Model model) {
 		Page<Object> page = fetchSuperviseService.findStatisticsKinds(new Page<Object>(), fetchSupervise);
         model.addAttribute("page", page);
+        FetchSupervise fSupervise = new FetchSupervise();
+        fSupervise.setSticsKind(fetchSupervise.getSticsKind());
+        model.addAttribute("fetchSupervise", fSupervise);
 		return "modules/supervise/statisticsList";
 	}
 
@@ -272,6 +275,9 @@ public class FetchSuperviseController extends BaseController {
 	public String statisticsfetch(FetchSupervise fetchSupervise, Model model) {
 		Page<Object> page = fetchSuperviseService.findStatisticsFetchs(new Page<Object>(), fetchSupervise);
         model.addAttribute("page", page);
+        FetchSupervise fSupervise = new FetchSupervise();
+        fSupervise.setFetchKind(fetchSupervise.getFetchKind());
+        model.addAttribute("fetchSupervise", fSupervise);
 		return "modules/supervise/statisticsList";
 	}
 

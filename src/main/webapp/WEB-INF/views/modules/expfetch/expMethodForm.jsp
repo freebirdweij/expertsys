@@ -6,21 +6,11 @@
 	<meta name="decorator" content="default"/>
     <%@include file="/WEB-INF/views/include/treeview.jsp" %>
 	<script type="text/javascript">
-    jQuery(function(){        
-        jQuery.validator.methods.compareDate = function(value, element, param) {
-            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
-            //value = value + ":00";
-            
-            var startDate = jQuery(param).val();
-            
-            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
-            var date2 = new Date(Date.parse(value.replace("-", "/")));
-            return date1 <= date2;
-        };
-        
-        jQuery("#inputForm").validate({
-            focusInvalid:false,
-            rules:{
+		$(document).ready(function(){
+			$("#name").focus();
+			$("#inputForm").validate({
+				rules: {
+					name: {remote: "${ctx}/sys/role/checkName?oldName=" + encodeURIComponent("${role.name}")},
                 "reviewBegin":{
                     required: true
                 },
@@ -28,8 +18,9 @@
                     required: true,
                     compareDate: "#reviewBegin"
                 }
-            },
-            messages:{
+				},
+				messages: {
+					name: {remote: "角色名已存在"},
                 "reviewBegin":{
                     required: "开始时间不能为空"
                 },
@@ -37,17 +28,6 @@
                     required: "结束时间不能为空",
                     compareDate: "结束日期必须大于等于开始日期!"
                 }
-            }
-        });
-    });
-		$(document).ready(function(){
-			$("#name").focus();
-			$("#inputForm").validate({
-				rules: {
-					name: {remote: "${ctx}/sys/role/checkName?oldName=" + encodeURIComponent("${role.name}")}
-				},
-				messages: {
-					name: {remote: "角色名已存在"}
 				},
 				submitHandler: function(form){
 					var ids1 = [], nodes1 = areatreeyes.getCheckedNodes(true);
@@ -157,33 +137,69 @@
 			var unittreeno = $.fn.zTree.init($("#unitTreeNo"), setting, unitNodes);
 			
 			var kindNodes=[
-					<c:forEach items="${kindList}" var="kind">{id:'${kind.id}', pId:'0', name:"${not empty kind.id?kind.label:'类型列表'}"},
+					<c:forEach items="${kindList}" var="kind">{id:'${kind.value}', pId:'0', name:"${not empty kind.id?kind.label:'类型列表'}"},
 		            </c:forEach>];
 			// 初始化树结构
 			var kindtreeyes = $.fn.zTree.init($("#kindTreeYes"), setting, kindNodes);
 			var kindtreeno = $.fn.zTree.init($("#kindTreeNo"), setting, kindNodes);
 			
 			var specialNodes=[
-					<c:forEach items="${specialList}" var="special">{id:'${special.id}', pId:'0', name:"${not empty special.id?special.label:'专业列表'}"},
+					<c:forEach items="${specialList}" var="special">{id:'${special.value}', pId:'0', name:"${not empty special.id?special.label:'专业列表'}"},
 		            </c:forEach>];
 			// 初始化树结构
 			var specialtreeyes = $.fn.zTree.init($("#specialTreeYes"), setting, specialNodes);
 			var specialtreeno = $.fn.zTree.init($("#specialTreeNo"), setting, specialNodes);
 			
 			var seriesNodes=[
-					<c:forEach items="${seriesList}" var="series">{id:'${series.id}', pId:'0', name:"${not empty series.id?series.label:'行业列表'}"},
+					<c:forEach items="${seriesList}" var="series">{id:'${series.value}', pId:'0', name:"${not empty series.id?series.label:'行业列表'}"},
 		            </c:forEach>];
 			// 初始化树结构
 			var seriestreeyes = $.fn.zTree.init($("#seriesTreeYes"), setting, seriesNodes);
 			var seriestreeno = $.fn.zTree.init($("#seriesTreeNo"), setting, seriesNodes);
 			
 			var techNodes=[
-					<c:forEach items="${techList}" var="tech">{id:'${tech.id}', pId:'0', name:"${not empty tech.id?tech.label:'职称列表'}"},
+					<c:forEach items="${techList}" var="tech">{id:'${tech.value}', pId:'0', name:"${not empty tech.id?tech.label:'职称列表'}"},
 		            </c:forEach>];
 			// 初始化树结构
 			var techtreeyes = $.fn.zTree.init($("#techTreeYes"), setting, techNodes);
 			var techtreeno = $.fn.zTree.init($("#techTreeNo"), setting, techNodes);
 			});
+		
+		
+	    jQuery(function(){        
+	        jQuery.validator.methods.compareDate = function(value, element, param) {
+	            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+	            //value = value + ":00";
+	            
+	            var startDate = jQuery(param).val();
+	            
+	            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+	            var date2 = new Date(Date.parse(value.replace("-", "/")));
+	            return date1 <= date2;
+	        };
+	        
+	        jQuery("#inputForm").validate({
+	            focusInvalid:false,
+	            rules:{
+	                "reviewBegin":{
+	                    required: true
+	                },
+	                "reviewEnd": {
+	                    required: true,
+	                    compareDate: "#reviewBegin"
+	                }
+	            },
+	            messages:{
+	                "reviewBegin":{
+	                    required: "开始时间不能为空"
+	                },
+	                "reviewEnd":{
+	                    required: "结束时间不能为空",
+	                    compareDate: "结束日期必须大于等于开始日期!"
+	                }
+	            }
+	        });
+	    });
 	</script>
 </head>
 <body>

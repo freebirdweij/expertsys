@@ -166,6 +166,7 @@ public class ExpertInfoController extends BaseController {
 		//保留注册状态
 		//expertInfo.setRegStep("3");
 		expertInfoService.save(expertInfo);
+		expertInfo.setMobile(user.getMobile());
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "redirect:"+Global.getAdminPath()+"/experts/baseform/?repage";
 	}

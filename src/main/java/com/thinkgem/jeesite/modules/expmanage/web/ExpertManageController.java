@@ -413,7 +413,7 @@ public class ExpertManageController extends BaseController {
 	}
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
-	@Transactional(rollbackFor={Exception.class}) 
+	//@Transactional(rollbackFor={Exception.class}) 
     @RequestMapping(value = "import", method=RequestMethod.POST)
     public String importFile(ExpertConfirm expertConfirm, Model model,MultipartFile file, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
@@ -433,6 +433,7 @@ public class ExpertManageController extends BaseController {
 					user.setCompany(expert.getExpertCompany());
 					user.setOffice(expert.getExpertCompany());
 					user.setLoginName(expert.getId());
+					user.setMobile(expert.getExpertPhone());
 					if ("true".equals(checkLoginName("", user.getLoginName()))){
 						user.setPassword(SystemService.entryptPassword("123456"));
 						BeanValidators.validateWithException(validator, user);
@@ -467,6 +468,7 @@ public class ExpertManageController extends BaseController {
 					expertInfo.setSpecialKind1(expert.getExpertKind());
 					expertInfo.setKind1Special1(expert.getExpertSpecial());
 					expertInfo.setTechnical(expert.getExpertTechnical());
+					expertInfo.setMobile(expert.getExpertPhone());
 					expertInfo.setBirthdate(dt);
 					expertInfo.setSpecialFrom(dt);
 					expertInfo.setSpecialTo(dt);
@@ -698,6 +700,7 @@ public class ExpertManageController extends BaseController {
 		// 保存专家信息
 		expertInfo.setUserId(ur.getId());
 		expertInfo.setUnit(ur.getCompany());
+		expertInfo.setMobile(ur.getMobile());
 		expertInfoService.save(expertInfo);
 		
 		//保存专家审批

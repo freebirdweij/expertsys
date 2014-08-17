@@ -60,13 +60,13 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	private String expertPhone;
 
 	@Transient
-	@ExcelField(title="电话",align=2, sort=80)
+	@ExcelField(title="电话", value="expertInfo.mobile",align=2, sort=80)
 	public String getExpertPhone() {
-		return expertInfo.getMobile();
+		return expertPhone;
 	}
 
 	public void setExpertPhone(String expertPhone) {
-		expertInfo.setMobile(expertPhone);
+		this.expertPhone = expertPhone;
 	}
 
 	@Transient
@@ -258,7 +258,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 
 	@ExcelField(title="职称", align=2, sort=50, dictType="sys_tech_type")
 	public String getExpertTechnical() {
-		return expertTechnical;
+		return this.expertTechnical;
 	}
 
 	public void setExpertTechnical(String expertTechnical) {

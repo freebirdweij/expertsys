@@ -206,7 +206,7 @@ public class ExpertRegisterController extends BaseController {
 		
 		//表示已作过第三步录入
 		expertInfo.setRegStep(Constants.Register_Status_Third);
-		
+		expertInfo.setMobile(user.getMobile());
 		expertInfoService.save(expertInfo);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "modules/experts/regNotice";

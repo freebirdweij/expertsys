@@ -187,37 +187,37 @@ public class ProjectExpertController extends BaseController {
 		if(areaIdsYes!=null&&!areaIdsYes.equalsIgnoreCase("")){
 			if(areaIdsNo!=null&&!areaIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，区域选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/expMethodForm?repage";
+				return "modules/expfetch/expMethodForm";
 		    }
 	    }
 		if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
 			if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，单位选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/expMethodForm?repage";
+				return "modules/expfetch/expMethodForm";
 		    }
 	    }
 		if(kindIdsYes!=null&&!kindIdsYes.equalsIgnoreCase("")){
 			if(kindIdsNo!=null&&!kindIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，专家类别选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/expMethodForm?repage";
+				return "modules/expfetch/expMethodForm";
 		    }
 	    }
 		if(specialIdsYes!=null&&!specialIdsYes.equalsIgnoreCase("")){
 			if(specialIdsNo!=null&&!specialIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，专业选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/expMethodForm?repage";
+				return "modules/expfetch/expMethodForm";
 		    }
 	    }
 		if(seriesIdsYes!=null&&!seriesIdsYes.equalsIgnoreCase("")){
 			if(seriesIdsNo!=null&&!seriesIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，行业选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/expMethodForm?repage";
+				return "modules/expfetch/expMethodForm";
 		    }
 	    }
 		if(techIdsYes!=null&&!techIdsYes.equalsIgnoreCase("")){
 			if(techIdsNo!=null&&!techIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，职称选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/expMethodForm?repage";
+				return "modules/expfetch/expMethodForm";
 		    }
 	    }
         Page<ExpertConfirm> page = projectExpertService.findExperts(new Page<ExpertConfirm>(request, response), projectExpert); 

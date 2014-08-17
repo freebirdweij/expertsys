@@ -63,7 +63,25 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="object">
 			<tr>
-				<td>${object[0]}</td>
+				<td>
+				<c:choose>
+		        <c:when test="${fetchSupervise.sticsKind eq '3'}">
+				  ${fns:getDictLabel(object[0],'sys_specialkind_type','')}
+		        </c:when>
+		        <c:when test="${fetchSupervise.sticsKind eq '4'}">
+				  ${fns:getDictLabel(object[0],'sys_special_type','')}
+		        </c:when>
+		        <c:when test="${fetchSupervise.fetchKind eq '3'}">
+				  ${fns:getDictLabel(object[0],'sys_specialkind_type','')}
+		        </c:when>
+		        <c:when test="${fetchSupervise.fetchKind eq '4'}">
+				  ${fns:getDictLabel(object[0],'sys_special_type','')}
+		        </c:when>
+		        <c:otherwise>
+				  ${object[0]}
+		        </c:otherwise>
+		         </c:choose>
+				</td>
 				<td>${object[1]}</td>
 			</tr>
 		</c:forEach>
