@@ -230,7 +230,7 @@
           </div>	
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(ID${expertInfo.userId})/">专家资料</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(登陆名-${expertInfo.user.loginName})/">专家资料</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
