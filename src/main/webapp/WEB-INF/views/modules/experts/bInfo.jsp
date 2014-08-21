@@ -144,6 +144,15 @@
 			</div>				
 		</div> -->
 		<div class="control-group">
+			<label class="control-label">民 族:</label>
+			<div class="controls">
+				<form:select path="nation" class="span2 required" disabled="true">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">身份证号:</label>
 			<div class="controls">
 				<label class="lbl">${expertInfo.identifyCode}</label>
@@ -177,13 +186,10 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">现从事专业时间:</label>
+			<label class="control-label">职务:</label>
 			<div class="controls">
-				从
-						<label class="lbl">${expertInfo.specialFrom}</label>
-				至
-						<label class="lbl">${expertInfo.specialTo}</label>
-			</div>
+				${expertInfo.job}
+          </div>	
 		</div>
 		<div class="control-group">
 			<label class="control-label">职    称:</label>
@@ -192,18 +198,6 @@
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_tech_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">参加工作时间:</label>
-			<div class="controls">
-						<label class="lbl">${expertInfo.startworkTime}</label>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">地址:</label>
-			<div class="controls">
-				<label class="lbl">${expertInfo.homeAddr}</label>
 			</div>
 		</div>
 		<div class="control-group">
@@ -225,7 +219,7 @@
           </div>	
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(登陆名-${expertInfo.user.loginName})/">专家资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%-- <a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(登陆名-${expertInfo.user.loginName})/">专家资料</a> --%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="填写审核表"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>

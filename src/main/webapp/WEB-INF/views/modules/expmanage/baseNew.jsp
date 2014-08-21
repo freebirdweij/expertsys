@@ -175,13 +175,6 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">归属部门:</label>
-			<div class="controls">
-                <tags:treeselect id="office" name="office.id" value="${expertInfo.user.office.id}" labelName="office.name" labelValue="${expertInfo.user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required"/>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">登录名:</label>
 			<div class="controls">
 				<input id="oldLoginName" name="oldLoginName" type="hidden"/>
@@ -227,6 +220,15 @@
 			</div> 				
 		</div>-->
 		<div class="control-group">
+			<label class="control-label">民 族:</label>
+			<div class="controls">
+				<form:select path="nation" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">身份证号:</label>
 			<div class="controls">
 				<form:input path="identifyCode" htmlEscape="false" maxlength="50"
@@ -264,13 +266,11 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">现从事专业时间:</label>
+			<label class="control-label">职务:</label>
 			<div class="controls">
-				从<form:input path="specialFrom" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-				至<form:input path="specialTo" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-			</div>
+				<form:input path="job" htmlEscape="false" maxlength="20"
+					class="span2 required" />
+          </div>	
 		</div>
 		<div class="control-group">
 			<label class="control-label">职    称:</label>
@@ -281,27 +281,14 @@
 				</form:select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">参加工作时间:</label>
-			<div class="controls">
-				<form:input path="startworkTime" maxlength="20"
-						class="span2 input-small Wdate required" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">地址:</label>
-			<div class="controls">
-				<form:input path="homeAddr" htmlEscape="false" maxlength="200" class="span5" />
-			</div>
-		</div>
-				<div class="control-group">
+				<%-- <div class="control-group">
 					<label class="control-label">输入专家编号:</label>
 					<div class="controls">
 				<input id="oldExpertId" name="oldExpertId" type="hidden" value="">
 						<form:input path="expertCode" htmlEscape="false" maxlength="20"
 							class="span4 required"/>
 					</div>
-				</div>
+				</div> --%>
 		<div class="control-group">
 			<label class="control-label">专家类别:</label>
 			<div class="controls">
