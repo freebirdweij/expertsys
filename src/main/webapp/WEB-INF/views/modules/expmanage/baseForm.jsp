@@ -191,6 +191,15 @@
 			</div> 				
 		</div>-->
 		<div class="control-group">
+			<label class="control-label">民 族:</label>
+			<div class="controls">
+				<form:select path="nation" class="span2 required">
+					<form:option value="" label="请选择"/>
+					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">身份证号:</label>
 			<div class="controls">
 				<form:input path="identifyCode" htmlEscape="false" maxlength="50"
@@ -228,13 +237,11 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">现从事专业时间:</label>
+			<label class="control-label">职务:</label>
 			<div class="controls">
-				从<form:input path="specialFrom" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-				至<form:input path="specialTo" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-			</div>
+				<form:input path="job" htmlEscape="false" maxlength="20"
+					class="span2 required" />
+          </div>	
 		</div>
 		<div class="control-group">
 			<label class="control-label">职    称:</label>
@@ -246,16 +253,21 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">参加工作时间:</label>
+			<label class="control-label">工作经历:</label>
 			<div class="controls">
-				<form:input path="startworkTime" maxlength="20"
-						class="span2 input-small Wdate required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+					<form:textarea path="workThrough" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">地址:</label>
+			<label class="control-label">主要业绩:</label>
 			<div class="controls">
-				<form:input path="homeAddr" htmlEscape="false" maxlength="200" class="span5" />
+					<form:textarea path="achievement" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">推荐单位意见:</label>
+			<div class="controls">
+		        <input id="pushAdvice" name="pushAdvice" type="textarea" rows="6" cols="50">
 			</div>
 		</div>
 		<div class="control-group">
@@ -283,7 +295,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(登陆名-${expertInfo.user.loginName})/">专家资料</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%-- <a href="../../static/ckfinder/ckfinder.html?type=expert&start=expert:/${expertInfo.name}(登陆名-${expertInfo.user.loginName})/">专家资料</a> --%> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSave" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>

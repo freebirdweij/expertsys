@@ -192,6 +192,24 @@
           </div>	
 		</div>
 		<div class="control-group">
+			<label class="control-label">工作经历:</label>
+			<div class="controls">
+			${expertInfo.workThrough}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">主要业绩:</label>
+			<div class="controls">
+			${expertInfo.achievement}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">推荐单位意见:</label>
+			<div class="controls">
+			${expertInfo.pushAdvice}
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">职    称:</label>
 			<div class="controls">
 				<form:select path="technical" class="span2 required" disabled="true">

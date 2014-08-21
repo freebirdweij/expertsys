@@ -58,9 +58,112 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	private String seriesTwo;
 	private String expertCode;
 	private String expertPhone;
+	private String expertSex;
+	private Date expertBirthdate;
+	private String expertNation;
+	private String expertCollage;
+	private Date expertGraduate;
+	private String expertDegree;
+	private String expertStudy;
+	private String expertJob;
+	private String expertEmail;
 
 	@Transient
-	@ExcelField(title="电话", value="expertInfo.mobile",align=2, sort=80)
+	@ExcelField(title="性别", value="expertInfo.sex",align=2, sort=2)
+	public String getExpertSex() {
+		return expertSex;
+	}
+
+	public void setExpertSex(String expertSex) {
+		this.expertSex = expertSex;
+	}
+
+	@Transient
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@ExcelField(title="出生年月", value="expertInfo.birthdate",align=2, sort=3)
+	public Date getExpertBirthdate() {
+		return expertBirthdate;
+	}
+
+	public void setExpertBirthdate(Date expertBirthdate) {
+		this.expertBirthdate = expertBirthdate;
+	}
+
+	@Transient
+	@ExcelField(title="民族", value="expertInfo.nation",align=2, sort=4)
+	public String getExpertNation() {
+		return expertNation;
+	}
+
+	public void setExpertNation(String expertNation) {
+		this.expertNation = expertNation;
+	}
+
+	@Transient
+	@ExcelField(title="毕业学校", value="expertInfo.collage",align=2, sort=5)
+	public String getExpertCollage() {
+		return expertCollage;
+	}
+
+	public void setExpertCollage(String expertCollage) {
+		this.expertCollage = expertCollage;
+	}
+
+	@Transient
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@ExcelField(title="毕业时间", value="expertInfo.graduateTime",align=2, sort=6)
+	public Date getExpertGraduate() {
+		return expertGraduate;
+	}
+
+	public void setExpertGraduate(Date expertGraduate) {
+		this.expertGraduate = expertGraduate;
+	}
+
+	@Transient
+	@ExcelField(title="学历", value="expertInfo.education",align=2, sort=7)
+	public String getExpertDegree() {
+		return expertDegree;
+	}
+
+	public void setExpertDegree(String expertDegree) {
+		this.expertDegree = expertDegree;
+	}
+
+	@Transient
+	@ExcelField(title="所学专业", value="expertInfo.studySpecial",align=2, sort=8)
+	public String getExpertStudy() {
+		return expertStudy;
+	}
+
+	public void setExpertStudy(String expertStudy) {
+		this.expertStudy = expertStudy;
+	}
+
+	@Transient
+	@ExcelField(title="职务", value="expertInfo.job",align=2, sort=9)
+	public String getExpertJob() {
+		return expertJob;
+	}
+
+	public void setExpertJob(String expertJob) {
+		this.expertJob = expertJob;
+	}
+
+	@Transient
+	@ExcelField(title="电子信箱", value="expertInfo.email",align=2, sort=10)
+	public String getExpertEmail() {
+		return expertEmail;
+	}
+
+	public void setExpertEmail(String expertEmail) {
+		this.expertEmail = expertEmail;
+	}
+
+	@Transient
+	@ExcelField(title="电话", value="expertInfo.mobile",align=2, sort=11)
 	public String getExpertPhone() {
 		return expertPhone;
 	}
@@ -305,7 +408,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@JoinColumn(name="userId")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-	@ExcelField(title="专家姓名", value="expertInfo.name", align=2, sort=20)
+	@ExcelField(title="专家姓名", value="expertInfo.name", align=2, sort=1)
 	public ExpertInfo getExpertInfo() {
 		return this.expertInfo;
 	}

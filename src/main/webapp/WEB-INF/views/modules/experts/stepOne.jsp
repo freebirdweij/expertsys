@@ -266,9 +266,9 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">行业部门〈或管理单位)初审意见:</label>
+			<label class="control-label">推荐单位意见:</label>
 			<div class="controls">
-		        <input id="deptormanageAdvice" name="deptormanageAdvice" type="textarea" rows="6" cols="50" value="${deptormanageAdvice}">
+		        <input id="pushAdvice" name="pushAdvice" type="textarea" rows="6" cols="50">
 			</div>
 		</div>
 		<div class="control-group">

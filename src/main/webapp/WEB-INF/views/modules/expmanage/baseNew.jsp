@@ -290,6 +290,24 @@
 					</div>
 				</div> --%>
 		<div class="control-group">
+			<label class="control-label">工作经历:</label>
+			<div class="controls">
+					<form:textarea path="workThrough" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">主要业绩:</label>
+			<div class="controls">
+					<form:textarea path="achievement" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4 required"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">推荐单位意见:</label>
+			<div class="controls">
+		        <input id="pushAdvice" name="pushAdvice" type="textarea" rows="6" cols="50">
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">专家类别:</label>
 			<div class="controls">
 				<form:select path="specialKind1" class="span2 required">
