@@ -76,7 +76,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
@@ -91,7 +91,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
@@ -107,7 +107,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
@@ -141,7 +141,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
@@ -157,7 +157,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
@@ -172,7 +172,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Work));
@@ -189,7 +189,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
@@ -205,7 +205,7 @@ public class ProjectInfoService extends BaseService {
 		//限治本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
-			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
 		}
 		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));

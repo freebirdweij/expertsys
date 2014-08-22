@@ -6,21 +6,27 @@ public class Constants {
 	public static final String Sys_Role_Expert = "41c9510047ec4a61ba247c11604da888";//专家
 
 	//项目状态
-	public static final String Project_Status_Start = "10";//立项
-	public static final String Project_Status_Apply = "11";//评审
-	public static final String Project_Status_Work = "12";//实施
-	public static final String Project_Status_Receive = "13";//验收
-	public static final String Project_Status_Save = "14";//归档
+	public static final String Project_Status_Start = "10";//待评审
+	public static final String Project_Status_Apply = "11";//评审中
+	public static final String Project_Status_Work = "12";//已评审
+	public static final String Project_Status_Receive = "13";//待验收
+	public static final String Project_Status_Received = "14";//交工验收
+	public static final String Project_Status_End = "15";//竣工验收
+	public static final String Project_Status_Save = "16";//结束归档
 
 	//每次专家抽取的状态
 	public static final String Fetch_Review_Failure = "10";//项目评审抽取无效
 	public static final String Fetch_Review_Sussess = "11";//项目评审首次抽取有效
 	public static final String Fetch_ReviewRedraw_Failure = "20";//项目评审补抽无效
 	public static final String Fetch_ReviewRedraw_Sussess = "21";//项目评审补抽有效
-	public static final String Fetch_Accept_Failure = "30";//项目验收抽取无效
-	public static final String Fetch_Accept_Sussess = "31";//项目验收首次抽取有效
-	public static final String Fetch_AcceptRedraw_Failure = "40";//项目验收补抽无效
-	public static final String Fetch_AcceptRedraw_Sussess = "41";//项目验收补抽有效
+	public static final String Fetch_Accept_Failure = "30";//项目交工验收抽取无效
+	public static final String Fetch_Accept_Sussess = "31";//项目交工验收首次抽取有效
+	public static final String Fetch_AcceptRedraw_Failure = "40";//项目交工验收补抽无效
+	public static final String Fetch_AcceptRedraw_Sussess = "41";//项目交工验收补抽有效
+	public static final String Fetch_Accepted_Failure = "50";//项目竣工验收抽取无效
+	public static final String Fetch_Accepted_Sussess = "51";//项目竣工验收首次抽取有效
+	public static final String Fetch_AcceptedRedraw_Failure = "60";//项目竣工验收补抽无效
+	public static final String Fetch_AcceptedRedraw_Sussess = "61";//项目竣工验收补抽有效
 	
 	//专家抽取的方式
 	public static final String Fetch_Method_Unit = "0";//无效
@@ -55,9 +61,9 @@ public class Constants {
 	public static final String Register_Status_Accept = "5";//批准成为专家
 
 	//统计分类定义
-	public static final String Statistics_Kind_Area = "1";//完成第一步
-	public static final String Statistics_Kind_Unit = "2";//完成第二步
-	public static final String Statistics_Kind_Type = "3";//完成第三步
-	public static final String Statistics_Kind_Special = "4";//已提交申请
+	public static final String Statistics_Kind_Area = "1";//区域
+	public static final String Statistics_Kind_Unit = "2";//单位
+	public static final String Statistics_Kind_Type = "3";//类别
+	public static final String Statistics_Kind_Special = "4";//专业
 
 }

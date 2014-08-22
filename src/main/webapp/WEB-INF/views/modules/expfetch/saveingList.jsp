@@ -55,9 +55,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/expfetch/reviewinglist">待评审项目</a></li>
+		<li><a href="${ctx}/expfetch/reviewinglist">待评审项目</a></li>
 		<li><a href="${ctx}/expfetch/acptfetch/acceptinglist">待交工验收项目</a></li>
-		<li><a href="${ctx}/expfetch/acptfetch/saveinglist">待竣工验收项目</a></li>
+		<li class="active"><a href="${ctx}/expfetch/acptfetch/saveinglist">待竣工验收项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
@@ -72,9 +72,8 @@
 				<td>${projectInfo.prjMoney}</td>
 				<td>${projectInfo.prjBegin}</td>
 				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/unitmethod?prjid=${projectInfo.id}">进入抽取</a>
-    				<%-- <a href="${ctx}/expfetch/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a> --%>
-					<a href="${ctx}/project/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
+    				<a href="${ctx}/expfetch/acptfetch/unitmethod?prjid=${projectInfo.id}">进入抽取</a>
+    				<%-- <a href="${ctx}/expfetch/acptfetch/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a> --%>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
