@@ -25,6 +25,8 @@ import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.dao.ProjectInfoDao;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 项目信息Service
@@ -70,6 +72,13 @@ public class ProjectInfoService extends BaseService {
 		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
 			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
 		}
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
@@ -78,6 +87,13 @@ public class ProjectInfoService extends BaseService {
 	public Page<ProjectInfo> findReviewing(Page<ProjectInfo> page, ProjectInfo projectInfo) {
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Start));
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
@@ -87,6 +103,13 @@ public class ProjectInfoService extends BaseService {
 		updateProjectStatusToWork();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Apply));
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
@@ -114,6 +137,13 @@ public class ProjectInfoService extends BaseService {
 		if (projectInfo.getUnit()!=null&&StringUtils.isNotEmpty(projectInfo.getUnit().getId())){
 			dc.add(Restrictions.eq("u.id", projectInfo.getUnit().getId()));
 		}
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
@@ -123,6 +153,13 @@ public class ProjectInfoService extends BaseService {
 		updateProjectStatusToWork();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Apply));
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
@@ -131,6 +168,13 @@ public class ProjectInfoService extends BaseService {
 	public Page<ProjectInfo> findAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
 		updateProjectStatusToWork();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Work));
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
@@ -141,6 +185,13 @@ public class ProjectInfoService extends BaseService {
 		updateProjectStatusToSave();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Receive));
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
@@ -150,6 +201,13 @@ public class ProjectInfoService extends BaseService {
 		updateProjectStatusToSave();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Receive));
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("prjUnit", user.getCompany().getId()));
+		}
+		
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);

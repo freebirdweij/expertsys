@@ -63,6 +63,8 @@ public class ProjectInfoController extends BaseController {
 	@RequiresPermissions("project:projectInfo:view")
 	@RequestMapping(value = "record")
 	public String record(ProjectInfo projectInfo, Model model) {
+		User user = UserUtils.getUser();
+		projectInfo.setUnit(user.getCompany());
 		model.addAttribute("projectInfo", projectInfo);
 		return "modules/project/recordOne";
 	}

@@ -302,7 +302,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * @return 项目开始时间
 	 */
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy")
 	@ExcelField(title="时间", align=2, sort=60)
 	public Date getPrjBegin() {
 		return this.prjBegin;

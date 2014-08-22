@@ -115,7 +115,7 @@
             </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">主体单位:</label>
+			<label class="control-label">建设单位:</label>
 			<div class="controls">
                 <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}"
 					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
@@ -129,21 +129,10 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">项目级别:</label>
+			<label class="control-label">项目年度:</label>
 			<div class="controls">
-				<form:select path="prjLevel" class="span2 required">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_prjlevel_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">项目预计时间:</label>
-			<div class="controls">
-				从<form:input path="prjBegin" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" onpropertychange="checkBeginDate()"/>
-				至<form:input path="prjEnd" maxlength="20"
-						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"  onpropertychange="checkEndDate()"/>
+				<form:input path="prjBegin" maxlength="20"
+						class="span2 input-small Wdate" value="2014" onclick="WdatePicker({dateFmt:'yyyy',isShowClear:false});" onpropertychange="checkBeginDate()"/>
 			</div>
 		</div>
 		<div class="control-group">
