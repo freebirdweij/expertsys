@@ -329,11 +329,24 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setCreateBy(user);
 		}
 		//需要获取的专家数
-		Byte expertCount = projectExpert.getExpertCount();
-		//从页面得到的屏蔽的单位id
-		String discIds = projectExpert.getDiscIds();
-		//屏蔽主体单位标志
-		String rejectUnit = projectExpert.getRejectUnit();
+		Byte techcnt = projectExpert.getTechcnt();//技术类
+		if(techcnt==null) techcnt=0;
+		Byte ecomcnt = projectExpert.getEcomcnt();//经济类
+		if(ecomcnt==null) ecomcnt=0;
+		Integer expertCount = techcnt+ecomcnt;
+		//屏蔽近期已抽选
+		Byte discnt = projectExpert.getDiscnt();
+		//监督人
+		String supervise = projectExpert.getSupervise();
+		
+		//先抽取交投的专家
+		if(techcnt==0&&ecomcnt>0){
+			
+		}else if(ecomcnt==0&&techcnt>0){
+			
+		}else{
+			
+		}
 		//屏蔽最近三次抽取标志
 		String rejectRecent = projectExpert.getRejectRecent();
 		
@@ -346,20 +359,11 @@ public class ProjectExpertController extends BaseController {
 		//存储需屏蔽的单位集合
 		List<String> uidslist = Lists.newArrayList();
 		
-		if(rejectUnit.equalsIgnoreCase(Constants.Reject_Main_Unit)){
-			String prjid = projectExpert.getPrjid();
-			rejectUnit = projectInfoService.get(prjid).getUnit().getId();
-			uidslist.add(rejectUnit);
-		}
 		
 		if(rejectRecent.equalsIgnoreCase(Constants.Reject_Recent_Three)){
 			uidslist.addAll(projectExpertService.findUnitRecentThree(projectExpert));
 		}
 		
-		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
-			  String[] dids = StringUtils.split(discIds, ",");
-			  uidslist.addAll(Arrays.asList(dids));
-		}
 		
 		if(uidslist.size()>0){
 			if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
@@ -387,7 +391,7 @@ public class ProjectExpertController extends BaseController {
 				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
 			}
 		}
-		projectExpert.setExpertCount(expertCount);
+		projectExpert.setExpertCount(expertCount.byteValue());
         List<Office> rlist = projectExpertService.findUnitExpertByCount(new Page<Office>(request, response), projectExpert); 
         
         //以下进行随机选取计算

@@ -620,10 +620,11 @@ public class ProjectExpertService extends BaseService {
 	public List<String> findUnitRecentThree(ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
 		
-		String ts[] = { Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+		String ts[] = { Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,
+				Constants.Fetch_AcceptRedraw_Sussess,Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
 				dc.add(Restrictions.in("o.fetchStatus", ts));
 
-		dc.addOrder(Order.desc("o.fetchStatus"));
+		dc.addOrder(Order.desc("o.fetchTime"));
 		
 		List<ProjectExpert> res = projectExpertDao.find(dc);
 

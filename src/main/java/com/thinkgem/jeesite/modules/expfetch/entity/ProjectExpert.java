@@ -91,7 +91,52 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	/** 专家接受任务标志。. */
 	private String expertAccept;
 	
+	/** 技术类专家数. */
+	private Byte techcnt;
 	
+	/** 经济类专家数. */
+	private Byte ecomcnt;
+	
+	/** 屏蔽近期已抽选次数. */
+	private Byte discnt;
+
+	/** 监督人. */
+	private String supervise;
+	
+	@Transient
+	public Byte getTechcnt() {
+		return techcnt;
+	}
+
+	public void setTechcnt(Byte techcnt) {
+		this.techcnt = techcnt;
+	}
+
+	@Transient
+	public Byte getEcomcnt() {
+		return ecomcnt;
+	}
+
+	public void setEcomcnt(Byte ecomcnt) {
+		this.ecomcnt = ecomcnt;
+	}
+
+	public Byte getDiscnt() {
+		return discnt;
+	}
+
+	public void setDiscnt(Byte discnt) {
+		this.discnt = discnt;
+	}
+
+	public String getSupervise() {
+		return supervise;
+	}
+
+	public void setSupervise(String supervise) {
+		this.supervise = supervise;
+	}
+
 	@Transient
 	public String getRejectUnit() {
 		return rejectUnit;
