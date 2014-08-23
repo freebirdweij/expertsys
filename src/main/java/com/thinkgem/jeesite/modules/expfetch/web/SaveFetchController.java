@@ -55,8 +55,8 @@ import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
  * @version 2014-07-12
  */
 @Controller
-@RequestMapping(value = "${adminPath}/expfetch")
-public class ProjectExpertController extends BaseController {
+@RequestMapping(value = "${adminPath}/expfetch/savefetch")
+public class SaveFetchController extends BaseController {
 
 	@Autowired
 	private LogService logService;
@@ -730,7 +730,12 @@ public class ProjectExpertController extends BaseController {
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
 		projectExpert.setPrjid(prjid);
 		model.addAttribute("projectExpert", projectExpert);
-		return "modules/expfetch/unitFetchResult";
+		model.addAttribute("areaList", areaService.findAll());
+		model.addAttribute("unitList", officeService.findAll());
+		model.addAttribute("kindList", DictUtils.getDictList("sys_specialkind_type"));
+		model.addAttribute("specialList",  DictUtils.getDictList("sys_special_type"));
+		model.addAttribute("seriesList",  DictUtils.getDictList("sys_series_type"));
+		return "modules/expfetch/unitMethodForm";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

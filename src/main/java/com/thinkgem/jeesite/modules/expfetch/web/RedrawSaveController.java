@@ -36,12 +36,10 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
-import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
-import com.thinkgem.jeesite.modules.sys.service.LogService;
 import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -55,11 +53,8 @@ import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
  * @version 2014-07-12
  */
 @Controller
-@RequestMapping(value = "${adminPath}/expfetch")
-public class ProjectExpertController extends BaseController {
-
-	@Autowired
-	private LogService logService;
+@RequestMapping(value = "${adminPath}/expfetch/savredraw")
+public class RedrawSaveController extends BaseController {
 
 	@Autowired
 	private AreaService areaService;
@@ -121,31 +116,31 @@ public class ProjectExpertController extends BaseController {
 		if(areaIdsYes!=null&&!areaIdsYes.equalsIgnoreCase("")){
 			if(areaIdsNo!=null&&!areaIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，区域选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/unitMethodForm?repage";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/unitMethodForm?repage";
 		    }
 	    }
 		if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
 			if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，单位选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/unitMethodForm?repage";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/unitMethodForm?repage";
 		    }
 	    }
 		if(kindIdsYes!=null&&!kindIdsYes.equalsIgnoreCase("")){
 			if(kindIdsNo!=null&&!kindIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，专家类别选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/unitMethodForm?repage";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/unitMethodForm?repage";
 		    }
 	    }
 		if(specialIdsYes!=null&&!specialIdsYes.equalsIgnoreCase("")){
 			if(specialIdsNo!=null&&!specialIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，专业选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/unitMethodForm?repage";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/unitMethodForm?repage";
 		    }
 	    }
 		if(seriesIdsYes!=null&&!seriesIdsYes.equalsIgnoreCase("")){
 			if(seriesIdsNo!=null&&!seriesIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，行业选择矛盾！");
-				return "redirect:"+Global.getAdminPath()+"modules/expfetch/unitMethodForm?repage";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/unitMethodForm?repage";
 		    }
 	    }
         Page<Office> page = projectExpertService.findExpertUnits(new Page<Office>(request, response), projectExpert); 
@@ -168,7 +163,7 @@ public class ProjectExpertController extends BaseController {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
-		return "modules/expfetch/unitFetchResult";
+		return "modules/expfetch/acptredraw/unitFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -200,37 +195,37 @@ public class ProjectExpertController extends BaseController {
 		if(areaIdsYes!=null&&!areaIdsYes.equalsIgnoreCase("")){
 			if(areaIdsNo!=null&&!areaIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，区域选择矛盾！");
-				return "modules/expfetch/expMethodForm";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/expMethodForm?repage";
 		    }
 	    }
 		if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
 			if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，单位选择矛盾！");
-				return "modules/expfetch/expMethodForm";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/expMethodForm?repage";
 		    }
 	    }
 		if(kindIdsYes!=null&&!kindIdsYes.equalsIgnoreCase("")){
 			if(kindIdsNo!=null&&!kindIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，专家类别选择矛盾！");
-				return "modules/expfetch/expMethodForm";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/expMethodForm?repage";
 		    }
 	    }
 		if(specialIdsYes!=null&&!specialIdsYes.equalsIgnoreCase("")){
 			if(specialIdsNo!=null&&!specialIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，专业选择矛盾！");
-				return "modules/expfetch/expMethodForm";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/expMethodForm?repage";
 		    }
 	    }
 		if(seriesIdsYes!=null&&!seriesIdsYes.equalsIgnoreCase("")){
 			if(seriesIdsNo!=null&&!seriesIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，行业选择矛盾！");
-				return "modules/expfetch/expMethodForm";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/expMethodForm?repage";
 		    }
 	    }
 		if(techIdsYes!=null&&!techIdsYes.equalsIgnoreCase("")){
 			if(techIdsNo!=null&&!techIdsNo.equalsIgnoreCase("")){
 				addMessage(redirectAttributes, "您选择的条件存在矛盾，相同类型不能既选择符合性，又选择拒绝性条件，职称选择矛盾！");
-				return "modules/expfetch/expMethodForm";
+				return "redirect:"+Global.getAdminPath()+"modules/expfetch/acptredraw/expMethodForm?repage";
 		    }
 	    }
         Page<ExpertConfirm> page = projectExpertService.findExperts(new Page<ExpertConfirm>(request, response), projectExpert); 
@@ -251,7 +246,7 @@ public class ProjectExpertController extends BaseController {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
-		return "modules/expfetch/expFetchResult";
+		return "modules/expfetch/acptredraw/expFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -277,7 +272,7 @@ public class ProjectExpertController extends BaseController {
         model.addAttribute("page", page);
         model.addAttribute("projectExpert", projectExpert);
         model.addAttribute("rlist", rlist);
-		return "modules/expfetch/unitExpertList";
+		return "modules/expfetch/acptredraw/unitExpertList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -318,7 +313,7 @@ public class ProjectExpertController extends BaseController {
         model.addAttribute("page", page);
         model.addAttribute("projectExpert", projectExpert);
         model.addAttribute("rlist", rlist);
-		return "modules/expfetch/expExpertList";
+		return "modules/expfetch/acptredraw/expExpertList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -416,7 +411,7 @@ public class ProjectExpertController extends BaseController {
         projectExpert.setResIds(StringUtils.join(dclist, ","));
         model.addAttribute("projectExpert", projectExpert);
         
-		return "modules/expfetch/unitFetchResult";
+		return "modules/expfetch/acptredraw/unitFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -516,7 +511,7 @@ public class ProjectExpertController extends BaseController {
         model.addAttribute("projectExpert", projectExpert);
         //request.getSession().setAttribute("projectExpert",projectExpert);       
         
-		return "modules/expfetch/expFetchResult";
+		return "modules/expfetch/acptredraw/expFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -573,7 +568,7 @@ public class ProjectExpertController extends BaseController {
         pExpert.setResIds(StringUtils.join(eclist, ","));
         model.addAttribute("projectExpert", pExpert);
         
-		return "modules/expfetch/unitFetchResult";
+		return "modules/expfetch/acptredraw/unitFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -597,7 +592,7 @@ public class ProjectExpertController extends BaseController {
         model.addAttribute("projectExpert", projectExpert);
         request.getSession().setAttribute("projectExpert", projectExpert);
         
-		return "modules/expfetch/expFetchResult";
+		return "modules/expfetch/acptredraw/expFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -630,7 +625,7 @@ public class ProjectExpertController extends BaseController {
         
         model.addAttribute("projectExpert", projectExpert);
         
-		return "modules/expfetch/unitExpertList";
+		return "modules/expfetch/acptredraw/unitExpertList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -678,7 +673,7 @@ public class ProjectExpertController extends BaseController {
         
         model.addAttribute("projectExpert", projectExpert);
         
-		return "modules/expfetch/expExpertList";
+		return "modules/expfetch/acptredraw/expExpertList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -690,7 +685,7 @@ public class ProjectExpertController extends BaseController {
 		}
         Page<ProjectInfo> page = projectInfoService.findReviewing(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
-		return "modules/expfetch/reviewingList";
+		return "modules/expfetch/acptredraw/reviewingList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -700,21 +695,9 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectInfo.setCreateBy(user);
 		}
-        Page<ProjectInfo> page = projectInfoService.findAccepting(new Page<ProjectInfo>(request, response), projectInfo); 
+        Page<ProjectInfo> page = projectInfoService.findRedrawAccepting(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
-		return "modules/expfetch/acceptingList";
-	}
-
-	@RequiresPermissions("expfetch:projectExpert:view")
-	@RequestMapping(value = {"saveinglist", ""})
-	public String saveinglist(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		User user = UserUtils.getUser();
-		if (!user.isAdmin()){
-			projectInfo.setCreateBy(user);
-		}
-        Page<ProjectInfo> page = projectInfoService.findSaveing(new Page<ProjectInfo>(request, response), projectInfo); 
-        model.addAttribute("page", page);
-		return "modules/expfetch/saveingList";
+		return "modules/expfetch/acptredraw/acceptingList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
@@ -728,15 +711,26 @@ public class ProjectExpertController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Accept_Sussess);
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(pExpert.getReviewBegin());
+		projectExpert.setReviewEnd(pExpert.getReviewEnd());
 		model.addAttribute("projectExpert", projectExpert);
-		return "modules/expfetch/unitFetchResult";
+		model.addAttribute("areaList", areaService.findAll());
+		model.addAttribute("unitList", officeService.findAll());
+		model.addAttribute("kindList", DictUtils.getDictList("sys_specialkind_type"));
+		model.addAttribute("specialList",  DictUtils.getDictList("sys_special_type"));
+		model.addAttribute("seriesList",  DictUtils.getDictList("sys_series_type"));
+		return "modules/expfetch/acptredraw/unitMethodForm";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "expertmethod")
 	public String expertmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Accept_Sussess);
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(pExpert.getReviewBegin());
+		projectExpert.setReviewEnd(pExpert.getReviewEnd());
 		model.addAttribute("projectExpert", projectExpert);
 		model.addAttribute("areaList", areaService.findAll());
 		model.addAttribute("unitList", officeService.findAll());
@@ -744,7 +738,7 @@ public class ProjectExpertController extends BaseController {
 		model.addAttribute("specialList",  DictUtils.getDictList("sys_special_type"));
 		model.addAttribute("seriesList",  DictUtils.getDictList("sys_series_type"));
 		model.addAttribute("techList",  DictUtils.getDictList("sys_tech_type"));
-		return "modules/expfetch/expMethodForm";
+		return "modules/expfetch/acptredraw/expMethodForm";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:edit")
@@ -768,15 +762,16 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setFetchTime(fcount);
 		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
 	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Sussess);
+	    	projectExpert.setFetchStatus(Constants.Fetch_AcceptRedraw_Sussess);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
 	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
 	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
-	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, pExpert.getPrjid());
+	    projectInfoService.updateProjectStatus(Constants.Project_Status_Receive, pExpert.getPrjid());
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		
 		
 		ProjectInfo projectInfo = projectInfoService.get(pExpert.getPrjid());
 		projectExpert.setPrjProjectInfo(projectInfo);
@@ -784,18 +779,7 @@ public class ProjectExpertController extends BaseController {
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
-		User user = UserUtils.getUser();
-		//记录系统日志
-		Log log = new Log();
-		log.setCreateBy(user);
-		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
-		log.setCurrentUser(user);
-		log.setType(Log.TYPE_ACCESS);
-		log.setRemoteAddr(request.getRemoteAddr());
-		log.setRequestUri(request.getRequestURI());
-		log.setMethod(request.getMethod());
-		logService.save(log);
-		return "modules/expfetch/unitReceiveNote";
+		return "modules/expfetch/acptredraw/unitReceiveNote";
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")
@@ -819,13 +803,13 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setFetchTime(fcount);
 		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
 	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Sussess);
+	    	projectExpert.setFetchStatus(Constants.Fetch_AcceptRedraw_Sussess);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
 	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
 	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
-	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, pExpert.getPrjid());
+	    projectInfoService.updateProjectStatus(Constants.Project_Status_Receive, pExpert.getPrjid());
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
 		
@@ -835,18 +819,7 @@ public class ProjectExpertController extends BaseController {
 		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
-		User user = UserUtils.getUser();
-		//记录系统日志
-		Log log = new Log();
-		log.setCreateBy(user);
-		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
-		log.setCurrentUser(user);
-		log.setType(Log.TYPE_ACCESS);
-		log.setRemoteAddr(request.getRemoteAddr());
-		log.setRequestUri(request.getRequestURI());
-		log.setMethod(request.getMethod());
-		logService.save(log);
-		return "modules/expfetch/unitReceiveNote";
+		return "modules/expfetch/acptredraw/unitReceiveNote";
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")
@@ -870,7 +843,7 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setFetchTime(fcount);
 		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
 	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
+	    	projectExpert.setFetchStatus(Constants.Fetch_AcceptRedraw_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
 	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
 	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
@@ -909,7 +882,7 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setFetchTime(fcount);
 		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
 	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
+	    	projectExpert.setFetchStatus(Constants.Fetch_AcceptRedraw_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
 	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
 	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
@@ -948,7 +921,7 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setFetchTime(fcount);
 		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
 	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
+	    	projectExpert.setFetchStatus(Constants.Fetch_AcceptRedraw_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
 	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
 	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
@@ -986,7 +959,7 @@ public class ProjectExpertController extends BaseController {
 			projectExpert.setFetchTime(fcount);
 		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
 	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Expert);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
+	    	projectExpert.setFetchStatus(Constants.Fetch_AcceptRedraw_Failure);
 	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
 	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
 	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
@@ -1032,7 +1005,7 @@ public class ProjectExpertController extends BaseController {
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出专家失败！失败信息："+e.getMessage());
 		}
-		return "redirect:"+Global.getAdminPath()+"/expfetch/receiveunitresult/?repage";
+		return "redirect:"+Global.getAdminPath()+"/expfetch/acptredraw/receiveunitresult/?repage";
     }
 
 }

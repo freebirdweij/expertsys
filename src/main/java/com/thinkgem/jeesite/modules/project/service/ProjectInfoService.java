@@ -181,6 +181,22 @@ public class ProjectInfoService extends BaseService {
 		return projectInfoDao.find(page, dc);
 	}
 	
+	public Page<ProjectInfo> findSaveing(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		updateProjectStatusToWork();
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		
+		//限治本用户单位项目
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
+		}
+		
+		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Received));
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc);
+	}
+	
 	public Page<ProjectInfo> findSuperviseAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
 		updateProjectStatusToSave();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();

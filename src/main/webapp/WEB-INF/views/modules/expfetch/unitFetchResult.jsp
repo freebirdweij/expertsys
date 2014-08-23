@@ -9,6 +9,26 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#inputForm").validate({
+				rules: {
+					name: {remote: "${ctx}/sys/role/checkName?oldName=" + encodeURIComponent("${role.name}")},
+                "reviewBegin":{
+                    required: true
+                },
+                "reviewEnd": {
+                    required: true,
+                    compareDate: "#reviewBegin"
+                }
+				},
+				messages: {
+					name: {remote: "角色名已存在"},
+                "reviewBegin":{
+                    required: "开始时间不能为空"
+                },
+                "reviewEnd":{
+                    required: "结束时间不能为空",
+                    compareDate: "结束日期必须大于等于开始日期!"
+                }
+				},
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -146,47 +166,91 @@
 	    	return true;
 	    }
 	    
+	    jQuery(function(){        
+	        jQuery.validator.methods.compareDate = function(value, element, param) {
+	            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+	            //value = value + ":00";
+	            
+	            var startDate = jQuery(param).val();
+	            
+	            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+	            var date2 = new Date(Date.parse(value.replace("-", "/")));
+	            return date1 <= date2;
+	        };
+	        
+	        jQuery("#inputForm").validate({
+	            focusInvalid:false,
+	            rules:{
+	                "reviewBegin":{
+	                    required: true
+	                },
+	                "reviewEnd": {
+	                    required: true,
+	                    compareDate: "#reviewBegin"
+	                }
+	            },
+	            messages:{
+	                "reviewBegin":{
+	                    required: "开始时间不能为空"
+	                },
+	                "reviewEnd":{
+	                    required: "结束时间不能为空",
+	                    compareDate: "结束日期必须大于等于开始日期!"
+	                }
+	            }
+	        });
+	    });
+		
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">单位列表</li>
+		<li class="active">按单位方式抽取专家</li>
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
-		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
-			<form:hidden path="discIds"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>归属区域</th><th>单位名称</th><th>单位类型</th><th>上级机构</th><th>电话</th><th>联系地址</th><th>操作</th></tr></thead>
-		<tbody>
-		<c:forEach items="${page.list}" var="office">
-			<tr>
-				<td>${office.area.name}</td>
-				<td>${office.name}</td>
-				<td>${fns:getDictLabel(office.type,'sys_office_type','')}</td>
-				<td>${office.parent.name}</td>
-				<td>${office.phone}</td>
-				<td>${office.address}</td>
-				<td>
-				<a id="btnDiscard${office.id}" href="javascript:discard('${office.id}')">屏蔽</a>
-				<a id="discCancel${office.id}" href="javascript:discancel('${office.id}')"  style="display:none;">取消</a>
-				</td>
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
-			<form:hidden path="rejectUnit"/>
-			<form:hidden path="rejectRecent"/>
-	<div class="pagination">${page}</div>
+		<form:hidden path="prjid"/>
+		<div class="control-group">
+			<label class="control-label">评审时间:</label>
+			<div class="controls">
+				从<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				至<form:input path="reviewEnd" maxlength="20"
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">抽选类型及数量:</label>
+			<div class="controls">
+				<form:select path="techcnt" class="span2 required">
+					<form:option value="" label="技术类"/>
+					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<form:select path="ecomcnt" class="span2 required">
+					<form:option value="" label="经济类"/>
+					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">屏蔽近期已抽选:</label>
+			<div class="controls">
+				<form:select path="discnt" class="span2 required">
+					<form:option value="" label="近~次"/>
+					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+				<div class="control-group">
+					<label class="control-label">监督人:</label>
+					<div class="controls">
+						<form:input path="supervise" htmlEscape="false" maxlength="20"
+							class="span2 required userName" readonly="true"/>
+					</div>
+				</div>
 		<div class="form-actions">
-			输入抽取数<form:input path="expertCount" htmlEscape="false" max="${page.list.size()}" class="required digits"/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
-			<input id="cancelUnit" class="btn btn-primary" type="button" onclick="cUnit()" value="屏蔽项目主体单位"/>
-			<input id="backUnit" class="btn btn-primary" type="button" onclick="bUnit()" value="取消屏蔽" style="display:none;"/>
-			<input id="cancelThree" class="btn btn-primary" type="button" onclick="cThree()" value="屏蔽最近三次抽选"/>
-			<input id="backThree" class="btn btn-primary" type="button" onclick="bThree()" value="取消屏蔽" style="display:none;"/>
 		</div>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
@@ -210,7 +274,7 @@
 		<div class="form-actions">
 			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="rSubmit()"/>
 			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次抽选" onclick="rCancel()"/>
-			<input id="btnCancel" class="btn btn-primary" type="button" value="返回重新选择筛选条件" onclick="bCancel()"/>
+			<!-- <input id="btnCancel" class="btn btn-primary" type="button" value="返回重新选择筛选条件" onclick="bCancel()"/> -->
 		</div>
 	</form:form>
 
