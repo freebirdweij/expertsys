@@ -18,6 +18,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
@@ -51,6 +52,9 @@ public class UserUtils extends BaseService {
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
 	public static final String CACHE_OFFICE_LIST = "officeList";
+	public static final String CACHE_JIAOTOU_LIST = "jiaotouList";
+	
+	public static final String NAME_JIAOTOU = "广西交通投资集团有限公司";
 	
 	public static User getUser(){
 		User user = (User)getCache(CACHE_USER);
@@ -152,6 +156,20 @@ public class UserUtils extends BaseService {
 			dc.addOrder(Order.asc("code"));
 			officeList = officeDao.find(dc);
 			putCache(CACHE_OFFICE_LIST, officeList);
+		}
+		return officeList;
+	}
+	
+	public static List<Office> getJiaoTouList(){
+		@SuppressWarnings("unchecked")
+		List<Office> officeList = (List<Office>)getCache(CACHE_JIAOTOU_LIST);
+		if (officeList == null){
+			officeList = Lists.newArrayList();
+			String id = officeDao.queryOfficeIdByName(NAME_JIAOTOU);
+			Office of = officeDao.get(id);
+			officeList.add(of);
+			officeList.addAll(of.getChildList());
+			putCache(CACHE_JIAOTOU_LIST, officeList);
 		}
 		return officeList;
 	}

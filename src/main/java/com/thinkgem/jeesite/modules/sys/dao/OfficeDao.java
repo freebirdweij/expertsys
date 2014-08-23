@@ -7,6 +7,7 @@ package com.thinkgem.jeesite.modules.sys.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.thinkgem.jeesite.common.persistence.BaseDao;
@@ -24,6 +25,16 @@ public class OfficeDao extends BaseDao<Office> {
 	public List<Office> findByParentIdsLike(String parentIds){
 		return find("from Office where parentIds like :p1", new Parameter(parentIds));
 	}
+	
+	public String queryOfficeIdByName(String name){
+		Query query = createQuery("select o.id from Office o where o.name = '"+name+"'",null); 
+		Object result = query.uniqueResult(); 
+		
+		if(result==null) return null;
+		
+		return (String)result;
+	}
+	
 	
 //	@Query("from Office where (id=?1 or parent.id=?1 or parentIds like ?2) and delFlag='" + Office.DEL_FLAG_NORMAL + "' order by code")
 //	public List<Office> findAllChild(Long parentId, String likeParentIds);

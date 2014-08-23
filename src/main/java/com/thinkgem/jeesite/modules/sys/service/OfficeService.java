@@ -32,6 +32,10 @@ public class OfficeService extends BaseService {
 		return officeDao.get(id);
 	}
 	
+	public String queryOfficeIdByName(String name) {
+		return officeDao.queryOfficeIdByName(name);
+	}
+	
 	public List<Office> findAll(){
 		return UserUtils.getOfficeList();
 	}

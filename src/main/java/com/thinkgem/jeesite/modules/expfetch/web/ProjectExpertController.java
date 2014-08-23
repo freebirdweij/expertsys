@@ -339,6 +339,15 @@ public class ProjectExpertController extends BaseController {
 		//监督人
 		String supervise = projectExpert.getSupervise();
 		
+		//存储需屏蔽的单位集合
+		List<String> uidslist = Lists.newArrayList();
+		if(discnt!=null){
+			uidslist.addAll(projectExpertService.findUnitRecentByCount(projectExpert));	
+		}
+				
+		List<Office> officeList = UserUtils.getJiaoTouList();
+		
+		
 		//先抽取交投的专家
 		if(techcnt==0&&ecomcnt>0){
 			
@@ -347,50 +356,7 @@ public class ProjectExpertController extends BaseController {
 		}else{
 			
 		}
-		//屏蔽最近三次抽取标志
-		String rejectRecent = projectExpert.getRejectRecent();
 		
-		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
-		String unitIdsYes = projectExpert.getUnitIdsYes();
-		String unitIdsNo = projectExpert.getUnitIdsNo();
-		//构造最终需要的单位集合
-		List<String> unitList = Lists.newArrayList();
-		
-		//存储需屏蔽的单位集合
-		List<String> uidslist = Lists.newArrayList();
-		
-		
-		if(rejectRecent.equalsIgnoreCase(Constants.Reject_Recent_Three)){
-			uidslist.addAll(projectExpertService.findUnitRecentThree(projectExpert));
-		}
-		
-		
-		if(uidslist.size()>0){
-			if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
-				String[] ids = StringUtils.split(unitIdsYes, ",");
-				for (String id : ids) {
-					unitList.add(id);
-					for (String discId : uidslist) {
-						if(discId.equalsIgnoreCase(id)){	
-							unitList.remove(id);
-						}
-					}
-				}
-				projectExpert.setUnitIdsYes(StringUtils.join(unitList, ","));
-				projectExpert.setUnitIdsNo(null);
-			}else if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
-				String[] ids = StringUtils.split(unitIdsNo, ",");
-				unitList.addAll(uidslist);
-				unitList.addAll(Arrays.asList(ids));
-
-				projectExpert.setUnitIdsYes(null);
-				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
-			}else{
-				unitList.addAll(uidslist);
-				projectExpert.setUnitIdsYes(null);
-				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
-			}
-		}
 		projectExpert.setExpertCount(expertCount.byteValue());
         List<Office> rlist = projectExpertService.findUnitExpertByCount(new Page<Office>(request, response), projectExpert); 
         
