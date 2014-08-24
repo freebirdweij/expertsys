@@ -8,7 +8,9 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -321,6 +324,7 @@ public class ProjectExpertController extends BaseController {
 		return "modules/expfetch/expExpertList";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = {"directdrawunit", ""})
 	public String directdrawunit(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
@@ -328,12 +332,22 @@ public class ProjectExpertController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
+		//先取得项目主体单位
+		String prjid = projectExpert.getPrjid();
+		Office prjunit = projectInfoService.get(prjid).getUnit();
+		
 		//需要获取的专家数
 		Byte techcnt = projectExpert.getTechcnt();//技术类
 		if(techcnt==null) techcnt=0;
 		Byte ecomcnt = projectExpert.getEcomcnt();//经济类
 		if(ecomcnt==null) ecomcnt=0;
 		Integer expertCount = techcnt+ecomcnt;
+		
+		//如果两个类型都没选，需要处理
+		if(expertCount==0){
+			addMessage(redirectAttributes, "您未选择抽取的专家数！");
+			return "modules/expfetch/unitFetchResult";
+		}
 		//屏蔽近期已抽选
 		Byte discnt = projectExpert.getDiscnt();
 		//监督人
@@ -341,52 +355,173 @@ public class ProjectExpertController extends BaseController {
 		
 		//存储需屏蔽的单位集合
 		List<String> uidslist = Lists.newArrayList();
+		uidslist.add(prjunit.getId());//主体单位
 		if(discnt!=null){
 			uidslist.addAll(projectExpertService.findUnitRecentByCount(projectExpert));	
 		}
 				
-		List<Office> officeList = UserUtils.getJiaoTouList();
-		
+		 HashMap<String,Office> officeMap = (HashMap<String,Office>) UserUtils.getJiaoTouMap();
+		 Map<String,Office> om = (Map<String, Office>) officeMap.clone();
+		 
+		 if(uidslist.size()>0){
+			 for(String id:uidslist){
+				 if(om.containsKey(id)){
+					 om.remove(id);
+				 }
+			 }
+		 }
 		
 		//先抽取交投的专家
-		if(techcnt==0&&ecomcnt>0){
-			
-		}else if(ecomcnt==0&&techcnt>0){
-			
-		}else{
-			
+		 ExpertConfirm jec = null;
+		 if(om.size()>0){
+			 jec = getAExpertByJiaoTouMap(techcnt, ecomcnt, om);
+		 }
+		 //如果交投的抽中了。
+		if(jec!=null){
+			uidslist.addAll(om.keySet());
+			if(jec.getExpertKind().equals(Constants.Expert_Kind_Technical)){
+				techcnt--;
+			}else if(jec.getExpertKind().equals(Constants.Expert_Kind_Economic)){
+				ecomcnt--;
+			}
 		}
 		
+        List<ExpertConfirm> erclist =  Lists.newArrayList();
+		projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
 		projectExpert.setExpertCount(expertCount.byteValue());
-        List<Office> rlist = projectExpertService.findUnitExpertByCount(new Page<Office>(request, response), projectExpert); 
+		if(techcnt>0){
+			projectExpert.setKindIdsYes(Constants.Expert_Kind_Technical);
+        List<Office> tlist = projectExpertService.findUnitExpertByCondition(new Page<Office>(request, response), projectExpert); 
         
         //以下进行随机选取计算
-		int resSize =rlist.size(); 
-		if(expertCount<resSize){
+		int resSize =tlist.size(); 
+		if(techcnt<resSize){
 	        Random r=new Random();   
-	        int n = resSize - expertCount+1;  
+	        int n = resSize - techcnt+1;  
 	        int ri = r.nextInt(n);
-	        rlist = rlist.subList(ri,ri+expertCount);
+	        tlist = tlist.subList(ri,ri+techcnt);
+		}else if(techcnt>resSize){
+			//待抽取单位不足，需要改变条件
+			addMessage(redirectAttributes, "条件限制过多，库中专家不足！");
+			return "modules/expfetch/unitFetchResult";
 		}
         
-        List<ExpertConfirm> eclist =  Lists.newArrayList();
-        for(Office ec : rlist){
-        	eclist.add(projectExpertService.findAExpertByUnit(ec, projectExpert));
+        for(Office ec : tlist){
+        	erclist.add(projectExpertService.findAExpertByUnitAndKind(ec, Constants.Expert_Kind_Technical));
+        	uidslist.add(ec.getId());
         }
+		}
         
-        model.addAttribute("rlist", eclist);
+        if(jec!=null) erclist.add(jec);
         
-        Page<Office> page = projectExpertService.findExpertUnits(new Page<Office>(request, response), projectExpert); 
-        model.addAttribute("page", page);
+		if(ecomcnt>0){
+			projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
+			projectExpert.setKindIdsYes(Constants.Expert_Kind_Economic);
+        List<Office> elist = projectExpertService.findUnitExpertByCondition(new Page<Office>(request, response), projectExpert); 
         
-        List<String> dclist =  Lists.newArrayList();
-        for(ExpertConfirm ec : eclist){
-        	dclist.add(ec.getId());
+        //以下进行随机选取计算
+		int resSize =elist.size(); 
+		if(ecomcnt<resSize){
+	        Random r=new Random();   
+	        int n = resSize - ecomcnt+1;  
+	        int ri = r.nextInt(n);
+	        elist = elist.subList(ri,ri+ecomcnt);
+		}else if(ecomcnt>resSize){
+			//待抽取单位不足，需要改变条件
+			addMessage(redirectAttributes, "条件限制过多，库中专家不足！");
+			return "modules/expfetch/unitFetchResult";
+		}
+        
+        for(Office ec : elist){
+        	erclist.add(projectExpertService.findAExpertByUnitAndKind(ec, Constants.Expert_Kind_Economic));
+        	uidslist.add(ec.getId());
         }
-        projectExpert.setResIds(StringUtils.join(dclist, ","));
+		}
+        
+        
+        model.addAttribute("rlist", erclist);
+        
         model.addAttribute("projectExpert", projectExpert);
         
 		return "modules/expfetch/unitFetchResult";
+	}
+
+	/**
+	 * 用于抽取交投的一位专家
+	 * @param techcnt
+	 * @param ecomcnt
+	 * @param om
+	 */
+	public ExpertConfirm getAExpertByJiaoTouMap(Byte techcnt, Byte ecomcnt,
+			Map<String, Office> om) {
+		ExpertConfirm jec = null; 
+		if(techcnt==0&&ecomcnt>0){
+			
+	        //以下进行随机选取计算
+			boolean retry = true;
+			int redo = 5;
+			int resSize =om.values().size(); 
+			int ri = 0;
+			if(1<resSize){
+		        Random r=new Random();   
+		        int n = resSize;  
+			do{
+		         ri = r.nextInt(n);
+			jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Economic);
+			if(jec!=null) retry = false;
+			redo--;
+			}while(retry&&redo>0);
+			
+			}else{
+				jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Economic);
+			}
+	        
+			
+		}else if(ecomcnt==0&&techcnt>0){
+			
+	        //以下进行随机选取计算
+			boolean retry = true;
+			int redo = 5;
+			int resSize =om.values().size(); 
+			int ri = 0;
+			if(1<resSize){
+		        Random r=new Random();   
+		        int n = resSize;  
+			do{
+		         ri = r.nextInt(n);
+			jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Technical);
+			if(jec!=null) retry = false;
+			redo--;
+			}while(retry&&redo>0);
+			
+			}else{
+				jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Technical);
+			}
+	        
+			
+		}else if(ecomcnt>0&&techcnt>0){
+			
+	        //以下进行随机选取计算
+			boolean retry = true;
+			int redo = 5;
+			int resSize =om.values().size(); 
+			int ri = 0;
+			if(1<resSize){
+		        Random r=new Random();   
+		        int n = resSize;  
+			do{
+		         ri = r.nextInt(n);
+			jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri],null);
+			if(jec!=null) retry = false;
+			redo--;
+			}while(retry&&redo>0);
+			
+			}else{
+				jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri],null);
+			}
+	        
+		}
+		return jec;
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

@@ -184,6 +184,36 @@ public class ProjectExpertService extends BaseService {
 		return list.get(ri);
 	}
 	
+	public ExpertConfirm findAExpertByUnitAndKind(Office office, String kind) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		if (office!=null){
+			if (StringUtils.isNotEmpty(office.getId())){
+				dc.add(Restrictions.eq("e.expertCompany.id", office.getId()));
+				if(kind!=null){
+				dc.add(Restrictions.eq("e.expertKind", kind));
+				}
+			}
+		}
+		dc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
+		
+		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		
+		List<ExpertConfirm> list = expertConfirmDao.find(dc);
+		
+        //以下进行随机选取计算
+		int resSize =list.size(); 
+		int ri = 0;
+		if(1<resSize){
+	        Random r=new Random();   
+	        int n = resSize;  
+	         ri = r.nextInt(n);
+		}
+        
+
+
+		return list.get(ri);
+	}
+	
 	public Page<ExpertConfirm> findExperts(Page<ExpertConfirm> page, ProjectExpert projectExpert) {
 		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
 		
@@ -468,6 +498,84 @@ public class ProjectExpertService extends BaseService {
 	
 	@SuppressWarnings("unchecked")
 	public List<Office> findUnitExpertByCount(Page<Office> page, ProjectExpert projectExpert) {
+		DetachedCriteria dc = DetachedCriteria.forClass(Office.class, "o");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		subdc.createAlias("e.expertCompany", "c");
+		subdc.add(Restrictions.eqProperty("c.id","o.id")).setProjection(Projections.id());
+		
+		String areaIdsYes = projectExpert.getAreaIdsYes();
+		if(areaIdsYes!=null&&!areaIdsYes.equalsIgnoreCase("")){
+				String[] areaids = StringUtils.split(areaIdsYes, ",");
+				subdc.createAlias("e.expertArea", "a");
+				subdc.add(Restrictions.in("a.id", areaids));
+		}
+
+		String unitIdsYes = projectExpert.getUnitIdsYes();
+		if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
+			String[] unitids = StringUtils.split(unitIdsYes, ",");
+			subdc.add(Restrictions.in("c.id", unitids));
+	    }
+
+		String kindIdsYes = projectExpert.getKindIdsYes();
+		if(kindIdsYes!=null&&!kindIdsYes.equalsIgnoreCase("")){
+			String[] kindids = StringUtils.split(kindIdsYes, ",");
+			subdc.add(Restrictions.in("e.expertKind", kindids));
+	    }
+
+		String specialIdsYes = projectExpert.getSpecialIdsYes();
+		if(specialIdsYes!=null&&!specialIdsYes.equalsIgnoreCase("")){
+			String[] specialids = StringUtils.split(specialIdsYes, ",");
+			subdc.add(Restrictions.in("e.expertSpecial", specialids));
+	    }
+
+		String seriesIdsYes = projectExpert.getSeriesIdsYes();
+		if(seriesIdsYes!=null&&!seriesIdsYes.equalsIgnoreCase("")){
+			String[] seriesids = StringUtils.split(seriesIdsYes, ",");
+			subdc.add(Restrictions.in("e.expertSeries", seriesids));
+	    }
+
+		String areaIdsNo = projectExpert.getAreaIdsNo();
+		if(areaIdsNo!=null&&!areaIdsNo.equalsIgnoreCase("")){
+			String[] areaids = StringUtils.split(areaIdsNo, ",");
+			subdc.createAlias("e.expertArea", "a");
+			subdc.add(Restrictions.not(Restrictions.in("a.id", areaids)));
+	    }
+
+		String unitIdsNo = projectExpert.getUnitIdsNo();
+		if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
+			String[] unitids = StringUtils.split(unitIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("c.id", unitids)));
+	    }
+		
+		String kindIdsNo = projectExpert.getKindIdsNo();
+		if(kindIdsNo!=null&&!kindIdsNo.equalsIgnoreCase("")){
+			String[] kindids = StringUtils.split(kindIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.expertKind", kindids)));
+	    }
+
+		String specialIdsNo = projectExpert.getSpecialIdsNo();
+		if(specialIdsNo!=null&&!specialIdsNo.equalsIgnoreCase("")){
+			String[] specialids = StringUtils.split(specialIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.expertSpecial", specialids)));
+	    }
+
+		String seriesIdsNo = projectExpert.getSeriesIdsNo();
+		if(seriesIdsNo!=null&&!seriesIdsNo.equalsIgnoreCase("")){
+			String[] seriesids = StringUtils.split(seriesIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.expertSeries", seriesids)));
+	    }
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("o.id"));
+		
+		List<Office> res = officeDao.find(dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Office> findUnitExpertByCondition(Page<Office> page, ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(Office.class, "o");
 		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
 		subdc.createAlias("e.expertCompany", "c");

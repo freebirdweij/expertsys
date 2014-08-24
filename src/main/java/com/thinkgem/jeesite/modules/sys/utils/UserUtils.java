@@ -52,7 +52,7 @@ public class UserUtils extends BaseService {
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
 	public static final String CACHE_OFFICE_LIST = "officeList";
-	public static final String CACHE_JIAOTOU_LIST = "jiaotouList";
+	public static final String CACHE_JIAOTOU_MAP = "jiaotouMap";
 	
 	public static final String NAME_JIAOTOU = "广西交通投资集团有限公司";
 	
@@ -160,18 +160,20 @@ public class UserUtils extends BaseService {
 		return officeList;
 	}
 	
-	public static List<Office> getJiaoTouList(){
+	public static Map<String,Office> getJiaoTouMap(){
 		@SuppressWarnings("unchecked")
-		List<Office> officeList = (List<Office>)getCache(CACHE_JIAOTOU_LIST);
-		if (officeList == null){
-			officeList = Lists.newArrayList();
+		Map<String,Office> officeMap = (Map<String,Office>)getCache(CACHE_JIAOTOU_MAP);
+		if (officeMap == null){
+			officeMap = Maps.newHashMap();
 			String id = officeDao.queryOfficeIdByName(NAME_JIAOTOU);
 			Office of = officeDao.get(id);
-			officeList.add(of);
-			officeList.addAll(of.getChildList());
-			putCache(CACHE_JIAOTOU_LIST, officeList);
+			officeMap.put(id, of);
+			for(Office o:of.getChildList()){
+				officeMap.put(o.getId(), o);
+			}
+			putCache(CACHE_JIAOTOU_MAP, officeMap);
 		}
-		return officeList;
+		return officeMap;
 	}
 	
 
