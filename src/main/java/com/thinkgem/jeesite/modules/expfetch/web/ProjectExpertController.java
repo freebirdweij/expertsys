@@ -345,7 +345,7 @@ public class ProjectExpertController extends BaseController {
 		
 		//如果两个类型都没选，需要处理
 		if(expertCount==0){
-			addMessage(redirectAttributes, "您未选择抽取的专家数！");
+			addMessage(model, "您未选择抽取的专家数！");
 			return "modules/expfetch/unitFetchResult";
 		}
 		//屏蔽近期已抽选
@@ -405,7 +405,7 @@ public class ProjectExpertController extends BaseController {
 	        tlist = tlist.subList(ri,ri+techcnt);
 		}else if(techcnt>resSize){
 			//待抽取单位不足，需要改变条件
-			addMessage(redirectAttributes, "条件限制过多，库中专家不足！");
+			addMessage(model, "条件限制过多，库中专家不足！");
 			return "modules/expfetch/unitFetchResult";
 		}
         
@@ -431,7 +431,7 @@ public class ProjectExpertController extends BaseController {
 	        elist = elist.subList(ri,ri+ecomcnt);
 		}else if(ecomcnt>resSize){
 			//待抽取单位不足，需要改变条件
-			addMessage(redirectAttributes, "条件限制过多，库中专家不足！");
+			addMessage(model, "条件限制过多，库中专家不足！");
 			return "modules/expfetch/unitFetchResult";
 		}
         
@@ -443,7 +443,7 @@ public class ProjectExpertController extends BaseController {
         
 		if(erclist.size()==0){
 			//待抽取单位不足，需要改变条件
-			addMessage(redirectAttributes, "条件限制过多，库中专家不足！");
+			addMessage(model, "条件限制过多，库中专家不足！");
 			return "modules/expfetch/unitFetchResult";
 			
 		}
@@ -471,12 +471,19 @@ public class ProjectExpertController extends BaseController {
 			projectExpertService.save(pExpert);
 	    }
 	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "进行专家抽取成功.");
+		addMessage(model, "进行专家抽取成功.");
 		
         
         model.addAttribute("rlist", erclist);
         
-        //model.addAttribute("projectExpert", projectExpert);
+        //保留抽取的结果到页面,若采纳需要使用到
+        List<String> eclist =  Lists.newArrayList();
+        for(ExpertConfirm ec : erclist){
+        	eclist.add(ec.getId());
+        }
+        projectExpert.setResIds(StringUtils.join(eclist, ","));
+        
+        model.addAttribute("projectExpert", projectExpert);
         
 		return "modules/expfetch/unitFetchResult";
 	}
