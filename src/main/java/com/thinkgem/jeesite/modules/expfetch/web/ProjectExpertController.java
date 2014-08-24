@@ -383,13 +383,16 @@ public class ProjectExpertController extends BaseController {
 				techcnt--;
 			}else if(jec.getExpertKind().equals(Constants.Expert_Kind_Economic)){
 				ecomcnt--;
+			}else{
+				techcnt--;
 			}
 		}
 		
+		//存储结果集
         List<ExpertConfirm> erclist =  Lists.newArrayList();
-		projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
 		projectExpert.setExpertCount(expertCount.byteValue());
 		if(techcnt>0){
+			projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
 			projectExpert.setKindIdsYes(Constants.Expert_Kind_Technical);
         List<Office> tlist = projectExpertService.findUnitExpertByCondition(new Page<Office>(request, response), projectExpert); 
         
@@ -438,10 +441,42 @@ public class ProjectExpertController extends BaseController {
         }
 		}
         
+		if(erclist.size()==0){
+			//待抽取单位不足，需要改变条件
+			addMessage(redirectAttributes, "条件限制过多，库中专家不足！");
+			return "modules/expfetch/unitFetchResult";
+			
+		}
+		
+		//需先把抽取结果保留
+		int fcount = 0;
+		if(projectExpert.getFetchTime()==null){
+			fcount = projectExpertService.selectMaxFetchTime()+1;
+		}else{
+		    fcount = projectExpert.getFetchTime()+1;
+		}
+    	//本次抽取记录。重要
+	    for (ExpertConfirm ec : erclist) {
+	    	ProjectExpert pExpert = new ProjectExpert();
+	    	pExpert.setFetchTime(fcount);
+	    	pExpert.setExpertCount(expertCount.byteValue());
+	    	pExpert.setPrjProjectInfo(new ProjectInfo(prjid));
+	    	pExpert.setFetchMethod(Constants.Fetch_Method_Unit);
+	    	pExpert.setFetchStatus(Constants.Fetch_Review_Failure);
+	    	pExpert.setExpertExpertConfirm(ec);
+	    	pExpert.setReviewBegin(projectExpert.getReviewBegin());
+	    	pExpert.setReviewEnd(projectExpert.getReviewEnd());
+	    	pExpert.setSupervise(supervise);
+	    	pExpert.setDiscnt(discnt);
+			projectExpertService.save(pExpert);
+	    }
+	    //request.getSession().removeAttribute("projectExpert");
+		addMessage(redirectAttributes, "进行专家抽取成功.");
+		
         
         model.addAttribute("rlist", erclist);
         
-        model.addAttribute("projectExpert", projectExpert);
+        //model.addAttribute("projectExpert", projectExpert);
         
 		return "modules/expfetch/unitFetchResult";
 	}

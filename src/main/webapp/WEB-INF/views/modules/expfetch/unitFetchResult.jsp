@@ -43,28 +43,6 @@
 					}
 				}
 			});
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
-				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
-			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
@@ -222,15 +200,18 @@
 		<div class="control-group">
 			<label class="control-label">抽选类型及数量:</label>
 			<div class="controls">
+				<div style="margin-right:40px; float:left;">
 				<form:select path="techcnt" class="span2 required">
 					<form:option value="" label="技术类"/>
-					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('sys_techcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</div>
+				<div style="margin-left:30px; float:left;">
 				<form:select path="ecomcnt" class="span2 required">
 					<form:option value="" label="经济类"/>
-					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('sys_ecomcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+				</div>
 			</div>
 		</div>
 		<div class="control-group">
@@ -238,17 +219,13 @@
 			<div class="controls">
 				<form:select path="discnt" class="span2 required">
 					<form:option value="" label="近~次"/>
-					<form:options items="${fns:getDictList('sys_nation_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('sys_discnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
+						<form:input path="supervise" htmlEscape="false" maxlength="20"
+							class="span2 required userName"/>
 			</div>
 		</div>
-				<div class="control-group">
-					<label class="control-label">监督人:</label>
-					<div class="controls">
-						<form:input path="supervise" htmlEscape="false" maxlength="20"
-							class="span2 required userName" readonly="true"/>
-					</div>
-				</div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
 		</div>
