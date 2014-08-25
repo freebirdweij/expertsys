@@ -920,7 +920,6 @@ public class ProjectExpertController extends BaseController {
 		ProjectInfo projectInfo = projectInfoService.get(prjid);
 		projectExpert.setPrjProjectInfo(projectInfo);
 		projectExpert.setResIds(resIds);
-		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
 		User user = UserUtils.getUser();
@@ -934,6 +933,10 @@ public class ProjectExpertController extends BaseController {
 		log.setRequestUri(request.getRequestURI());
 		log.setMethod(request.getMethod());
 		logService.save(log);
+		
+		model.addAttribute("userName", user.getName());
+		model.addAttribute("fetchDate", DateUtils.parseDate(DateUtils.getDateTime()));
+		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/unitReceiveNote";
 	}
 	
