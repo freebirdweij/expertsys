@@ -159,14 +159,16 @@
 		<form:hidden path="prjid"/>
 		<form:hidden path="fetchTime"/>
 		<div class="control-group">
-			<label class="control-label">评审时间:</label>
+			<label class="control-label">项目评审时间:</label>
 			<div class="controls">
-				从${projectExpert.reviewBegin}
-				至${projectExpert.reviewEnd}
+				从<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
+				至<form:input path="reviewEnd" maxlength="20"
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
 			</div>
 		</div>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>项目状态</th><th>投资金额</th><th>项目年度</th></tr></thead>
 		<tbody>
 			<tr>
 				<td>${projectExpert.prjProjectInfo.id}</td>
@@ -179,7 +181,7 @@
 		</tbody>
 	</table>
       <div class="span10">
-        <h4>评审抽选专家列表：</h4>
+        <h4>抽选专家结果列表：</h4>
       </div>
 			<form:hidden path="resIds"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
@@ -202,11 +204,11 @@
 						${userName}
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
 						${projectExpert.supervise}
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期:
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;抽取日期:
 						${fetchDate}
 			</div>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="导出抽取确认表" onclick="rSubmit()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="导出项目评审专家抽取确认表" onclick="rSubmit()"/>
 			<input id="btnCancel" class="btn btn-primary" type="button" value="退出" onclick="bCancel()"/>
 		</div>
 	</form:form>

@@ -935,7 +935,7 @@ public class ProjectExpertController extends BaseController {
 		logService.save(log);
 		
 		model.addAttribute("userName", user.getName());
-		model.addAttribute("fetchDate", DateUtils.parseDate(DateUtils.getDateTime()));
+		model.addAttribute("fetchDate", DateUtils.getDateTime());
 		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/unitReceiveNote";
 	}
