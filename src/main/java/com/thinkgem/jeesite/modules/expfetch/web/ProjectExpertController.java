@@ -482,7 +482,7 @@ public class ProjectExpertController extends BaseController {
         	eclist.add(ec.getId());
         }
         projectExpert.setResIds(StringUtils.join(eclist, ","));
-        
+        projectExpert.setFetchTime(fcount);
         model.addAttribute("projectExpert", projectExpert);
         
 		return "modules/expfetch/unitFetchResult";
@@ -900,32 +900,24 @@ public class ProjectExpertController extends BaseController {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
-		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
 		int fcount = 0;
-		if(pExpert.getFetchTime()==null){
-			fcount = projectExpertService.selectMaxFetchTime()+1;
+		if(projectExpert.getFetchTime()==null){
+			fcount = projectExpertService.selectMaxFetchTime();
 		}else{
-		    fcount = pExpert.getFetchTime()+1;
+		    fcount = projectExpert.getFetchTime();
 		}
+		String prjid = projectExpert.getPrjid();
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
     	//本次抽取状态标志。重要
 	    for (String id : ids) {
-	    	projectExpert = new ProjectExpert();
-			projectExpert.setFetchTime(fcount);
-		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
-	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Sussess);
-	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
-	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
-	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
-			projectExpertService.save(projectExpert);
+			projectExpertService.updateProjectExpertStatus(Constants.Fetch_Review_Sussess,fcount,prjid,id);
 	    }
-	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, pExpert.getPrjid());
+	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, prjid);
 	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		addMessage(model, "确认对项目进行专家抽取成功.");
 		
-		ProjectInfo projectInfo = projectInfoService.get(pExpert.getPrjid());
+		ProjectInfo projectInfo = projectInfoService.get(prjid);
 		projectExpert.setPrjProjectInfo(projectInfo);
 		projectExpert.setResIds(resIds);
 		model.addAttribute("projectExpert", projectExpert);
@@ -1002,36 +994,7 @@ public class ProjectExpertController extends BaseController {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
-		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
-		int fcount = 0;
-		if(pExpert.getFetchTime()==null){
-			fcount = projectExpertService.selectMaxFetchTime()+1;
-		}else{
-		    fcount = pExpert.getFetchTime()+1;
-		}
-		String resIds = projectExpert.getResIds();
-		String[] ids = StringUtils.split(resIds, ",");
-    	//本次抽取状态标志。重要
-	    for (String id : ids) {
-	    	projectExpert = new ProjectExpert();
-			projectExpert.setFetchTime(fcount);
-		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
-	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
-	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
-	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
-	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
-			projectExpertService.save(projectExpert);
-	    }
-	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
-		
-	    request.getSession().removeAttribute("projectExpert");
-		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
-		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
-	    //projectExpert.setResIds(null);
-        model.addAttribute("projectExpert", projectExpert);
-		return unitfetch(projectExpert, request, response, model, redirectAttributes);
+		return "redirect:"+Global.getAdminPath()+"/expfetch/reviewinglist/?repage";
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")

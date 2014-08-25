@@ -188,6 +188,7 @@
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
 		<form:hidden path="prjid"/>
+		<form:hidden path="fetchTime"/>
 		<div class="control-group">
 			<label class="control-label">评审时间:</label>
 			<div class="controls">

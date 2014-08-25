@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.thinkgem.jeesite.common.persistence.BaseDao;
 import com.thinkgem.jeesite.common.persistence.Parameter;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 
 /**
@@ -25,6 +26,11 @@ public class ProjectExpertDao extends BaseDao<ProjectExpert> {
 		if(result==null) return new Integer(0);
 		
 		return (Integer)result;
+	}
+	
+	public int updateProjectExpertStatus(String fetchStatus,Integer fetchTime,String prjid,String expid){
+		return update("update ProjectExpert set fetchStatus=:p1 where fetchTime = :p2 and prjProjectInfo.id = :p3 and expertExpertConfirm.id = :p4", 
+				new Parameter(fetchStatus,fetchTime,prjid,expid));
 	}
 	
 }

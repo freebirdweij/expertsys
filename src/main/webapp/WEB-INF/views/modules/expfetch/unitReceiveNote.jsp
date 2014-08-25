@@ -156,6 +156,8 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/directdrawunit" method="post" enctype="multipart/form-data" class="form-horizontal">
 	<tags:message content="${message}"/>
+		<form:hidden path="prjid"/>
+		<form:hidden path="fetchTime"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th></tr></thead>
 		<tbody>
@@ -189,7 +191,7 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="导出专家列表" onclick="rSubmit()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="导出抽取确认表" onclick="rSubmit()"/>
 			<input id="btnCancel" class="btn btn-primary" type="button" value="退出" onclick="bCancel()"/>
 		</div>
 	</form:form>

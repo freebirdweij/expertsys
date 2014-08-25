@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.persistence.Parameter;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.DateUtils;
@@ -61,6 +62,10 @@ public class ProjectExpertService extends BaseService {
 	
 	public Integer selectMaxFetchTime(){
 		return projectExpertDao.selectMaxFetchTime();
+	}
+	
+	public int updateProjectExpertStatus(String fetchStatus,Integer fetchTime,String prjid,String expid){
+		return projectExpertDao.updateProjectExpertStatus(fetchStatus, fetchTime, prjid, expid);
 	}
 	
 	public Page<ProjectExpert> find(Page<ProjectExpert> page, ProjectExpert projectExpert) {
