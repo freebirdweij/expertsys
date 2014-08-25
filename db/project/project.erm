@@ -11,8 +11,8 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
-	<x>11</x>
-	<y>311</y>
+	<x>176</x>
+	<y>445</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -41,7 +41,7 @@
 		<suspend_validator>false</suspend_validator>
 		<export_setting>
 			<category_name_to_export>All</category_name_to_export>
-			<ddl_output>D:\myeclipse\workspace\jeesite\db\project\project_oracle.sql</ddl_output>
+			<ddl_output>D:\myeclipse\workspace\jeesite\db\project\project_oracle1.sql</ddl_output>
 			<excel_output></excel_output>
 			<excel_template></excel_template>
 			<image_output></image_output>
@@ -110,7 +110,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2014-07-01 16:54:07</creation_date>
-			<updated_date>2014-08-24 21:53:24</updated_date>
+			<updated_date>2014-08-25 08:40:53</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -1228,7 +1228,7 @@
 			<connections>
 				<relation>
 					<id>0</id>
-					<source>4</source>
+					<source>2</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -1250,7 +1250,7 @@
 				</relation>
 				<relation>
 					<id>1</id>
-					<source>2</source>
+					<source>4</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -1281,7 +1281,7 @@
 				<normal_column>
 					<id>42</id>
 					<referenced_column>60</referenced_column>
-					<relation>0</relation>
+					<relation>1</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -1315,7 +1315,7 @@
 				<normal_column>
 					<id>43</id>
 					<referenced_column>50</referenced_column>
-					<relation>1</relation>
+					<relation>0</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -3385,7 +3385,7 @@
 						</sequence>
 					</normal_column>
 					<normal_column>
-						<word_id>2</word_id>
+						<word_id>1</word_id>
 						<id>5</id>
 						<description></description>
 						<unique_key_name></unique_key_name>
@@ -3589,7 +3589,7 @@
 						</sequence>
 					</normal_column>
 					<normal_column>
-						<word_id>1</word_id>
+						<word_id>2</word_id>
 						<id>11</id>
 						<description></description>
 						<unique_key_name></unique_key_name>
@@ -4030,7 +4030,7 @@
 						</sequence>
 					</normal_column>
 					<normal_column>
-						<word_id>2</word_id>
+						<word_id>1</word_id>
 						<id>24</id>
 						<description></description>
 						<unique_key_name></unique_key_name>

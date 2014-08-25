@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -8,6 +8,7 @@ DROP TABLE project_committee CASCADE CONSTRAINTS;
 DROP TABLE project_attach CASCADE CONSTRAINTS;
 DROP TABLE project_expert CASCADE CONSTRAINTS;
 DROP TABLE project_info CASCADE CONSTRAINTS;
+DROP TABLE expertdb_log CASCADE CONSTRAINTS;
 
 
 
@@ -90,6 +91,28 @@ CREATE TABLE project_info
 	prj_status char(2),
 	prj_begin timestamp,
 	prj_end timestamp,
+	-- 创建者
+	create_by varchar2(64),
+	-- 创建时间
+	create_date timestamp,
+	-- 更新者
+	update_by varchar2(64),
+	-- 更新时间
+	update_date timestamp,
+	-- 备注信息
+	remarks varchar2(255),
+	-- 删除标记（0：正常；1：删除）
+	del_flag char(1) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE expertdb_log
+(
+	id number NOT NULL,
+	object_id nvarchar2(64),
+	object_user nvarchar2(64),
+	object_type char(2),
+	operation nvarchar2(1000),
 	-- 创建者
 	create_by varchar2(64),
 	-- 创建时间
@@ -197,6 +220,17 @@ COMMENT ON COLUMN project_info.update_by IS '更新者';
 COMMENT ON COLUMN project_info.update_date IS '更新时间';
 COMMENT ON COLUMN project_info.remarks IS '备注信息';
 COMMENT ON COLUMN project_info.del_flag IS '删除标记';
-
+COMMENT ON TABLE expertdb_log IS '专家库日志';
+COMMENT ON COLUMN expertdb_log.id IS '日志ID';
+COMMENT ON COLUMN expertdb_log.object_id IS '日志关联的对象ID（专家、项目...）';
+COMMENT ON COLUMN expertdb_log.object_user IS '对象的操作者（对专家、项目等进行操作的系统用户）';
+COMMENT ON COLUMN expertdb_log.object_type IS '被操作的对象类型（专家、项目等）';
+COMMENT ON COLUMN expertdb_log.operation IS '操作内容';
+COMMENT ON COLUMN expertdb_log.create_by IS '创建者';
+COMMENT ON COLUMN expertdb_log.create_date IS '创建时间';
+COMMENT ON COLUMN expertdb_log.update_by IS '更新者';
+COMMENT ON COLUMN expertdb_log.update_date IS '更新时间';
+COMMENT ON COLUMN expertdb_log.remarks IS '备注信息';
+COMMENT ON COLUMN expertdb_log.del_flag IS '删除标记';
 
 
