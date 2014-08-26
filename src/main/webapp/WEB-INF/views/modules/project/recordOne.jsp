@@ -131,7 +131,7 @@
 		<div class="control-group">
 			<label class="control-label">项目年度:</label>
 			<div class="controls">
-				<form:input path="prjBegin" maxlength="20"
+				<form:input path="prjYear" maxlength="20"
 						class="span2 input-small Wdate" value="2014" onclick="WdatePicker({dateFmt:'yyyy',isShowClear:false});" onpropertychange="checkBeginDate()"/>
 			</div>
 		</div>

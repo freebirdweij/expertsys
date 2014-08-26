@@ -97,6 +97,17 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	/** 项目状态. */
 	private String prjStatus;
 
+	/** 项目年度. */
+	private String prjYear;
+
+	public String getPrjYear() {
+		return prjYear;
+	}
+
+	public void setPrjYear(String prjYear) {
+		this.prjYear = prjYear;
+	}
+
 	/** 项目开始时间. */
 	private Date prjBegin;
 
@@ -302,7 +313,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * @return 项目开始时间
 	 */
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@ExcelField(title="时间", align=2, sort=60)
 	public Date getPrjBegin() {
 		return this.prjBegin;

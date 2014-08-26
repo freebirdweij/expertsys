@@ -267,7 +267,7 @@ public class ExportFetchExcel {
 		prjBegin.setCellValue("项目年度：");
 		Cell prjBeginn = prjm.createCell(5);
 		prjBeginn.setCellStyle(styles.get("data"));
-		prjBeginn.setCellValue(projectExpert.getPrjProjectInfo().getPrjBegin());
+		prjBeginn.setCellValue(projectExpert.getPrjProjectInfo().getPrjYear());
 		
 		// Create header
 		if (headerList == null){

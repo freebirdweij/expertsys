@@ -51,6 +51,7 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.experts.service.ExpertInfoService;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
+import com.thinkgem.jeesite.modules.expmanage.entity.ExpertImport;
 import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 
 /**
@@ -425,8 +426,8 @@ public class ExpertManageController extends BaseController {
 		try {
 			StringBuilder failureMsg = new StringBuilder();
 			ImportExcel ei = new ImportExcel(file, 1, 0);
-			List<ExpertConfirm> list = ei.getDataList(ExpertConfirm.class);
-			for (ExpertConfirm expert : list){
+			List<ExpertImport> list = ei.getDataList(ExpertImport.class);
+			for (ExpertImport expert : list){
 				try{
 					User user = new User();
 					user.setName(expert.getExpertInfo().getName());
@@ -476,12 +477,14 @@ public class ExpertManageController extends BaseController {
 					expertInfoService.save(expertInfo);
 					
 					//保存专家审批
+					ExpertConfirm eConfirm = new ExpertConfirm();
 					expert.setExpertInfo(expertInfo);
 					expert.setExpertArea(cy.getArea());
 					expert.setExpertLevel(Constants.Expert_Status_Work);
 					expert.setSpecialFrom(dt);
 					expert.setSpecialTo(dt);
-					expertConfirmService.save(expert);			
+					BeanUtils.copyProperties(eConfirm, expert);
+					expertConfirmService.save(eConfirm);			
 					
 					successNum++;
 					

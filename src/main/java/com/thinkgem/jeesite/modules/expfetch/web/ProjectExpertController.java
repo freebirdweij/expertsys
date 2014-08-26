@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.expfetch.web;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Array;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.ExportFetchExcel;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
 import com.thinkgem.jeesite.modules.sys.entity.Log;
@@ -359,32 +361,35 @@ public class ProjectExpertController extends BaseController {
 		if(discnt!=null){
 			uidslist.addAll(projectExpertService.findUnitRecentByCount(projectExpert));	
 		}
-				
-		 HashMap<String,Office> officeMap = (HashMap<String,Office>) UserUtils.getJiaoTouMap();
-		 Map<String,Office> om = (Map<String, Office>) officeMap.clone();
-		 
-		 if(uidslist.size()>0){
-			 for(String id:uidslist){
-				 if(om.containsKey(id)){
-					 om.remove(id);
-				 }
-			 }
-		 }
 		
-		//先抽取交投的专家
-		 ExpertConfirm jec = null;
-		 if(om.size()>0){
-			 jec = getAExpertByJiaoTouMap(techcnt, ecomcnt, om);
-		 }
-		 //如果交投的抽中了。
-		if(jec!=null){
-			uidslist.addAll(om.keySet());
-			if(jec.getExpertKind().equals(Constants.Expert_Kind_Technical)){
-				techcnt--;
-			}else if(jec.getExpertKind().equals(Constants.Expert_Kind_Economic)){
-				ecomcnt--;
-			}else{
-				techcnt--;
+		//只有大于两个数量才进行交投特定抽取
+		ExpertConfirm jec = null;
+		if(expertCount>2){
+			HashMap<String,Office> officeMap = (HashMap<String,Office>) UserUtils.getJiaoTouMap();
+			Map<String,Office> om = (Map<String, Office>) officeMap.clone();
+
+			if(uidslist.size()>0){
+				for(String id:uidslist){
+					if(om.containsKey(id)){
+						om.remove(id);
+					}
+				}
+			}
+
+			//先抽取交投的专家
+			if(om.size()>0){
+				jec = getAExpertByJiaoTouMap(techcnt, ecomcnt, om);
+			}
+			//如果交投的抽中了。
+			if(jec!=null){
+				uidslist.addAll(om.keySet());
+				if(jec.getExpertKind().equals(Constants.Expert_Kind_Technical)){
+					techcnt--;
+				}else if(jec.getExpertKind().equals(Constants.Expert_Kind_Economic)){
+					ecomcnt--;
+				}else{
+					techcnt--;
+				}
 			}
 		}
 		
@@ -1136,16 +1141,21 @@ public class ProjectExpertController extends BaseController {
 	}
 
     @RequestMapping(value = "export", method=RequestMethod.POST)
-    public String exportFile(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
-		try {
+    public String exportFile(ProjectExpert projectExpert, Model model, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
             String fileName = "专家列表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
             List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
-    		new ExportExcel("专家列表", ExpertConfirm.class).setDataList(rlist).write(response, fileName).dispose();
-    		return null;
-		} catch (Exception e) {
-			addMessage(redirectAttributes, "导出专家失败！失败信息："+e.getMessage());
-		}
-		return "redirect:"+Global.getAdminPath()+"/expfetch/receiveunitresult/?repage";
+    		ProjectInfo projectInfo = projectInfoService.get(projectExpert.getPrjid());
+    		Office un = officeService.get(projectInfo.getUnit().getId());
+    		projectInfo.setUnit(un);
+    		projectExpert.setPrjProjectInfo(projectInfo);
+    		try {
+				new ExportFetchExcel("专家列表", ExpertConfirm.class,projectExpert).setDataList(rlist).write(response, fileName).dispose();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+		return reviewinglist(projectInfo, request, response, model);
     }
 
 }

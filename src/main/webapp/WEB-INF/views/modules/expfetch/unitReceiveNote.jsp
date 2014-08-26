@@ -204,7 +204,7 @@
 						${userName}
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
 						${projectExpert.supervise}
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;抽取日期:
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期:
 						${fetchDate}
 			</div>
 		<div class="form-actions">
