@@ -690,7 +690,7 @@ public class SaveFetchController extends BaseController {
 		}
         Page<ProjectInfo> page = projectInfoService.findReviewing(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
-		return "modules/expfetch/reviewingList";
+		return "modules/expfetch/savefetch/reviewingList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

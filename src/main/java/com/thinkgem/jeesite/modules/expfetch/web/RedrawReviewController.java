@@ -721,7 +721,7 @@ public class RedrawReviewController extends BaseController {
 		model.addAttribute("kindList", DictUtils.getDictList("sys_specialkind_type"));
 		model.addAttribute("specialList",  DictUtils.getDictList("sys_special_type"));
 		model.addAttribute("seriesList",  DictUtils.getDictList("sys_series_type"));
-		return "modules/expfetch/rewredraw/unitMethodForm";
+		return "modules/expfetch/rewredraw/unitFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

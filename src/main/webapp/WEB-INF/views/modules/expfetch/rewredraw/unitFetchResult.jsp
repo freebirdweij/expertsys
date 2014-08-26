@@ -10,6 +10,16 @@
 		$(document).ready(function() {
 			$("#inputForm").validate({
 				submitHandler: function(form){
+					var vcheck = document.getElementsByName("checkboxid");
+					var res = document.getElementsByName("committeeName");
+					var dres = "";
+					for (var i=0;i<vcheck.length;i++)
+					{
+					  if(vcheck[i].checked = true){
+						  dres = dres+"|"+vcheck[i].id+":"+res[i].value;
+					  }
+					}
+					  $("#discRes").val(dres);
 					loading('正在提交，请稍等...');
 					form.submit();
 				},
@@ -22,28 +32,6 @@
 						error.insertAfter(element);
 					}
 				}
-			});
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
-				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
 			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
@@ -99,12 +87,21 @@
 	    	return false;
 	    }
 	    
+		var disres = "";
 	    var disc = [];
 		function discard(id){
-			disc.push(id);
+			if($("#"+id).checked=true){
+				disc.push(id);
+			  $("#committeeName"+id).show();
+			}else{
+				for(var i=0; i<disc.length; i++) {
+					if(disc[i]=id){
+					disc.remove(i);						
+					}
+			   }
+			  $("#committeeName"+id).hide();
+			}
 			$("#discIds").val(disc);
-			$("#btnDiscard"+id).hide();
-			$("#discCancel"+id).show();
 	    }
 	    
 		function discancel(id){
@@ -150,48 +147,82 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active">单位列表</li>
+		<li class="active">按单位方式补抽专家</li>
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/rewredraw/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
-		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
-			<form:hidden path="discIds"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>归属区域</th><th>单位名称</th><th>单位类型</th><th>上级机构</th><th>电话</th><th>联系地址</th><th>操作</th></tr></thead>
+		<form:hidden path="prjid"/>
+		<form:hidden path="fetchTime"/>
+		<div class="control-group">
+			<label class="control-label">评审时间:</label>
+			<div class="controls">
+				从<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				至<form:input path="reviewEnd" maxlength="20"
+						class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+			</div>
+		</div>
+      <div class="span10">
+        <h4>原抽选结果：</h4>
+      </div>
+	<table id="oldTable" class="table table-striped table-bordered table-condensed">
+		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>学历</th><th>是否缺席</th><th>缺席原因</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="office">
+		<c:forEach items="${olist}" var="expertConfirm">
 			<tr>
-				<td>${office.area.name}</td>
-				<td>${office.name}</td>
-				<td>${fns:getDictLabel(office.type,'sys_office_type','')}</td>
-				<td>${office.parent.name}</td>
-				<td>${office.phone}</td>
-				<td>${office.address}</td>
+				<td><a href="${ctx}/expmanage/binfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
+				<td>${expertConfirm.expertInfo.unit.name}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
+				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<td>
-				<a id="btnDiscard${office.id}" href="javascript:discard('${office.id}')">屏蔽</a>
-				<a id="discCancel${office.id}" href="javascript:discancel('${office.id}')"  style="display:none;">取消</a>
+				<input type="checkbox" id="${expertConfirm.id}" name="checkboxid" onclick="discard('${expertConfirm.id}');"/>
+				</td>
+				<td>
+                <input type="text" name="committeeName" id="committeeName${expertConfirm.id}" style=" width:270px; height:54px; font-size:18px; line-height:54px;display:none;"  
+                value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}">
 				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
-			<form:hidden path="rejectUnit"/>
-			<form:hidden path="rejectRecent"/>
-	<div class="pagination">${page}</div>
+		<div class="control-group">
+			<label class="control-label">新增补抽类型及数量:</label>
+			<div class="controls">
+				<div style="margin-right:40px; float:left;">
+				<form:select path="techcnt" class="span2">
+					<form:option value="" label="技术类"/>
+					<form:options items="${fns:getDictList('sys_techcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				</div>
+				<div style="margin-left:30px; float:left;">
+				<form:select path="ecomcnt" class="span2">
+					<form:option value="" label="经济类"/>
+					<form:options items="${fns:getDictList('sys_ecomcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">录入补抽原因:</label>
+			<div class="controls">
+						<form:input path="remarks" htmlEscape="false" maxlength="50"
+							class="span2 required/>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
+						<form:input path="supervise" htmlEscape="false" maxlength="20"
+							class="span2 required userName"/>
+			</div>
+		</div>
 		<div class="form-actions">
-			输入抽取数<form:input path="expertCount" htmlEscape="false" max="${page.list.size()}" class="required digits"/>
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
-			<input id="cancelUnit" class="btn btn-primary" type="button" onclick="cUnit()" value="屏蔽项目主体单位"/>
-			<input id="backUnit" class="btn btn-primary" type="button" onclick="bUnit()" value="取消屏蔽" style="display:none;"/>
-			<input id="cancelThree" class="btn btn-primary" type="button" onclick="cThree()" value="屏蔽最近三次抽选"/>
-			<input id="backThree" class="btn btn-primary" type="button" onclick="bThree()" value="取消屏蔽" style="display:none;"/>
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行补抽"/>
 		</div>
       <div class="span10">
-        <h4>以下为抽选结果：</h4>
+        <h4>以下为补抽结果：</h4>
       </div>
 			<form:hidden path="resIds"/>
+			<form:hidden path="discIds"/>
+			<form:hidden path="discRes"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>
@@ -208,9 +239,8 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="确认采用本次抽选结果" onclick="rSubmit()"/>
-			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次抽选" onclick="rCancel()"/>
-			<input id="btnCancel" class="btn btn-primary" type="button" value="返回重新选择筛选条件" onclick="bCancel()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="采用本次补抽结果" onclick="rSubmit()"/>
+			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次补抽" onclick="rCancel()"/>
 		</div>
 	</form:form>
 

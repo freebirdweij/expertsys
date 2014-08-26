@@ -685,7 +685,7 @@ public class RedrawSaveController extends BaseController {
 		}
         Page<ProjectInfo> page = projectInfoService.findReviewing(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
-		return "modules/expfetch/acptredraw/reviewingList";
+		return "modules/expfetch/savredraw/reviewingList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

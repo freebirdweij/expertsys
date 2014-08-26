@@ -72,8 +72,8 @@
 				<td>${projectInfo.prjMoney}</td>
 				<td>${projectInfo.prjBegin}</td>
 				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/rewredraw/unitmethod?prjid=${projectInfo.id}">单位方式抽取</a>
-    				<a href="${ctx}/expfetch/rewredraw/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a>
+    				<a href="${ctx}/expfetch/rewredraw/unitmethod?prjid=${projectInfo.id}">进入抽取</a>
+    				<%-- <a href="${ctx}/expfetch/rewredraw/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a> --%>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
