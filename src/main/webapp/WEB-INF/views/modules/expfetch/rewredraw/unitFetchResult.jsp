@@ -19,7 +19,7 @@
 						  dres = dres+"|"+vcheck[i].id+":"+res[i].value;
 					  }
 					}
-					  $("#discRes").val(dres);
+					  $("#discIds").val(dres);
 					loading('正在提交，请稍等...');
 					form.submit();
 				},
@@ -87,21 +87,13 @@
 	    	return false;
 	    }
 	    
-		var disres = "";
 	    var disc = [];
 		function discard(id){
 			if($("#"+id).checked=true){
-				disc.push(id);
 			  $("#committeeName"+id).show();
 			}else{
-				for(var i=0; i<disc.length; i++) {
-					if(disc[i]=id){
-					disc.remove(i);						
-					}
-			   }
 			  $("#committeeName"+id).hide();
 			}
-			$("#discIds").val(disc);
 	    }
 	    
 		function discancel(id){
@@ -219,9 +211,9 @@
       <div class="span10">
         <h4>以下为补抽结果：</h4>
       </div>
+			<form:hidden path="unitIdsNo"/>
 			<form:hidden path="resIds"/>
 			<form:hidden path="discIds"/>
-			<form:hidden path="discRes"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>

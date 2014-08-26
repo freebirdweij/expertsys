@@ -53,6 +53,10 @@ public class Constants {
 	public static final String Expert_Status_Leave = "1";//请假
 	public static final String Expert_Status_Work = "0";//工作
 
+	//专家缺席标志
+	public static final String Expert_Apply_Ontime = "1";//正常
+	public static final String Expert_Apply_Absence = "0";//缺席
+
 	//专家类别
 	public static final String Expert_Kind_Technical = "101";//技术类
 	public static final String Expert_Kind_Economic = "102";//经济类

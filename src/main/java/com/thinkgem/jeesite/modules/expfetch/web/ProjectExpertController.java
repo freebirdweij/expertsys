@@ -76,7 +76,7 @@ public class ProjectExpertController extends BaseController {
 	private ProjectInfoService projectInfoService;
 	
 	@Autowired
-	private ProjectExpertService projectExpertService;
+	public ProjectExpertService projectExpertService;
 	
 	@ModelAttribute
 	public ProjectExpert get(@RequestParam(required=false) String id) {
@@ -455,11 +455,7 @@ public class ProjectExpertController extends BaseController {
 		
 		//需先把抽取结果保留
 		int fcount = 0;
-		if(projectExpert.getFetchTime()==null){
 			fcount = projectExpertService.selectMaxFetchTime()+1;
-		}else{
-		    fcount = projectExpert.getFetchTime()+1;
-		}
     	//本次抽取记录。重要
 	    for (ExpertConfirm ec : erclist) {
 	    	ProjectExpert pExpert = new ProjectExpert();
@@ -491,84 +487,6 @@ public class ProjectExpertController extends BaseController {
         model.addAttribute("projectExpert", projectExpert);
         
 		return "modules/expfetch/unitFetchResult";
-	}
-
-	/**
-	 * 用于抽取交投的一位专家
-	 * @param techcnt
-	 * @param ecomcnt
-	 * @param om
-	 */
-	public ExpertConfirm getAExpertByJiaoTouMap(Byte techcnt, Byte ecomcnt,
-			Map<String, Office> om) {
-		ExpertConfirm jec = null; 
-		if(techcnt==0&&ecomcnt>0){
-			
-	        //以下进行随机选取计算
-			boolean retry = true;
-			int redo = 5;
-			int resSize =om.values().size(); 
-			int ri = 0;
-			if(1<resSize){
-		        Random r=new Random();   
-		        int n = resSize;  
-			do{
-		         ri = r.nextInt(n);
-			jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Economic);
-			if(jec!=null) retry = false;
-			redo--;
-			}while(retry&&redo>0);
-			
-			}else{
-				jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Economic);
-			}
-	        
-			
-		}else if(ecomcnt==0&&techcnt>0){
-			
-	        //以下进行随机选取计算
-			boolean retry = true;
-			int redo = 5;
-			int resSize =om.values().size(); 
-			int ri = 0;
-			if(1<resSize){
-		        Random r=new Random();   
-		        int n = resSize;  
-			do{
-		         ri = r.nextInt(n);
-			jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Technical);
-			if(jec!=null) retry = false;
-			redo--;
-			}while(retry&&redo>0);
-			
-			}else{
-				jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Technical);
-			}
-	        
-			
-		}else if(ecomcnt>0&&techcnt>0){
-			
-	        //以下进行随机选取计算
-			boolean retry = true;
-			int redo = 5;
-			int resSize =om.values().size(); 
-			int ri = 0;
-			if(1<resSize){
-		        Random r=new Random();   
-		        int n = resSize;  
-			do{
-		         ri = r.nextInt(n);
-			jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri],null);
-			if(jec!=null) retry = false;
-			redo--;
-			}while(retry&&redo>0);
-			
-			}else{
-				jec = projectExpertService.findAExpertByUnitAndKind(om.values().toArray(new Office[resSize])[ri],null);
-			}
-	        
-		}
-		return jec;
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
