@@ -166,7 +166,7 @@
         <h4>原抽选结果：</h4>
       </div>
 	<table id="oldTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>学历</th><th>是否缺席</th><th>缺席原因</th></tr></thead>
+		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>是否缺席</th><th>缺席原因</th></tr></thead>
 		<tbody>
 		<c:forEach items="${olist}" var="expertConfirm">
 			<tr>
@@ -175,13 +175,12 @@
 				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
 				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
-				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<td>
 				<input type="checkbox" id="${expertConfirm.id}" name="checkboxid" onclick="discard('${expertConfirm.id}');"/>
 				</td>
 				<td>
                 <input type="text" name="committeeName" id="committeeName${expertConfirm.id}" style=" width:270px; height:54px; font-size:18px; line-height:54px;display:none;"  
-                value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}">
+                value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}"/>
 				</td>
 			</tr>
 		</c:forEach>
