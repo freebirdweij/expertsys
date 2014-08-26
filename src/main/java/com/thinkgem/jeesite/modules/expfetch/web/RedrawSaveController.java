@@ -701,6 +701,18 @@ public class RedrawSaveController extends BaseController {
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = {"saveinglist", ""})
+	public String saveinglist(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectInfo.setCreateBy(user);
+		}
+        Page<ProjectInfo> page = projectInfoService.findSaveing(new Page<ProjectInfo>(request, response), projectInfo); 
+        model.addAttribute("page", page);
+		return "modules/expfetch/savredraw/saveingList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "form")
 	public String form(ProjectExpert projectExpert, Model model) {
 		model.addAttribute("projectExpert", projectExpert);
