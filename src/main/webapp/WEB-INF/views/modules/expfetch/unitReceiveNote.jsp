@@ -170,14 +170,16 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>项目状态</th><th>投资金额</th><th>项目年度</th></tr></thead>
 		<tbody>
+		<c:forEach items="${rlist}" var="projectInfo">
 			<tr>
-				<td>${projectExpert.prjProjectInfo.id}</td>
-				<td><a href="${ctx}/project/form?id=${projectExpert.prjProjectInfo.id}">${projectExpert.prjProjectInfo.prjName}</a></td>
-				<td>${projectExpert.prjProjectInfo.unit.name}</td>
-				<td>${fns:getDictLabel(projectExpert.prjProjectInfo.prjStatus,'sys_prjstatus_type','')}</td>
-				<td>${projectExpert.prjProjectInfo.prjMoney}</td>
-				<td>${projectExpert.prjProjectInfo.prjBegin}</td>
+				<td>${projectInfo.id}</td>
+				<td><a href="${ctx}/project/form?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td>${projectInfo.unit.name}</td>
+				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
+				<td>${projectInfo.prjMoney}</td>
+				<td>${projectInfo.prjBegin}</td>
 			</tr>
+		</c:forEach>
 		</tbody>
 	</table>
       <div class="span10">

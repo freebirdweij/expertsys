@@ -2,27 +2,36 @@ package com.thinkgem.jeesite.modules.project.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.persistence.IdEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
@@ -41,6 +50,10 @@ import com.thinkgem.jeesite.modules.sys.entity.Office;
 public class ProjectInfo extends DataEntity<ProjectInfo> {
 
 	private String id;		// 编号
+	
+	private ProjectInfo parent;		// 编号
+	
+	private List<ProjectInfo> childList = Lists.newArrayList();// 拥有子项目列表
 	
 	private String prjCode;		// 项目编号
 
@@ -65,9 +78,64 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 		this.id = id;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="parent_id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@NotNull
+	public ProjectInfo getParent() {
+		return parent;
+	}
+
+	public void setParent(ProjectInfo parent) {
+		this.parent = parent;
+	}
+
 	public ProjectInfo(String id){
 		this();
 		this.id = id;
+	}
+	
+	@OneToMany(mappedBy = "parent", fetch=FetchType.LAZY)
+	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
+	@OrderBy(value="code") @Fetch(FetchMode.SUBSELECT)
+	@NotFound(action = NotFoundAction.IGNORE)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	public List<ProjectInfo> getChildList() {
+		return childList;
+	}
+
+	public void setChildList(List<ProjectInfo> childList) {
+		this.childList = childList;
+	}
+
+	@Transient
+	public static void sortList(List<ProjectInfo> list, List<ProjectInfo> sourcelist, String parentId){
+		for (int i=0; i<sourcelist.size(); i++){
+			ProjectInfo e = sourcelist.get(i);
+			if (e.getParent()!=null && e.getParent().getId()!=null
+					&& e.getParent().getId().equals(parentId)){
+				list.add(e);
+				// 判断是否还有子节点, 有则继续获取子节点
+				for (int j=0; j<sourcelist.size(); j++){
+					ProjectInfo child = sourcelist.get(j);
+					if (child.getParent()!=null && child.getParent().getId()!=null
+							&& child.getParent().getId().equals(e.getId())){
+						sortList(list, sourcelist, e.getId());
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	@Transient
+	public boolean isRoot(){
+		return isRoot(this.id);
+	}
+	
+	@Transient
+	public static boolean isRoot(String id){
+		return id != null && id.equals("1");
 	}
 	
 	/** serialVersionUID. */

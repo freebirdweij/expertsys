@@ -58,6 +58,10 @@ public class ProjectInfoService extends BaseService {
 		return projectInfoDao.updateProjectStatus(prjStatus,prjid);
 	}
 	
+	public int updateProjectStatusAndParent(String prjStatus,String parentid,String prjid){
+		return projectInfoDao.updateProjectStatusAndParent(prjStatus,parentid,prjid);
+	}
+	
 	public Page<ProjectInfo> find(Page<ProjectInfo> page, ProjectInfo projectInfo) {
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		if (StringUtils.isNotEmpty(projectInfo.getId())){
@@ -73,7 +77,7 @@ public class ProjectInfoService extends BaseService {
 			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
 		}
 		
-		//限治本用户单位项目
+		//限制本用户单位项目
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
 			dc.add(Restrictions.eq("unit.id", user.getCompany().getId()));
@@ -82,6 +86,16 @@ public class ProjectInfoService extends BaseService {
 		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return projectInfoDao.find(page, dc);
+	}
+	
+	public List<ProjectInfo> findProjectsByIds(Page<ProjectInfo> page, String prjs[]) {
+		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
+		if (prjs!=null){
+			dc.add(Restrictions.in("id", prjs));
+		}
+		dc.add(Restrictions.eq(ProjectInfo.FIELD_DEL_FLAG, ProjectInfo.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return projectInfoDao.find(page, dc).getList();
 	}
 	
 	public Page<ProjectInfo> findReviewing(Page<ProjectInfo> page, ProjectInfo projectInfo) {

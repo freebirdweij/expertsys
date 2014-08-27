@@ -336,7 +336,9 @@ public class ProjectExpertController extends BaseController {
 		}
 		//先取得项目主体单位
 		String prjid = projectExpert.getPrjid();
-		Office prjunit = projectInfoService.get(prjid).getUnit();
+		//可以有多个项目同时抽取，先判断有几个项目
+		String prjs[] = StringUtils.split(prjid, ",");
+		Office prjunit = projectInfoService.get(prjs[0]).getUnit();
 		
 		//需要获取的专家数
 		Byte techcnt = projectExpert.getTechcnt();//技术类
@@ -457,11 +459,12 @@ public class ProjectExpertController extends BaseController {
 		int fcount = 0;
 			fcount = projectExpertService.selectMaxFetchTime()+1;
     	//本次抽取记录。重要
+		for(String prj:prjs){//对每个项目都需单独记录
 	    for (ExpertConfirm ec : erclist) {
 	    	ProjectExpert pExpert = new ProjectExpert();
 	    	pExpert.setFetchTime(fcount);
 	    	pExpert.setExpertCount(expertCount.byteValue());
-	    	pExpert.setPrjProjectInfo(new ProjectInfo(prjid));
+	    	pExpert.setPrjProjectInfo(new ProjectInfo(prj));
 	    	pExpert.setFetchMethod(Constants.Fetch_Method_Unit);
 	    	pExpert.setFetchStatus(Constants.Fetch_Review_Failure);
 	    	pExpert.setExpertExpertConfirm(ec);
@@ -471,6 +474,7 @@ public class ProjectExpertController extends BaseController {
 	    	pExpert.setDiscnt(discnt);
 			projectExpertService.save(pExpert);
 	    }
+		}
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(model, "进行专家抽取成功.");
 		
@@ -832,16 +836,31 @@ public class ProjectExpertController extends BaseController {
 		String prjid = projectExpert.getPrjid();
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
+		
     	//本次抽取状态标志。重要
-	    for (String id : ids) {
-			projectExpertService.updateProjectExpertStatus(Constants.Fetch_Review_Sussess,fcount,prjid,id);
-	    }
-	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, prjid);
+		//可以有多个项目同时抽取，先判断有几个项目
+		String prjs[] = StringUtils.split(prjid, ",");
+		//须建立项目的父子关系，补抽时用到
+		String pid = "0";
+		if(prjs.length>1){
+			pid = prjs[0];
+		}
+		for(String prj:prjs){
+			for (String id : ids) {
+				projectExpertService.updateProjectExpertStatus(Constants.Fetch_Review_Sussess,fcount,prj,id);
+			}
+			if(prj.equals(pid)){
+			projectInfoService.updateProjectStatusAndParent(Constants.Project_Status_Apply,"0", prj);
+			}else{
+				projectInfoService.updateProjectStatusAndParent(Constants.Project_Status_Apply,pid, prj);
+				
+			}
+		}
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(model, "确认对项目进行专家抽取成功.");
 		
-		ProjectInfo projectInfo = projectInfoService.get(prjid);
-		projectExpert.setPrjProjectInfo(projectInfo);
+		List<ProjectInfo> plist = projectInfoService.findProjectsByIds(new Page<ProjectInfo>(), prjs);
+        model.addAttribute("plist", plist);
 		projectExpert.setResIds(resIds);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
@@ -890,7 +909,7 @@ public class ProjectExpertController extends BaseController {
 	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
 			projectExpertService.save(projectExpert);
 	    }
-	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, pExpert.getPrjid());
+	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply,pExpert.getPrjid());
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
 		
