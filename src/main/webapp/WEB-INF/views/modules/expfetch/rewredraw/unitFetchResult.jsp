@@ -15,7 +15,7 @@
 					var dres = "";
 					for (var i=0;i<vcheck.length;i++)
 					{
-					  if(vcheck[i].checked = true){
+					  if(vcheck[i].checked == true){
 						  dres = dres+"|"+vcheck[i].id+":"+res[i].value;
 					  }
 					}
@@ -89,7 +89,7 @@
 	    
 	    var disc = [];
 		function discard(id){
-			if($("#"+id).checked=true){
+			if($("#"+id).checked==true){
 			  $("#committeeName"+id).show();
 			}else{
 			  $("#committeeName"+id).hide();
@@ -160,19 +160,30 @@
 	<table id="oldTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>是否缺席</th><th>缺席原因</th></tr></thead>
 		<tbody>
-		<c:forEach items="${olist}" var="expertConfirm">
+		<c:forEach items="${olist}" var="pExpert">
 			<tr>
-				<td><a href="${ctx}/expmanage/binfo?id=${expertConfirm.id}">${expertConfirm.expertInfo.name}</a></td>
-				<td>${expertConfirm.expertInfo.unit.name}</td>
-				<td>${fns:getDictLabel(expertConfirm.expertKind,'sys_specialkind_type','')}</td>
-				<td>${fns:getDictLabel(expertConfirm.expertSpecial,'sys_special_type','')}</td>
-				<td>${fns:getDictLabel(expertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
+				<td><a href="${ctx}/expmanage/binfo?id=${pExpert.expertExpertConfirm.id}">${pExpert.expertExpertConfirm.expertInfo.name}</a></td>
+				<td>${pExpert.expertExpertConfirm.expertInfo.unit.name}</td>
+				<td>${fns:getDictLabel(pExpert.expertExpertConfirm.expertKind,'sys_specialkind_type','')}</td>
+				<td>${fns:getDictLabel(pExpert.expertExpertConfirm.expertSpecial,'sys_special_type','')}</td>
+				<td>${fns:getDictLabel(pExpert.expertExpertConfirm.expertInfo.technical,'sys_tech_type','')}</td>
 				<td>
-				<input type="checkbox" id="${expertConfirm.id}" name="checkboxid" onclick="discard('${expertConfirm.id}');"/>
+		        <c:if test="${pExpert.expertAccept eq '1'}">
+				<input type="checkbox" id="${pExpert.expertExpertConfirm.id}" name="checkboxid" onclick="discard('${pExpert.expertExpertConfirm.id}');"/>
+		        </c:if>
+		        <c:if test="${pExpert.expertAccept eq '0'}">
+				<input type="checkbox" id="${pExpert.expertExpertConfirm.id}" name="checkboxid" onclick="discard('${pExpert.expertExpertConfirm.id}');" checked="true" readonly="true"/>
+		        </c:if>
 				</td>
 				<td>
-                <input type="text" name="committeeName" id="committeeName${expertConfirm.id}" style=" width:270px; height:54px; font-size:18px; line-height:54px;display:none;"  
+		        <c:if test="${pExpert.expertAccept eq '1'}">
+                <input type="text" name="committeeName" id="committeeName${pExpert.expertExpertConfirm.id}" style=" width:270px; height:54px; font-size:18px; line-height:54px;display:none;"  
                 value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}"/>
+		        </c:if>
+		        <c:if test="${pExpert.expertAccept eq '0'}">
+                <input type="text" name="committeeName" id="committeeName${pExpert.expertExpertConfirm.id}" style=" width:270px; height:54px; font-size:18px; line-height:54px;"  
+                value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}" value="${pExpert.committeeName}" readonly="true"/>
+		        </c:if>
 				</td>
 			</tr>
 		</c:forEach>
@@ -214,6 +225,7 @@
 			<form:hidden path="unitIdsNo"/>
 			<form:hidden path="resIds"/>
 			<form:hidden path="discIds"/>
+			<form:hidden path="seriesIdsYes"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>

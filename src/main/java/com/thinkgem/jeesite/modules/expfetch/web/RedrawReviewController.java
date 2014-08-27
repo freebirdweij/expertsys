@@ -327,7 +327,17 @@ public class RedrawReviewController extends BaseController {
 			projectExpert.setCreateBy(user);
 		}
 		//先做原来抽取专家的更新(缺席的要说明原因)
-		
+		String unitIdsNo = projectExpert.getUnitIdsNo();
+		String resIds = projectExpert.getResIds();
+		String discIds = projectExpert.getDiscIds();
+		String secIds = projectExpert.getSeriesIdsYes();
+		String rids[] = StringUtils.split(resIds, ",");
+		String dids[] = StringUtils.split(discIds, "|");
+		if(discIds!=null&&!discIds.equals("")){
+			for(String did:dids){
+				String di[] =  StringUtils.split(did, ":");
+			}
+		}
 		//先取得项目主体单位
 		String prjid = projectExpert.getPrjid();
 		Office prjunit = projectInfoService.get(prjid).getUnit();
@@ -791,15 +801,15 @@ public class RedrawReviewController extends BaseController {
 		projectExpert.setReviewEnd(pExpert.getReviewEnd());
 		projectExpert.setFetchTime(pExpert.getFetchTime());
 		String status[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess};
-		Page<ExpertConfirm> page = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(), prjid,status);
-		model.addAttribute("olist", page.getList());
+		List<ProjectExpert> olist = projectExpertService.findMutiProjectExpertByPrjAndStatus(prjid,status);
+		model.addAttribute("olist", olist);
 		
         //保留抽取的结果到页面,若采纳需要使用到
         List<String> eclist =  Lists.newArrayList();
         List<String> uclist =  Lists.newArrayList();
-        for(ExpertConfirm ec : page.getList()){
-        	eclist.add(ec.getId());
-        	uclist.add(ec.getExpertCompany().getId());
+        for(ProjectExpert ec : olist){
+        	eclist.add(ec.getExpertExpertConfirm().getId());
+        	uclist.add(ec.getExpertExpertConfirm().getExpertCompany().getId());
         }
         projectExpert.setResIds(StringUtils.join(eclist, ","));
         projectExpert.setUnitIdsNo(StringUtils.join(uclist, ","));

@@ -96,6 +96,24 @@ public class ProjectExpertService extends BaseService {
 		return list.get(0);
 	}
 	
+	public List<ProjectExpert> findMutiProjectExpertByPrjAndStatus(String prjid, String status[]) {
+		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();
+		dc.createAlias("prjProjectInfo", "p");
+		if (StringUtils.isNotEmpty(prjid)){
+			dc.add(Restrictions.eq("p.id", prjid));
+		}
+		if (status!=null){
+			dc.add(Restrictions.in("fetchStatus", status));
+		}
+		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		List<ProjectExpert> list = projectExpertDao.find(dc);
+		if(list==null||list.size()==0){
+			return null;
+		}
+		return list;
+	}
+	
 	public List<ProjectExpert> findMyJob(Page<ProjectExpert> page, String userId) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "e");
 		if (userId!=null){
