@@ -364,6 +364,13 @@ public class RedrawReviewController extends BaseController {
 				}
 			}
 		}
+		//判断结果集是否包含有效的交投单位，如有，则不再抽交投
+		for(String rd:rids){
+			if(om.containsKey(rd)){
+				jdid = null;
+			}
+		}
+		
 		//需要获取的专家数
 		Byte techcnt = projectExpert.getTechcnt();//技术类
 		if(techcnt==null) techcnt=0;
@@ -389,9 +396,9 @@ public class RedrawReviewController extends BaseController {
 			uidslist.addAll(projectExpertService.findUnitRecentByCount(projectExpert));	
 		}
 		
-		//只有大于两个数量才进行交投特定抽取
+		//只有交投的缺席才进行交投特定抽取
 		ExpertConfirm jec = null;
-		if(expertCount>2){
+		if(jdid!=null){
 
 			if(uidslist.size()>0){
 				for(String id:uidslist){
@@ -480,19 +487,16 @@ public class RedrawReviewController extends BaseController {
 		
 		//需先把抽取结果保留
 		int fcount = 0;
-		if(projectExpert.getFetchTime()==null){
 			fcount = projectExpertService.selectMaxFetchTime()+1;
-		}else{
-		    fcount = projectExpert.getFetchTime()+1;
-		}
     	//本次抽取记录。重要
+		for(ProjectInfo prj:pis){//对每个项目都需单独记录
 	    for (ExpertConfirm ec : erclist) {
 	    	ProjectExpert pExpert = new ProjectExpert();
 	    	pExpert.setFetchTime(fcount);
 	    	pExpert.setExpertCount(expertCount.byteValue());
-	    	pExpert.setPrjProjectInfo(new ProjectInfo(prjid));
+	    	pExpert.setPrjProjectInfo(prj);
 	    	pExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	pExpert.setFetchStatus(Constants.Fetch_Review_Failure);
+	    	pExpert.setFetchStatus(Constants.Fetch_ReviewRedraw_Failure);
 	    	pExpert.setExpertExpertConfirm(ec);
 	    	pExpert.setReviewBegin(projectExpert.getReviewBegin());
 	    	pExpert.setReviewEnd(projectExpert.getReviewEnd());
@@ -500,9 +504,13 @@ public class RedrawReviewController extends BaseController {
 	    	pExpert.setDiscnt(discnt);
 			projectExpertService.save(pExpert);
 	    }
+		}
 	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(model, "进行专家抽取成功.");
+		addMessage(model, "进行专家补抽成功.");
 		
+		String status[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess};
+		List<ProjectExpert> olist = projectExpertService.findMutiProjectExpertByPrjAndStatus(prjid,status);
+		model.addAttribute("olist", olist);
         
         model.addAttribute("rlist", erclist);
         
@@ -511,8 +519,9 @@ public class RedrawReviewController extends BaseController {
         for(ExpertConfirm ec : erclist){
         	eclist.add(ec.getId());
         }
-        projectExpert.setResIds(StringUtils.join(eclist, ","));
+        projectExpert.setSeriesIdsYes(StringUtils.join(eclist, ","));
         projectExpert.setFetchTime(fcount);
+        //projectExpert.setPrjid(prjid);
         model.addAttribute("projectExpert", projectExpert);
         
         
