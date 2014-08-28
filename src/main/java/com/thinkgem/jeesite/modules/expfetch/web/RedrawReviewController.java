@@ -48,6 +48,7 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.expfetch.service.ProjectExpertService;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
+import com.thinkgem.jeesite.modules.expmanage.service.ExpertConfirmService;
 
 /**
  * 对项目进行专家抽取Controller
@@ -69,6 +70,9 @@ public class RedrawReviewController extends BaseController {
 	
 	@Autowired
 	private ProjectExpertService projectExpertService;
+	
+	@Autowired
+	private ExpertConfirmService expertConfirmService;
 	
 	@ModelAttribute
 	public ProjectExpert get(@RequestParam(required=false) String id) {
@@ -350,6 +354,11 @@ public class RedrawReviewController extends BaseController {
 			for(String did:dids){
 				String di[] =  StringUtils.split(did, ":");
 				disclist.add(di[0]);
+				ExpertConfirm e = expertConfirmService.get(di[0]);
+				if(om.containsKey(e.getExpertCompany().getId())){
+					jdid = e.getExpertCompany().getId();
+					om.remove(jdid);
+				}
 				for(ProjectInfo pi:pis){
 					projectExpertService.updateProjectExpertAbsence(Constants.Fetch_Review_Sussess, di[1], pi.getId(), di[0]);
 				}
