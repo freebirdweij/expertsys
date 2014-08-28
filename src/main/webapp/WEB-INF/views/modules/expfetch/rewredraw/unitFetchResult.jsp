@@ -15,7 +15,7 @@
 					var dres = "";
 					for (var i=0;i<vcheck.length;i++)
 					{
-					  if(vcheck[i].checked == true){
+					  if(vcheck[i].checked = true){
 						  dres = dres+"|"+vcheck[i].id+":"+res[i].value;
 					  }
 					}
@@ -89,7 +89,7 @@
 	    
 	    var disc = [];
 		function discard(id){
-			if($("#"+id).checked==true){
+			if($("#"+id).Checked=true){
 			  $("#committeeName"+id).show();
 			}else{
 			  $("#committeeName"+id).hide();
@@ -177,7 +177,7 @@
 				</td>
 				<td>
 		        <c:if test="${pExpert.expertAccept eq '1'}">
-                <input type="text" name="committeeName" id="committeeName${pExpert.expertExpertConfirm.id}" style=" width:270px; height:54px; font-size:18px; line-height:54px;display:none;"  
+                <input type="text" name="committeeName" id="committeeName${pExpert.expertExpertConfirm.id}" style="width:270px;display:none;"  
                 value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}"/>
 		        </c:if>
 		        <c:if test="${pExpert.expertAccept eq '0'}">
