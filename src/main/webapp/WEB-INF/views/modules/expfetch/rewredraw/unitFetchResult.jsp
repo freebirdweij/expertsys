@@ -222,6 +222,7 @@
       <div class="span10">
         <h4>以下为补抽结果：</h4>
       </div>
+			<form:hidden path="discnt"/>
 			<form:hidden path="unitIdsNo"/>
 			<form:hidden path="resIds"/>
 			<form:hidden path="discIds"/>

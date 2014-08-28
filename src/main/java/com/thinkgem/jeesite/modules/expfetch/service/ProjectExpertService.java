@@ -68,6 +68,10 @@ public class ProjectExpertService extends BaseService {
 		return projectExpertDao.updateProjectExpertStatus(fetchStatus, fetchTime, prjid, expid);
 	}
 	
+	public int updateProjectExpertAbsence(String fetchStatus,String absenceReson,String prjid,String expid){
+		return projectExpertDao.updateProjectExpertAbsence(fetchStatus, absenceReson, prjid, expid);
+	}
+	
 	public Page<ProjectExpert> find(Page<ProjectExpert> page, ProjectExpert projectExpert) {
 		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();
 		if (StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){

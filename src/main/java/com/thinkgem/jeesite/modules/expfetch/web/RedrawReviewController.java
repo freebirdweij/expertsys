@@ -334,15 +334,21 @@ public class RedrawReviewController extends BaseController {
 		pis.add(0, mprj);
 		
 		//先做原来抽取专家的更新(缺席的要说明原因)
-		String unitIdsNo = projectExpert.getUnitIdsNo();
-		String resIds = projectExpert.getResIds();
-		String discIds = projectExpert.getDiscIds();
-		String secIds = projectExpert.getSeriesIdsYes();
+		String unitIdsNo = projectExpert.getUnitIdsNo();//原来记录的在抽取中要排除的单位
+		String resIds = projectExpert.getResIds();//原来抽取的专家，包括缺席的
+		String discIds = projectExpert.getDiscIds();//缺席的专家以及原因，从页面得到
+		String secIds = projectExpert.getSeriesIdsYes();//补抽的专家
 		String rids[] = StringUtils.split(resIds, ",");
 		String dids[] = StringUtils.split(discIds, "|");
+		//记录缺席的专家ID
+		List<String> disclist = Lists.newArrayList();
 		if(discIds!=null&&!discIds.equals("")){
 			for(String did:dids){
 				String di[] =  StringUtils.split(did, ":");
+				disclist.add(di[0]);
+				for(ProjectInfo pi:pis){
+					projectExpertService.updateProjectExpertAbsence(Constants.Fetch_Review_Sussess, di[1], pi.getId(), di[0]);
+				}
 			}
 		}
 		//需要获取的专家数
@@ -364,6 +370,7 @@ public class RedrawReviewController extends BaseController {
 		
 		//存储需屏蔽的单位集合
 		List<String> uidslist = Lists.newArrayList();
+		uidslist.addAll(Arrays.asList(StringUtils.split(unitIdsNo, ",")));
 		uidslist.add(prjunit.getId());//主体单位
 		if(discnt!=null){
 			uidslist.addAll(projectExpertService.findUnitRecentByCount(projectExpert));	
