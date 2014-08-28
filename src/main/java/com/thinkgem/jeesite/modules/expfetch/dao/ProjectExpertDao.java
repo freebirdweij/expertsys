@@ -33,4 +33,23 @@ public class ProjectExpertDao extends BaseDao<ProjectExpert> {
 				new Parameter(fetchStatus,fetchTime,prjid,expid));
 	}
 	
+	public int updateProjectExpertAbsence(String fetchStatus,String absenceReson,String prjid,String expid){
+		if(fetchStatus.equals(Constants.Fetch_Review_Sussess)){
+		return update("update ProjectExpert set expertAccept=:p1,committeeName=:p2 where prjProjectInfo.id = :p3 and expertExpertConfirm.id = :p4 and fetchStatus in ("
+				+Constants.Fetch_Review_Sussess+","+Constants.Fetch_ReviewRedraw_Sussess+")", 
+				new Parameter(Constants.Expert_Apply_Absence,absenceReson,prjid,expid));
+		}
+		if(fetchStatus.equals(Constants.Fetch_Accept_Sussess)){
+		return update("update ProjectExpert set expertAccept=:p1,committeeName=:p2 where prjProjectInfo.id = :p3 and expertExpertConfirm.id = :p4 and fetchStatus in ("
+				+Constants.Fetch_Accept_Sussess+","+Constants.Fetch_AcceptRedraw_Sussess+")", 
+				new Parameter(Constants.Expert_Apply_Absence,absenceReson,prjid,expid));
+		}
+		if(fetchStatus.equals(Constants.Fetch_Accepted_Sussess)){
+		return update("update ProjectExpert set expertAccept=:p1,committeeName=:p2 where prjProjectInfo.id = :p3 and expertExpertConfirm.id = :p4 and fetchStatus in ("
+				+Constants.Fetch_Accepted_Sussess+","+Constants.Fetch_AcceptedRedraw_Sussess+")", 
+				new Parameter(Constants.Expert_Apply_Absence,absenceReson,prjid,expid));
+		}
+		return 0;
+	}
+	
 }

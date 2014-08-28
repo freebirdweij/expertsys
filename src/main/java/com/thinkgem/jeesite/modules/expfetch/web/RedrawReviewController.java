@@ -326,6 +326,13 @@ public class RedrawReviewController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
+		//先取得项目主体单位
+		String prjid = projectExpert.getPrjid();
+		ProjectInfo mprj = projectInfoService.get(prjid);
+		Office prjunit = mprj.getUnit();
+		List<ProjectInfo> pis = mprj.getChildList();
+		pis.add(0, mprj);
+		
 		//先做原来抽取专家的更新(缺席的要说明原因)
 		String unitIdsNo = projectExpert.getUnitIdsNo();
 		String resIds = projectExpert.getResIds();
@@ -338,10 +345,6 @@ public class RedrawReviewController extends BaseController {
 				String di[] =  StringUtils.split(did, ":");
 			}
 		}
-		//先取得项目主体单位
-		String prjid = projectExpert.getPrjid();
-		Office prjunit = projectInfoService.get(prjid).getUnit();
-		
 		//需要获取的专家数
 		Byte techcnt = projectExpert.getTechcnt();//技术类
 		if(techcnt==null) techcnt=0;
