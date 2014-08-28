@@ -333,6 +333,9 @@ public class RedrawReviewController extends BaseController {
 		List<ProjectInfo> pis = mprj.getChildList();
 		pis.add(0, mprj);
 		
+		HashMap<String,Office> officeMap = (HashMap<String,Office>) UserUtils.getJiaoTouMap();
+		Map<String,Office> om = (Map<String, Office>) officeMap.clone();
+		
 		//先做原来抽取专家的更新(缺席的要说明原因)
 		String unitIdsNo = projectExpert.getUnitIdsNo();//原来记录的在抽取中要排除的单位
 		String resIds = projectExpert.getResIds();//原来抽取的专家，包括缺席的
@@ -340,6 +343,7 @@ public class RedrawReviewController extends BaseController {
 		String secIds = projectExpert.getSeriesIdsYes();//补抽的专家
 		String rids[] = StringUtils.split(resIds, ",");
 		String dids[] = StringUtils.split(discIds, "|");
+		String jdid = null;//交投缺席ID
 		//记录缺席的专家ID
 		List<String> disclist = Lists.newArrayList();
 		if(discIds!=null&&!discIds.equals("")){
@@ -379,8 +383,6 @@ public class RedrawReviewController extends BaseController {
 		//只有大于两个数量才进行交投特定抽取
 		ExpertConfirm jec = null;
 		if(expertCount>2){
-			HashMap<String,Office> officeMap = (HashMap<String,Office>) UserUtils.getJiaoTouMap();
-			Map<String,Office> om = (Map<String, Office>) officeMap.clone();
 
 			if(uidslist.size()>0){
 				for(String id:uidslist){
