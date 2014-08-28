@@ -210,7 +210,7 @@
 			<label class="control-label">录入补抽原因:</label>
 			<div class="controls">
 						<form:input path="remarks" htmlEscape="false" maxlength="50"
-							class="span2 required/>
+							class="span2 required"/>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
 						<form:input path="supervise" htmlEscape="false" maxlength="20"
 							class="span2 required userName"/>
@@ -227,6 +227,7 @@
 			<form:hidden path="resIds"/>
 			<form:hidden path="discIds"/>
 			<form:hidden path="seriesIdsYes"/>
+			<form:hidden path="seriesIdsNo"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>

@@ -38,6 +38,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
+import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -520,6 +521,7 @@ public class RedrawReviewController extends BaseController {
         	eclist.add(ec.getId());
         }
         projectExpert.setSeriesIdsYes(StringUtils.join(eclist, ","));
+        projectExpert.setSeriesIdsNo(StringUtils.join(disclist, ","));//记录缺席的专家
         projectExpert.setFetchTime(fcount);
         //projectExpert.setPrjid(prjid);
         model.addAttribute("projectExpert", projectExpert);
@@ -871,38 +873,57 @@ public class RedrawReviewController extends BaseController {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
-		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
 		int fcount = 0;
-		if(pExpert.getFetchTime()==null){
-			fcount = projectExpertService.selectMaxFetchTime()+1;
+		if(projectExpert.getFetchTime()==null){
+			fcount = projectExpertService.selectMaxFetchTime();
 		}else{
-		    fcount = pExpert.getFetchTime()+1;
+		    fcount = projectExpert.getFetchTime();
 		}
+		//先取得项目主体单位
+		String prjid = projectExpert.getPrjid();
+		ProjectInfo mprj = projectInfoService.get(prjid);
+		List<ProjectInfo> plist = mprj.getChildList();
+		plist.add(0, mprj);
+		
 		String resIds = projectExpert.getResIds();
-		String[] ids = StringUtils.split(resIds, ",");
+		String[] rids = StringUtils.split(resIds, ",");
+		String discIds = projectExpert.getSeriesIdsNo();
+		String[] dids = StringUtils.split(discIds, ",");
+		String rwIds = projectExpert.getSeriesIdsYes();
+		String[] ids = StringUtils.split(rwIds, ",");
+		
     	//本次抽取状态标志。重要
-	    for (String id : ids) {
-	    	projectExpert = new ProjectExpert();
-			projectExpert.setFetchTime(fcount);
-		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
-	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_ReviewRedraw_Sussess);
-	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
-	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
-	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
-			projectExpertService.save(projectExpert);
-	    }
-	    projectInfoService.updateProjectStatus(Constants.Project_Status_Apply, pExpert.getPrjid());
+		for(ProjectInfo prj:plist){
+			for (String id : ids) {
+				projectExpertService.updateProjectExpertStatus(Constants.Fetch_ReviewRedraw_Sussess,fcount,prj.getId(),id);
+			}
+		}
+		
+		//存储所有有效的专家ID
+		List<String> elist = Lists.newArrayList();
+		for(String rd:rids){
+			boolean isr = true;
+			for(String did:dids){
+				if(rd.equals(did)){
+					isr = false;
+					break;
+				}
+			}
+			if(isr) elist.add(rd);
+		}
+		elist.addAll(Arrays.asList(ids));
 	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		addMessage(model, "确认对项目进行专家抽取成功.");
 		
-		
-		ProjectInfo projectInfo = projectInfoService.get(pExpert.getPrjid());
-		projectExpert.setPrjProjectInfo(projectInfo);
-		projectExpert.setResIds(resIds);
-		model.addAttribute("projectExpert", projectExpert);
+        model.addAttribute("plist", plist);
+		projectExpert.setResIds(StringUtils.join(elist,","));
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
+		User user = UserUtils.getUser();
+		
+		model.addAttribute("userName", user.getName());
+		model.addAttribute("fetchDate", DateUtils.getDateTime());
+		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/rewredraw/unitReceiveNote";
 	}
 	
@@ -952,36 +973,7 @@ public class RedrawReviewController extends BaseController {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
-		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
-		int fcount = 0;
-		if(pExpert.getFetchTime()==null){
-			fcount = projectExpertService.selectMaxFetchTime()+1;
-		}else{
-		    fcount = pExpert.getFetchTime()+1;
-		}
-		String resIds = projectExpert.getResIds();
-		String[] ids = StringUtils.split(resIds, ",");
-    	//本次抽取状态标志。重要
-	    for (String id : ids) {
-	    	projectExpert = new ProjectExpert();
-			projectExpert.setFetchTime(fcount);
-		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
-	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_ReviewRedraw_Failure);
-	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
-	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
-	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
-			projectExpertService.save(projectExpert);
-	    }
-	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
-		
-	    request.getSession().removeAttribute("projectExpert");
-		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
-		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
-	    //projectExpert.setResIds(null);
-        model.addAttribute("projectExpert", projectExpert);
-		return unitfetch(projectExpert, request, response, model, redirectAttributes);
+		return "redirect:"+Global.getAdminPath()+"/expfetch/rewredraw/reviewinglist/?repage";
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")

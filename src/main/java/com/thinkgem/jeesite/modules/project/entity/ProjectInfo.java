@@ -97,7 +97,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	
 	@OneToMany(mappedBy = "parent", fetch=FetchType.LAZY)
 	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
-	@OrderBy(value="code") @Fetch(FetchMode.SUBSELECT)
+	@OrderBy(value="id") @Fetch(FetchMode.SUBSELECT)
 	@NotFound(action = NotFoundAction.IGNORE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<ProjectInfo> getChildList() {
