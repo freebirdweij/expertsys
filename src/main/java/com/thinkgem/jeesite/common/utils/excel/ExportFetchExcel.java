@@ -15,12 +15,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.Region;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Comment;
@@ -36,13 +44,20 @@ import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.Reflections;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
+import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
+import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 
 /**
@@ -54,11 +69,17 @@ public class ExportFetchExcel {
 	
 	private static Logger log = LoggerFactory.getLogger(ExportFetchExcel.class);
 			
+	
 	/**
 	 * 工作薄对象
 	 */
 	private SXSSFWorkbook wb;
 	
+	public ExportFetchExcel() {
+		super();
+		// TODO 自动生成的构造函数存根
+	}
+
 	/**
 	 * 工作表对象
 	 */
@@ -84,8 +105,8 @@ public class ExportFetchExcel {
 	 * @param title 表格标题，传“空值”，表示无标题
 	 * @param cls 实体对象，通过annotation.ExportField获取标题
 	 */
-	public ExportFetchExcel(String title, Class<?> cls,ProjectExpert projectExpert){
-		this(title, cls, 1,projectExpert);
+	public ExportFetchExcel(String title, Class<?> cls,ProjectExpert projectExpert,ProjectInfoService projectInfoService){
+		this(title, cls, 1,projectExpert,projectInfoService);
 	}
 	
 	/**
@@ -95,7 +116,7 @@ public class ExportFetchExcel {
 	 * @param type 导出类型（1:导出数据；2：导出模板）
 	 * @param groups 导入分组
 	 */
-	public ExportFetchExcel(String title, Class<?> cls, int type,ProjectExpert projectExpert, int... groups){
+	public ExportFetchExcel(String title, Class<?> cls, int type,ProjectExpert projectExpert,ProjectInfoService projectInfoService, int... groups){
 		// Get annotation field 
 		Field[] fs = cls.getDeclaredFields();
 		for (Field f : fs){
@@ -164,7 +185,7 @@ public class ExportFetchExcel {
 			}
 			headerList.add(t);
 		}
-		initialize(title, headerList,projectExpert);
+		initialize(title, headerList,projectExpert,projectInfoService);
 	}
 	
 	/**
@@ -172,8 +193,8 @@ public class ExportFetchExcel {
 	 * @param title 表格标题，传“空值”，表示无标题
 	 * @param headers 表头数组
 	 */
-	public ExportFetchExcel(String title, String[] headers,ProjectExpert projectExpert) {
-		initialize(title, Lists.newArrayList(headers),projectExpert);
+	public ExportFetchExcel(String title, String[] headers,ProjectExpert projectExpert,ProjectInfoService projectInfoService) {
+		initialize(title, Lists.newArrayList(headers),projectExpert,projectInfoService);
 	}
 	
 	/**
@@ -181,8 +202,8 @@ public class ExportFetchExcel {
 	 * @param title 表格标题，传“空值”，表示无标题
 	 * @param headerList 表头列表
 	 */
-	public ExportFetchExcel(String title, List<String> headerList,ProjectExpert projectExpert) {
-		initialize(title, headerList,projectExpert);
+	public ExportFetchExcel(String title, List<String> headerList,ProjectExpert projectExpert,ProjectInfoService projectInfoService) {
+		initialize(title, headerList,projectExpert,projectInfoService);
 	}
 	
 	/**
@@ -190,7 +211,7 @@ public class ExportFetchExcel {
 	 * @param title 表格标题，传“空值”，表示无标题
 	 * @param headerList 表头列表
 	 */
-	private void initialize(String title, List<String> headerList,ProjectExpert projectExpert) {
+	private void initialize(String title, List<String> headerList,ProjectExpert projectExpert,ProjectInfoService projectInfoService) {
 		this.wb = new SXSSFWorkbook(500);
 		this.sheet = wb.createSheet("Export");
 		this.styles = createStyles(wb);
@@ -205,69 +226,43 @@ public class ExportFetchExcel {
 					titleRow.getRowNum(), titleRow.getRowNum(), headerList.size()-1));
 		}
 		
+		sheet.createRow(rownum++);
+		
 		//在标题与表头之间插入项目评审信息
 		Row reviewRow = sheet.createRow(rownum++);
 		reviewRow.setHeightInPoints(16);
 		Cell reviewCell = reviewRow.createCell(0);
-		reviewCell.setCellStyle(styles.get("data"));
+		//reviewCell.setCellStyle(styles.get("data"));
 		reviewCell.setCellValue("评审时间：");
 		Cell reviewBeginw = reviewRow.createCell(1);
-		reviewBeginw.setCellStyle(styles.get("data"));
+		//reviewBeginw.setCellStyle(styles.get("data"));
 		reviewBeginw.setCellValue("从");
 		Cell reviewBegin = reviewRow.createCell(2);
-		reviewBegin.setCellStyle(styles.get("data"));
+		//reviewBegin.setCellStyle(styles.get("data"));
 		reviewBegin.setCellValue(projectExpert.getReviewBegin());
 		Cell reviewEndw = reviewRow.createCell(3);
-		reviewEndw.setCellStyle(styles.get("data"));
+		//reviewEndw.setCellStyle(styles.get("data"));
 		reviewEndw.setCellValue("至");
 		Cell reviewEnd = reviewRow.createCell(4);
-		reviewEnd.setCellStyle(styles.get("data"));
+		//reviewEnd.setCellStyle(styles.get("data"));
 		reviewEnd.setCellValue(projectExpert.getReviewEnd());
 		
-		Row prjnRow = sheet.createRow(rownum++);
-		prjnRow.setHeightInPoints(16);
-		Cell id = prjnRow.createCell(0);
-		id.setCellStyle(styles.get("data"));
-		id.setCellValue("项目编号：");
-		Cell prjid = prjnRow.createCell(1);
-		prjid.setCellStyle(styles.get("data"));
-		prjid.setCellValue(projectExpert.getPrjProjectInfo().getId());
-		Cell prjNamet = prjnRow.createCell(4);
-		prjNamet.setCellStyle(styles.get("data"));
-		prjNamet.setCellValue("名称：");
-		Cell prjName = prjnRow.createCell(5);
-		prjName.setCellStyle(styles.get("data"));
-		prjName.setCellValue(projectExpert.getPrjProjectInfo().getPrjName());
+		//先取得项目信息
+		String prjid = projectExpert.getPrjid();
+		String prjs[] = StringUtils.split(prjid, ",");
+		ExportExcel pee = new ExportExcel(null,ProjectInfo.class);
+		//projectInfoService = new ProjectInfoService();
+		List<ProjectInfo> plist = projectInfoService.findProjectsByIds(new Page<ProjectInfo>(), prjs);
+		pee.setDataList(plist);
+		int rows = pee.getRownum();
+		Sheet srcsheet = pee.getSheet();
+		for(int i=0;i<rows;i++){
+			POIUtils.copyRow(wb, srcsheet.getRow(i), sheet.createRow(rownum++), true);
+		}
 		
-		Row prjuRow = sheet.createRow(rownum++);
-		prjuRow.setHeightInPoints(16);
-		Cell unit = prjuRow.createCell(0);
-		unit.setCellStyle(styles.get("data"));
-		unit.setCellValue("建设单位：");
-		Cell unitn = prjuRow.createCell(1);
-		unitn.setCellStyle(styles.get("data"));
-		unitn.setCellValue(projectExpert.getPrjProjectInfo().getUnit().getName());
-		Cell status = prjuRow.createCell(4);
-		status.setCellStyle(styles.get("data"));
-		status.setCellValue("项目状态：");
-		Cell statusn = prjuRow.createCell(5);
-		statusn.setCellStyle(styles.get("data"));
-		statusn.setCellValue(DictUtils.getDictLabel(projectExpert.getPrjProjectInfo().getPrjStatus(), "sys_prjstatus_type", ""));
-		
-		Row prjm = sheet.createRow(rownum++);
-		prjm.setHeightInPoints(16);
-		Cell prjMoney = prjm.createCell(0);
-		prjMoney.setCellStyle(styles.get("data"));
-		prjMoney.setCellValue("投资金额：");
-		Cell prjMoneyn = prjm.createCell(1);
-		prjMoneyn.setCellStyle(styles.get("data"));
-		prjMoneyn.setCellValue(projectExpert.getPrjProjectInfo().getPrjMoney());
-		Cell prjBegin = prjm.createCell(4);
-		prjBegin.setCellStyle(styles.get("data"));
-		prjBegin.setCellValue("项目年度：");
-		Cell prjBeginn = prjm.createCell(5);
-		prjBeginn.setCellStyle(styles.get("data"));
-		prjBeginn.setCellValue(projectExpert.getPrjProjectInfo().getPrjYear());
+		//加空行
+		sheet.createRow(rownum++);
+		sheet.createRow(rownum++);
 		
 		// Create header
 		if (headerList == null){
@@ -472,19 +467,19 @@ public class ExportFetchExcel {
 		Row row = this.addRow();
 		row.setHeightInPoints(16);
 		Cell id = row.createCell(0);
-		id.setCellStyle(styles.get("data"));
+		//id.setCellStyle(styles.get("data"));
 		id.setCellValue("负责人：");
 		Cell prjid = row.createCell(2);
-		prjid.setCellStyle(styles.get("data"));
+		//prjid.setCellStyle(styles.get("data"));
 		prjid.setCellValue("抽取人");
 		Cell prjNamet = row.createCell(4);
-		prjNamet.setCellStyle(styles.get("data"));
+		//prjNamet.setCellStyle(styles.get("data"));
 		prjNamet.setCellValue("监督人：");
 		Cell prjName = row.createCell(6);
-		prjName.setCellStyle(styles.get("data"));
+		//prjName.setCellStyle(styles.get("data"));
 		prjName.setCellValue("日期：");
 		Cell prjNamen = row.createCell(7);
-		prjNamen.setCellStyle(styles.get("data"));
+		//prjNamen.setCellStyle(styles.get("data"));
 		prjNamen.setCellValue(DateUtils.getDate());
 
 		return this;
@@ -529,7 +524,7 @@ public class ExportFetchExcel {
 		return this;
 	}
 	
-//	/**
+	//	/**
 //	 * 导出测试
 //	 */
 //	public static void main(String[] args) throws Throwable {

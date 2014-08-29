@@ -57,6 +57,22 @@ public class ExportExcel {
 	 */
 	private SXSSFWorkbook wb;
 	
+	public Sheet getSheet() {
+		return sheet;
+	}
+
+	public void setSheet(Sheet sheet) {
+		this.sheet = sheet;
+	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
+
 	/**
 	 * 工作表对象
 	 */

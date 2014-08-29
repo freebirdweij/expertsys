@@ -1079,20 +1079,20 @@ public class ProjectExpertController extends BaseController {
 
     @RequestMapping(value = "export", method=RequestMethod.POST)
     public String exportFile(ProjectExpert projectExpert, Model model, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
-            String fileName = "专家列表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
+            String fileName = "项目评审专家抽取确认表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
             List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
-    		ProjectInfo projectInfo = projectInfoService.get(projectExpert.getPrjid());
-    		Office un = officeService.get(projectInfo.getUnit().getId());
-    		projectInfo.setUnit(un);
-    		projectExpert.setPrjProjectInfo(projectInfo);
+    		//ProjectInfo projectInfo = projectInfoService.get(projectExpert.getPrjid());
+    		//Office un = officeService.get(projectInfo.getUnit().getId());
+    		//projectInfo.setUnit(un);
+    		//projectExpert.setPrjProjectInfo(projectInfo);
     		try {
-				new ExportFetchExcel("专家列表", ExpertConfirm.class,projectExpert).setDataList(rlist).write(response, fileName).dispose();
+				new ExportFetchExcel("项目评审专家抽取确认表", ExpertConfirm.class,projectExpert,projectInfoService).setDataList(rlist).write(response, fileName).dispose();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     		
-		return reviewinglist(projectInfo, request, response, model);
+		return reviewinglist(null, request, response, model);
     }
 
 }
