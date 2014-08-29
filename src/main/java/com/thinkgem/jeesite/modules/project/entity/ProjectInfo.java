@@ -81,7 +81,6 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="parent_id")
 	@NotFound(action = NotFoundAction.IGNORE)
-	@NotNull
 	public ProjectInfo getParent() {
 		return parent;
 	}

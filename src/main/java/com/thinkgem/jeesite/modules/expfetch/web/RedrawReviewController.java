@@ -428,6 +428,8 @@ public class RedrawReviewController extends BaseController {
 					techcnt--;
 				}
 			}
+		}else{
+			uidslist.addAll(om.keySet());
 		}
 		
 		//存储结果集

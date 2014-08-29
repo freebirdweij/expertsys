@@ -9,6 +9,7 @@
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$("#treeTable").treeTable({expandLevel : 5});
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					var vcheck = document.getElementsByName("checkboxid");
@@ -71,7 +72,7 @@
 		<li><a href="${ctx}/expfetch/savredraw/saveinglist">待竣工验收项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="treeTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="projectInfo">
