@@ -15,7 +15,7 @@
 					var dres = "";
 					for (var i=0;i<vcheck.length;i++)
 					{
-					  if(vcheck[i].checked = true){
+					  if(vcheck[i].checked){
 						  dres = dres+"|"+vcheck[i].id+":"+res[i].value;
 					  }
 					}
@@ -89,7 +89,7 @@
 	    
 	    var disc = [];
 		function discard(id){
-			if($("#"+id).Checked=true){
+			if($("#"+id).attr("checked")){
 			  $("#committeeName"+id).show();
 			}else{
 			  $("#committeeName"+id).hide();
@@ -172,7 +172,7 @@
 				<input type="checkbox" id="${pExpert.expertExpertConfirm.id}" name="checkboxid" onclick="discard('${pExpert.expertExpertConfirm.id}');"/>
 		        </c:if>
 		        <c:if test="${pExpert.expertAccept eq '0'}">
-				<input type="checkbox" id="${pExpert.expertExpertConfirm.id}" name="checkboxid" onclick="discard('${pExpert.expertExpertConfirm.id}');" checked="true" readonly="true"/>
+				<input type="checkbox" id="${pExpert.expertExpertConfirm.id}" name="checkboxid" onclick="discard('${pExpert.expertExpertConfirm.id}');" checked="true" disabled="true"/>
 		        </c:if>
 				</td>
 				<td>
@@ -181,8 +181,7 @@
                 value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}"/>
 		        </c:if>
 		        <c:if test="${pExpert.expertAccept eq '0'}">
-                <input type="text" name="committeeName" id="committeeName${pExpert.expertExpertConfirm.id}" style=" width:270px; height:54px; font-size:18px; line-height:54px;"  
-                value="输入缺席原因" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}" value="${pExpert.committeeName}" readonly="true"/>
+                <input type="text" name="committeeName" id="committeeName${pExpert.expertExpertConfirm.id}" style="width:270px;" onFocus="if(value=='输入缺席原因') {value=''}" onBlur="if(value==''){value='输入缺席原因'}" value="${pExpert.committeeName}"/>
 		        </c:if>
 				</td>
 			</tr>

@@ -331,8 +331,11 @@ public class RedrawReviewController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
-		//先取得项目主体单位
 		String prjid = projectExpert.getPrjid();
+		String status[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess};
+		List<ProjectExpert> olist = projectExpertService.findMutiProjectExpertByPrjAndStatus(prjid,status);
+		model.addAttribute("olist", olist);
+		//先取得项目主体单位
 		ProjectInfo mprj = projectInfoService.get(prjid);
 		Office prjunit = mprj.getUnit();
 		List<ProjectInfo> pis = mprj.getChildList();
@@ -367,7 +370,8 @@ public class RedrawReviewController extends BaseController {
 		}
 		//判断结果集是否包含有效的交投单位，如有，则不再抽交投
 		for(String rd:rids){
-			if(om.containsKey(rd)){
+			ExpertConfirm ej = expertConfirmService.get(rd);
+			if(om.containsKey(ej.getExpertCompany().getId())){
 				jdid = null;
 			}
 		}
@@ -382,7 +386,7 @@ public class RedrawReviewController extends BaseController {
 		//如果两个类型都没选，需要处理
 		if(expertCount==0){
 			addMessage(model, "您未选择抽取的专家数！");
-			return "modules/expfetch/unitFetchResult";
+			return "modules/expfetch/rewredraw/unitFetchResult";
 		}
 		//屏蔽近期已抽选
 		Byte discnt = projectExpert.getDiscnt();
@@ -443,8 +447,8 @@ public class RedrawReviewController extends BaseController {
 	        tlist = tlist.subList(ri,ri+techcnt);
 		}else if(techcnt>resSize){
 			//待抽取单位不足，需要改变条件
-			addMessage(model, "条件限制过多，库中专家不足！");
-			return "modules/expfetch/unitFetchResult";
+			addMessage(model, "条件限制过多，技术专家不足！");
+			return "modules/expfetch/rewredraw/unitFetchResult";
 		}
         
         for(Office ec : tlist){
@@ -469,8 +473,8 @@ public class RedrawReviewController extends BaseController {
 	        elist = elist.subList(ri,ri+ecomcnt);
 		}else if(ecomcnt>resSize){
 			//待抽取单位不足，需要改变条件
-			addMessage(model, "条件限制过多，库中专家不足！");
-			return "modules/expfetch/unitFetchResult";
+			addMessage(model, "条件限制过多，经济专家不足！");
+			return "modules/expfetch/rewredraw/unitFetchResult";
 		}
         
         for(Office ec : elist){
@@ -482,7 +486,7 @@ public class RedrawReviewController extends BaseController {
 		if(erclist.size()==0){
 			//待抽取单位不足，需要改变条件
 			addMessage(model, "条件限制过多，库中专家不足！");
-			return "modules/expfetch/unitFetchResult";
+			return "modules/expfetch/rewredraw/unitFetchResult";
 			
 		}
 		
@@ -509,9 +513,6 @@ public class RedrawReviewController extends BaseController {
 	    //request.getSession().removeAttribute("projectExpert");
 		addMessage(model, "进行专家补抽成功.");
 		
-		String status[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess};
-		List<ProjectExpert> olist = projectExpertService.findMutiProjectExpertByPrjAndStatus(prjid,status);
-		model.addAttribute("olist", olist);
         
         model.addAttribute("rlist", erclist);
         
@@ -520,6 +521,7 @@ public class RedrawReviewController extends BaseController {
         for(ExpertConfirm ec : erclist){
         	eclist.add(ec.getId());
         }
+        projectExpert.setUnitIdsNo(unitIdsNo);
         projectExpert.setSeriesIdsYes(StringUtils.join(eclist, ","));
         projectExpert.setSeriesIdsNo(StringUtils.join(disclist, ","));//记录缺席的专家
         projectExpert.setFetchTime(fcount);

@@ -633,12 +633,6 @@ public class ProjectExpertService extends BaseService {
 			subdc.add(Restrictions.in("e.expertSpecial", specialids));
 	    }
 
-		String seriesIdsYes = projectExpert.getSeriesIdsYes();
-		if(seriesIdsYes!=null&&!seriesIdsYes.equalsIgnoreCase("")){
-			String[] seriesids = StringUtils.split(seriesIdsYes, ",");
-			subdc.add(Restrictions.in("e.expertSeries", seriesids));
-	    }
-
 		String areaIdsNo = projectExpert.getAreaIdsNo();
 		if(areaIdsNo!=null&&!areaIdsNo.equalsIgnoreCase("")){
 			String[] areaids = StringUtils.split(areaIdsNo, ",");
@@ -664,11 +658,6 @@ public class ProjectExpertService extends BaseService {
 			subdc.add(Restrictions.not(Restrictions.in("e.expertSpecial", specialids)));
 	    }
 
-		String seriesIdsNo = projectExpert.getSeriesIdsNo();
-		if(seriesIdsNo!=null&&!seriesIdsNo.equalsIgnoreCase("")){
-			String[] seriesids = StringUtils.split(seriesIdsNo, ",");
-			subdc.add(Restrictions.not(Restrictions.in("e.expertSeries", seriesids)));
-	    }
 		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
 		
 		dc.add(Subqueries.exists(subdc));
