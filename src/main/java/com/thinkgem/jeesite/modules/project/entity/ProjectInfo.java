@@ -67,7 +67,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	}
 
 	@Id
-	@ExcelField(title="项目编号",align=2, sort=10)
+	@ExcelField(title="项目编号",align=2, sort=1)
 	public String getId() {
 		// TODO 自动生成的方法存根
 		return id;
@@ -167,6 +167,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	/** 项目年度. */
 	private String prjYear;
 
+	@ExcelField(title="归属年度", align=2, sort=7)
 	public String getPrjYear() {
 		return prjYear;
 	}
@@ -187,7 +188,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	@JoinColumn(name="prjUnit")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-	@ExcelField(title="主体单位", value="unit.name",align=2, sort=30)
+	@ExcelField(title="建设单位", value="unit.name",align=2, sort=3)
 	public Office getUnit() {
 		return unit;
 	}
@@ -243,7 +244,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目名称
 	 */
-	@ExcelField(title="项目名称",align=2, sort=20)
+	@ExcelField(title="项目名称",align=2, sort=2)
 	public String getPrjName() {
 		return this.prjName;
 	}
@@ -263,6 +264,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目类别
 	 */
+	@ExcelField(title="项目类型", align=2, sort=4, dictType="sys_prjtype_type")
 	public String getPrjType() {
 		return this.prjType;
 	}
@@ -301,7 +303,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 投资金额
 	 */
-	@ExcelField(title="金额", align=2, sort=40)
+	@ExcelField(title="投资金额", align=2, sort=5)
 	public Double getPrjMoney() {
 		return this.prjMoney;
 	}
@@ -359,7 +361,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目状态
 	 */
-	@ExcelField(title="项目状态", align=2, sort=50, dictType="sys_prjstatus_type")
+	@ExcelField(title="项目状态", align=2, sort=6, dictType="sys_prjstatus_type")
 	public String getPrjStatus() {
 		return this.prjStatus;
 	}
@@ -381,7 +383,6 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 */
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@ExcelField(title="时间", align=2, sort=60)
 	public Date getPrjBegin() {
 		return this.prjBegin;
 	}

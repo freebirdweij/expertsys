@@ -69,7 +69,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	private String expertEmail;
 
 	@Transient
-	@ExcelField(title="性别", value="expertInfo.sex",align=2, sort=2)
 	public String getExpertSex() {
 		return expertSex;
 	}
@@ -81,7 +80,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@Transient
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@ExcelField(title="出生年月", value="expertInfo.birthdate",align=2, sort=3)
 	public Date getExpertBirthdate() {
 		return expertBirthdate;
 	}
@@ -91,7 +89,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="民族", value="expertInfo.nation",align=2, sort=4)
 	public String getExpertNation() {
 		return expertNation;
 	}
@@ -101,7 +98,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="毕业学校", value="expertInfo.collage",align=2, sort=5)
 	public String getExpertCollage() {
 		return expertCollage;
 	}
@@ -113,7 +109,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@Transient
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@ExcelField(title="毕业时间", value="expertInfo.graduateTime",align=2, sort=6)
 	public Date getExpertGraduate() {
 		return expertGraduate;
 	}
@@ -123,7 +118,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="学历", value="expertInfo.education",align=2, sort=7)
+	@ExcelField(title="学历", value="expertInfo.education",align=2, sort=6)
 	public String getExpertDegree() {
 		return expertDegree;
 	}
@@ -133,7 +128,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="所学专业", value="expertInfo.studySpecial",align=2, sort=8)
 	public String getExpertStudy() {
 		return expertStudy;
 	}
@@ -143,7 +137,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="职务", value="expertInfo.job",align=2, sort=9)
 	public String getExpertJob() {
 		return expertJob;
 	}
@@ -153,7 +146,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="电子信箱", value="expertInfo.email",align=2, sort=10)
 	public String getExpertEmail() {
 		return expertEmail;
 	}
@@ -163,7 +155,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="电话", value="expertInfo.mobile",align=2, sort=11)
+	@ExcelField(title="电话", value="expertInfo.mobile",align=2, sort=7)
 	public String getExpertPhone() {
 		return expertPhone;
 	}
@@ -337,7 +329,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@JoinColumn(name="expertArea")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-	@ExcelField(title="地区", value="expertArea.name",align=2, sort=70)
 	public Area getExpertArea() {
 		return expertArea;
 	}
@@ -350,7 +341,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	@JoinColumn(name="expertCompany")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-	@ExcelField(title="单位", value="expertCompany.name", align=2, sort=60)
+	@ExcelField(title="单位", value="expertCompany.name", align=2, sort=2)
 	public Office getExpertCompany() {
 		return expertCompany;
 	}
@@ -359,7 +350,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 		this.expertCompany = expertCompany;
 	}
 
-	@ExcelField(title="职称", align=2, sort=50, dictType="sys_tech_type")
+	@ExcelField(title="职称", align=2, sort=5, dictType="sys_tech_type")
 	public String getExpertTechnical() {
 		return this.expertTechnical;
 	}
@@ -384,7 +375,6 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * @return 专家确认ID
 	 */
 	@Id
-	@ExcelField(title="专家编号", align=2, sort=10)
 	public String getId() {
 		return this.id;
 	}
@@ -428,7 +418,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 专家类别
 	 */
-	@ExcelField(title="专家类别", align=2, sort=30, dictType="sys_specialkind_type")
+	@ExcelField(title="专家类别", align=2, sort=3, dictType="sys_specialkind_type")
 	public String getExpertKind() {
 		return this.expertKind;
 	}
@@ -448,7 +438,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	 * 
 	 * @return 专家专业
 	 */
-	@ExcelField(title="专业", align=2, sort=40, dictType="sys_special_type")
+	@ExcelField(title="专业", align=2, sort=4, dictType="sys_special_type")
 	public String getExpertSpecial() {
 		return this.expertSpecial;
 	}

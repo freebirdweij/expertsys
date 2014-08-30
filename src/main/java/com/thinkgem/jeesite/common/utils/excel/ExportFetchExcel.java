@@ -232,20 +232,28 @@ public class ExportFetchExcel {
 		Row reviewRow = sheet.createRow(rownum++);
 		reviewRow.setHeightInPoints(16);
 		Cell reviewCell = reviewRow.createCell(0);
-		//reviewCell.setCellStyle(styles.get("data"));
+		reviewCell.setCellStyle(styles.get("title1"));
 		reviewCell.setCellValue("评审时间：");
 		Cell reviewBeginw = reviewRow.createCell(1);
-		//reviewBeginw.setCellStyle(styles.get("data"));
+		reviewBeginw.setCellStyle(styles.get("title1"));
 		reviewBeginw.setCellValue("从");
 		Cell reviewBegin = reviewRow.createCell(2);
-		//reviewBegin.setCellStyle(styles.get("data"));
-		reviewBegin.setCellValue(projectExpert.getReviewBegin());
+		reviewBegin.setCellStyle(styles.get("data4"));
+		reviewBegin.setCellValue(DateUtils.formatDate(projectExpert.getReviewBegin(),null));
 		Cell reviewEndw = reviewRow.createCell(3);
-		//reviewEndw.setCellStyle(styles.get("data"));
+		reviewEndw.setCellStyle(styles.get("title1"));
 		reviewEndw.setCellValue("至");
 		Cell reviewEnd = reviewRow.createCell(4);
-		//reviewEnd.setCellStyle(styles.get("data"));
-		reviewEnd.setCellValue(projectExpert.getReviewEnd());
+		reviewEnd.setCellStyle(styles.get("data4"));
+		reviewEnd.setCellValue(DateUtils.formatDate(projectExpert.getReviewEnd(),null));
+		Cell prjName = reviewRow.createCell(5);
+		prjName.setCellStyle(styles.get("title1"));
+		prjName.setCellValue("抽取时间：");
+		Cell prjNamen = reviewRow.createCell(6);
+		prjNamen.setCellStyle(styles.get("data4"));
+		prjNamen.setCellValue(DateUtils.getDateTime());
+		
+		sheet.createRow(rownum++);
 		
 		//先取得项目信息
 		String prjid = projectExpert.getPrjid();
@@ -305,10 +313,20 @@ public class ExportFetchExcel {
 		style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		Font titleFont = wb.createFont();
 		titleFont.setFontName("Arial");
-		titleFont.setFontHeightInPoints((short) 16);
+		titleFont.setFontHeightInPoints((short) 18);
 		titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		style.setFont(titleFont);
 		styles.put("title", style);
+
+		CellStyle style1 = wb.createCellStyle();
+		style1.setAlignment(CellStyle.ALIGN_CENTER);
+		style1.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		Font titleFont1 = wb.createFont();
+		titleFont1.setFontName("Arial");
+		titleFont1.setFontHeightInPoints((short) 12);
+		titleFont1.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		style1.setFont(titleFont1);
+		styles.put("title1", style1);
 
 		style = wb.createCellStyle();
 		style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
@@ -340,6 +358,11 @@ public class ExportFetchExcel {
 		style.cloneStyleFrom(styles.get("data"));
 		style.setAlignment(CellStyle.ALIGN_RIGHT);
 		styles.put("data3", style);
+		
+		style = wb.createCellStyle();
+		style.setFont(dataFont);
+		style.setAlignment(CellStyle.ALIGN_LEFT);
+		styles.put("data4", style);
 		
 		style = wb.createCellStyle();
 		style.cloneStyleFrom(styles.get("data"));
@@ -463,24 +486,17 @@ public class ExportFetchExcel {
 		//数据后面添加签字行
 		this.addRow();
 		this.addRow();
-		this.addRow();
 		Row row = this.addRow();
 		row.setHeightInPoints(16);
 		Cell id = row.createCell(0);
-		//id.setCellStyle(styles.get("data"));
+		id.setCellStyle(styles.get("title1"));
 		id.setCellValue("负责人：");
 		Cell prjid = row.createCell(2);
-		//prjid.setCellStyle(styles.get("data"));
-		prjid.setCellValue("抽取人");
+		prjid.setCellStyle(styles.get("title1"));
+		prjid.setCellValue("抽取人：");
 		Cell prjNamet = row.createCell(4);
-		//prjNamet.setCellStyle(styles.get("data"));
+		prjNamet.setCellStyle(styles.get("title1"));
 		prjNamet.setCellValue("监督人：");
-		Cell prjName = row.createCell(6);
-		//prjName.setCellStyle(styles.get("data"));
-		prjName.setCellValue("日期：");
-		Cell prjNamen = row.createCell(7);
-		//prjNamen.setCellStyle(styles.get("data"));
-		prjNamen.setCellValue(DateUtils.getDate());
 
 		return this;
 	}
