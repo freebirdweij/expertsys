@@ -6,9 +6,11 @@ package com.thinkgem.jeesite.modules.expfetch.web;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Array;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -803,6 +805,8 @@ public class ProjectExpertController extends BaseController {
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
+		projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));
 		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/unitFetchResult";
 	}

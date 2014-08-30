@@ -36,6 +36,7 @@ import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.ExportFetchExcel;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
 import com.thinkgem.jeesite.modules.sys.entity.Log;
@@ -804,7 +805,10 @@ public class RedrawReviewController extends BaseController {
 			projectInfo.setCreateBy(user);
 		}
         Page<ProjectInfo> page = projectInfoService.findRedrawReviewing(new Page<ProjectInfo>(request, response), projectInfo); 
-        model.addAttribute("page", page);
+		List<ProjectInfo> list = Lists.newArrayList();
+		List<ProjectInfo> sourcelist = page.getList();
+		projectInfo.sortList(list,sourcelist,"0");
+        model.addAttribute("list", list);
 		return "modules/expfetch/rewredraw/reviewingList";
 	}
 
@@ -897,10 +901,13 @@ public class RedrawReviewController extends BaseController {
 		String[] ids = StringUtils.split(rwIds, ",");
 		
     	//本次抽取状态标志。重要
+		prjid = "";
 		for(ProjectInfo prj:plist){
 			for (String id : ids) {
 				projectExpertService.updateProjectExpertStatus(Constants.Fetch_ReviewRedraw_Sussess,fcount,prj.getId(),id);
 			}
+			//项目ID重新拼
+			prjid = prjid+","+prj.getId();
 		}
 		
 		//存储所有有效的专家ID
@@ -923,6 +930,8 @@ public class RedrawReviewController extends BaseController {
 		projectExpert.setResIds(StringUtils.join(elist,","));
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
+        
+        projectExpert.setPrjid(prjid);
 		User user = UserUtils.getUser();
 		
 		model.addAttribute("userName", user.getName());
@@ -1118,9 +1127,9 @@ public class RedrawReviewController extends BaseController {
     @RequestMapping(value = "export", method=RequestMethod.POST)
     public String exportFile(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "专家列表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
+            String fileName = "项目评审专家补抽确认表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
             List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
-    		new ExportExcel("专家列表", ExpertConfirm.class).setDataList(rlist).write(response, fileName).dispose();
+            new ExportFetchExcel("项目评审专家补抽确认表", ExpertConfirm.class,projectExpert,projectInfoService).setDataList(rlist).write(response, fileName).dispose();
     		return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出专家失败！失败信息："+e.getMessage());

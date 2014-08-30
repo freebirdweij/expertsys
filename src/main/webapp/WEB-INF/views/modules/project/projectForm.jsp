@@ -107,7 +107,7 @@
 			<label class="control-label">投资金额:</label>
 			<div class="controls">
 						<form:input path="prjMoney" htmlEscape="false" maxlength="20"
-							class="span3 required" />
+							class="span3 required"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -144,7 +144,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<a href="../../static/ckfinder/ckfinder.html?type=project&start=project:/${projectInfo.id}/">上传项目资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%-- <a href="../../static/ckfinder/ckfinder.html?type=project&start=project:/${projectInfo.id}/">上传项目资料</a> --%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>

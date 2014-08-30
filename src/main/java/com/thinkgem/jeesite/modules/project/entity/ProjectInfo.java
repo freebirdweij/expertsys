@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.project.entity;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -303,8 +305,10 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 投资金额
 	 */
+	@Digits(fraction = 4, integer = 15)
 	@ExcelField(title="投资金额", align=2, sort=5)
 	public Double getPrjMoney() {
+		//DecimalFormat df=new DecimalFormat( "#,##0.00");
 		return this.prjMoney;
 	}
 
