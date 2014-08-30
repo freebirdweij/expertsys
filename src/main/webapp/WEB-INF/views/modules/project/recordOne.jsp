@@ -125,7 +125,7 @@
 			<label class="control-label">投资金额:</label>
 			<div class="controls">
 						<form:input path="prjMoney" htmlEscape="false" maxlength="20"
-							class="span3 required" />
+							class="span3 required number" />
 			</div>
 		</div>
 		<div class="control-group">

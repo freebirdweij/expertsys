@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.project.entity;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -152,7 +153,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	private String prjDuty;
 
 	/** 投资金额. */
-	private Double prjMoney;
+	private BigDecimal prjMoney;
 
 	/** 项目级别. */
 	private String prjLevel;
@@ -296,7 +297,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * @param prjMoney
 	 *            投资金额
 	 */
-	public void setPrjMoney(Double prjMoney) {
+	public void setPrjMoney(BigDecimal prjMoney) {
 		this.prjMoney = prjMoney;
 	}
 
@@ -307,7 +308,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 */
 	@Digits(fraction = 4, integer = 15)
 	@ExcelField(title="投资金额", align=2, sort=5)
-	public Double getPrjMoney() {
+	public BigDecimal getPrjMoney() {
 		//DecimalFormat df=new DecimalFormat( "#,##0.00");
 		return this.prjMoney;
 	}

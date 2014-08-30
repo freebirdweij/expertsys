@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.expfetch.web;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Array;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -528,6 +529,8 @@ public class RedrawReviewController extends BaseController {
         projectExpert.setSeriesIdsYes(StringUtils.join(eclist, ","));
         projectExpert.setSeriesIdsNo(StringUtils.join(disclist, ","));//记录缺席的专家
         projectExpert.setFetchTime(fcount);
+        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
         //projectExpert.setPrjid(prjid);
         model.addAttribute("projectExpert", projectExpert);
         
@@ -936,6 +939,8 @@ public class RedrawReviewController extends BaseController {
 		
 		model.addAttribute("userName", user.getName());
 		model.addAttribute("fetchDate", DateUtils.getDateTime());
+        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
 		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/rewredraw/unitReceiveNote";
 	}

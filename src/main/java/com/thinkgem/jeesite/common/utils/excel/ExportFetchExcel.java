@@ -416,6 +416,7 @@ public class ExportFetchExcel {
 			if (val == null){
 				cell.setCellValue("");
 			} else if (val instanceof String) {
+				//cell.setCellType(Cell.CELL_TYPE_BLANK);
 				cell.setCellValue((String) val);
 			} else if (val instanceof Integer) {
 				cell.setCellValue((Integer) val);
