@@ -147,6 +147,20 @@
 			$("#cancelThree").show();
 	    	return true;
 	    }
+		
+	    document.onreadystatechange = function(){	
+	    	 var rewb = "";
+	    	var rew = $("#reviewBegin");
+	    	rewb = rew.val();
+	    	rewb = rewb.substr(0,10);
+	    	$("#reviewBegin").val(rewb);
+	    	 var rewe = ""; 
+	    	var ree = $("#reviewEnd");
+	    			rewe = ree.val();
+	    	rewe = rewe.substr(0,10);
+	    	$("#reviewEnd").val(rewe); 
+	    	//alert("kkk");
+	    }
 	    
 	</script>
 </head>

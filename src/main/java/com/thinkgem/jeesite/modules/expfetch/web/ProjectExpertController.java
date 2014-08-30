@@ -488,6 +488,8 @@ public class ProjectExpertController extends BaseController {
         for(ExpertConfirm ec : erclist){
         	eclist.add(ec.getId());
         }
+        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
         projectExpert.setResIds(StringUtils.join(eclist, ","));
         projectExpert.setFetchTime(fcount);
         model.addAttribute("projectExpert", projectExpert);
@@ -882,6 +884,8 @@ public class ProjectExpertController extends BaseController {
 		
 		model.addAttribute("userName", user.getName());
 		model.addAttribute("fetchDate", DateUtils.getDateTime());
+        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
 		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/unitReceiveNote";
 	}

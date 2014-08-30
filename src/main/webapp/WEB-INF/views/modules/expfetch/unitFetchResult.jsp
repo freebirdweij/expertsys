@@ -58,6 +58,15 @@
 			});
 		});
 		
+		$(document).load(function() {
+			var rewb = document.getElementsByID("reviewBegin").value;
+			rewb = rewb.substring(0,10);
+			 document.getElementsByID("reviewBegin").value = rewb;
+			var rewe = document.getElementsByID("reviewEnd").value;
+			rewe = rewe.substring(0,10);
+			document.getElementsByID("reviewEnd").value =rewe;
+		});
+
 		Array.prototype.remove = function(dx) {
 			if (isNaN(dx) || dx > this.length) {
 				return false;
@@ -143,6 +152,18 @@
 			$("#cancelThree").show();
 	    	return true;
 	    }
+		
+		function trimDate(){
+			var rewb = $("#reviewBegin").value;
+			rewb = rewb.substring(0,10);
+			$("#reviewBegin").val(rewb);
+			var rewe = $("#reviewEnd").value;
+			rewe = rewe.substring(0,10);
+			$("#reviewEnd").val(rewe);
+	    	return true;
+	    }
+		
+	
 	    
 	    jQuery(function(){        
 	        jQuery.validator.methods.compareDate = function(value, element, param) {
@@ -178,7 +199,19 @@
 	            }
 	        });
 	    });
-		
+	    document.onreadystatechange = function(){	
+	    	 var rewb = "";
+	    	var rew = $("#reviewBegin");
+	    	rewb = rew.val();
+	    	rewb = rewb.substr(0,10);
+	    	$("#reviewBegin").val(rewb);
+	    	 var rewe = ""; 
+	    	var ree = $("#reviewEnd");
+	    			rewe = ree.val();
+	    	rewe = rewe.substr(0,10);
+	    	$("#reviewEnd").val(rewe); 
+	    	//alert("kkk");
+	    }
 	</script>
 </head>
 <body>
@@ -193,9 +226,9 @@
 			<label class="control-label">评审时间:</label>
 			<div class="controls">
 				从<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</div>
 		</div>
 		<div class="control-group">

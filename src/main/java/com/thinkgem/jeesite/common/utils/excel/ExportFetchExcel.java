@@ -323,7 +323,7 @@ public class ExportFetchExcel {
 		style1.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		Font titleFont1 = wb.createFont();
 		titleFont1.setFontName("Arial");
-		titleFont1.setFontHeightInPoints((short) 12);
+		titleFont1.setFontHeightInPoints((short) 11);
 		titleFont1.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		style1.setFont(titleFont1);
 		styles.put("title1", style1);
