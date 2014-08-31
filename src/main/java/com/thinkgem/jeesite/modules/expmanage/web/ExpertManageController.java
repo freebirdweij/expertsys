@@ -113,7 +113,9 @@ public class ExpertManageController extends BaseController {
 	@RequestMapping(value = "expedit")
 	public String expedit(@RequestParam("id") String id, Model model) {
 		ExpertConfirm expertConfirm = expertConfirmService.get(id);
-		model.addAttribute("expertInfo", expertConfirm.getExpertInfo());
+		ExpertInfo expertInfo = expertConfirm.getExpertInfo();
+		//expertInfo.setUserId(expertConfirm.getExpertInfo().getUserId());
+		model.addAttribute("expertInfo", expertInfo);
 		model.addAttribute("expid", id);
 		//model.addAttribute("allRoles", systemService.findAllRole());
 		return "modules/expmanage/baseForm";
@@ -340,7 +342,17 @@ public class ExpertManageController extends BaseController {
 		}*/
 		//保留注册状态
 		//expertInfo.setRegStep("4");
-		expertInfoService.save(expertInfo);
+		/*ExpertInfo einfo = expertInfoService.get(expertInfo.getUserId());
+		try {
+			BeanUtils.copyProperties(einfo, expertInfo);
+		} catch (IllegalAccessException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}*/
+		expertInfoService.updateExpertInfo(expertInfo);
 		expertConfirmService.save(expertConfirm);
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return explist(expertConfirm,request,response, model);
@@ -673,7 +685,7 @@ public class ExpertManageController extends BaseController {
 		User user = new User();
 		// 修正引用赋值问题，不知道为何，Company和Office引用的一个实例地址，修改了一个，另外一个跟着修改。
 		user.setCompany(new Office(request.getParameter("company.id")));
-		user.setOffice(new Office(request.getParameter("office.id")));
+		user.setOffice(new Office(request.getParameter("company.id")));
 		user.setName(expertInfo.getName());
 		user.setLoginName(expertInfo.getUser().getLoginName());
 		// 如果新密码为空，则不更换密码
@@ -713,7 +725,7 @@ public class ExpertManageController extends BaseController {
 		//系统生成专家编号
 		BigDecimal seq = expertConfirmService.selectExpertSequence();
 		ExpertConfirm expertConfirm = new ExpertConfirm();
-		String ecode = "GXEWA_"+user.getCompany().getCode()+"_ZJ_"+expertInfo.getSpecialKind1()+"_"+expertInfo.getKind1Special1()+"_"+seq;
+		String ecode = "GXEWA_"+cy.getCode()+"_ZJ_"+expertInfo.getSpecialKind1()+"_"+expertInfo.getKind1Special1()+"_"+seq;
 		expertConfirm.setId(ecode);
 		expertConfirm.setDeptormanageAdvice(request.getParameter("deptormanageAdvice"));
 		expertConfirm.setExpertKind(expertInfo.getSpecialKind1());

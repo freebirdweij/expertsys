@@ -163,7 +163,7 @@
 	<form:form id="inputForm" modelAttribute="expertInfo"
 		action="${ctx}/expmanage/savebase" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<input id="expid" name="expid" type="hidden" value="${expid}"/>
-		<input id="userId" name="userId" type="hidden"/>
+		<form:hidden path="userId"/>
 		<tags:message content="${message}" />
 		<!--<div class="row-fluid">
 			 <div class="span4"> -->

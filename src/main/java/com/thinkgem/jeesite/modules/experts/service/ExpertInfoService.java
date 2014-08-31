@@ -32,6 +32,9 @@ public class ExpertInfoService extends BaseService {
 	public ExpertInfo get(String id) {
 		return expertInfoDao.get(id);
 	}
+	public int updateExpertInfo(ExpertInfo expertInfo){
+		return expertInfoDao.updateExpertInfo(expertInfo);
+	}
 	
 	public int updateRegStep(String regStep,String userId){
 		return expertInfoDao.updateRegStep(regStep, userId);
