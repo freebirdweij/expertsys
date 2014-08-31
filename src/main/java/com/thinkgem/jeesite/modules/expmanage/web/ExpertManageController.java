@@ -284,7 +284,7 @@ public class ExpertManageController extends BaseController {
 		}
 		// 修正引用赋值问题，不知道为何，Company和Office引用的一个实例地址，修改了一个，另外一个跟着修改。
 		user.setCompany(new Office(request.getParameter("company.id")));
-		user.setOffice(new Office(request.getParameter("office.id")));
+		user.setOffice(new Office(request.getParameter("company.id")));
 		// 如果新密码为空，则不更换密码
 		if (StringUtils.isNotBlank(newPassword)) {
 			user.setPassword(SystemService.entryptPassword(newPassword));
@@ -529,11 +529,11 @@ public class ExpertManageController extends BaseController {
 	
 	@RequiresPermissions("expmanage:expertConfirm:edit")
     @RequestMapping(value = "import/template")
-    public String importFileTemplate(ExpertConfirm expertConfirm, Model model,HttpServletResponse response, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String importFileTemplate(ExpertImport expertConfirm, Model model,HttpServletResponse response, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		try {
             String fileName = "专家数据导入模板.xlsx";
-    		List<ExpertConfirm> list = Lists.newArrayList(); list.add(expertConfirmService.find(new Page<ExpertConfirm>(request, response), expertConfirm).getList().get(0));
-    		new ExportExcel("专家数据", ExpertConfirm.class, 2).setDataList(list).write(response, fileName).dispose();
+    		List<ExpertImport> list = Lists.newArrayList(); list.add(expertConfirmService.findTemplate(new Page<ExpertImport>(request, response), expertConfirm).getList().get(0));
+    		new ExportExcel("专家数据", ExpertImport.class, 2).setDataList(list).write(response, fileName).dispose();
     		return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
@@ -640,7 +640,7 @@ public class ExpertManageController extends BaseController {
 		}
 		// 修正引用赋值问题，不知道为何，Company和Office引用的一个实例地址，修改了一个，另外一个跟着修改。
 		user.setCompany(new Office(request.getParameter("company.id")));
-		user.setOffice(new Office(request.getParameter("office.id")));
+		user.setOffice(new Office(request.getParameter("company.id")));
 		// 如果新密码为空，则不更换密码
 		if (StringUtils.isNotBlank(newPassword)) {
 			user.setPassword(SystemService.entryptPassword(newPassword));

@@ -49,6 +49,7 @@ public class UserUtils extends BaseService {
 
 	public static final String CACHE_USER = "user";
 	public static final String CACHE_ROLE_LIST = "roleList";
+	public static final String CACHE_ROLE_NOADMIN = "noadminList";
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
 	public static final String CACHE_OFFICE_LIST = "officeList";
@@ -95,17 +96,33 @@ public class UserUtils extends BaseService {
 
 	public static List<Role> getRoleList(){
 		@SuppressWarnings("unchecked")
-		List<Role> list = (List<Role>)getCache(CACHE_ROLE_LIST);
+		List<Role> list = null;
+		User user = getUser();
+		if (user.isAdmin()){
+			list = (List<Role>)getCache(CACHE_ROLE_LIST);
+			if (list == null){
+				DetachedCriteria dc = roleDao.createDetachedCriteria();
+				dc.createAlias("office", "office");
+				dc.createAlias("userList", "userList", JoinType.LEFT_OUTER_JOIN);
+				dc.add(dataScopeFilter(user, "office", "userList"));
+				dc.add(Restrictions.eq(Role.FIELD_DEL_FLAG, Role.DEL_FLAG_NORMAL));
+				dc.addOrder(Order.asc("office.code")).addOrder(Order.asc("name"));
+				list = roleDao.find(dc);
+				putCache(CACHE_ROLE_LIST, list);
+			}
+		}else{
+		list = (List<Role>)getCache(CACHE_ROLE_NOADMIN);
 		if (list == null){
-			User user = getUser();
 			DetachedCriteria dc = roleDao.createDetachedCriteria();
 			dc.createAlias("office", "office");
 			dc.createAlias("userList", "userList", JoinType.LEFT_OUTER_JOIN);
 			dc.add(dataScopeFilter(user, "office", "userList"));
 			dc.add(Restrictions.eq(Role.FIELD_DEL_FLAG, Role.DEL_FLAG_NORMAL));
+			dc.add(Restrictions.ne("id", "8b272b7351794ec896d7cc4520b74b44"));
 			dc.addOrder(Order.asc("office.code")).addOrder(Order.asc("name"));
 			list = roleDao.find(dc);
-			putCache(CACHE_ROLE_LIST, list);
+			putCache(CACHE_ROLE_NOADMIN, list);
+		}
 		}
 		return list;
 	}
