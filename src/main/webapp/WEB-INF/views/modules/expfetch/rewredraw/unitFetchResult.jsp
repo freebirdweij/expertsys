@@ -9,6 +9,26 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#inputForm").validate({
+				rules: {
+					name: {remote: "${ctx}/sys/role/checkName?oldName=" + encodeURIComponent("${role.name}")},
+                "reviewBegin":{
+                    required: true
+                },
+                "reviewEnd": {
+                    required: true,
+                    compareDate: "#reviewBegin"
+                }
+				},
+				messages: {
+					name: {remote: "角色名已存在"},
+                "reviewBegin":{
+                    required: "开始时间不能为空"
+                },
+                "reviewEnd":{
+                    required: "结束时间不能为空",
+                    compareDate: "选择日期不能小于今天，并且结束日期必须大于等于开始日期!"
+                }
+				},
 				submitHandler: function(form){
 					var vcheck = document.getElementsByName("checkboxid");
 					var res = document.getElementsByName("committeeName");
@@ -134,6 +154,62 @@
 			$("#cancelThree").show();
 	    	return true;
 	    }
+		
+		Date.prototype.DateAdd = function(strInterval, Number) {   
+		    var dtTmp = this;  
+		    switch (strInterval) {   
+		        case 's' :return new Date(Date.parse(dtTmp) + (1000 * Number));  
+		        case 'n' :return new Date(Date.parse(dtTmp) + (60000 * Number));  
+		        case 'h' :return new Date(Date.parse(dtTmp) + (3600000 * Number));  
+		        case 'd' :return new Date(Date.parse(dtTmp) + (86400000 * Number));  
+		        case 'w' :return new Date(Date.parse(dtTmp) + ((86400000 * 7) * Number));  
+		        case 'q' :return new Date(dtTmp.getFullYear(), (dtTmp.getMonth()) + Number*3, dtTmp.getDate(), dtTmp.getHours(), dtTmp.getMinutes(), dtTmp.getSeconds());  
+		        case 'm' :return new Date(dtTmp.getFullYear(), (dtTmp.getMonth()) + Number, dtTmp.getDate(), dtTmp.getHours(), dtTmp.getMinutes(), dtTmp.getSeconds());  
+		        case 'y' :return new Date((dtTmp.getFullYear() + Number), dtTmp.getMonth(), dtTmp.getDate(), dtTmp.getHours(), dtTmp.getMinutes(), dtTmp.getSeconds());  
+		    }  
+		}  
+	    
+	    jQuery(function(){        
+	        jQuery.validator.methods.compareDate = function(value, element, param) {
+	            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+	            //value = value + ":00";
+	            
+	            var toDate = new Date();
+	            toDate = toDate.DateAdd('d',-1);
+	            var startDate = jQuery(param).val();
+	            
+	            var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+	            var date2 = new Date(Date.parse(value.replace("-", "/")));
+	            
+	            if(date1<toDate) return false;
+	            if(date2<toDate) return false;
+	            
+	            return date1 <= date2;
+	        };
+	        
+	        jQuery("#inputForm").validate({
+	            focusInvalid:false,
+	            rules:{
+	                "reviewBegin":{
+	                    required: true
+	                },
+	                "reviewEnd": {
+	                    required: true,
+	                    compareDate: "#reviewBegin"
+	                }
+	            },
+	            messages:{
+	                "reviewBegin":{
+	                    required: "开始时间不能为空"
+	                },
+	                "reviewEnd":{
+	                    required: "结束时间不能为空",
+	                    compareDate: "选择日期不能小于今天，并且结束日期必须大于等于开始日期!"
+	                }
+	            }
+	        });
+	    });
+	    
 	    document.onreadystatechange = function(){	
 	    	 var rewb = "";
 	    	var rew = $("#reviewBegin");
@@ -202,17 +278,17 @@
 		</tbody>
 	</table>
 		<div class="control-group">
-			<label class="control-label">新增补抽类型及数量:</label>
+			<label class="control-label">补抽数量:</label>
 			<div class="controls">
 				<div style="margin-right:40px; float:left;">
 				<form:select path="techcnt" class="span2">
-					<form:option value="" label="技术类"/>
+					<form:option value="" label="技术类数量"/>
 					<form:options items="${fns:getDictList('sys_techcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				</div>
 				<div style="margin-left:30px; float:left;">
 				<form:select path="ecomcnt" class="span2">
-					<form:option value="" label="经济类"/>
+					<form:option value="" label="经济类数量"/>
 					<form:options items="${fns:getDictList('sys_ecomcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				</div>
@@ -256,8 +332,10 @@
 		</tbody>
 	</table>
 		<div class="form-actions">
+		    <c:if test="${rlist.size() gt '0'}">
 			<input id="resSubmit" class="btn btn-primary" type="button" value="采用本次补抽结果" onclick="rSubmit()"/>
 			<input id="resCancel" class="btn btn-primary" type="button" value="放弃本次补抽" onclick="rCancel()"/>
+		    </c:if>
 		</div>
 	</form:form>
 

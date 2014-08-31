@@ -352,6 +352,9 @@ public class ProjectExpertController extends BaseController {
 		//如果两个类型都没选，需要处理
 		if(expertCount==0){
 			addMessage(model, "您未选择抽取的专家数！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/unitFetchResult";
 		}
 		//屏蔽近期已抽选
