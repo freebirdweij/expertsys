@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -132,6 +133,7 @@ public class ExpertRegisterController extends BaseController {
 		expertInfo = expertInfoService.get(user.getId());
 		if(expertInfo==null){
 			expertInfo = new ExpertInfo();
+			expertInfo.setBirthdate(new Timestamp((new Date()).getTime()));
 			expertInfo.setName(user.getName());
 			expertInfo.setUserId(user.getId());
 			/*Date birthdate = expertInfo.getBirthdate();
@@ -145,6 +147,7 @@ public class ExpertRegisterController extends BaseController {
 			expertInfo = new ExpertInfo();
 			expertInfo.setName(user.getName());
 			expertInfo.setUserId(user.getId());
+			expertInfo.setBirthdate(new Timestamp((new Date()).getTime()));
 			/*Date birthdate = expertInfo.getBirthdate();
 			if (birthdate == null){
 				birthdate = DateUtils.setDays(new Date(), 1);

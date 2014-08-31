@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.expmanage.web;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -605,6 +606,7 @@ public class ExpertManageController extends BaseController {
 	@RequiresPermissions("experts:expertInfo:reg")
 	@RequestMapping(value = "expnew")
 	public String expnew(ExpertInfo expertInfo, Model model) {
+		expertInfo.setBirthdate(new Timestamp((new Date()).getTime()));
 		model.addAttribute("expertInfo",expertInfo);
 		//model.addAttribute("allRoles", systemService.findAllRole());
 		return "modules/expmanage/baseNew";

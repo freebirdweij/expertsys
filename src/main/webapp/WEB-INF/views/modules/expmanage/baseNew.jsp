@@ -156,6 +156,14 @@
 		
 	}
 	
+    document.onreadystatechange = function(){	
+      	 var rewb = "";
+      	var rew = $("#birthdate");
+      	rewb = rew.val();
+      	rewb = rewb.substr(0,10);
+      	$("#birthdate").val(rewb);
+      }
+   	
 	</script>
 </head>
 <body>
@@ -209,7 +217,7 @@
 					<label class="control-label">出生年月:</label>
 					<div class="controls">
 						<form:input path="birthdate" maxlength="20"
-							class="span2 input-small Wdate required" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+							class="span2 input-small Wdate required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 					</div>
 				</div>				
 			<!-- </div> -->
