@@ -289,7 +289,7 @@ CREATE INDEX confirm_special_index ON expert_confirm (expert_special);
 CREATE INDEX confirm_nowcert_index ON expert_confirm (expert_technical);
 CREATE INDEX confirm_series_index ON expert_confirm (expert_series);
 
-
+create sequence expert_seq nocycle maxvalue 9999999999 start with 1;
 
 /* Comments */
 

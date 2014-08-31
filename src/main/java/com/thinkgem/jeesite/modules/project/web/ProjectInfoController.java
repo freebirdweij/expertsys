@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.project.web;
 
+import java.math.BigDecimal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +23,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.Constants;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -116,7 +119,11 @@ public class ProjectInfoController extends BaseController {
 		if (!beanValidator(model, projectInfo)){
 			return record(projectInfo, model);
 		}
-		projectInfo.setId(projectInfo.getPrjCode());
+		User user = UserUtils.getUser();
+		//系统生成项目编号
+		BigDecimal seq = projectInfoService.selectProjectSequence();
+		String pcode = "GXEWA_"+user.getCompany().getCode()+"_XM_"+projectInfo.getPrjType()+"_"+projectInfo.getPrjYear()+"_"+seq;
+		projectInfo.setId(pcode);
 		projectInfo.setPrjStatus(Constants.Project_Status_Start);
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");

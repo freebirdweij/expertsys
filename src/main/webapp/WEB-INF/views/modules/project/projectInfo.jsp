@@ -74,21 +74,9 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">项目级别:</label>
+			<label class="control-label">项目年度:</label>
 			<div class="controls">
-				<form:select path="prjLevel" class="span2" disabled="true">
-					<form:option value="" label="请选择"/>
-					<form:options items="${fns:getDictList('sys_prjlevel_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">项目预计时间:</label>
-			<div class="controls">
-				从
-						${projectInfo.prjBegin}
-				至
-						${projectInfo.prjEnd}
+			<label class="lbl">${projectInfo.prjYear}</label>
 			</div>
 		</div>
 		<div class="control-group">

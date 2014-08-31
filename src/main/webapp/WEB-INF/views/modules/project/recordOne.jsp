@@ -90,13 +90,13 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="projectInfo" action="${ctx}/project/saveone" method="post" class="form-horizontal">
 		<tags:message content="${message}"/>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">项目编号:</label>
 			<div class="controls">
 				<input id="oldProjectId" name="oldProjectId" type="hidden" value="${projectInfo.id}">
 						<form:input path="prjCode" htmlEscape="false" maxlength="40"
 							class="span3 required" />
-            </div>
+            </div> --%>
 		</div>
 		<div class="control-group">
 			<label class="control-label">项目名称:</label>

@@ -3,8 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.expmanage.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -33,6 +35,10 @@ public class ExpertConfirmService extends BaseService {
 	
 	public ExpertConfirm get(String id) {
 		return expertConfirmDao.get(id);
+	}
+	
+	public BigDecimal selectExpertSequence(){
+		return expertConfirmDao.selectExpertSequence();
 	}
 	
 	public Page<ExpertConfirm> find(Page<ExpertConfirm> page, ExpertConfirm expertConfirm) {

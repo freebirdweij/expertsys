@@ -110,7 +110,7 @@
 							class="span3 required number"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">项目级别:</label>
 			<div class="controls">
 				<form:select path="prjLevel" class="span2">
@@ -118,7 +118,7 @@
 					<form:options items="${fns:getDictList('sys_prjlevel_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">项目年度:</label>
 			<div class="controls">

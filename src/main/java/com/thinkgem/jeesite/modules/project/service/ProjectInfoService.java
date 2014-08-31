@@ -3,9 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.project.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -52,6 +54,10 @@ public class ProjectInfoService extends BaseService {
 	
 	public ProjectInfo get(String id) {
 		return projectInfoDao.get(id);
+	}
+	
+	public BigDecimal selectProjectSequence(){
+		return projectInfoDao.selectProjectSequence();
 	}
 	
 	public int updateProjectStatus(String prjStatus,String prjid){

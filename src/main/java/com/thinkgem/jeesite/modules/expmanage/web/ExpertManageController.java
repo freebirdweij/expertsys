@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.expmanage.web;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -707,8 +708,11 @@ public class ExpertManageController extends BaseController {
 		expertInfoService.save(expertInfo);
 		
 		//保存专家审批
+		//系统生成专家编号
+		BigDecimal seq = expertConfirmService.selectExpertSequence();
 		ExpertConfirm expertConfirm = new ExpertConfirm();
-		expertConfirm.setId(expertInfo.getExpertCode());
+		String ecode = "GXEWA_"+user.getCompany().getCode()+"_ZJ_"+expertInfo.getSpecialKind1()+"_"+expertInfo.getKind1Special1()+"_"+seq;
+		expertConfirm.setId(ecode);
 		expertConfirm.setDeptormanageAdvice(request.getParameter("deptormanageAdvice"));
 		expertConfirm.setExpertKind(expertInfo.getSpecialKind1());
 		expertConfirm.setExpertSpecial(expertInfo.getKind1Special1());

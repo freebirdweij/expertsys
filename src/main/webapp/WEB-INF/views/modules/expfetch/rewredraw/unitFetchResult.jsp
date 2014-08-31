@@ -221,8 +221,8 @@
 		<div class="control-group">
 			<label class="control-label">录入补抽原因:</label>
 			<div class="controls">
-						<form:input path="remarks" htmlEscape="false" maxlength="50"
-							class="span2 required"/>
+						<form:input path="remarks" htmlEscape="false" maxlength="200"
+							class="span6 required"/>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
 						<form:input path="supervise" htmlEscape="false" maxlength="20"
 							class="span2 required userName"/>

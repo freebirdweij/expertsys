@@ -162,7 +162,7 @@ ALTER TABLE project_committee
 ;
 
 
-
+create sequence project_seq nocycle maxvalue 9999999999 start with 1;
 
 
 /* Comments */

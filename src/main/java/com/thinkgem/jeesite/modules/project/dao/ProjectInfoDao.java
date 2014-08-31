@@ -3,6 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.project.dao;
 
+import java.math.BigDecimal;
+
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.thinkgem.jeesite.common.persistence.BaseDao;
@@ -17,6 +20,15 @@ import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
  */
 @Repository
 public class ProjectInfoDao extends BaseDao<ProjectInfo> {
+	
+	public BigDecimal selectProjectSequence(){
+		Query query = createSqlQuery("select project_seq.nextval from dual",null); 
+		Object result = query.uniqueResult(); 
+		
+		if(result==null) return new BigDecimal(0);
+		
+		return (BigDecimal)result;
+	}
 	
 	public int updateRecordTwo(ProjectInfo projectInfo){
 		return update("update ProjectInfo set prjBegin=:p1, prjEnd=:p2, prjNotes=:p3, prjStatus=:p4 where id = :p5", 
