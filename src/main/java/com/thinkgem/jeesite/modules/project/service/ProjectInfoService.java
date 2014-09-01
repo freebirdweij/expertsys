@@ -267,13 +267,31 @@ public class ProjectInfoService extends BaseService {
 		return true;
 	}
 	
-	public boolean updateProjectStatusToSave(){
+	public boolean updateProjectStatusToReceived(){
 		Criteria dc = projectInfoDao.getSession().createCriteria(ProjectInfo.class, "p");
 		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "e");
 		subdc.add(Restrictions.eqProperty("p.id","e.prjProjectInfo.id")).setProjection(Projections.id());
 		
 		dc.add(Restrictions.eq("p.prjStatus", Constants.Project_Status_Receive));
 		subdc.add(Restrictions.eq("e.fetchStatus",Constants.Fetch_Accept_Sussess));
+		subdc.add(Restrictions.lt("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
+		dc.add(Restrictions.eq("p.delFlag", ProjectInfo.DEL_FLAG_NORMAL));
+		dc.add(Subqueries.exists(subdc));
+		@SuppressWarnings("unchecked")
+		List<ProjectInfo> plist = dc.list();
+		for(ProjectInfo pi:plist){
+			updateProjectStatus(Constants.Project_Status_Received,pi.getId());
+		}
+		return true;
+	}
+	
+	public boolean updateProjectStatusToSave(){
+		Criteria dc = projectInfoDao.getSession().createCriteria(ProjectInfo.class, "p");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "e");
+		subdc.add(Restrictions.eqProperty("p.id","e.prjProjectInfo.id")).setProjection(Projections.id());
+		
+		dc.add(Restrictions.eq("p.prjStatus", Constants.Project_Status_End));
+		subdc.add(Restrictions.eq("e.fetchStatus",Constants.Fetch_Accepted_Sussess));
 		subdc.add(Restrictions.lt("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
 		dc.add(Restrictions.eq("p.delFlag", ProjectInfo.DEL_FLAG_NORMAL));
 		dc.add(Subqueries.exists(subdc));

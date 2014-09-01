@@ -94,7 +94,7 @@
 	    }
 	    
 		function bCancel(){
-			$("#inputForm").attr("action","${ctx}/expfetch/acptredraw/reviewinglist");
+			$("#inputForm").attr("action","${ctx}/expfetch/acptredraw/acceptinglist");
 			$("#inputForm").submit();
 	    	return false;
 	    }
@@ -147,6 +147,19 @@
 			$("#cancelThree").show();
 	    	return true;
 	    }
+	    document.onreadystatechange = function(){	
+	    	 var rewb = "";
+	    	var rew = $("#reviewBegin");
+	    	rewb = rew.val();
+	    	rewb = rewb.substr(0,10);
+	    	$("#reviewBegin").val(rewb);
+	    	 var rewe = ""; 
+	    	var ree = $("#reviewEnd");
+	    			rewe = ree.val();
+	    	rewe = rewe.substr(0,10);
+	    	$("#reviewEnd").val(rewe); 
+	    	//alert("kkk");
+	    }
 	    
 	</script>
 </head>
@@ -156,17 +169,30 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/acptredraw/directdrawunit" method="post" enctype="multipart/form-data" class="form-horizontal">
 	<tags:message content="${message}"/>
+		<form:hidden path="prjid"/>
+		<form:hidden path="fetchTime"/>
+		<div class="control-group">
+			<label class="control-label">项目评审时间:</label>
+			<div class="controls">
+				从<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
+				至<form:input path="reviewEnd" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
+			</div>
+		</div>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>项目状态</th><th>投资金额</th><th>项目年度</th></tr></thead>
 		<tbody>
+		<c:forEach items="${plist}" var="projectInfo">
 			<tr>
-				<td>${projectExpert.prjProjectInfo.id}</td>
-				<td><a href="${ctx}/project/form?id=${projectExpert.prjProjectInfo.id}">${projectExpert.prjProjectInfo.prjName}</a></td>
-				<td>${projectExpert.prjProjectInfo.unit.name}</td>
-				<td>${fns:getDictLabel(projectExpert.prjProjectInfo.prjStatus,'sys_prjstatus_type','')}</td>
-				<td>${projectExpert.prjProjectInfo.prjMoney}</td>
-				<td>${projectExpert.prjProjectInfo.prjBegin}</td>
+				<td>${projectInfo.id}</td>
+				<td><a href="${ctx}/project/form?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td>${projectInfo.unit.name}</td>
+				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
+				<td>${projectInfo.prjMoney}</td>
+				<td>${projectInfo.prjBegin}</td>
 			</tr>
+		</c:forEach>
 		</tbody>
 	</table>
       <div class="span10">
@@ -188,8 +214,16 @@
 		</c:forEach>
 		</tbody>
 	</table>
+			<div class="controls">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;抽取人:
+						${userName}
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
+						${projectExpert.supervise}
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期:
+						${fetchDate}
+			</div>
 		<div class="form-actions">
-			<input id="resSubmit" class="btn btn-primary" type="button" value="导出专家列表" onclick="rSubmit()"/>
+			<input id="resSubmit" class="btn btn-primary" type="button" value="导出项目评审专家补抽确认表" onclick="rSubmit()"/>
 			<input id="btnCancel" class="btn btn-primary" type="button" value="退出" onclick="bCancel()"/>
 		</div>
 	</form:form>

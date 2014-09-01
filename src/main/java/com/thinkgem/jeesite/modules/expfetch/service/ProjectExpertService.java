@@ -780,6 +780,79 @@ public class ProjectExpertService extends BaseService {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Office> findUnitExpertByConditionRedrawRemove(Page<Office> page, ProjectExpert projectExpert) {
+		DetachedCriteria dc = DetachedCriteria.forClass(Office.class, "o");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		subdc.createAlias("e.expertCompany", "c");
+		subdc.add(Restrictions.eqProperty("c.id","o.id")).setProjection(Projections.id());
+		
+		String areaIdsYes = projectExpert.getAreaIdsYes();
+		if(areaIdsYes!=null&&!areaIdsYes.equalsIgnoreCase("")){
+				String[] areaids = StringUtils.split(areaIdsYes, ",");
+				subdc.createAlias("e.expertArea", "a");
+				subdc.add(Restrictions.in("a.id", areaids));
+		}
+
+		String unitIdsYes = projectExpert.getUnitIdsYes();
+		if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
+			String[] unitids = StringUtils.split(unitIdsYes, ",");
+			subdc.add(Restrictions.in("c.id", unitids));
+	    }
+
+		String kindIdsYes = projectExpert.getKindIdsYes();
+		if(kindIdsYes!=null&&!kindIdsYes.equalsIgnoreCase("")){
+			String[] kindids = StringUtils.split(kindIdsYes, ",");
+			subdc.add(Restrictions.in("e.expertKind", kindids));
+	    }
+
+		String specialIdsYes = projectExpert.getSpecialIdsYes();
+		if(specialIdsYes!=null&&!specialIdsYes.equalsIgnoreCase("")){
+			String[] specialids = StringUtils.split(specialIdsYes, ",");
+			subdc.add(Restrictions.in("e.expertSpecial", specialids));
+	    }
+
+		String areaIdsNo = projectExpert.getAreaIdsNo();
+		if(areaIdsNo!=null&&!areaIdsNo.equalsIgnoreCase("")){
+			String[] areaids = StringUtils.split(areaIdsNo, ",");
+			subdc.createAlias("e.expertArea", "a");
+			subdc.add(Restrictions.not(Restrictions.in("a.id", areaids)));
+	    }
+
+		String unitIdsNo = projectExpert.getUnitIdsNo();
+		if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
+			String[] unitids = StringUtils.split(unitIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("c.id", unitids)));
+	    }
+		
+		String kindIdsNo = projectExpert.getKindIdsNo();
+		if(kindIdsNo!=null&&!kindIdsNo.equalsIgnoreCase("")){
+			String[] kindids = StringUtils.split(kindIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.expertKind", kindids)));
+	    }
+
+		String specialIdsNo = projectExpert.getSpecialIdsNo();
+		if(specialIdsNo!=null&&!specialIdsNo.equalsIgnoreCase("")){
+			String[] specialids = StringUtils.split(specialIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.expertSpecial", specialids)));
+	    }
+
+		String discIds = projectExpert.getTechIdsNo();
+		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
+			String[] disids = StringUtils.split(discIds, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.id", disids)));
+	    }
+
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("o.id"));
+		
+		List<Office> res = officeDao.find(dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
 	public Page<ExpertConfirm> findReviewAndAcceptExpertByProject(Page<ExpertConfirm> page, String prjid) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
 		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "o");

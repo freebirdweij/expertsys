@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.expfetch.web;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Array;
 import java.sql.Timestamp;
@@ -38,12 +39,15 @@ import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.ExportFetchExcel;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
+import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
+import com.thinkgem.jeesite.modules.sys.service.LogService;
 import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -60,6 +64,9 @@ import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 @RequestMapping(value = "${adminPath}/expfetch/acptfetch")
 public class AcceptFetchController extends BaseController {
 
+	@Autowired
+	private LogService logService;
+	
 	@Autowired
 	private AreaService areaService;
 	
@@ -839,38 +846,60 @@ public class AcceptFetchController extends BaseController {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
-		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
 		int fcount = 0;
-		if(pExpert.getFetchTime()==null){
-			fcount = projectExpertService.selectMaxFetchTime()+1;
+		if(projectExpert.getFetchTime()==null){
+			fcount = projectExpertService.selectMaxFetchTime();
 		}else{
-		    fcount = pExpert.getFetchTime()+1;
+		    fcount = projectExpert.getFetchTime();
 		}
+		String prjid = projectExpert.getPrjid();
 		String resIds = projectExpert.getResIds();
 		String[] ids = StringUtils.split(resIds, ",");
+		
     	//本次抽取状态标志。重要
-	    for (String id : ids) {
-	    	projectExpert = new ProjectExpert();
-			projectExpert.setFetchTime(fcount);
-		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
-	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Accept_Sussess);
-	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
-	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
-	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
-			projectExpertService.save(projectExpert);
-	    }
-	    projectInfoService.updateProjectStatus(Constants.Project_Status_Receive, pExpert.getPrjid());
+		//可以有多个项目同时抽取，先判断有几个项目
+		String prjs[] = StringUtils.split(prjid, ",");
+		//须建立项目的父子关系，补抽时用到
+		String pid = "0";
+		if(prjs.length>1){
+			pid = prjs[0];
+		}
+		for(String prj:prjs){
+			for (String id : ids) {
+				projectExpertService.updateProjectExpertStatus(Constants.Fetch_Accept_Sussess,fcount,prj,id);
+			}
+			if(prj.equals(pid)){
+			projectInfoService.updateProjectStatusAndParent(Constants.Project_Status_Receive,"0", prj);
+			}else{
+				projectInfoService.updateProjectStatusAndParent(Constants.Project_Status_Receive,pid, prj);
+				
+			}
+		}
 	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
+		addMessage(model, "确认对项目进行专家抽取成功.");
 		
-		
-		ProjectInfo projectInfo = projectInfoService.get(pExpert.getPrjid());
-		projectExpert.setPrjProjectInfo(projectInfo);
+		List<ProjectInfo> plist = projectInfoService.findProjectsByIds(new Page<ProjectInfo>(), prjs);
+        model.addAttribute("plist", plist);
 		projectExpert.setResIds(resIds);
-		model.addAttribute("projectExpert", projectExpert);
         List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
         model.addAttribute("rlist", rlist);
+		User user = UserUtils.getUser();
+		//记录系统日志
+		Log log = new Log();
+		log.setCreateBy(user);
+		log.setCreateDate( DateUtils.parseDate(DateUtils.getDateTime()));
+		log.setCurrentUser(user);
+		log.setType(Log.TYPE_ACCESS);
+		log.setRemoteAddr(request.getRemoteAddr());
+		log.setRequestUri(request.getRequestURI());
+		log.setMethod(request.getMethod());
+		logService.save(log);
+		
+		model.addAttribute("userName", user.getName());
+		model.addAttribute("fetchDate", DateUtils.getDateTime());
+        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/acptfetch/unitReceiveNote";
 	}
 	
@@ -1088,16 +1117,21 @@ public class AcceptFetchController extends BaseController {
 	}
 
     @RequestMapping(value = "export", method=RequestMethod.POST)
-    public String exportFile(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+    public String exportFile(ProjectExpert projectExpert, Model model, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        String fileName = "项目验收专家抽取确认表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
+        List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
+		//ProjectInfo projectInfo = projectInfoService.get(projectExpert.getPrjid());
+		//Office un = officeService.get(projectInfo.getUnit().getId());
+		//projectInfo.setUnit(un);
+		//projectExpert.setPrjProjectInfo(projectInfo);
 		try {
-            String fileName = "专家列表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
-            List<ExpertConfirm> rlist = projectExpertService.findExpertsByIds(new Page<ExpertConfirm>(request, response), projectExpert);
-    		new ExportExcel("专家列表", ExpertConfirm.class).setDataList(rlist).write(response, fileName).dispose();
-    		return null;
-		} catch (Exception e) {
-			addMessage(redirectAttributes, "导出专家失败！失败信息："+e.getMessage());
+			new ExportFetchExcel("项目验收专家抽取确认表", ExpertConfirm.class,projectExpert,projectInfoService).setDataList(rlist).write(response, fileName).dispose();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return "redirect:"+Global.getAdminPath()+"/expfetch/acptfetch/receiveunitresult/?repage";
+		
+	return reviewinglist(null, request, response, model);
     }
 
 }

@@ -5,6 +5,7 @@
 	<title>专家抽取</title>
 	<meta name="decorator" content="default"/>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
+	<%@include file="/WEB-INF/views/include/treetable.jsp" %>
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -60,25 +61,27 @@
 		<li><a href="${ctx}/expfetch/savredraw/saveinglist">待竣工验收项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+	<table id="treeTable" class="table table-striped table-bordered table-condensed">
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>年度</th><th>操作</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="projectInfo">
-			<tr>
+		<c:forEach items="${list}" var="projectInfo">
+			<tr id="${projectInfo.id}" pId="${projectInfo.parent.id ne requestScope.projectInfo.id?projectInfo.parent.id:'0'}">
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/form?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
-				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/acptredraw/unitmethod?prjid=${projectInfo.id}">单位方式抽取</a>
-    				<a href="${ctx}/expfetch/acptredraw/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a>
-				</td></shiro:hasPermission>
+				<td>${projectInfo.prjYear}</td>
+				<td>
+				<%-- <input type="checkbox" id="${projectInfo.id}" name="checkboxid"/> --%>
+		        <c:if test="${projectInfo.parent.id eq '0'}">
+    				<a href="${ctx}/expfetch/acptredraw/unitmethod?prjid=${projectInfo.id}">进入补抽</a>
+		        </c:if>
+    				<%-- <a href="${ctx}/expfetch/rewredraw/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a> --%>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
 </body>
 </html>

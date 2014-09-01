@@ -390,6 +390,9 @@ public class RedrawReviewController extends BaseController {
 		//如果两个类型都没选，需要处理
 		if(expertCount==0){
 			addMessage(model, "您未选择抽取的专家数！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/rewredraw/unitFetchResult";
 		}
 		//屏蔽近期已抽选
@@ -454,6 +457,9 @@ public class RedrawReviewController extends BaseController {
 		}else if(techcnt>resSize){
 			//待抽取单位不足，需要改变条件
 			addMessage(model, "条件限制过多，技术专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/rewredraw/unitFetchResult";
 		}
         
@@ -480,6 +486,9 @@ public class RedrawReviewController extends BaseController {
 		}else if(ecomcnt>resSize){
 			//待抽取单位不足，需要改变条件
 			addMessage(model, "条件限制过多，经济专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/rewredraw/unitFetchResult";
 		}
         
@@ -492,6 +501,9 @@ public class RedrawReviewController extends BaseController {
 		if(erclist.size()==0){
 			//待抽取单位不足，需要改变条件
 			addMessage(model, "条件限制过多，库中专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/rewredraw/unitFetchResult";
 			
 		}
