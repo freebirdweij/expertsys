@@ -240,7 +240,6 @@
 	<tags:message content="${message}"/>
 		<form:hidden path="prjid"/>
 		<form:hidden path="fetchTime"/>
-		<form:hidden path="resIds"/>
 		<div class="control-group">
 			<label class="control-label">评审时间:</label>
 			<div class="controls">
@@ -286,6 +285,7 @@
         <h4>以下为抽选结果：</h4>
       </div>
 			<form:hidden path="resIds"/>
+			<form:hidden path="discIds"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>姓名</th><th>归属单位</th><th>类别</th><th>专业</th><th>职称</th><th>学历</th></tr></thead>
 		<tbody>

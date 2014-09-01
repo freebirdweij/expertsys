@@ -336,16 +336,16 @@ public class AcceptFetchController extends BaseController {
 		//需要排除原来参加过同项目评审的专家
 		List<ExpertConfirm> reslist = Lists.newArrayList();
 		List<String> ridslist = Lists.newArrayList();
-		String resIds = projectExpert.getResIds();
-		if(resIds==null||resIds.equals("")){
+		String discIds = projectExpert.getDiscIds();
+		if(discIds==null||discIds.equals("")){
 			for(String prj:prjs){
 				reslist.addAll(projectExpertService.findReviewingExpertByProject(new Page<ExpertConfirm>(),prj).getList());
 			}
 			for(ExpertConfirm ec:reslist){
 				ridslist.add(ec.getId());
 			}
-			resIds = StringUtils.join(ridslist,",");
-			projectExpert.setResIds(resIds);
+			discIds = StringUtils.join(ridslist,",");
+			projectExpert.setDiscIds(discIds);
 		}
 		
 		//需要获取的专家数
@@ -391,7 +391,7 @@ public class AcceptFetchController extends BaseController {
 
 			//先抽取交投的专家
 			if(om.size()>0){
-				jec = getAExpertByJiaoTouMapRemoveBefore(techcnt, ecomcnt, om,resIds);
+				jec = getAExpertByJiaoTouMapRemoveBefore(techcnt, ecomcnt, om,discIds);
 			}
 			//如果交投的抽中了。
 			if(jec!=null){
@@ -412,7 +412,7 @@ public class AcceptFetchController extends BaseController {
 		if(techcnt>0){
 			projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
 			projectExpert.setKindIdsYes(Constants.Expert_Kind_Technical);
-        List<Office> tlist = projectExpertService.findUnitExpertByConditionRemoveResIds(new Page<Office>(request, response), projectExpert); 
+        List<Office> tlist = projectExpertService.findUnitExpertByConditionRemoveDiscIds(new Page<Office>(request, response), projectExpert); 
         
         //以下进行随机选取计算
 		int resSize =tlist.size(); 
@@ -431,7 +431,7 @@ public class AcceptFetchController extends BaseController {
 		}
         
         for(Office ec : tlist){
-        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Technical,resIds));
+        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Technical,discIds));
         	uidslist.add(ec.getId());
         }
 		}
@@ -441,7 +441,7 @@ public class AcceptFetchController extends BaseController {
 		if(ecomcnt>0){
 			projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
 			projectExpert.setKindIdsYes(Constants.Expert_Kind_Economic);
-        List<Office> elist = projectExpertService.findUnitExpertByConditionRemoveResIds(new Page<Office>(request, response), projectExpert); 
+        List<Office> elist = projectExpertService.findUnitExpertByConditionRemoveDiscIds(new Page<Office>(request, response), projectExpert); 
         
         //以下进行随机选取计算
 		int resSize =elist.size(); 
@@ -460,7 +460,7 @@ public class AcceptFetchController extends BaseController {
 		}
         
         for(Office ec : elist){
-        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Economic,resIds));
+        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Economic,discIds));
         	uidslist.add(ec.getId());
         }
 		}
@@ -508,7 +508,7 @@ public class AcceptFetchController extends BaseController {
         }
         projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
         projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
-        //projectExpert.setResIds(StringUtils.join(eclist, ","));
+        projectExpert.setResIds(StringUtils.join(eclist, ","));
         projectExpert.setFetchTime(fcount);
         model.addAttribute("projectExpert", projectExpert);
         

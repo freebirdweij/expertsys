@@ -707,7 +707,7 @@ public class ProjectExpertService extends BaseService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Office> findUnitExpertByConditionRemoveResIds(Page<Office> page, ProjectExpert projectExpert) {
+	public List<Office> findUnitExpertByConditionRemoveDiscIds(Page<Office> page, ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(Office.class, "o");
 		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
 		subdc.createAlias("e.expertCompany", "c");
@@ -763,10 +763,10 @@ public class ProjectExpertService extends BaseService {
 			subdc.add(Restrictions.not(Restrictions.in("e.expertSpecial", specialids)));
 	    }
 
-		String resIds = projectExpert.getResIds();
-		if(resIds!=null&&!resIds.equalsIgnoreCase("")){
-			String[] resids = StringUtils.split(resIds, ",");
-			subdc.add(Restrictions.not(Restrictions.in("e.id", resids)));
+		String discIds = projectExpert.getDiscIds();
+		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
+			String[] disids = StringUtils.split(discIds, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.id", disids)));
 	    }
 
 		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
