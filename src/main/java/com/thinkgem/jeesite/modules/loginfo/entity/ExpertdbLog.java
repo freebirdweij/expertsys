@@ -42,6 +42,9 @@ public class ExpertdbLog extends DataEntity<ExpertdbLog> {
 
 	/** 日志关联的对象ID（专家、项目...）. */
 	private String objectId;
+	
+	/** 日志关联的对象ID（专家、项目...）. */
+	private String objectName;
 
 	/** 对象的操作者（对专家、项目等进行操作的系统用户）. */
 	private User objectUser;
@@ -97,6 +100,14 @@ public class ExpertdbLog extends DataEntity<ExpertdbLog> {
 	 */
 	public String getObjectId() {
 		return this.objectId;
+	}
+
+	public String getObjectName() {
+		return objectName;
+	}
+
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
 	}
 
 	/**
