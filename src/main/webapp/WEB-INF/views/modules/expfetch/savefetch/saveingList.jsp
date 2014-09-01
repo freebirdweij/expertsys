@@ -8,27 +8,37 @@
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
+			$("#inputForm").validate({
+				submitHandler: function(form){
+					var vcheck = document.getElementsByName("checkboxid");
+					var dres = "";
+					for (var i=0;i<vcheck.length;i++)
+					{
+					  if(vcheck[i].checked == true){
+						  dres = dres+","+vcheck[i].id;
+					  }
+					}
+					  $("#prjid").val(dres);
+					if(dres==""){
+						top.$.jBox.confirm("您还未选择项目！","系统提示",function(v,h,f){
+							if(v=="ok"){
+								return false;
+							}
+						},{buttonsFocus:1});						
+					}else{
+					loading('正在提交，请稍等...');
+					form.submit();
+					}
+				},
+				errorContainer: "#messageBox",
+				errorPlacement: function(error, element) {
+					$("#messageBox").text("输入有误，请先更正。");
+					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+						error.appendTo(element.parent().parent());
+					} else {
+						error.insertAfter(element);
+					}
 				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
 			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
@@ -47,7 +57,7 @@
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
-			$("#searchForm").attr("action","${ctx}/project/list");
+			$("#searchForm").attr("action","${ctx}/expfetch/savefetch/saveinglist");
 			$("#searchForm").submit();
 	    	return false;
 	    }
@@ -59,9 +69,10 @@
 		<li><a href="${ctx}/expfetch/acptfetch/acceptinglist">待交工验收项目</a></li>
 		<li class="active"><a href="${ctx}/expfetch/savefetch/saveinglist">待竣工验收项目</a></li>
 	</ul>
+	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/savefetch/unitmethod" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="projectInfo">
 			<tr>
@@ -70,15 +81,18 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
-				<shiro:hasPermission name="project:projectInfo:edit"><td>
-    				<a href="${ctx}/expfetch/savefetch/unitmethod?prjid=${projectInfo.id}">进入抽取</a>
-    				<%-- <a href="${ctx}/expfetch/acptfetch/expertmethod?prjid=${projectInfo.id}">专家个人方式抽取</a> --%>
-				</td></shiro:hasPermission>
+				<td>${projectInfo.prjYear}</td>
+				<td>
+				   <input type="checkbox" id="${projectInfo.id}" name="checkboxid"/>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
 	<div class="pagination">${page}</div>
+		<div class="form-actions">
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进入抽取"/>
+		</div>
+	</form:form>
 </body>
 </html>
