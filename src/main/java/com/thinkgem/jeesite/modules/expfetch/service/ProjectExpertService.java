@@ -68,6 +68,10 @@ public class ProjectExpertService extends BaseService {
 		return projectExpertDao.updateProjectExpertStatus(fetchStatus, fetchTime, prjid, expid);
 	}
 	
+	public int updateProjectExpertReviewDate(String fetchStatus,String prjid,Date reviewBegin,Date reviewEnd){
+		return projectExpertDao.updateProjectExpertReviewDate(fetchStatus,prjid,reviewBegin,reviewEnd);
+	}
+	
 	public int updateProjectExpertAbsence(String fetchStatus,String absenceReson,String prjid,String expid){
 		return projectExpertDao.updateProjectExpertAbsence(fetchStatus, absenceReson, prjid, expid);
 	}
@@ -241,6 +245,40 @@ public class ProjectExpertService extends BaseService {
 		return list.get(ri);
 	}
 	
+	public ExpertConfirm findAExpertByUnitAndKindRemoveSomeExperts(Office office, String kind,String resIds) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		if (office!=null){
+			if (StringUtils.isNotEmpty(office.getId())){
+				dc.add(Restrictions.eq("e.expertCompany.id", office.getId()));
+				if(kind!=null){
+				dc.add(Restrictions.eq("e.expertKind", kind));
+				}
+			}
+		}
+		if(resIds!=null&&!resIds.equalsIgnoreCase("")){
+			String[] resids = StringUtils.split(resIds, ",");
+			dc.add(Restrictions.not(Restrictions.in("e.id", resids)));
+	    }
+		dc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
+		
+		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		
+		List<ExpertConfirm> list = expertConfirmDao.find(dc);
+		
+        //以下进行随机选取计算
+		int resSize =list.size(); 
+		int ri = 0;
+		if(1<resSize){
+	        Random r=new Random();   
+	        int n = resSize;  
+	         ri = r.nextInt(n);
+		}
+        
+
+
+		return list.get(ri);
+	}
+	
 	public Page<ExpertConfirm> findExperts(Page<ExpertConfirm> page, ProjectExpert projectExpert) {
 		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
 		
@@ -314,7 +352,7 @@ public class ProjectExpertService extends BaseService {
 			subdc.add(Restrictions.not(Restrictions.in("e.expertSeries", seriesids)));
 	    }
 		
-		String techIdsNo = projectExpert.getTechIdsYes();
+		String techIdsNo = projectExpert.getTechIdsNo();
 		if(techIdsNo!=null&&!techIdsNo.equalsIgnoreCase("")){
 			String[] techids = StringUtils.split(techIdsNo, ",");
 			subdc.add(Restrictions.not(Restrictions.in("e.expertTechnical", techids)));
@@ -665,6 +703,97 @@ public class ProjectExpertService extends BaseService {
 		dc.addOrder(Order.desc("o.id"));
 		
 		List<Office> res = officeDao.find(dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Office> findUnitExpertByConditionRemoveResIds(Page<Office> page, ProjectExpert projectExpert) {
+		DetachedCriteria dc = DetachedCriteria.forClass(Office.class, "o");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		subdc.createAlias("e.expertCompany", "c");
+		subdc.add(Restrictions.eqProperty("c.id","o.id")).setProjection(Projections.id());
+		
+		String areaIdsYes = projectExpert.getAreaIdsYes();
+		if(areaIdsYes!=null&&!areaIdsYes.equalsIgnoreCase("")){
+				String[] areaids = StringUtils.split(areaIdsYes, ",");
+				subdc.createAlias("e.expertArea", "a");
+				subdc.add(Restrictions.in("a.id", areaids));
+		}
+
+		String unitIdsYes = projectExpert.getUnitIdsYes();
+		if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
+			String[] unitids = StringUtils.split(unitIdsYes, ",");
+			subdc.add(Restrictions.in("c.id", unitids));
+	    }
+
+		String kindIdsYes = projectExpert.getKindIdsYes();
+		if(kindIdsYes!=null&&!kindIdsYes.equalsIgnoreCase("")){
+			String[] kindids = StringUtils.split(kindIdsYes, ",");
+			subdc.add(Restrictions.in("e.expertKind", kindids));
+	    }
+
+		String specialIdsYes = projectExpert.getSpecialIdsYes();
+		if(specialIdsYes!=null&&!specialIdsYes.equalsIgnoreCase("")){
+			String[] specialids = StringUtils.split(specialIdsYes, ",");
+			subdc.add(Restrictions.in("e.expertSpecial", specialids));
+	    }
+
+		String areaIdsNo = projectExpert.getAreaIdsNo();
+		if(areaIdsNo!=null&&!areaIdsNo.equalsIgnoreCase("")){
+			String[] areaids = StringUtils.split(areaIdsNo, ",");
+			subdc.createAlias("e.expertArea", "a");
+			subdc.add(Restrictions.not(Restrictions.in("a.id", areaids)));
+	    }
+
+		String unitIdsNo = projectExpert.getUnitIdsNo();
+		if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
+			String[] unitids = StringUtils.split(unitIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("c.id", unitids)));
+	    }
+		
+		String kindIdsNo = projectExpert.getKindIdsNo();
+		if(kindIdsNo!=null&&!kindIdsNo.equalsIgnoreCase("")){
+			String[] kindids = StringUtils.split(kindIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.expertKind", kindids)));
+	    }
+
+		String specialIdsNo = projectExpert.getSpecialIdsNo();
+		if(specialIdsNo!=null&&!specialIdsNo.equalsIgnoreCase("")){
+			String[] specialids = StringUtils.split(specialIdsNo, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.expertSpecial", specialids)));
+	    }
+
+		String resIds = projectExpert.getResIds();
+		if(resIds!=null&&!resIds.equalsIgnoreCase("")){
+			String[] resids = StringUtils.split(resIds, ",");
+			subdc.add(Restrictions.not(Restrictions.in("e.id", resids)));
+	    }
+
+		subdc.add(Restrictions.eq("e.expertLevel", Constants.Expert_Status_Work));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("o.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("o.id"));
+		
+		List<Office> res = officeDao.find(dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Page<ExpertConfirm> findReviewAndAcceptExpertByProject(Page<ExpertConfirm> page, String prjid) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		subdc.add(Restrictions.eqProperty("e.id","o.expertExpertConfirm.id")).setProjection(Projections.id());
+		
+		subdc.add(Restrictions.eq("o.prjProjectInfo.id",prjid));
+		String st[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+		subdc.add(Restrictions.in("o.fetchStatus", st));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("e.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("e.id"));
+		
+		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
 		return res; 
 	}
 	

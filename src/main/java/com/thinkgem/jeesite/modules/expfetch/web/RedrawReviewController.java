@@ -367,6 +367,8 @@ public class RedrawReviewController extends BaseController {
 				}
 				for(ProjectInfo pi:pis){
 					projectExpertService.updateProjectExpertAbsence(Constants.Fetch_Review_Sussess, di[1], pi.getId(), di[0]);
+					//更新评审时间
+					projectExpertService.updateProjectExpertReviewDate(Constants.Fetch_Review_Sussess,pi.getId(),projectExpert.getReviewBegin(),projectExpert.getReviewEnd());
 				}
 			}
 		}

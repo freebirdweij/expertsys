@@ -216,4 +216,81 @@ public abstract class BaseController {
 		return jec;
 	}
 	
+	/**
+	 * 用于抽取交投的一位专家
+	 * @param techcnt
+	 * @param ecomcnt
+	 * @param om
+	 */
+	public ExpertConfirm getAExpertByJiaoTouMapRemoveBefore(Byte techcnt, Byte ecomcnt, Map<String, Office> om,String resIds) {
+		ExpertConfirm jec = null; 
+		if(techcnt==0&&ecomcnt>0){
+			
+	        //以下进行随机选取计算
+			boolean retry = true;
+			int redo = 5;
+			int resSize =om.values().size(); 
+			int ri = 0;
+			if(1<resSize){
+		        Random r=new Random();   
+		        int n = resSize;  
+			do{
+		         ri = r.nextInt(n);
+			jec = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Economic,resIds);
+			if(jec!=null) retry = false;
+			redo--;
+			}while(retry&&redo>0);
+			
+			}else{
+				jec = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Economic,resIds);
+			}
+	        
+			
+		}else if(ecomcnt==0&&techcnt>0){
+			
+	        //以下进行随机选取计算
+			boolean retry = true;
+			int redo = 5;
+			int resSize =om.values().size(); 
+			int ri = 0;
+			if(1<resSize){
+		        Random r=new Random();   
+		        int n = resSize;  
+			do{
+		         ri = r.nextInt(n);
+			jec = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Technical,resIds);
+			if(jec!=null) retry = false;
+			redo--;
+			}while(retry&&redo>0);
+			
+			}else{
+				jec = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(om.values().toArray(new Office[resSize])[ri], Constants.Expert_Kind_Technical,resIds);
+			}
+	        
+			
+		}else if(ecomcnt>0&&techcnt>0){
+			
+	        //以下进行随机选取计算
+			boolean retry = true;
+			int redo = 5;
+			int resSize =om.values().size(); 
+			int ri = 0;
+			if(1<resSize){
+		        Random r=new Random();   
+		        int n = resSize;  
+			do{
+		         ri = r.nextInt(n);
+			jec = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(om.values().toArray(new Office[resSize])[ri],null,resIds);
+			if(jec!=null) retry = false;
+			redo--;
+			}while(retry&&redo>0);
+			
+			}else{
+				jec = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(om.values().toArray(new Office[resSize])[ri],null,resIds);
+			}
+	        
+		}
+		return jec;
+	}
+	
 }

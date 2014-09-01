@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.expfetch.dao;
 
+import java.util.Date;
+
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +33,25 @@ public class ProjectExpertDao extends BaseDao<ProjectExpert> {
 	public int updateProjectExpertStatus(String fetchStatus,Integer fetchTime,String prjid,String expid){
 		return update("update ProjectExpert set fetchStatus=:p1 where fetchTime = :p2 and prjProjectInfo.id = :p3 and expertExpertConfirm.id = :p4", 
 				new Parameter(fetchStatus,fetchTime,prjid,expid));
+	}
+	
+	public int updateProjectExpertReviewDate(String fetchStatus,String prjid,Date reviewBegin,Date reviewEnd){
+		if(fetchStatus.equals(Constants.Fetch_Review_Sussess)){
+		return update("update ProjectExpert set reviewBegin=:p1,reviewEnd=:p2 where prjProjectInfo.id = :p3 and fetchStatus in ("
+				+Constants.Fetch_Review_Sussess+","+Constants.Fetch_ReviewRedraw_Sussess+")",
+				new Parameter(reviewBegin,reviewEnd,prjid));
+		}
+		if(fetchStatus.equals(Constants.Fetch_Accept_Sussess)){
+		return update("update ProjectExpert set reviewBegin=:p1,reviewEnd=:p2 where prjProjectInfo.id = :p3 and fetchStatus in ("
+				+Constants.Fetch_Accept_Sussess+","+Constants.Fetch_AcceptRedraw_Sussess+")",
+				new Parameter(reviewBegin,reviewEnd,prjid));
+		}
+		if(fetchStatus.equals(Constants.Fetch_Accepted_Sussess)){
+		return update("update ProjectExpert set reviewBegin=:p1,reviewEnd=:p2 where prjProjectInfo.id = :p3 and fetchStatus in ("
+				+Constants.Fetch_Accepted_Sussess+","+Constants.Fetch_AcceptedRedraw_Sussess+")",
+				new Parameter(reviewBegin,reviewEnd,prjid));
+		}
+		return 0;
 	}
 	
 	public int updateProjectExpertAbsence(String fetchStatus,String absenceReson,String prjid,String expid){

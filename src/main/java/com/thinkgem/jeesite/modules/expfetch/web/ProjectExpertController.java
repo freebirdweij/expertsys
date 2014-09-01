@@ -418,6 +418,9 @@ public class ProjectExpertController extends BaseController {
 		}else if(techcnt>resSize){
 			//待抽取单位不足，需要改变条件
 			addMessage(model, "条件限制过多，库中专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/unitFetchResult";
 		}
         
@@ -444,6 +447,9 @@ public class ProjectExpertController extends BaseController {
 		}else if(ecomcnt>resSize){
 			//待抽取单位不足，需要改变条件
 			addMessage(model, "条件限制过多，库中专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/unitFetchResult";
 		}
         
@@ -456,6 +462,9 @@ public class ProjectExpertController extends BaseController {
 		if(erclist.size()==0){
 			//待抽取单位不足，需要改变条件
 			addMessage(model, "条件限制过多，库中专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
 			return "modules/expfetch/unitFetchResult";
 			
 		}

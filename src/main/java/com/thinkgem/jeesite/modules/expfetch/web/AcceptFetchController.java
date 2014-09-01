@@ -5,10 +5,14 @@ package com.thinkgem.jeesite.modules.expfetch.web;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Array;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -323,92 +327,189 @@ public class AcceptFetchController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
-		//需要获取的专家数
-		Byte expertCount = projectExpert.getExpertCount();
-		//从页面得到的屏蔽的单位id
-		String discIds = projectExpert.getDiscIds();
-		//屏蔽主体单位标志
-		String rejectUnit = projectExpert.getRejectUnit();
-		//屏蔽最近三次抽取标志
-		String rejectRecent = projectExpert.getRejectRecent();
+		//先取得项目主体单位
+		String prjid = projectExpert.getPrjid();
+		//可以有多个项目同时抽取，先判断有几个项目
+		String prjs[] = StringUtils.split(prjid, ",");
+		Office prjunit = projectInfoService.get(prjs[0]).getUnit();
 		
-		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
-		String unitIdsYes = projectExpert.getUnitIdsYes();
-		String unitIdsNo = projectExpert.getUnitIdsNo();
-		//构造最终需要的单位集合
-		List<String> unitList = Lists.newArrayList();
+		//需要排除原来参加过同项目评审的专家
+		List<ExpertConfirm> reslist = Lists.newArrayList();
+		List<String> ridslist = Lists.newArrayList();
+		String resIds = projectExpert.getResIds();
+		if(resIds==null||resIds.equals("")){
+			for(String prj:prjs){
+				reslist.addAll(projectExpertService.findReviewingExpertByProject(new Page<ExpertConfirm>(),prj).getList());
+			}
+			for(ExpertConfirm ec:reslist){
+				ridslist.add(ec.getId());
+			}
+			resIds = StringUtils.join(ridslist,",");
+			projectExpert.setResIds(resIds);
+		}
+		
+		//需要获取的专家数
+		Byte techcnt = projectExpert.getTechcnt();//技术类
+		if(techcnt==null) techcnt=0;
+		Byte ecomcnt = projectExpert.getEcomcnt();//经济类
+		if(ecomcnt==null) ecomcnt=0;
+		Integer expertCount = techcnt+ecomcnt;
+		
+		//如果两个类型都没选，需要处理
+		if(expertCount==0){
+			addMessage(model, "您未选择抽取的专家数！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
+			return "modules/expfetch/acptfetch/unitFetchResult";
+		}
+		//屏蔽近期已抽选
+		Byte discnt = projectExpert.getDiscnt();
+		//监督人
+		String supervise = projectExpert.getSupervise();
 		
 		//存储需屏蔽的单位集合
 		List<String> uidslist = Lists.newArrayList();
-		
-		if(rejectUnit.equalsIgnoreCase(Constants.Reject_Main_Unit)){
-			String prjid = projectExpert.getPrjid();
-			rejectUnit = projectInfoService.get(prjid).getUnit().getId();
-			uidslist.add(rejectUnit);
+		uidslist.add(prjunit.getId());//主体单位
+		if(discnt!=null){
+			uidslist.addAll(projectExpertService.findUnitRecentByCount(projectExpert));	
 		}
 		
-		if(rejectRecent.equalsIgnoreCase(Constants.Reject_Recent_Three)){
-			uidslist.addAll(projectExpertService.findUnitRecentThree(projectExpert));
-		}
-		
-		if(discIds!=null&&!discIds.equalsIgnoreCase("")){
-			  String[] dids = StringUtils.split(discIds, ",");
-			  uidslist.addAll(Arrays.asList(dids));
-		}
-		
-		if(uidslist.size()>0){
-			if(unitIdsYes!=null&&!unitIdsYes.equalsIgnoreCase("")){
-				String[] ids = StringUtils.split(unitIdsYes, ",");
-				for (String id : ids) {
-					unitList.add(id);
-					for (String discId : uidslist) {
-						if(discId.equalsIgnoreCase(id)){	
-							unitList.remove(id);
-						}
+		//只有大于两个数量才进行交投特定抽取
+		ExpertConfirm jec = null;
+		if(expertCount>2){
+			HashMap<String,Office> officeMap = (HashMap<String,Office>) UserUtils.getJiaoTouMap();
+			Map<String,Office> om = (Map<String, Office>) officeMap.clone();
+
+			if(uidslist.size()>0){
+				for(String id:uidslist){
+					if(om.containsKey(id)){
+						om.remove(id);
 					}
 				}
-				projectExpert.setUnitIdsYes(StringUtils.join(unitList, ","));
-				projectExpert.setUnitIdsNo(null);
-			}else if(unitIdsNo!=null&&!unitIdsNo.equalsIgnoreCase("")){
-				String[] ids = StringUtils.split(unitIdsNo, ",");
-				unitList.addAll(uidslist);
-				unitList.addAll(Arrays.asList(ids));
+			}
 
-				projectExpert.setUnitIdsYes(null);
-				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
-			}else{
-				unitList.addAll(uidslist);
-				projectExpert.setUnitIdsYes(null);
-				projectExpert.setUnitIdsNo(StringUtils.join(unitList, ","));
+			//先抽取交投的专家
+			if(om.size()>0){
+				jec = getAExpertByJiaoTouMapRemoveBefore(techcnt, ecomcnt, om,resIds);
+			}
+			//如果交投的抽中了。
+			if(jec!=null){
+				uidslist.addAll(om.keySet());
+				if(jec.getExpertKind().equals(Constants.Expert_Kind_Technical)){
+					techcnt--;
+				}else if(jec.getExpertKind().equals(Constants.Expert_Kind_Economic)){
+					ecomcnt--;
+				}else{
+					techcnt--;
+				}
 			}
 		}
-		projectExpert.setExpertCount(expertCount);
-        List<Office> rlist = projectExpertService.findUnitExpertByCount(new Page<Office>(request, response), projectExpert); 
+		
+		//存储结果集
+        List<ExpertConfirm> erclist =  Lists.newArrayList();
+		projectExpert.setExpertCount(expertCount.byteValue());
+		if(techcnt>0){
+			projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
+			projectExpert.setKindIdsYes(Constants.Expert_Kind_Technical);
+        List<Office> tlist = projectExpertService.findUnitExpertByConditionRemoveResIds(new Page<Office>(request, response), projectExpert); 
         
         //以下进行随机选取计算
-		int resSize =rlist.size(); 
-		if(expertCount<resSize){
+		int resSize =tlist.size(); 
+		if(techcnt<resSize){
 	        Random r=new Random();   
-	        int n = resSize - expertCount+1;  
+	        int n = resSize - techcnt+1;  
 	        int ri = r.nextInt(n);
-	        rlist = rlist.subList(ri,ri+expertCount);
+	        tlist = tlist.subList(ri,ri+techcnt);
+		}else if(techcnt>resSize){
+			//待抽取单位不足，需要改变条件
+			addMessage(model, "条件限制过多，库中专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
+			return "modules/expfetch/acptfetch/unitFetchResult";
 		}
         
-        List<ExpertConfirm> eclist =  Lists.newArrayList();
-        for(Office ec : rlist){
-        	eclist.add(projectExpertService.findAExpertByUnit(ec, projectExpert));
+        for(Office ec : tlist){
+        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Technical,resIds));
+        	uidslist.add(ec.getId());
         }
+		}
         
-        model.addAttribute("rlist", eclist);
+        if(jec!=null) erclist.add(jec);
         
-        Page<Office> page = projectExpertService.findExpertUnits(new Page<Office>(request, response), projectExpert); 
-        model.addAttribute("page", page);
+		if(ecomcnt>0){
+			projectExpert.setUnitIdsNo(StringUtils.join(uidslist, ","));
+			projectExpert.setKindIdsYes(Constants.Expert_Kind_Economic);
+        List<Office> elist = projectExpertService.findUnitExpertByConditionRemoveResIds(new Page<Office>(request, response), projectExpert); 
         
-        List<String> dclist =  Lists.newArrayList();
-        for(ExpertConfirm ec : eclist){
-        	dclist.add(ec.getId());
+        //以下进行随机选取计算
+		int resSize =elist.size(); 
+		if(ecomcnt<resSize){
+	        Random r=new Random();   
+	        int n = resSize - ecomcnt+1;  
+	        int ri = r.nextInt(n);
+	        elist = elist.subList(ri,ri+ecomcnt);
+		}else if(ecomcnt>resSize){
+			//待抽取单位不足，需要改变条件
+			addMessage(model, "条件限制过多，库中专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
+			return "modules/expfetch/acptfetch/unitFetchResult";
+		}
+        
+        for(Office ec : elist){
+        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Economic,resIds));
+        	uidslist.add(ec.getId());
         }
-        projectExpert.setResIds(StringUtils.join(dclist, ","));
+		}
+        
+		if(erclist.size()==0){
+			//待抽取单位不足，需要改变条件
+			addMessage(model, "条件限制过多，库中专家不足！");
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+	        model.addAttribute("projectExpert", projectExpert);
+			return "modules/expfetch/acptfetch/unitFetchResult";
+			
+		}
+		
+		//需先把抽取结果保留
+		int fcount = 0;
+			fcount = projectExpertService.selectMaxFetchTime()+1;
+    	//本次抽取记录。重要
+		for(String prj:prjs){//对每个项目都需单独记录
+	    for (ExpertConfirm ec : erclist) {
+	    	ProjectExpert pExpert = new ProjectExpert();
+	    	pExpert.setFetchTime(fcount);
+	    	pExpert.setExpertCount(expertCount.byteValue());
+	    	pExpert.setPrjProjectInfo(new ProjectInfo(prj));
+	    	pExpert.setFetchMethod(Constants.Fetch_Method_Unit);
+	    	pExpert.setFetchStatus(Constants.Fetch_Accept_Failure);
+	    	pExpert.setExpertExpertConfirm(ec);
+	    	pExpert.setReviewBegin(projectExpert.getReviewBegin());
+	    	pExpert.setReviewEnd(projectExpert.getReviewEnd());
+	    	pExpert.setSupervise(supervise);
+	    	pExpert.setDiscnt(discnt);
+			projectExpertService.save(pExpert);
+	    }
+		}
+	    //request.getSession().removeAttribute("projectExpert");
+		addMessage(model, "进行专家抽取成功.");
+		
+        
+        model.addAttribute("rlist", erclist);
+        
+        //保留抽取的结果到页面,若采纳需要使用到
+        List<String> eclist =  Lists.newArrayList();
+        for(ExpertConfirm ec : erclist){
+        	eclist.add(ec.getId());
+        }
+        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+        //projectExpert.setResIds(StringUtils.join(eclist, ","));
+        projectExpert.setFetchTime(fcount);
         model.addAttribute("projectExpert", projectExpert);
         
 		return "modules/expfetch/acptfetch/unitFetchResult";
@@ -712,13 +813,10 @@ public class AcceptFetchController extends BaseController {
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
 		projectExpert.setPrjid(prjid);
+		projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
+		projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));
 		model.addAttribute("projectExpert", projectExpert);
-		model.addAttribute("areaList", areaService.findAll());
-		model.addAttribute("unitList", officeService.findAll());
-		model.addAttribute("kindList", DictUtils.getDictList("sys_specialkind_type"));
-		model.addAttribute("specialList",  DictUtils.getDictList("sys_special_type"));
-		model.addAttribute("seriesList",  DictUtils.getDictList("sys_series_type"));
-		return "modules/expfetch/acptfetch/unitMethodForm";
+		return "modules/expfetch/acptfetch/unitFetchResult";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
