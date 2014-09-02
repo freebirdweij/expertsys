@@ -55,7 +55,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/expfetch/revredraw/reviewinglist">待评审项目</a></li>
+		<li><a href="${ctx}/expfetch/rewredraw/reviewinglist">待评审项目</a></li>
 		<li><a href="${ctx}/expfetch/acptredraw/acceptinglist">待交工验收项目</a></li>
 		<li class="active"><a href="${ctx}/expfetch/savredraw/saveinglist">待竣工验收项目</a></li>
 	</ul>

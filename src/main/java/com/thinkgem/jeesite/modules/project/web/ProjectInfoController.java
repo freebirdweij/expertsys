@@ -155,7 +155,7 @@ public class ProjectInfoController extends BaseController {
 		User user = UserUtils.getUser();
 		//系统生成项目编号
 		BigDecimal seq = projectInfoService.selectProjectSequence();
-		String pcode = "GXEWA_"+user.getCompany().getCode()+"_XM_"+projectInfo.getPrjType()+"_"+projectInfo.getPrjYear()+"_"+seq;
+		String pcode = user.getCompany().getCode()+"["+projectInfo.getPrjYear()+"]"+seq;
 		projectInfo.setId(pcode);
 		projectInfo.setPrjStatus(Constants.Project_Status_Start);
 		projectInfoService.save(projectInfo);

@@ -1116,7 +1116,7 @@ public class ProjectExpertController extends BaseController {
 				e.printStackTrace();
 			}
     		
-		return reviewinglist(null, request, response, model);
+		return reviewinglist(new ProjectInfo(), request, response, model);
     }
 
 }

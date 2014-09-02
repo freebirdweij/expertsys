@@ -11,6 +11,12 @@
 			$("#inputForm").validate({
 				rules: {
 					name: {remote: "${ctx}/sys/role/checkName?oldName=" + encodeURIComponent("${role.name}")},
+	                "techcnt":{
+	                	fetchCount: "#ecomcnt"
+	                },
+	                "ecomcnt": {
+	                	fetchCount: "#techcnt"
+	                },
                 "reviewBegin":{
                     required: true
                 },
@@ -26,7 +32,13 @@
                 },
                 "reviewEnd":{
                     required: "结束时间不能为空",
-                    compareDate: "选择日期不能小于今天，并且结束日期必须大于等于开始日期!"
+                    compareDate: "选择日期不能小于今天!"
+                },
+                "techcnt":{
+                	fetchCount: "您未选择抽选专家数！"
+                },
+                "ecomcnt": {
+                	fetchCount: "您未选择抽选专家数！"
                 }
 				},
 				submitHandler: function(form){
@@ -40,6 +52,10 @@
 					  }
 					}
 					  $("#discIds").val(dres);
+				    	 var rewe = ""; 
+					    	var ree = $("#reviewEnd");
+					    			rewe = ree.val();
+					    	$("#reviewBegin").val(rewe);
 					loading('正在提交，请稍等...');
 					form.submit();
 				},
@@ -187,9 +203,29 @@
 	            return date1 <= date2;
 	        };
 	        
+	        jQuery.validator.methods.fetchCount = function(value, element, param) {
+	            //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+	            //value = value + ":00";
+	            
+	            var tec = jQuery(param).val();
+	            
+	            var eco = value;
+	            
+	            if(tec==null&&eco==null) return false;
+	            if(tec+eco==0) return false;
+	            
+	            return true;
+	        };
+	        
 	        jQuery("#inputForm").validate({
 	            focusInvalid:false,
 	            rules:{
+	                "techcnt":{
+	                	fetchCount: "#ecomcnt"
+	                },
+	                "ecomcnt": {
+	                	fetchCount: "#techcnt"
+	                },
 	                "reviewBegin":{
 	                    required: true
 	                },
@@ -204,7 +240,13 @@
 	                },
 	                "reviewEnd":{
 	                    required: "结束时间不能为空",
-	                    compareDate: "选择日期不能小于今天，并且结束日期必须大于等于开始日期!"
+	                    compareDate: "选择日期不能小于今天!"
+	                },
+	                "techcnt":{
+	                	fetchCount: "您未选择抽选专家数！"
+	                },
+	                "ecomcnt": {
+	                	fetchCount: "您未选择抽选专家数！"
 	                }
 	            }
 	        });
@@ -237,9 +279,9 @@
 		<div class="control-group">
 			<label class="control-label">评审时间:</label>
 			<div class="controls">
-				从<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
-				至<form:input path="reviewEnd" maxlength="20"
+				<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" style="display:none;"/>
+				<form:input path="reviewEnd" maxlength="20"
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
 		</div>
@@ -280,15 +322,21 @@
 		<div class="control-group">
 			<label class="control-label">补抽数量:</label>
 			<div class="controls">
-				<div style="margin-right:40px; float:left;">
+				<div style="margin-right:10px; float:left;">
+					技术类数量：
+				</div>
+				<div style="margin-right:30px; float:left;">
 				<form:select path="techcnt" class="span2">
-					<form:option value="" label="技术类数量"/>
+					<form:option value="" label="0位"/>
 					<form:options items="${fns:getDictList('sys_techcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				</div>
-				<div style="margin-left:30px; float:left;">
+				<div style="margin-left:1px; float:left;">
+					经济类数量：
+				</div>
+				<div style="margin-left:10px; float:left;">
 				<form:select path="ecomcnt" class="span2">
-					<form:option value="" label="经济类数量"/>
+					<form:option value="" label="0位"/>
 					<form:options items="${fns:getDictList('sys_ecomcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				</div>

@@ -173,7 +173,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	/** 项目年度. */
 	private String prjYear;
 
-	@ExcelField(title="归属年度", align=2, sort=7)
+	@ExcelField(title="项目年度", align=2, sort=7)
 	public String getPrjYear() {
 		return prjYear;
 	}
@@ -270,7 +270,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目类别
 	 */
-	@ExcelField(title="项目类型", align=2, sort=4, dictType="sys_prjtype_type")
+	@ExcelField(title="项目类别", align=2, sort=4, dictType="sys_prjtype_type")
 	public String getPrjType() {
 		return this.prjType;
 	}
