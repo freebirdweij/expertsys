@@ -9,20 +9,20 @@
 			$("#searchForm").validate({
 				rules: {
 					name: {remote: "${ctx}/sys/role/checkName?oldName=" + encodeURIComponent("${role.name}")},
-                "logBegin":{
+                "reviewBegin":{
                     required: true
                 },
-                "logEnd": {
+                "reviewEnd": {
                     required: true,
                     compareDate: "#reviewBegin"
                 }
 				},
 				messages: {
 					name: {remote: "角色名已存在"},
-                "logBegin":{
+                "reviewBegin":{
                     required: "开始时间不能为空"
                 },
-                "logEnd":{
+                "reviewEnd":{
                     required: "结束时间不能为空",
                     compareDate: "结束日期必须大于等于开始日期!"
                 }
@@ -66,19 +66,19 @@
 	        jQuery("#searchForm").validate({
 	            focusInvalid:false,
 	            rules:{
-	                "logBegin":{
+	                "reviewBegin":{
 	                    required: true
 	                },
-	                "logEnd": {
+	                "reviewEnd": {
 	                    required: true,
 	                    compareDate: "#reviewBegin"
 	                }
 	            },
 	            messages:{
-	                "logBegin":{
+	                "reviewBegin":{
 	                    required: "开始时间不能为空"
 	                },
-	                "logEnd":{
+	                "reviewEnd":{
 	                    required: "结束时间不能为空",
 	                    compareDate: "结束日期必须大于等于开始日期!"
 	                }
@@ -87,15 +87,15 @@
 	    });
 	    document.onreadystatechange = function(){	
 	    	 var rewb = "";
-	    	var rew = $("#logBegin");
+	    	var rew = $("#reviewBegin");
 	    	rewb = rew.val();
 	    	rewb = rewb.substr(0,10);
-	    	$("#logBegin").val(rewb);
+	    	$("#reviewBegin").val(rewb);
 	    	 var rewe = ""; 
-	    	var ree = $("#logEnd");
+	    	var ree = $("#reviewEnd");
 	    			rewe = ree.val();
 	    	rewe = rewe.substr(0,10);
-	    	$("#logEnd").val(rewe); 
+	    	$("#reviewEnd").val(rewe); 
 	    	//alert("kkk");
 	    }
 	</script>
@@ -104,20 +104,20 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/loginfo/fetchLog">抽取日志</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="expertdbLog" action="${ctx}/loginfo/fetchLog" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="projectExpert" action="${ctx}/loginfo/fetchLog" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<div style="margin-top:8px;">
 		<label>日志时间 ：</label>				
-		                     从<form:input path="logBegin" maxlength="20"
+		                     从<form:input path="reviewBegin" maxlength="20"
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
-				至<form:input path="logEnd" maxlength="20"
+				至<form:input path="reviewEnd" maxlength="20"
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 		</div>
 		<div style="margin-top:8px;">
-		<label>项目名称 ：</label><form:input path="objectName" htmlEscape="false" maxlength="50" class="input-small"/>
-		<label>专家姓名 ：</label><form:input path="objectName" htmlEscape="false" maxlength="50" class="input-small"/>
-		<label>操作者 ：</label><form:input path="objectUser.name" htmlEscape="false" maxlength="50" class="input-small"/>
+		<label>项目名称 ：</label><form:input path="prjProjectInfo.prjName" htmlEscape="false" maxlength="50" class="input-small"/>
+		<label>专家姓名 ：</label><form:input path="expertExpertConfirm.expertInfo.name" htmlEscape="false" maxlength="50" class="input-small"/>
+		<label>操作者 ：</label><form:input path="createBy.name" htmlEscape="false" maxlength="50" class="input-small"/>
 		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 		</div>
 	</form:form>
@@ -125,15 +125,15 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>日志时间</th><th>抽取流水</th><th>项目名称</th><th>专家姓名</th><th>抽取状态</th><th>操作者</th><th>操作内容</th></tr></thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="expertdbLog">
+		<c:forEach items="${page.list}" var="projectExpert">
 			<tr>
-				<td>${expertdbLog.createDate}</td>
-				<td>${expertdbLog.objectName}</td>
-				<td>${expertdbLog.objectUser.name}</td>
-				<td>${expertdbLog.operation}</td>
-				<td>${expertdbLog.objectName}</td>
-				<td>${expertdbLog.objectUser.name}</td>
-				<td>${expertdbLog.operation}</td>
+				<td>${projectExpert.createDate}</td>
+				<td>${projectExpert.fetchTime}</td>
+				<td>${projectExpert.prjProjectInfo.prjName}</td>
+				<td>${projectExpert.expertExpertConfirm.expertInfo.name}</td>
+				<td>${projectExpert.fetchStatus}</td>
+				<td>${projectExpert.createBy.name}</td>
+				<td>${projectExpert.remarks}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

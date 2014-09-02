@@ -25,6 +25,7 @@ import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.thinkgem.jeesite.modules.expfetch.entity.ProjectExpert;
 import com.thinkgem.jeesite.modules.loginfo.entity.ExpertdbLog;
 import com.thinkgem.jeesite.modules.loginfo.service.ExpertdbLogService;
 
@@ -59,6 +60,22 @@ public class ExpertdbLogController extends BaseController {
         Page<ExpertdbLog> page = expertdbLogService.find(new Page<ExpertdbLog>(request, response), expertdbLog); 
         model.addAttribute("page", page);
 		return "loginfo/expertdbLogList";
+	}
+
+	@RequestMapping(value = {"fetchLog", ""})
+	public String fetchLog(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		if(projectExpert!=null||projectExpert.getReviewBegin()==null){
+			projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
+			projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));			
+		}
+        Page<ProjectExpert> page = projectExpertService.find(new Page<ProjectExpert>(request, response), projectExpert); 
+        model.addAttribute("page", page);
+        model.addAttribute("projectExpert", projectExpert);
+		return "modules/loginfo/fetchLogList";
 	}
 
 	@RequiresPermissions("loginfo:expertdbLog:view")

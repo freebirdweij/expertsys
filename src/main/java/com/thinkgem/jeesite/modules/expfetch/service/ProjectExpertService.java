@@ -77,9 +77,22 @@ public class ProjectExpertService extends BaseService {
 	}
 	
 	public Page<ProjectExpert> find(Page<ProjectExpert> page, ProjectExpert projectExpert) {
-		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();
+		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();;
+		dc.createAlias("createBy", "u");
+		dc.createAlias("prjProjectInfo", "p");
+		dc.createAlias("expertExpertConfirm", "e");
+		dc.createAlias("e.expertInfo", "i");
 		if (StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){
-			dc.add(Restrictions.like("name", "%"+projectExpert.getPrjProjectInfo().getPrjName()+"%"));
+			dc.add(Restrictions.like("p.prjName", "%"+projectExpert.getPrjProjectInfo().getPrjName()+"%"));
+		}
+		if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getName())){
+			dc.add(Restrictions.like("i.name", "%"+projectExpert.getExpertExpertConfirm().getExpertInfo().getName()+"%"));
+		}
+		if (StringUtils.isNotEmpty(projectExpert.getCreateBy().getName())){
+			dc.add(Restrictions.like("u.name", "%"+projectExpert.getCreateBy().getName()+"%"));
+		}
+		if (projectExpert.getReviewBegin()!=null&&projectExpert.getReviewEnd()!=null){
+			dc.add(Restrictions.between("createDate",projectExpert.getReviewBegin(),projectExpert.getReviewEnd()));
 		}
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));

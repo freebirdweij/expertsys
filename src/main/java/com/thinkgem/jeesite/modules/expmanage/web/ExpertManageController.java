@@ -390,7 +390,13 @@ public class ExpertManageController extends BaseController {
 		}*/
 		expertInfoService.updateExpertInfo(expertInfo);
 		expertConfirmService.save(expertConfirm);
+		
+		//日志处理
 		ExpertInfo einfo = (ExpertInfo) request.getSession().getAttribute("einfo");//修改比较用
+		ExpertdbLog expertdbLog = LogUtils.getLogByCompareExpert(einfo, expertInfo, user);
+		expertdbLog.setObjectId(expertConfirm.getId());
+		expertdbLogService.save(expertdbLog);
+		request.getSession().removeAttribute("einfo");
 
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return explist(expertConfirm,request,response, model);
@@ -631,6 +637,17 @@ public class ExpertManageController extends BaseController {
 		log.setRequestUri(request.getRequestURI());
 		log.setMethod(request.getMethod());
 		logService.save(log);
+		
+		ExpertdbLog expertdbLog = LogUtils.getLogByExpert(expertConfirm.getExpertInfo(),user);
+		if(expertdbLog!=null){
+			expertdbLog.setObjectId(id);
+			StringBuffer strb = new StringBuffer();
+			strb.append(Constants.Log_Function_ExpertDel).append("删除了一位专家,").append(Constants.Log_Expert_Name).append(expertConfirm.getExpertInfo().getName()).append(",")
+			.append(Constants.Log_Operater_Name).append(user.getName()).append(".");
+			String operation = strb.toString();
+			expertdbLog.setOperation(operation);
+			expertdbLogService.save(expertdbLog);
+		}
 		return "redirect:"+Global.getAdminPath()+"/expmanage/explist/?repage";
 	}
 

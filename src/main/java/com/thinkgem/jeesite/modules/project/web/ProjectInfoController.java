@@ -3,11 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.project.web;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,11 @@ import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.LogUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
+import com.thinkgem.jeesite.modules.loginfo.entity.ExpertdbLog;
+import com.thinkgem.jeesite.modules.loginfo.service.ExpertdbLogService;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
 import com.thinkgem.jeesite.modules.project.service.ProjectInfoService;
 
@@ -41,6 +47,9 @@ public class ProjectInfoController extends BaseController {
 
 	@Autowired
 	private ProjectInfoService projectInfoService;
+	
+	@Autowired
+	private ExpertdbLogService expertdbLogService;
 	
 	@ModelAttribute
 	public ProjectInfo get(@RequestParam(required=false) String id) {
@@ -82,6 +91,23 @@ public class ProjectInfoController extends BaseController {
 			projectInfoService.save(projectInfo);
 			
 		}
+		ProjectInfo pinfo = null;
+		try {
+			pinfo = (ProjectInfo) BeanUtils.cloneBean(projectInfo);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		request.getSession().setAttribute("pinfo", pinfo);//修改比较用
 		model.addAttribute("projectInfo", projectInfo);
 		return "modules/project/projectForm";
 	}
@@ -96,17 +122,24 @@ public class ProjectInfoController extends BaseController {
 			projectInfoService.save(projectInfo);
 			
 		}
+		
 		model.addAttribute("projectInfo", projectInfo);
 		return "modules/project/projectInfo";
 	}
 
 	@RequiresPermissions("project:projectInfo:edit")
 	@RequestMapping(value = "save", method=RequestMethod.POST)
-	public String save(ProjectInfo projectInfo, Model model, RedirectAttributes redirectAttributes) {
+	public String save(HttpServletRequest request,ProjectInfo projectInfo, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, projectInfo)){
 			return record(projectInfo, model);
 		}
-		//projectInfo.setId(projectInfo.getPrjCode());
+		User user = UserUtils.getUser();
+		//日志处理
+		ProjectInfo pinfo = (ProjectInfo) request.getSession().getAttribute("pinfo");//修改比较用
+		ExpertdbLog expertdbLog = LogUtils.getLogByCompareProject(pinfo, projectInfo, user);
+		//expertdbLog.setObjectId(expertConfirm.getId());
+		expertdbLogService.save(expertdbLog);
+		request.getSession().removeAttribute("pinfo");
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
 		return "modules/project/recordNote";
@@ -127,6 +160,17 @@ public class ProjectInfoController extends BaseController {
 		projectInfo.setPrjStatus(Constants.Project_Status_Start);
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
+		
+		ExpertdbLog expertdbLog = LogUtils.getLogByProject(projectInfo,user);
+		if(expertdbLog!=null){
+			//expertdbLog.setObjectId(ecode);
+			StringBuffer strb = new StringBuffer();
+			strb.append(Constants.Log_Function_ProjectAdd).append("新增了一个项目,").append(Constants.Log_Project_Name).append(projectInfo.getPrjName()).append(",")
+			.append(Constants.Log_Operater_Name).append(user.getName()).append(".");
+			String operation = strb.toString();
+			expertdbLog.setOperation(operation);
+			expertdbLogService.save(expertdbLog);
+		}
 		return "modules/project/recordNote";
 	}
 	
@@ -144,8 +188,21 @@ public class ProjectInfoController extends BaseController {
 	@RequiresPermissions("project:projectInfo:edit")
 	@RequestMapping(value = "delete")
 	public String delete(String id, RedirectAttributes redirectAttributes) {
+		ProjectInfo projectInfo = projectInfoService.get(id);
 		projectInfoService.delete(id);
 		addMessage(redirectAttributes, "删除项目信息成功");
+		User user = UserUtils.getUser();
+		
+		ExpertdbLog expertdbLog = LogUtils.getLogByProject(projectInfo,user);
+		if(expertdbLog!=null){
+			//expertdbLog.setObjectId(ecode);
+			StringBuffer strb = new StringBuffer();
+			strb.append(Constants.Log_Function_ProjectDel).append("删除了一个项目,").append(Constants.Log_Project_Name).append(projectInfo.getPrjName()).append(",")
+			.append(Constants.Log_Operater_Name).append(user.getName()).append(".");
+			String operation = strb.toString();
+			expertdbLog.setOperation(operation);
+			expertdbLogService.save(expertdbLog);
+		}
 		return "redirect:"+Global.getAdminPath()+"/project/list/?repage";
 	}
 
