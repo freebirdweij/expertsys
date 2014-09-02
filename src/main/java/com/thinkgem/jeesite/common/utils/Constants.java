@@ -88,8 +88,11 @@ public class Constants {
 	public static final String Log_Function_ProjectAdd = "新增项目：";
 	public static final String Log_Function_ProjectEdit = "项目修改： ";
 	public static final String Log_Function_FetchReview = "评审抽取：";
+	public static final String Log_Function_FetchReviewRedraw = "评审补抽：";
 	public static final String Log_Function_FetchAccept = "验收抽取：";
+	public static final String Log_Function_FetchAcceptRedraw = "验收补抽：";
 	public static final String Log_Function_FetchEnd = "竣工验收抽取： ";
+	public static final String Log_Function_FetchEndRedraw = "竣工验收补抽： ";
 	public static final String Log_Expert_Name = "专家姓名：";
 	public static final String Log_Project_Name = "项目名称：";
 	public static final String Log_Project_Code = "项目编号：";

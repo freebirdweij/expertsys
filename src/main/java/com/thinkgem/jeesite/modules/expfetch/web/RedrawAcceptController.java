@@ -538,6 +538,10 @@ public class RedrawAcceptController extends BaseController {
 	    	pExpert.setReviewEnd(projectExpert.getReviewEnd());
 	    	pExpert.setSupervise(supervise);
 	    	pExpert.setDiscnt(discnt);
+			StringBuffer strb = new StringBuffer();
+			strb.append(Constants.Log_Function_FetchAcceptRedraw).append("验收前补抽专家,").append(Constants.Log_Expert_Name).append(ec.getExpertInfo().getName()).append(",")
+			.append(Constants.Log_Operater_Name).append(user.getName()).append(".");
+			pExpert.setRemarks(strb.toString());
 			projectExpertService.save(pExpert);
 	    }
 		}
