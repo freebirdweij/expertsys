@@ -41,6 +41,8 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
+import com.thinkgem.jeesite.modules.loginfo.entity.ExpertdbLog;
+import com.thinkgem.jeesite.modules.loginfo.service.ExpertdbLogService;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.entity.Log;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
@@ -49,6 +51,7 @@ import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.LogService;
 import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
+import com.thinkgem.jeesite.modules.sys.utils.LogUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.experts.entity.ExpertInfo;
 import com.thinkgem.jeesite.modules.experts.service.ExpertInfoService;
@@ -79,6 +82,9 @@ public class ExpertManageController extends BaseController {
 	
 	@Autowired
 	private ExpertInfoService expertInfoService;
+	
+	@Autowired
+	private ExpertdbLogService expertdbLogService;
 	
 	@ModelAttribute
 	public ExpertConfirm get(@RequestParam(required=false) String id) {
@@ -111,10 +117,27 @@ public class ExpertManageController extends BaseController {
 
 	@RequiresPermissions("expmanage:expertConfirm:edit")
 	@RequestMapping(value = "expedit")
-	public String expedit(@RequestParam("id") String id, Model model) {
+	public String expedit(@RequestParam("id") String id, Model model, HttpServletRequest request) {
 		ExpertConfirm expertConfirm = expertConfirmService.get(id);
 		ExpertInfo expertInfo = expertConfirm.getExpertInfo();
 		//expertInfo.setUserId(expertConfirm.getExpertInfo().getUserId());
+		ExpertInfo einfo = null;
+		try {
+			einfo = (ExpertInfo) BeanUtils.cloneBean(expertInfo);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		request.getSession().setAttribute("einfo", einfo);//修改比较用
 		model.addAttribute("expertInfo", expertInfo);
 		model.addAttribute("expid", id);
 		//model.addAttribute("allRoles", systemService.findAllRole());
@@ -225,8 +248,10 @@ public class ExpertManageController extends BaseController {
 			return form(expertConfirm, model);
 		}
 		ExpertInfo expertInfo = expertInfoService.get(expertConfirm.getUid());
+		BigDecimal seq = expertConfirmService.selectExpertSequence();
+		String ecode = "GXEWA_"+expertInfo.getUnit().getCode()+"_ZJ_"+expertInfo.getSpecialKind1()+"_"+expertInfo.getKind1Special1()+"_"+seq;
 		if(expertConfirm.getKindOne()!=null&&!expertConfirm.getKindOne().equalsIgnoreCase("")&&expertConfirm.getSpecialOne()!=null&&!expertConfirm.getSpecialOne().equalsIgnoreCase("")){
-			expertConfirm.setId(expertConfirm.getExpertCode());
+			expertConfirm.setId(ecode);
 			expertConfirm.setExpertKind(expertConfirm.getKindOne());
 			expertConfirm.setExpertSpecial(expertConfirm.getSpecialOne());
 			expertConfirm.setExpertSeries(expertConfirm.getSeriesOne());
@@ -261,6 +286,17 @@ public class ExpertManageController extends BaseController {
 		log.setRequestUri(request.getRequestURI());
 		log.setMethod(request.getMethod());
 		logService.save(log);
+		
+		ExpertdbLog expertdbLog = LogUtils.getLogByExpert(expertInfo,user);
+		if(expertdbLog!=null){
+			expertdbLog.setObjectId(ecode);
+			StringBuffer strb = new StringBuffer();
+			strb.append(Constants.Log_Function_Confirm).append("审核了一位专家,").append(Constants.Log_Expert_Name).append(expertInfo.getName()).append(",")
+			.append(Constants.Log_Operater_Name).append(user.getName()).append(".");
+			String operation = strb.toString();
+			expertdbLog.setOperation(operation);
+			expertdbLogService.save(expertdbLog);
+		}
 		return "modules/expmanage/confirmNote";
 	}
 	
@@ -292,11 +328,11 @@ public class ExpertManageController extends BaseController {
 			user.setPassword(UserUtils.getUserById(user.getId()).getPassword());
 		}
 		if (!beanValidator(model, user)){
-			return expedit(request.getParameter("expid"), model);
+			return expedit(request.getParameter("expid"), model, request);
 		}
 		if (!"true".equals(checkLoginName(oldLoginName, user.getLoginName()))){
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
-			return expedit(request.getParameter("expid"), model);
+			return expedit(request.getParameter("expid"), model, request);
 		}
 		// 角色数据有效性验证，过滤不在授权内的角色
 		List<Role> roleList = Lists.newArrayList();
@@ -354,6 +390,8 @@ public class ExpertManageController extends BaseController {
 		}*/
 		expertInfoService.updateExpertInfo(expertInfo);
 		expertConfirmService.save(expertConfirm);
+		ExpertInfo einfo = (ExpertInfo) request.getSession().getAttribute("einfo");//修改比较用
+
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return explist(expertConfirm,request,response, model);
 	}
@@ -646,11 +684,11 @@ public class ExpertManageController extends BaseController {
 			user.setPassword(SystemService.entryptPassword(newPassword));
 		}
 		if (!beanValidator(model, user)){
-			return expedit(request.getParameter("expid"), model);
+			return expedit(request.getParameter("expid"), model, request);
 		}
 		if (!"true".equals(checkLoginName(oldLoginName, user.getLoginName()))){
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
-			return expedit(request.getParameter("expid"), model);
+			return expedit(request.getParameter("expid"), model, request);
 		}
 		// 角色数据有效性验证，过滤不在授权内的角色
 		List<Role> roleList = Lists.newArrayList();
@@ -750,6 +788,16 @@ public class ExpertManageController extends BaseController {
 		}*/
 		expertConfirmService.save(expertConfirm);			
 		
+		ExpertdbLog expertdbLog = LogUtils.getLogByExpert(expertInfo,user);
+		if(expertdbLog!=null){
+			expertdbLog.setObjectId(ecode);
+			StringBuffer strb = new StringBuffer();
+			strb.append(Constants.Log_Function_ExpertAdd).append("新增了一位专家,").append(Constants.Log_Expert_Name).append(expertInfo.getName()).append(",")
+			.append(Constants.Log_Operater_Name).append(user.getName()).append(".");
+			String operation = strb.toString();
+			expertdbLog.setOperation(operation);
+			expertdbLogService.save(expertdbLog);
+		}
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "redirect:"+Global.getAdminPath()+"/expmanage/expnew/?repage";
 	}

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -54,6 +55,28 @@ public class ExpertdbLog extends DataEntity<ExpertdbLog> {
 
 	/** 操作内容. */
 	private String operation;
+	
+	private Date logBegin;
+	
+	private Date logEnd;
+
+	@Transient
+	public Date getLogBegin() {
+		return logBegin;
+	}
+
+	public void setLogBegin(Date logBegin) {
+		this.logBegin = logBegin;
+	}
+
+	@Transient
+	public Date getLogEnd() {
+		return logEnd;
+	}
+
+	public void setLogEnd(Date logEnd) {
+		this.logEnd = logEnd;
+	}
 
 	/**
 	 * Constructor.

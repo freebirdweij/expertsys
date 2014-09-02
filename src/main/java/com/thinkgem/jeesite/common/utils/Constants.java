@@ -61,6 +61,11 @@ public class Constants {
 	public static final String Expert_Kind_Technical = "101";//技术类
 	public static final String Expert_Kind_Economic = "102";//经济类
 
+	//日志类别
+	public static final String Log_Type_Expert = "10";//专家类
+	public static final String Log_Type_Project = "11";//项目类
+	public static final String Log_Type_Fetch = "12";//抽取类
+
 	//个人注册专家时的状态
 	public static final String Register_Status_First = "1";//完成第一步
 	public static final String Register_Status_Second = "2";//完成第二步
@@ -74,4 +79,20 @@ public class Constants {
 	public static final String Statistics_Kind_Type = "3";//类别
 	public static final String Statistics_Kind_Special = "4";//专业
 
+	//日志操作常用描述串
+	public static final String Log_Function_Confirm = "专家审核：";
+	public static final String Log_Function_ExpertDel = "专家删除：";
+	public static final String Log_Function_ExpertAdd = "新增专家：";
+	public static final String Log_Function_ExpertEdit = "专家修改： ";
+	public static final String Log_Function_ProjectDel = "项目删除：";
+	public static final String Log_Function_ProjectAdd = "新增项目：";
+	public static final String Log_Function_ProjectEdit = "项目修改： ";
+	public static final String Log_Function_FetchReview = "评审抽取：";
+	public static final String Log_Function_FetchAccept = "验收抽取：";
+	public static final String Log_Function_FetchEnd = "竣工验收抽取： ";
+	public static final String Log_Expert_Name = "专家姓名：";
+	public static final String Log_Project_Name = "项目名称：";
+	public static final String Log_Project_Code = "项目编号：";
+	public static final String Log_Operater_Name = "操作者：";
+	
 }

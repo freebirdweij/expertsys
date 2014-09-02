@@ -3,6 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.loginfo.web;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.Constants;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -30,7 +34,7 @@ import com.thinkgem.jeesite.modules.loginfo.service.ExpertdbLogService;
  * @version 2014-08-25
  */
 @Controller
-@RequestMapping(value = "${adminPath}/loginfo/expertdbLog")
+@RequestMapping(value = "${adminPath}/loginfo")
 public class ExpertdbLogController extends BaseController {
 
 	@Autowired
@@ -55,6 +59,42 @@ public class ExpertdbLogController extends BaseController {
         Page<ExpertdbLog> page = expertdbLogService.find(new Page<ExpertdbLog>(request, response), expertdbLog); 
         model.addAttribute("page", page);
 		return "loginfo/expertdbLogList";
+	}
+
+	@RequiresPermissions("loginfo:expertdbLog:view")
+	@RequestMapping(value = {"expertLog", ""})
+	public String expertLog(ExpertdbLog expertdbLog, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			expertdbLog.setCreateBy(user);
+		}
+		if(expertdbLog!=null||expertdbLog.getLogBegin()==null){
+			expertdbLog.setLogBegin(new Timestamp((new Date()).getTime()));
+			expertdbLog.setLogEnd(new Timestamp((new Date()).getTime()));			
+		}
+		expertdbLog.setObjectType(Constants.Log_Type_Expert);
+        Page<ExpertdbLog> page = expertdbLogService.find(new Page<ExpertdbLog>(request, response), expertdbLog); 
+        model.addAttribute("page", page);
+        model.addAttribute("expertdbLog", expertdbLog);
+		return "modules/loginfo/expertLogList";
+	}
+
+	@RequiresPermissions("loginfo:expertdbLog:view")
+	@RequestMapping(value = {"projectLog", ""})
+	public String projectLog(ExpertdbLog expertdbLog, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			expertdbLog.setCreateBy(user);
+		}
+		if(expertdbLog!=null||expertdbLog.getLogBegin()==null){
+			expertdbLog.setLogBegin(new Timestamp((new Date()).getTime()));
+			expertdbLog.setLogEnd(new Timestamp((new Date()).getTime()));			
+		}
+		expertdbLog.setObjectType(Constants.Log_Type_Project);
+        Page<ExpertdbLog> page = expertdbLogService.find(new Page<ExpertdbLog>(request, response), expertdbLog); 
+        model.addAttribute("page", page);
+        model.addAttribute("expertdbLog", expertdbLog);
+		return "modules/loginfo/projectLogList";
 	}
 
 	@RequiresPermissions("loginfo:expertdbLog:view")

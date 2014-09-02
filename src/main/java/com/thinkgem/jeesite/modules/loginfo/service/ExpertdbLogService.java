@@ -34,11 +34,20 @@ public class ExpertdbLogService extends BaseService {
 	
 	public Page<ExpertdbLog> find(Page<ExpertdbLog> page, ExpertdbLog expertdbLog) {
 		DetachedCriteria dc = expertdbLogDao.createDetachedCriteria();
-		if (StringUtils.isNotEmpty(expertdbLog.getOperation())){
-			dc.add(Restrictions.like("name", "%"+expertdbLog.getOperation()+"%"));
+		if (StringUtils.isNotEmpty(expertdbLog.getObjectName())){
+			dc.add(Restrictions.like("objectName", "%"+expertdbLog.getObjectName()+"%"));
+		}
+		if (StringUtils.isNotEmpty(expertdbLog.getObjectUser().getName())){
+			dc.add(Restrictions.like("objectUser.name", "%"+expertdbLog.getObjectUser().getName()+"%"));
+		}
+		if (StringUtils.isNotEmpty(expertdbLog.getObjectType())){
+			dc.add(Restrictions.eq("objectType", expertdbLog.getObjectType()));
+		}
+		if (expertdbLog.getLogBegin()!=null&&expertdbLog.getLogEnd()!=null){
+			dc.add(Restrictions.between("createDate",expertdbLog.getLogBegin(),expertdbLog.getLogEnd()));
 		}
 		dc.add(Restrictions.eq(ExpertdbLog.FIELD_DEL_FLAG, ExpertdbLog.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("id"));
+		dc.addOrder(Order.desc("createDate"));
 		return expertdbLogDao.find(page, dc);
 	}
 	

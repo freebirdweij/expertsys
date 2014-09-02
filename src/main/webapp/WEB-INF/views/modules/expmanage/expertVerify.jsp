@@ -40,14 +40,14 @@
 	<form:form id="inputForm" modelAttribute="expertConfirm" action="${ctx}/expmanage/confirm" method="post" class="form-horizontal">
 		<form:hidden path="uid"/>
 		<tags:message content="${message}"/>
-				<div class="control-group">
+				<%-- <div class="control-group">
 					<label class="control-label">输入专家编号:</label>
 					<div class="controls">
 				<input id="oldExpertId" name="oldExpertId" type="hidden" value="${expertConfirm.id}">
 						<form:input path="expertCode" htmlEscape="false" maxlength="20"
 							class="span4 required"/>
 					</div>
-				</div>
+				</div> --%>
 		<div class="control-group">
 			<label class="control-label">批准类别:</label>
 			<div class="controls">

@@ -102,9 +102,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/loginfo/expertLog">专家日志</a></li>
+		<li class="active"><a href="${ctx}/loginfo/fetchLog">抽取日志</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="expertdbLog" action="${ctx}/loginfo/expertLog" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="expertdbLog" action="${ctx}/loginfo/fetchLog" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<div style="margin-top:8px;">
@@ -115,6 +115,7 @@
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 		</div>
 		<div style="margin-top:8px;">
+		<label>项目名称 ：</label><form:input path="objectName" htmlEscape="false" maxlength="50" class="input-small"/>
 		<label>专家姓名 ：</label><form:input path="objectName" htmlEscape="false" maxlength="50" class="input-small"/>
 		<label>操作者 ：</label><form:input path="objectUser.name" htmlEscape="false" maxlength="50" class="input-small"/>
 		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
@@ -122,11 +123,14 @@
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>日志时间</th><th>专家姓名</th><th>操作者</th><th>操作内容</th></tr></thead>
+		<thead><tr><th>日志时间</th><th>抽取流水</th><th>项目名称</th><th>专家姓名</th><th>抽取状态</th><th>操作者</th><th>操作内容</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="expertdbLog">
 			<tr>
 				<td>${expertdbLog.createDate}</td>
+				<td>${expertdbLog.objectName}</td>
+				<td>${expertdbLog.objectUser.name}</td>
+				<td>${expertdbLog.operation}</td>
 				<td>${expertdbLog.objectName}</td>
 				<td>${expertdbLog.objectUser.name}</td>
 				<td>${expertdbLog.operation}</td>
