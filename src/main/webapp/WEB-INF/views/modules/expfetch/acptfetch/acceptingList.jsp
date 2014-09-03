@@ -86,6 +86,9 @@
 				<td>
 				   <input type="checkbox" id="${projectInfo.id}" name="checkboxid"/>
 				</td>
+				<td>
+    				<a href="${ctx}/expfetch/acptfetch/saveproject?prjid=${projectInfo.id}">结束归档</a>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
