@@ -3,6 +3,8 @@ package com.thinkgem.jeesite.modules.sys.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,12 +44,19 @@ public class LogUtils {
 	
 	public static String compareTwoBean(Object oldb,Object newb,Class<?> clas){
 		StringBuffer strb = new StringBuffer();
-		Method[] methods = clas.getMethods();
+		Method[] methods = clas.getDeclaredMethods();
 		for(Method method:methods){
 			  if(method.getName().startsWith("get")){
                   try {
-					if(!method.invoke(oldb, null).equals(method.invoke(newb, null))){
-						strb.append(method.invoke(oldb, null).toString()).append("->").append(method.invoke(newb, null).toString()).append("|");						
+                	  if(method.invoke(oldb)==null||method.invoke(newb)==null){
+                		  
+                	  }else if(method.invoke(oldb) instanceof List){
+                		  
+                	  }else if(method.invoke(oldb) instanceof Set){
+                		  
+                	  }else if(!method.invoke(oldb).equals(method.invoke(newb))){
+                	  
+						strb.append(method.invoke(oldb).toString()).append("->").append(method.invoke(newb).toString()).append("|");						
 					}
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block

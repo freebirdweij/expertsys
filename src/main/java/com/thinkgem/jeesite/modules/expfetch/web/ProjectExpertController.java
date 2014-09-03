@@ -341,6 +341,8 @@ public class ProjectExpertController extends BaseController {
 		//可以有多个项目同时抽取，先判断有几个项目
 		String prjs[] = StringUtils.split(prjid, ",");
 		Office prjunit = projectInfoService.get(prjs[0]).getUnit();
+		List<ProjectInfo> plist = projectInfoService.findProjectsByIds(new Page<ProjectInfo>(), prjs);
+        model.addAttribute("plist", plist);
 		
 		//需要获取的专家数
 		Byte techcnt = projectExpert.getTechcnt();//技术类
@@ -822,9 +824,13 @@ public class ProjectExpertController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		//可以有多个项目同时抽取，先判断有几个项目
+		String prjs[] = StringUtils.split(prjid, ",");
 		projectExpert.setPrjid(prjid);
+		List<ProjectInfo> plist = projectInfoService.findProjectsByIds(new Page<ProjectInfo>(), prjs);
 		projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
 		projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));
+        model.addAttribute("plist", plist);
 		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/unitFetchResult";
 	}

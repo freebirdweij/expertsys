@@ -369,7 +369,7 @@ public class ProjectInfo extends DataEntity<ProjectInfo> {
 	 * 
 	 * @return 项目状态
 	 */
-	@ExcelField(title="项目状态", align=2, sort=6, dictType="sys_prjstatus_type")
+	@ExcelField(title="状态", align=2, sort=6, dictType="sys_prjstatus_type")
 	public String getPrjStatus() {
 		return this.prjStatus;
 	}
