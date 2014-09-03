@@ -82,13 +82,13 @@ public class ProjectExpertService extends BaseService {
 		dc.createAlias("prjProjectInfo", "p");
 		dc.createAlias("expertExpertConfirm", "e");
 		dc.createAlias("e.expertInfo", "i");
-		if (StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){
+		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){
 			dc.add(Restrictions.like("p.prjName", "%"+projectExpert.getPrjProjectInfo().getPrjName()+"%"));
 		}
-		if (StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getName())){
+		if (projectExpert.getExpertExpertConfirm()!=null&&StringUtils.isNotEmpty(projectExpert.getExpertExpertConfirm().getExpertInfo().getName())){
 			dc.add(Restrictions.like("i.name", "%"+projectExpert.getExpertExpertConfirm().getExpertInfo().getName()+"%"));
 		}
-		if (StringUtils.isNotEmpty(projectExpert.getCreateBy().getName())){
+		if (projectExpert.getCreateBy()!=null&&StringUtils.isNotEmpty(projectExpert.getCreateBy().getName())){
 			dc.add(Restrictions.like("u.name", "%"+projectExpert.getCreateBy().getName()+"%"));
 		}
 		if (projectExpert.getReviewBegin()!=null&&projectExpert.getReviewEnd()!=null){

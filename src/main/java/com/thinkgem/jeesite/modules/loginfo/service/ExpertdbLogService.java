@@ -37,7 +37,7 @@ public class ExpertdbLogService extends BaseService {
 		if (StringUtils.isNotEmpty(expertdbLog.getObjectName())){
 			dc.add(Restrictions.like("objectName", "%"+expertdbLog.getObjectName()+"%"));
 		}
-		if (StringUtils.isNotEmpty(expertdbLog.getObjectUser().getName())){
+		if (expertdbLog.getObjectUser()!=null&&StringUtils.isNotEmpty(expertdbLog.getObjectUser().getName())){
 			dc.add(Restrictions.like("objectUser.name", "%"+expertdbLog.getObjectUser().getName()+"%"));
 		}
 		if (StringUtils.isNotEmpty(expertdbLog.getObjectType())){

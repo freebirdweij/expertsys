@@ -65,12 +65,15 @@ public class ExpertdbLogController extends BaseController {
 	@RequestMapping(value = {"fetchLog", ""})
 	public String fetchLog(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		if (!user.isAdmin()){
+		/*if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
-		}
-		if(projectExpert!=null||projectExpert.getReviewBegin()==null){
+		}*/
+		if(projectExpert!=null&&projectExpert.getReviewBegin()==null){
 			projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
 			projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));			
+		}else{
+	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
 		}
         Page<ProjectExpert> page = projectExpertService.find(new Page<ProjectExpert>(request, response), projectExpert); 
         model.addAttribute("page", page);
@@ -85,9 +88,12 @@ public class ExpertdbLogController extends BaseController {
 		if (!user.isAdmin()){
 			expertdbLog.setCreateBy(user);
 		}
-		if(expertdbLog!=null||expertdbLog.getLogBegin()==null){
+		if(expertdbLog!=null&&expertdbLog.getLogBegin()==null){
 			expertdbLog.setLogBegin(new Timestamp((new Date()).getTime()));
 			expertdbLog.setLogEnd(new Timestamp((new Date()).getTime()));			
+		}else{
+			expertdbLog.setLogBegin(new Timestamp(expertdbLog.getLogBegin().getTime()));
+			expertdbLog.setLogEnd(new Timestamp(expertdbLog.getLogEnd().getTime()));
 		}
 		expertdbLog.setObjectType(Constants.Log_Type_Expert);
         Page<ExpertdbLog> page = expertdbLogService.find(new Page<ExpertdbLog>(request, response), expertdbLog); 
@@ -103,9 +109,12 @@ public class ExpertdbLogController extends BaseController {
 		if (!user.isAdmin()){
 			expertdbLog.setCreateBy(user);
 		}
-		if(expertdbLog!=null||expertdbLog.getLogBegin()==null){
+		if(expertdbLog!=null&&expertdbLog.getLogBegin()==null){
 			expertdbLog.setLogBegin(new Timestamp((new Date()).getTime()));
 			expertdbLog.setLogEnd(new Timestamp((new Date()).getTime()));			
+		}else{
+			expertdbLog.setLogBegin(new Timestamp(expertdbLog.getLogBegin().getTime()));
+			expertdbLog.setLogEnd(new Timestamp(expertdbLog.getLogEnd().getTime()));
 		}
 		expertdbLog.setObjectType(Constants.Log_Type_Project);
         Page<ExpertdbLog> page = expertdbLogService.find(new Page<ExpertdbLog>(request, response), expertdbLog); 

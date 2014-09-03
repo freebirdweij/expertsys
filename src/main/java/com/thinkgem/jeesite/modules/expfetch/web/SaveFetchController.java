@@ -843,6 +843,19 @@ public class SaveFetchController extends BaseController {
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
+	@RequestMapping(value = "saveproject")
+	public String saveproject(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model,@RequestParam("prjid") String prjid) {
+		projectInfoService.updateProjectStatus(Constants.Project_Status_Save, prjid);
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectInfo.setCreateBy(user);
+		}
+        Page<ProjectInfo> page = projectInfoService.findSaveing(new Page<ProjectInfo>(request, response), projectInfo); 
+        model.addAttribute("page", page);
+		return "modules/expfetch/savefetch/acceptingList";
+	}
+
+	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "expertmethod")
 	public String expertmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
 		projectExpert.setPrjid(prjid);

@@ -32,7 +32,7 @@ public class LogUtils {
 			ExpertdbLog expertdbLog = new ExpertdbLog();
 			expertdbLog.setObjectId(projectInfo.getId());
 			expertdbLog.setObjectName(projectInfo.getPrjName());
-			expertdbLog.setObjectType(Constants.Log_Type_Expert);
+			expertdbLog.setObjectType(Constants.Log_Type_Project);
 			expertdbLog.setObjectUser(user);
 			
 			return expertdbLog;

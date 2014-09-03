@@ -131,7 +131,7 @@
 				<td>${projectExpert.fetchTime}</td>
 				<td>${projectExpert.prjProjectInfo.prjName}</td>
 				<td>${projectExpert.expertExpertConfirm.expertInfo.name}</td>
-				<td>${projectExpert.fetchStatus}</td>
+				<td>${fns:getDictLabel(projectExpert.fetchStatus,'fetch_status_type','')}</td>
 				<td>${projectExpert.createBy.name}</td>
 				<td>${projectExpert.remarks}</td>
 			</tr>
