@@ -174,9 +174,9 @@
 		<div class="control-group">
 			<label class="control-label">项目评审时间:</label>
 			<div class="controls">
-				从<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
-				至<form:input path="reviewEnd" maxlength="20"
+				<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true" style="display:none;"/>
+				<form:input path="reviewEnd" maxlength="20"
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
 			</div>
 		</div>
@@ -190,7 +190,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

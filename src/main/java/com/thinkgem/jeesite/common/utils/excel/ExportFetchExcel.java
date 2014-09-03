@@ -234,7 +234,7 @@ public class ExportFetchExcel {
 		Cell reviewCell = reviewRow.createCell(0);
 		reviewCell.setCellStyle(styles.get("title1"));
 		reviewCell.setCellValue("评审时间：");
-		Cell reviewBeginw = reviewRow.createCell(1);
+		/*Cell reviewBeginw = reviewRow.createCell(1);
 		reviewBeginw.setCellStyle(styles.get("title1"));
 		reviewBeginw.setCellValue("从");
 		Cell reviewBegin = reviewRow.createCell(2);
@@ -242,14 +242,14 @@ public class ExportFetchExcel {
 		reviewBegin.setCellValue(DateUtils.formatDate(projectExpert.getReviewBegin(),null));
 		Cell reviewEndw = reviewRow.createCell(3);
 		reviewEndw.setCellStyle(styles.get("title1"));
-		reviewEndw.setCellValue("至");
-		Cell reviewEnd = reviewRow.createCell(4);
+		reviewEndw.setCellValue("至");*/
+		Cell reviewEnd = reviewRow.createCell(1);
 		reviewEnd.setCellStyle(styles.get("data4"));
 		reviewEnd.setCellValue(DateUtils.formatDate(projectExpert.getReviewEnd(),null));
-		Cell prjName = reviewRow.createCell(5);
+		Cell prjName = reviewRow.createCell(3);
 		prjName.setCellStyle(styles.get("title1"));
 		prjName.setCellValue("抽取时间：");
-		Cell prjNamen = reviewRow.createCell(6);
+		Cell prjNamen = reviewRow.createCell(4);
 		prjNamen.setCellStyle(styles.get("data4"));
 		prjNamen.setCellValue(DateUtils.getDateTime());
 		
