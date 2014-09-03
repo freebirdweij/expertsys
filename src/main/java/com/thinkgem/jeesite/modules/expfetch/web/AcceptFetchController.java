@@ -832,12 +832,15 @@ public class AcceptFetchController extends BaseController {
 
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "saveproject")
-	public String saveproject(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
-		projectExpert.setPrjid(prjid);
-		projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
-		projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));
-		model.addAttribute("projectExpert", projectExpert);
-		return "modules/expfetch/acptfetch/unitFetchResult";
+	public String saveproject(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model,@RequestParam("prjid") String prjid) {
+		projectInfoService.updateProjectStatus(Constants.Project_Status_Save, prjid);
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectInfo.setCreateBy(user);
+		}
+        Page<ProjectInfo> page = projectInfoService.findAccepting(new Page<ProjectInfo>(request, response), projectInfo); 
+        model.addAttribute("page", page);
+		return "modules/expfetch/acptfetch/acceptingList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")
