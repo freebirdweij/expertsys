@@ -525,8 +525,8 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	 * 
 	 * @return 执行评审开始时间
 	 */
-	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH")
 	public Date getReviewBegin() {
 		return this.reviewBegin;
 	}
@@ -546,8 +546,8 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	 * 
 	 * @return 执行评审结束时间
 	 */
-	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH")
 	public Date getReviewEnd() {
 		return this.reviewEnd;
 	}
