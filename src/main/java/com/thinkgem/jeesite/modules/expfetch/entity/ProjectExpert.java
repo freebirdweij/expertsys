@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.expfetch.entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
@@ -103,6 +105,25 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	/** 监督人. */
 	private String supervise;
 	
+	private Byte halfday;
+	
+	@Transient
+	public Byte getHalfday() {
+		/*long hour = DateUtils.getFragmentInHours(reviewEnd, Calendar.HOUR_OF_DAY)-DateUtils.getFragmentInHours(reviewBegin, Calendar.HOUR_OF_DAY);
+		if(hour==0){
+			halfday = 1;
+		}else if(hour==6){
+			halfday = 2;
+		}else if(hour==12){
+			halfday = 0;
+		}*/
+		return halfday;
+	}
+
+	public void setHalfday(Byte halfday) {
+		this.halfday = halfday;
+	}
+
 	@Transient
 	public Byte getTechcnt() {
 		return techcnt;
@@ -525,8 +546,8 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	 * 
 	 * @return 执行评审开始时间
 	 */
-	@Temporal(TemporalType.TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getReviewBegin() {
 		return this.reviewBegin;
 	}
@@ -546,8 +567,8 @@ public class ProjectExpert extends DataEntity<ProjectExpert>  implements Seriali
 	 * 
 	 * @return 执行评审结束时间
 	 */
-	@Temporal(TemporalType.TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getReviewEnd() {
 		return this.reviewEnd;
 	}

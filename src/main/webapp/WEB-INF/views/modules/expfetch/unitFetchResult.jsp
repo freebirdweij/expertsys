@@ -47,14 +47,6 @@
 				    	var ree = $("#reviewEnd");
 				    			rewe = ree.val();
 				    	$("#reviewBegin").val(rewe);
-				    	var hday = $("#halfday").val();
-				    	if(hday=='0'){
-				    		rewe = rewe.DateAdd('h',24);
-				    	}else if(hday=='1'){
-				    	}else if(hday=='2'){
-				    		rewe = rewe.DateAdd('h',6);
-				    	}
-				    	$("#reviewEnd").val(rewe);
 					form.submit();
 				},
 				errorContainer: "#messageBox",
@@ -267,7 +259,7 @@
 	            }
 	        });
 	    });
-	   /*  document.onreadystatechange = function(){	
+	   document.onreadystatechange = function(){	
 	    	 var rewb = "";
 	    	var rew = $("#reviewBegin");
 	    	rewb = rew.val();
@@ -279,7 +271,7 @@
 	    	rewe = rewe.substr(0,10);
 	    	$("#reviewEnd").val(rewe); 
 	    	//alert("kkk");
-	    }  */
+	    } 
 	</script>
 </head>
 <body>
@@ -310,15 +302,16 @@
 			<div class="controls">
 				<div style="margin-right:10px; float:left;">
 				<form:input path="reviewBegin" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH',isShowClear:false});" style="display:none;"/>
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" style="display:none;"/>
 				<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH',isShowClear:false});"/>
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 				</div>
 				<div style="margin-left:10px; float:left;">
-			    <select id="halfday" name="halfday" class="span2">
-					<option value="0">全天</option>
-					<option value="1">上午</option><option value="2">下午</option>
-				</select>
+				<form:select path="halfday" class="span2">
+					<form:option value="0" label="全天"/>
+					<form:option value="1" label="上午"/>
+					<form:option value="2" label="下午"/>
+				</form:select>
 				</div>
 			</div>
 		</div>
