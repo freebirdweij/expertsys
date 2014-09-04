@@ -271,7 +271,7 @@
 	    	rewe = rewe.substr(0,10);
 	    	$("#reviewEnd").val(rewe); 
 	    	//alert("kkk");
-	    }
+	    } 
 	</script>
 </head>
 <body>
