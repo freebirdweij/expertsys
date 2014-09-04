@@ -131,7 +131,7 @@ public class ProjectInfoController extends BaseController {
 	@RequestMapping(value = "save", method=RequestMethod.POST)
 	public String save(HttpServletRequest request,ProjectInfo projectInfo, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, projectInfo)){
-			return record(projectInfo, model);
+			return form(request,projectInfo, model);
 		}
 		User user = UserUtils.getUser();
 		//日志处理
