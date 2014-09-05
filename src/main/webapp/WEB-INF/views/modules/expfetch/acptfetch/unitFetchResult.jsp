@@ -26,11 +26,15 @@
                 },
                 "reviewEnd":{
                     required: "结束时间不能为空",
-                    compareDate: "选择日期不能小于今天，并且结束日期必须大于等于开始日期!"
+                    compareDate: "选择日期不能小于今天!"
                 }
 				},
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
+			    	 var rewe = ""; 
+				    	var ree = $("#reviewEnd");
+				    			rewe = ree.val();
+				    	$("#reviewBegin").val(rewe);
 					form.submit();
 				},
 				errorContainer: "#messageBox",
@@ -236,6 +240,21 @@
 	<ul class="nav nav-tabs">
 		<li class="active">按单位方式抽取专家</li>
 	</ul>
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th></tr></thead>
+		<tbody>
+		<c:forEach items="${plist}" var="projectInfo">
+			<tr>
+				<td>${projectInfo.id}</td>
+				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td>${projectInfo.unit.name}</td>
+				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
+				<td>${projectInfo.prjMoney}</td>
+				<td>${projectInfo.prjYear}</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/acptfetch/directdrawunit" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
 		<form:hidden path="prjid"/>
@@ -243,10 +262,19 @@
 		<div class="control-group">
 			<label class="control-label">评审时间:</label>
 			<div class="controls">
-				从<form:input path="reviewBegin" maxlength="20"
+				<div style="margin-right:10px; float:left;">
+				<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" style="display:none;"/>
+				<form:input path="reviewEnd" maxlength="20"
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+				</div>
+				<div style="margin-left:10px; float:left;">
+				<form:select path="halfday" class="span2">
+					<form:option value="0" label="全天"/>
+					<form:option value="1" label="上午"/>
+					<form:option value="2" label="下午"/>
+				</form:select>
+				</div>
 			</div>
 		</div>
 		<div class="control-group">

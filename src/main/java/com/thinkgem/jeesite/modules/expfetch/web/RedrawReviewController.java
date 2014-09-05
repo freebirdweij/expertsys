@@ -8,6 +8,7 @@ import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -342,6 +343,7 @@ public class RedrawReviewController extends BaseController {
 		Office prjunit = mprj.getUnit();
 		List<ProjectInfo> pis = mprj.getChildList();
 		pis.add(0, mprj);
+        model.addAttribute("plist", pis);
 		
 		HashMap<String,Office> officeMap = (HashMap<String,Office>) UserUtils.getJiaoTouMap();
 		Map<String,Office> om = (Map<String, Office>) officeMap.clone();
@@ -511,6 +513,18 @@ public class RedrawReviewController extends BaseController {
 		//需先把抽取结果保留
 		int fcount = 0;
 			fcount = projectExpertService.selectMaxFetchTime()+1;
+			//对半天选择进行计算
+			Byte halfday = projectExpert.getHalfday();
+			if(halfday==null){
+				halfday = 0;
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+			}else if(halfday==1){
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 12));
+			}else if(halfday==2){
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 18));
+			}else if(halfday==0){
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+			}
     	//本次抽取记录。重要
 		for(ProjectInfo prj:pis){//对每个项目都需单独记录
 	    for (ExpertConfirm ec : erclist) {
@@ -856,6 +870,11 @@ public class RedrawReviewController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		ProjectInfo mprj = projectInfoService.get(prjid);
+		List<ProjectInfo> plist = mprj.getChildList();
+		plist.add(0, mprj);
+        model.addAttribute("plist", plist);
+        
 		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Review_Sussess);
 		projectExpert.setPrjid(prjid);
 		projectExpert.setReviewBegin(pExpert.getReviewBegin());
@@ -864,6 +883,17 @@ public class RedrawReviewController extends BaseController {
 		String status[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess};
 		List<ProjectExpert> olist = projectExpertService.findMutiProjectExpertByPrjAndStatus(prjid,status);
 		model.addAttribute("olist", olist);
+		
+		Byte halfday = null;
+		long hour = DateUtils.getFragmentInHours(projectExpert.getReviewEnd(), Calendar.HOUR_OF_DAY)-DateUtils.getFragmentInHours(projectExpert.getReviewBegin(), Calendar.HOUR_OF_DAY);
+		if(hour==12){
+			halfday = 1;
+		}else if(hour==18){
+			halfday = 2;
+		}else if(hour==23){
+			halfday = 0;
+		}
+		projectExpert.setHalfday(halfday);
 		
         //保留抽取的结果到页面,若采纳需要使用到
         List<String> eclist =  Lists.newArrayList();

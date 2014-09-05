@@ -23,28 +23,6 @@
 					}
 				}
 			});
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
-				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
-			});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
@@ -174,10 +152,19 @@
 		<div class="control-group">
 			<label class="control-label">项目评审时间:</label>
 			<div class="controls">
-				从<form:input path="reviewBegin" maxlength="20"
+				<div style="margin-right:10px; float:left;">
+				<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" style="display:none;"/>
+				<form:input path="reviewEnd" maxlength="20"
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
-				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
+				</div>
+				<div style="margin-left:10px; float:left;" readonly="true">
+				<form:select path="halfday" class="span2">
+					<form:option value="0" label="全天"/>
+					<form:option value="1" label="上午"/>
+					<form:option value="2" label="下午"/>
+				</form:select>
+				</div>
 			</div>
 		</div>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">

@@ -485,6 +485,18 @@ public class SaveFetchController extends BaseController {
 		//需先把抽取结果保留
 		int fcount = 0;
 			fcount = projectExpertService.selectMaxFetchTime()+1;
+			//对半天选择进行计算
+			Byte halfday = projectExpert.getHalfday();
+			if(halfday==null){
+				halfday = 0;
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+			}else if(halfday==1){
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 12));
+			}else if(halfday==2){
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 18));
+			}else if(halfday==0){
+				projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+			}
     	//本次抽取记录。重要
 		for(String prj:prjs){//对每个项目都需单独记录
 	    for (ExpertConfirm ec : erclist) {
@@ -835,9 +847,13 @@ public class SaveFetchController extends BaseController {
 	@RequiresPermissions("expfetch:projectExpert:view")
 	@RequestMapping(value = "unitmethod")
 	public String unitmethod(ProjectExpert projectExpert, Model model,@RequestParam("prjid") String prjid) {
+		//可以有多个项目同时抽取，先判断有几个项目
+		String prjs[] = StringUtils.split(prjid, ",");
 		projectExpert.setPrjid(prjid);
+		List<ProjectInfo> plist = projectInfoService.findProjectsByIds(new Page<ProjectInfo>(), prjs);
 		projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
 		projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));
+        model.addAttribute("plist", plist);
 		model.addAttribute("projectExpert", projectExpert);
 		return "modules/expfetch/savefetch/unitFetchResult";
 	}

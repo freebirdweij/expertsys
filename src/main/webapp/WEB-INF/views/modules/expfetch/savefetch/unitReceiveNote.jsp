@@ -175,10 +175,19 @@
 		<div class="control-group">
 			<label class="control-label">项目验收时间:</label>
 			<div class="controls">
-				从<form:input path="reviewBegin" maxlength="20"
+				<div style="margin-right:10px; float:left;">
+				<form:input path="reviewBegin" maxlength="20"
+						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" style="display:none;"/>
+				<form:input path="reviewEnd" maxlength="20"
 						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
-				至<form:input path="reviewEnd" maxlength="20"
-						class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" readonly="true"/>
+				</div>
+				<div style="margin-left:10px; float:left;" readonly="true">
+				<form:select path="halfday" class="span2">
+					<form:option value="0" label="全天"/>
+					<form:option value="1" label="上午"/>
+					<form:option value="2" label="下午"/>
+				</form:select>
+				</div>
 			</div>
 		</div>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
