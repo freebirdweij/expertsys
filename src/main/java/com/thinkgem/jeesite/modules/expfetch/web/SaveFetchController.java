@@ -339,6 +339,8 @@ public class SaveFetchController extends BaseController {
 		//可以有多个项目同时抽取，先判断有几个项目
 		String prjs[] = StringUtils.split(prjid, ",");
 		Office prjunit = projectInfoService.get(prjs[0]).getUnit();
+		List<ProjectInfo> plist = projectInfoService.findProjectsByIds(new Page<ProjectInfo>(), prjs);
+        model.addAttribute("plist", plist);
 		
 		//需要排除原来参加过同项目评审的专家
 		List<ExpertConfirm> reslist = Lists.newArrayList();
@@ -1005,36 +1007,7 @@ public class SaveFetchController extends BaseController {
 		if (!beanValidator(model, projectExpert)){
 			return form(projectExpert, model);
 		}
-		ProjectExpert pExpert = (ProjectExpert) request.getSession().getAttribute("projectExpert");
-		int fcount = 0;
-		if(pExpert.getFetchTime()==null){
-			fcount = projectExpertService.selectMaxFetchTime()+1;
-		}else{
-		    fcount = pExpert.getFetchTime()+1;
-		}
-		String resIds = projectExpert.getResIds();
-		String[] ids = StringUtils.split(resIds, ",");
-    	//本次抽取状态标志。重要
-	    for (String id : ids) {
-	    	projectExpert = new ProjectExpert();
-			projectExpert.setFetchTime(fcount);
-		    projectExpert.setPrjProjectInfo(new ProjectInfo(pExpert.getPrjid()));
-	    	projectExpert.setFetchMethod(Constants.Fetch_Method_Unit);
-	    	projectExpert.setFetchStatus(Constants.Fetch_Review_Failure);
-	    	projectExpert.setExpertExpertConfirm(new ExpertConfirm(id));
-	    	projectExpert.setReviewBegin(pExpert.getReviewBegin());
-	    	projectExpert.setReviewEnd(pExpert.getReviewEnd());
-			projectExpertService.save(projectExpert);
-	    }
-	    //request.getSession().removeAttribute("projectExpert");
-		addMessage(redirectAttributes, "保存对项目进行专家抽取成功.");
-		
-	    request.getSession().removeAttribute("projectExpert");
-		//addMessage(redirectAttributes, "保存对项目进行专家抽取'" + projectExpert.getPrjProjectInfo().getPrjName() + "'成功");
-		projectExpert = (ProjectExpert) request.getSession().getAttribute("projectExpertBak");
-	    //projectExpert.setResIds(null);
-        model.addAttribute("projectExpert", projectExpert);
-		return unitfetch(projectExpert, request, response, model, redirectAttributes);
+		return "redirect:"+Global.getAdminPath()+"/expfetch/savefetch/saveinglist/?repage";
 	}
 	
 	@RequiresPermissions("expfetch:projectExpert:edit")

@@ -285,6 +285,8 @@ public class ProjectExpertService extends BaseService {
 	        Random r=new Random();   
 	        int n = resSize;  
 	         ri = r.nextInt(n);
+		}else if(resSize==0){
+			return null;
 		}
         
 

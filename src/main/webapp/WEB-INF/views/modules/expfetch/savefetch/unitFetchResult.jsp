@@ -280,15 +280,21 @@
 		<div class="control-group">
 			<label class="control-label">抽选数量:</label>
 			<div class="controls">
-				<div style="margin-right:40px; float:left;">
+				<div style="margin-right:10px; float:left;">
+					技术类数量：
+				</div>
+				<div style="margin-right:30px; float:left;">
 				<form:select path="techcnt" class="span2">
-					<form:option value="" label="技术类数量"/>
+					<form:option value="" label="0位"/>
 					<form:options items="${fns:getDictList('sys_techcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				</div>
-				<div style="margin-left:30px; float:left;">
+				<div style="margin-left:1px; float:left;">
+					经济类数量：
+				</div>
+				<div style="margin-left:10px; float:left;">
 				<form:select path="ecomcnt" class="span2">
-					<form:option value="" label="经济类数量"/>
+					<form:option value="" label="0位"/>
 					<form:options items="${fns:getDictList('sys_ecomcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				</div>
@@ -298,7 +304,7 @@
 			<label class="control-label">屏蔽近期已抽选:</label>
 			<div class="controls">
 				<form:select path="discnt" class="span2">
-					<form:option value="" label="近~次"/>
+					<form:option value="" label="0次"/>
 					<form:options items="${fns:getDictList('sys_discnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
