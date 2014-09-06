@@ -249,7 +249,7 @@ public class ExpertManageController extends BaseController {
 		}
 		ExpertInfo expertInfo = expertInfoService.get(expertConfirm.getUid());
 		BigDecimal seq = expertConfirmService.selectExpertSequence();
-		String ecode = "GXEWA_"+expertInfo.getUnit().getCode()+"_ZJ_"+expertInfo.getSpecialKind1()+"_"+expertInfo.getKind1Special1()+"_"+seq;
+		String ecode = expertInfo.getUnit().getCode()+"_ZJ_"+expertInfo.getSpecialKind1()+"_"+expertInfo.getKind1Special1()+"_"+seq;
 		if(expertConfirm.getKindOne()!=null&&!expertConfirm.getKindOne().equalsIgnoreCase("")&&expertConfirm.getSpecialOne()!=null&&!expertConfirm.getSpecialOne().equalsIgnoreCase("")){
 			expertConfirm.setId(ecode);
 			expertConfirm.setExpertKind(expertConfirm.getKindOne());
@@ -491,7 +491,7 @@ public class ExpertManageController extends BaseController {
 					user.setName(expert.getExpertInfo().getName());
 					user.setCompany(expert.getExpertCompany());
 					user.setOffice(expert.getExpertCompany());
-					user.setLoginName(expert.getId());
+					user.setLoginName(expert.getExpertInfo().getName());
 					user.setMobile(expert.getExpertPhone());
 					if ("true".equals(checkLoginName("", user.getLoginName()))){
 						user.setPassword(SystemService.entryptPassword("123456"));
@@ -519,30 +519,39 @@ public class ExpertManageController extends BaseController {
 					expertInfo.setRegStep(Constants.Register_Status_Accept);
 					
 					// 保存专家信息
-					Date dt = DateUtils.parseDate("1900-01-01");
+					Date dt = DateUtils.parseDate("2014-01-01");
 					expertInfo.setUserId(ur.getId());
 					expertInfo.setName(ur.getName());
-					expertInfo.setSex(Constants.Expert_Sex_Boy);
+					expertInfo.setSex(expert.getExpertSex());
 					expertInfo.setUnit(ur.getCompany());
 					expertInfo.setSpecialKind1(expert.getExpertKind());
 					expertInfo.setKind1Special1(expert.getExpertSpecial());
 					expertInfo.setTechnical(expert.getExpertTechnical());
 					expertInfo.setMobile(expert.getExpertPhone());
-					expertInfo.setBirthdate(dt);
+					expertInfo.setBirthdate(expert.getExpertBirthdate());
 					expertInfo.setSpecialFrom(dt);
 					expertInfo.setSpecialTo(dt);
 					expertInfo.setStartworkTime(dt);
+					expertInfo.setNation(expert.getExpertNation());
+					expertInfo.setCollage(expert.getExpertCollage());
+					expertInfo.setEducation(expert.getExpertDegree());
+					expertInfo.setStudySpecial(expert.getExpertStudy());
+					expertInfo.setEmail(expert.getExpertEmail());
+					expertInfo.setJob(expert.getExpertJob());
 					expertInfoService.save(expertInfo);
 					
 					//保存专家审批
-					ExpertConfirm eConfirm = new ExpertConfirm();
+					BigDecimal seq = expertConfirmService.selectExpertSequence();
+					String ecode = expertInfo.getUnit().getCode()+"_ZJ_"+expert.getExpertKind()+"_"+expert.getExpertSpecial()+"_"+seq;
+					//ExpertConfirm eConfirm = new ExpertConfirm();
+					expert.setId(ecode);
 					expert.setExpertInfo(expertInfo);
 					expert.setExpertArea(cy.getArea());
 					expert.setExpertLevel(Constants.Expert_Status_Work);
 					expert.setSpecialFrom(dt);
 					expert.setSpecialTo(dt);
-					BeanUtils.copyProperties(eConfirm, expert);
-					expertConfirmService.save(eConfirm);			
+					//BeanUtils.copyProperties(eConfirm, expert);
+					expertConfirmService.saveImport(expert);			
 					
 					successNum++;
 					

@@ -40,13 +40,13 @@
 					title="机构" url="/sys/office/treeData" extId="${office.id}" cssClass="required"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">归属区域:</label>
 			<div class="controls">
                 <tags:treeselect id="area" name="area.id" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
 					title="区域" url="/sys/area/treeData" cssClass="required"/>
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">机构名称:</label>
 			<div class="controls">

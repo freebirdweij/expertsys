@@ -69,7 +69,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	private String expertEmail;
 
 	@Transient
-	@ExcelField(title="性别", value="expertInfo.sex",align=2, sort=2)
+	@ExcelField(title="性别", value="expertInfo.sex",align=2, sort=7, dictType="sys_sex_type")
 	public String getExpertSex() {
 		return expertSex;
 	}
@@ -81,7 +81,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	@Transient
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@ExcelField(title="出生年月", value="expertInfo.birthdate",align=2, sort=3)
+	@ExcelField(title="出生年月", value="expertInfo.birthdate",align=2, sort=8)
 	public Date getExpertBirthdate() {
 		return expertBirthdate;
 	}
@@ -91,7 +91,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	}
 
 	@Transient
-	@ExcelField(title="民族", value="expertInfo.nation",align=2, sort=4)
+	@ExcelField(title="民族", value="expertInfo.nation",align=2, sort=9, dictType="sys_nation_type")
 	public String getExpertNation() {
 		return expertNation;
 	}
@@ -101,7 +101,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	}
 
 	@Transient
-	@ExcelField(title="毕业学校", value="expertInfo.collage",align=2, sort=5)
+	@ExcelField(title="毕业学校", value="expertInfo.collage",align=2, sort=10)
 	public String getExpertCollage() {
 		return expertCollage;
 	}
@@ -113,7 +113,6 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	@Transient
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@ExcelField(title="毕业时间", value="expertInfo.graduateTime",align=2, sort=6)
 	public Date getExpertGraduate() {
 		return expertGraduate;
 	}
@@ -123,7 +122,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	}
 
 	@Transient
-	@ExcelField(title="学历", value="expertInfo.education",align=2, sort=7)
+	@ExcelField(title="学历", value="expertInfo.education",align=2, sort=11, dictType="sys_education_type")
 	public String getExpertDegree() {
 		return expertDegree;
 	}
@@ -133,7 +132,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	}
 
 	@Transient
-	@ExcelField(title="所学专业", value="expertInfo.studySpecial",align=2, sort=8)
+	@ExcelField(title="所学专业", value="expertInfo.studySpecial",align=2, sort=12)
 	public String getExpertStudy() {
 		return expertStudy;
 	}
@@ -143,7 +142,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	}
 
 	@Transient
-	@ExcelField(title="职务", value="expertInfo.job",align=2, sort=9)
+	@ExcelField(title="职务", value="expertInfo.job",align=2, sort=6)
 	public String getExpertJob() {
 		return expertJob;
 	}
@@ -153,7 +152,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	}
 
 	@Transient
-	@ExcelField(title="电子信箱", value="expertInfo.email",align=2, sort=10)
+	@ExcelField(title="电子信箱", value="expertInfo.email",align=2, sort=13)
 	public String getExpertEmail() {
 		return expertEmail;
 	}
@@ -163,7 +162,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	}
 
 	@Transient
-	@ExcelField(title="电话", value="expertInfo.mobile",align=2, sort=11)
+	@ExcelField(title="电话", value="expertInfo.mobile",align=2, sort=14)
 	public String getExpertPhone() {
 		return expertPhone;
 	}
@@ -337,7 +336,6 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	@JoinColumn(name="expertArea")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-	@ExcelField(title="地区", value="expertArea.name",align=2, sort=70)
 	public Area getExpertArea() {
 		return expertArea;
 	}
@@ -350,7 +348,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	@JoinColumn(name="expertCompany")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnore
-	@ExcelField(title="单位", value="expertCompany.name", align=2, sort=60)
+	@ExcelField(title="单位", value="expertCompany.name", align=2, sort=2)
 	public Office getExpertCompany() {
 		return expertCompany;
 	}
@@ -359,7 +357,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 		this.expertCompany = expertCompany;
 	}
 
-	@ExcelField(title="职称", align=2, sort=50, dictType="sys_tech_type")
+	@ExcelField(title="职称", align=2, sort=5, dictType="sys_tech_type")
 	public String getExpertTechnical() {
 		return this.expertTechnical;
 	}
@@ -384,7 +382,6 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	 * @return 专家确认ID
 	 */
 	@Id
-	@ExcelField(title="专家编号", align=2, sort=10)
 	public String getId() {
 		return this.id;
 	}
@@ -428,7 +425,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	 * 
 	 * @return 专家类别
 	 */
-	@ExcelField(title="专家类别", align=2, sort=30, dictType="sys_specialkind_type")
+	@ExcelField(title="专家类别", align=2, sort=3, dictType="sys_specialkind_type")
 	public String getExpertKind() {
 		return this.expertKind;
 	}
@@ -448,7 +445,7 @@ public class ExpertImport extends DataEntity<ExpertImport>{
 	 * 
 	 * @return 专家专业
 	 */
-	@ExcelField(title="专业", align=2, sort=40, dictType="sys_special_type")
+	@ExcelField(title="专家专业", align=2, sort=4, dictType="sys_special_type")
 	public String getExpertSpecial() {
 		return this.expertSpecial;
 	}

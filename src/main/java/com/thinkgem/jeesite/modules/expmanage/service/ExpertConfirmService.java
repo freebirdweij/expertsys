@@ -106,6 +106,11 @@ public class ExpertConfirmService extends BaseService {
 	}
 	
 	@Transactional(readOnly = false)
+	public void saveImport(ExpertImport expertConfirm) {
+		expertImportDao.save(expertConfirm);
+	}
+	
+	@Transactional(readOnly = false)
 	public void delete(String id) {
 		expertConfirmDao.deleteById(id);
 	}
