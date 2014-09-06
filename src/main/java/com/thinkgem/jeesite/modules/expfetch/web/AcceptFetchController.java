@@ -1137,7 +1137,7 @@ public class AcceptFetchController extends BaseController {
 			e.printStackTrace();
 		}
 		
-	return reviewinglist(null, request, response, model);
+		return "redirect:"+Global.getAdminPath()+"/expfetch/acptfetch/acceptinglist/?repage";
     }
 
 }

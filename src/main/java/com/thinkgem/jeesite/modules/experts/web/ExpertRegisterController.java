@@ -134,6 +134,7 @@ public class ExpertRegisterController extends BaseController {
 		if(expertInfo==null){
 			expertInfo = new ExpertInfo();
 			expertInfo.setBirthdate(new Timestamp((new Date()).getTime()));
+			//expertInfo.setGraduateTime(new Timestamp((new Date()).getTime()));
 			expertInfo.setName(user.getName());
 			expertInfo.setUserId(user.getId());
 			/*Date birthdate = expertInfo.getBirthdate();
@@ -148,6 +149,7 @@ public class ExpertRegisterController extends BaseController {
 			expertInfo.setName(user.getName());
 			expertInfo.setUserId(user.getId());
 			expertInfo.setBirthdate(new Timestamp((new Date()).getTime()));
+			//expertInfo.setGraduateTime(new Timestamp((new Date()).getTime()));
 			/*Date birthdate = expertInfo.getBirthdate();
 			if (birthdate == null){
 				birthdate = DateUtils.setDays(new Date(), 1);

@@ -214,13 +214,13 @@
 					class="required" />
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">毕业时间:</label>
 			<div class="controls">
 			  <form:input path="graduateTime" maxlength="20"
-				class="span2 input-small Wdate" value="0000-00-00" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+				class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">学 历:</label>
 			<div class="controls">

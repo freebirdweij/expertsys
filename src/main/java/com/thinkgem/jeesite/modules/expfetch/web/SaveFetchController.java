@@ -1160,7 +1160,7 @@ public class SaveFetchController extends BaseController {
 			e.printStackTrace();
 		}
 		
-	return reviewinglist(null, request, response, model);
+		return "redirect:"+Global.getAdminPath()+"/expfetch/savefetch/saveinglist/?repage";
     }
 
 }

@@ -155,6 +155,7 @@
 	<form:form id="inputForm" modelAttribute="expertInfo"
 		action="${ctx}/experts/savebase" enctype="multipart/form-data" method="post" class="form-horizontal">
 		<form:hidden path="userId" />
+		<form:hidden path="regStep" />
 		<tags:message content="${message}" />
 		<!--<div class="row-fluid">
 			 <div class="span4"> -->
