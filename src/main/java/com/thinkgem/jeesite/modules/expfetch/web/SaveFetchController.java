@@ -835,7 +835,7 @@ public class SaveFetchController extends BaseController {
 		}
         Page<ProjectInfo> page = projectInfoService.findSaveing(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
-		return "modules/expfetch/saveingList";
+		return "modules/expfetch/savefetch/saveingList";
 	}
 
 	@RequiresPermissions("expfetch:projectExpert:view")

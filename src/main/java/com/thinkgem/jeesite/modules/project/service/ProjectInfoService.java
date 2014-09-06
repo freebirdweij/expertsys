@@ -202,7 +202,7 @@ public class ProjectInfoService extends BaseService {
 	}
 	
 	public Page<ProjectInfo> findSaveing(Page<ProjectInfo> page, ProjectInfo projectInfo) {
-		updateProjectStatusToWork();
+		updateProjectStatusToReceived();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		
 		//限治本用户单位项目
@@ -218,7 +218,7 @@ public class ProjectInfoService extends BaseService {
 	}
 	
 	public Page<ProjectInfo> findSaved(Page<ProjectInfo> page, ProjectInfo projectInfo) {
-		updateProjectStatusToWork();
+		updateProjectStatusToSave();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		
 		//限治本用户单位项目
@@ -234,7 +234,7 @@ public class ProjectInfoService extends BaseService {
 	}
 	
 	public Page<ProjectInfo> findSuperviseAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
-		updateProjectStatusToSave();
+		updateProjectStatusToReceived();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Receive));
 		
@@ -250,7 +250,7 @@ public class ProjectInfoService extends BaseService {
 	}
 	
 	public Page<ProjectInfo> findRedrawAccepting(Page<ProjectInfo> page, ProjectInfo projectInfo) {
-		updateProjectStatusToSave();
+		updateProjectStatusToReceived();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		dc.add(Restrictions.eq("prjStatus", Constants.Project_Status_Receive));
 		

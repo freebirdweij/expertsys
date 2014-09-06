@@ -885,7 +885,7 @@ public class RedrawReviewController extends BaseController {
 		model.addAttribute("olist", olist);
 		
 		Byte halfday = null;
-		long hour = DateUtils.getFragmentInHours(projectExpert.getReviewEnd(), Calendar.HOUR_OF_DAY)-DateUtils.getFragmentInHours(projectExpert.getReviewBegin(), Calendar.HOUR_OF_DAY);
+		long hour = DateUtils.dateDiff(DateUtils.formatDateTime(projectExpert.getReviewBegin()), DateUtils.formatDateTime(projectExpert.getReviewEnd()), "yyyy-MM-dd HH:mm:ss", "h");
 		if(hour==12){
 			halfday = 1;
 		}else if(hour==18){
@@ -951,11 +951,24 @@ public class RedrawReviewController extends BaseController {
 		String rwIds = projectExpert.getSeriesIdsYes();
 		String[] ids = StringUtils.split(rwIds, ",");
 		
+		//对半天选择进行计算
+		Byte halfday = projectExpert.getHalfday();
+		if(halfday==null){
+			halfday = 0;
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+		}else if(halfday==1){
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 12));
+		}else if(halfday==2){
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 18));
+		}else if(halfday==0){
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+		}
     	//本次抽取状态标志。重要
 		prjid = "";
 		for(ProjectInfo prj:plist){
 			for (String id : ids) {
 				projectExpertService.updateProjectExpertStatus(Constants.Fetch_ReviewRedraw_Sussess,fcount,prj.getId(),id);
+				projectExpertService.updateProjectExpertReviewDate(Constants.Fetch_Review_Sussess, prj.getId(), projectExpert.getReviewBegin(), projectExpert.getReviewEnd());
 			}
 			//项目ID重新拼
 			prjid = prjid+","+prj.getId();

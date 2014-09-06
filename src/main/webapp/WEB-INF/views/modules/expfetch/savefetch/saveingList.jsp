@@ -71,6 +71,7 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/expfetch/savefetch/unitmethod" method="post" class="form-horizontal">
 	<tags:message content="${message}"/>
+		<form:hidden path="prjid"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>抽取选择</th><th>是否结束</th></tr></thead>
 		<tbody>

@@ -26,7 +26,7 @@
                 },
                 "reviewEnd":{
                     required: "结束时间不能为空",
-                    compareDate: "选择日期不能小于今天，并且结束日期必须大于等于开始日期!"
+                    compareDate: "选择日期不能小于今天!"
                 }
 				},
 				submitHandler: function(form){

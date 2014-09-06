@@ -851,7 +851,7 @@ public class RedrawSaveController extends BaseController {
 			projectInfo.setCreateBy(user);
 		}
         Page<ProjectInfo> page = projectInfoService.findReviewing(new Page<ProjectInfo>(request, response), projectInfo); 
-        model.addAttribute("page", page);
+        model.addAttribute("list", page.getList());
 		return "modules/expfetch/savredraw/reviewingList";
 	}
 
@@ -875,7 +875,7 @@ public class RedrawSaveController extends BaseController {
 			projectInfo.setCreateBy(user);
 		}
         Page<ProjectInfo> page = projectInfoService.findSaved(new Page<ProjectInfo>(request, response), projectInfo); 
-        model.addAttribute("page", page);
+        model.addAttribute("list", page.getList());
 		return "modules/expfetch/savredraw/saveingList";
 	}
 
@@ -895,7 +895,7 @@ public class RedrawSaveController extends BaseController {
 		plist.add(0, mprj);
         model.addAttribute("plist", plist);
         
-		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Accept_Sussess);
+		ProjectExpert pExpert = projectExpertService.findProjectExpertByPrjAndStatus(prjid, Constants.Fetch_Accepted_Sussess);
 		projectExpert.setPrjid(prjid);
 		projectExpert.setReviewBegin(pExpert.getReviewBegin());
 		projectExpert.setReviewEnd(pExpert.getReviewEnd());
@@ -905,7 +905,7 @@ public class RedrawSaveController extends BaseController {
 		model.addAttribute("olist", olist);
 		
 		Byte halfday = null;
-		long hour = DateUtils.getFragmentInHours(projectExpert.getReviewEnd(), Calendar.HOUR_OF_DAY)-DateUtils.getFragmentInHours(projectExpert.getReviewBegin(), Calendar.HOUR_OF_DAY);
+		long hour = DateUtils.dateDiff(DateUtils.formatDateTime(projectExpert.getReviewBegin()), DateUtils.formatDateTime(projectExpert.getReviewEnd()), "yyyy-MM-dd HH:mm:ss", "h");
 		if(hour==12){
 			halfday = 1;
 		}else if(hour==18){
@@ -970,11 +970,24 @@ public class RedrawSaveController extends BaseController {
 		String rwIds = projectExpert.getSeriesIdsYes();
 		String[] ids = StringUtils.split(rwIds, ",");
 		
-    	//本次抽取状态标志。重要
+		//对半天选择进行计算
+		Byte halfday = projectExpert.getHalfday();
+		if(halfday==null){
+			halfday = 0;
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+		}else if(halfday==1){
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 12));
+		}else if(halfday==2){
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 18));
+		}else if(halfday==0){
+			projectExpert.setReviewEnd(DateUtils.addHours(projectExpert.getReviewBegin(), 23));
+		}
+	//本次抽取状态标志。重要
 		prjid = "";
 		for(ProjectInfo prj:plist){
 			for (String id : ids) {
 				projectExpertService.updateProjectExpertStatus(Constants.Fetch_AcceptedRedraw_Sussess,fcount,prj.getId(),id);
+				projectExpertService.updateProjectExpertReviewDate(Constants.Fetch_Accepted_Sussess, prj.getId(), projectExpert.getReviewBegin(), projectExpert.getReviewEnd());
 			}
 			//项目ID重新拼
 			prjid = prjid+","+prj.getId();
