@@ -245,11 +245,28 @@ public class ExportFetchExcel {
 		reviewEndw.setCellValue("至");*/
 		Cell reviewEnd = reviewRow.createCell(1);
 		reviewEnd.setCellStyle(styles.get("data4"));
-		reviewEnd.setCellValue(DateUtils.formatDate(projectExpert.getReviewEnd(),null));
-		Cell prjName = reviewRow.createCell(3);
+		reviewEnd.setCellValue(DateUtils.formatDate(projectExpert.getReviewBegin(),null));
+		
+		//对半天选择进行计算
+		Byte halfday = projectExpert.getHalfday();
+		String hday = "全天";
+		if(halfday==null){
+			hday = "全天";
+		}else if(halfday==1){
+			hday = "上午";
+		}else if(halfday==2){
+			hday = "下午";
+		}else if(halfday==0){
+			hday = "全天";
+		}
+		Cell hdaycell = reviewRow.createCell(2);
+		hdaycell.setCellStyle(styles.get("data4"));
+		hdaycell.setCellValue(hday);
+		
+		Cell prjName = reviewRow.createCell(4);
 		prjName.setCellStyle(styles.get("title1"));
 		prjName.setCellValue("抽取时间：");
-		Cell prjNamen = reviewRow.createCell(4);
+		Cell prjNamen = reviewRow.createCell(5);
 		prjNamen.setCellStyle(styles.get("data4"));
 		prjNamen.setCellValue(DateUtils.getDateTime());
 		

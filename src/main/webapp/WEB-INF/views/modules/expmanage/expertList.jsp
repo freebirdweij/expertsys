@@ -72,19 +72,13 @@
 		<div>
 			<label>归属公司：</label><tags:treeselect id="expertCompany" name="expertCompany.id" value="${expertConfirm.expertCompany.id}" labelName="expertCompany.name" labelValue="${expertConfirm.expertCompany.name}" 
 				title="公司" url="/sys/office/treeData?type=1" cssClass="input-small" allowClear="true"/>
+			<label>姓名：</label><form:input path="expertInfo.name" htmlEscape="false" maxlength="50" class="input-small"/>
+			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 			<%-- <label>专业：</label>
 				<form:select path="expertSpecial" class="span2 required">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_special_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select> --%>
-		</div>
-		<div style="margin-top:8px;">
-			<label>归属地区：</label><tags:treeselect id="expertArea" name="expertArea.id" value="${expertConfirm.expertArea.id}" labelName="expertArea.name" labelValue="${expertConfirm.expertArea.name}" 
-				title="部门" url="/sys/area/treeData" cssClass="input-small" allowClear="true"/>
-			<label>姓名：</label><form:input path="expertInfo.name" htmlEscape="false" maxlength="50" class="input-small"/>
-			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
-			<!-- &nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
-			&nbsp;<input id="btnImport" class="btn btn-primary" type="button" value="导入"/> -->
 		</div>
 	</form:form>
 	<tags:message content="${message}"/>
@@ -101,7 +95,7 @@
 				<td>${fns:getDictLabel(expertConfirm.expertInfo.education,'sys_education_type','')}</td>
 				<shiro:hasPermission name="sys:user:edit"><td>
     				<a href="${ctx}/expmanage/expedit?id=${expertConfirm.id}">修改</a>
-					<a href="${ctx}/expmanage/delete?id=${expertConfirm.id}" onclick="return confirmx('确认要删除该专家吗？', this.href)">删除</a>
+					<a href="${ctx}/expmanage/delete?id=${expertConfirm.id}" onclick="return confirmx('确认要删除该专家吗？', this.href)">取消资格</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

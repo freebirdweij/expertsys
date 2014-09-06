@@ -134,10 +134,11 @@
 	</ul>
 	<form:form id="inputForm" modelAttribute="projectExpert" action="${ctx}/infoview/directdrawunit" method="post" enctype="multipart/form-data" class="form-horizontal">
 	<tags:message content="${message}"/>
+		<input id="expid" name="expid" type="hidden" value="${expid}"/>
+	<c:if test="${rewlist.size() gt '0'}">
       <div class="span10">
         <h4>以下为评审首次抽选的项目：</h4>
       </div>
-		<input id="expid" name="expid" type="hidden" value="${expid}"/>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
@@ -156,6 +157,8 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</c:if>
+	<c:if test="${rewrdlist.size() gt '0'}">
       <div class="span10">
         <h4>以下评审补抽的项目：</h4>
       </div>
@@ -177,6 +180,8 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</c:if>
+	<c:if test="${rewnlist.size() gt '0'}">
       <div class="span10">
         <h4>以下为评审中抽取无效的项目：</h4>
       </div>
@@ -198,6 +203,8 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</c:if>
+	<c:if test="${acptlist.size() gt '0'}">
       <div class="span10">
         <h4>以下为验收首次抽选的项目：</h4>
       </div>
@@ -219,6 +226,8 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</c:if>
+	<c:if test="${acptrdlist.size() gt '0'}">
       <div class="span10">
         <h4>以下验收中补抽的项目：</h4>
       </div>
@@ -240,6 +249,8 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</c:if>
+	<c:if test="${acptnlist.size() gt '0'}">
       <div class="span10">
         <h4>以下为验收中抽取无效的项目：</h4>
       </div>
@@ -261,6 +272,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</c:if>
 		<div class="form-actions">
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 			&nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>

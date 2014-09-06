@@ -151,6 +151,9 @@ public class ProjectInfoService extends BaseService {
 			dc.add(Restrictions.le("prjBegin", projectInfo.getPrjBegin()));
 			dc.add(Restrictions.ge("prjEnd", projectInfo.getPrjBegin()));
 		}
+		if (StringUtils.isNotEmpty(projectInfo.getPrjYear())){
+			dc.add(Restrictions.eq("prjYear", projectInfo.getPrjYear()));
+		}
 		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
 			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
 		}

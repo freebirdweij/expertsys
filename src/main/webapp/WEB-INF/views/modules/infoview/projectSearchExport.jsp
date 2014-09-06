@@ -65,7 +65,7 @@
 		<div>
 			<form:select path="prjStatus" class="span2" ><form:option value="" label="项目状态"/>
 			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
-			<label>主体单位：</label>
+			<label>建设单位：</label>
             <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}" 
 				title="公司" url="/sys/office/treeData?type=1" cssClass="required" allowClear="true"/>			
 			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
@@ -73,7 +73,7 @@
 		<div style="margin-top:8px;">
 			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
 			<label>金额大于：</label><form:input path="prjMoney" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>大约时间：</label><form:input path="prjBegin" maxlength="20" class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});" />
+			<label>项目年度：</label><form:input path="prjYear" maxlength="20" class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy',isShowClear:true});" />
 			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 			&nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
 		</div>

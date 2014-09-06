@@ -65,7 +65,7 @@
 		<div>
 			<form:select path="prjStatus" class="span2" ><form:option value="" label="项目状态"/>
 			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
-			<label>项目主体：</label>
+			<label>建设单位：</label>
             <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}" 
 				title="公司" url="/sys/office/treeData?type=1" cssClass="required" allowClear="true"/>			
 			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
@@ -73,13 +73,13 @@
 		<div style="margin-top:8px;">
 			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
 			<label>金额大于：</label><form:input path="prjMoney" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>大约时间：</label><form:input path="prjBegin" maxlength="20" class="span2 input-small Wdate" value="1900-01-01" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});" />
+			<label>项目年度：</label><form:input path="prjYear" maxlength="20" class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy',isShowClear:true});" />
 			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 		</div>
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>状态</th><th>金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="projectInfo">
 			<tr>
@@ -88,7 +88,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetch?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>

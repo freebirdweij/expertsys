@@ -1134,7 +1134,7 @@ public class ProjectExpertController extends BaseController {
 				e.printStackTrace();
 			}
     		
-		return reviewinglist(new ProjectInfo(), request, response, model);
+    		return "redirect:"+Global.getAdminPath()+"/expfetch/reviewinglist/?repage";
     }
 
 }

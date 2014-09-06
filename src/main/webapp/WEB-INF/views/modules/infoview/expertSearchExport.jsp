@@ -81,8 +81,8 @@
 					<form:option value="" label="学历："/>
 					<form:options items="${fns:getDictList('sys_education_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-			<label>地区：</label><tags:treeselect id="expertArea" name="expertArea.id" value="${expertConfirm.expertArea.id}" labelName="expertArea.name" labelValue="${expertConfirm.expertArea.name}" 
-				title="部门" url="/sys/area/treeData" cssClass="input-small" allowClear="true"/>
+			<%-- <label>地区：</label><tags:treeselect id="expertArea" name="expertArea.id" value="${expertConfirm.expertArea.id}" labelName="expertArea.name" labelValue="${expertConfirm.expertArea.name}" 
+				title="部门" url="/sys/area/treeData" cssClass="input-small" allowClear="true"/> --%>
 			<label>姓名：</label><form:input path="expertInfo.name" htmlEscape="false" maxlength="50" class="input-small"/>
 			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 			&nbsp;<input id="btnExport" class="btn btn-primary" type="button" value="导出"/>

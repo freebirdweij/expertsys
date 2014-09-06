@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -261,6 +262,9 @@ public class StatisticsSearchController extends BaseController {
 		if (!user.isAdmin()){
 			projectInfo.setCreateBy(user);
 		}
+		/*if (StringUtils.isNotEmpty(projectInfo.getPrjYear())){
+			projectInfo.setPrjYear("2014");
+		}*/
         Page<ProjectInfo> page = projectInfoService.findSuperviseProjects(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
 		return "modules/infoview/projectSearch";

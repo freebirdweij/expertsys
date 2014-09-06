@@ -625,7 +625,7 @@ public class ExpertManageController extends BaseController {
 		ExpertConfirm expertConfirm = get(id);
 		expertConfirmService.delete(id);
 		expertInfoService.updateRegStep(Constants.Register_Status_Third, expertConfirm.getExpertInfo().getUserId());
-		addMessage(redirectAttributes, "删除专家确认成功");
+		addMessage(redirectAttributes, "取消专家确认成功");
 		User user = UserUtils.getUser();
 		//记录系统日志
 		Log log = new Log();
@@ -642,7 +642,7 @@ public class ExpertManageController extends BaseController {
 		if(expertdbLog!=null){
 			expertdbLog.setObjectId(id);
 			StringBuffer strb = new StringBuffer();
-			strb.append(Constants.Log_Function_ExpertDel).append("删除了一位专家,").append(Constants.Log_Expert_Name).append(expertConfirm.getExpertInfo().getName()).append(",")
+			strb.append(Constants.Log_Function_ExpertDel).append("取消了一位专家,").append(Constants.Log_Expert_Name).append(expertConfirm.getExpertInfo().getName()).append(",")
 			.append(Constants.Log_Operater_Name).append(user.getName()).append(".");
 			String operation = strb.toString();
 			expertdbLog.setOperation(operation);
@@ -655,7 +655,7 @@ public class ExpertManageController extends BaseController {
 	@RequestMapping(value = "expdelete")
 	public String expdelete(String id, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		expertConfirmService.delete(id);
-		addMessage(redirectAttributes, "删除专家确认成功");
+		addMessage(redirectAttributes, "取消专家确认成功");
 		User user = UserUtils.getUser();
 		//记录系统日志
 		Log log = new Log();

@@ -80,7 +80,7 @@ public class ExpertConfirmService extends BaseService {
 				dc.createAlias("e.expertCompany", "c");
 			dc.add(Restrictions.eq("c.id", expertConfirm.getExpertCompany().getId()));
 			}
-			if(StringUtils.isNotEmpty(expertConfirm.getExpertArea().getId())){
+			if(expertConfirm.getExpertArea()!=null&&StringUtils.isNotEmpty(expertConfirm.getExpertArea().getId())){
 				dc.createAlias("e.expertArea", "a");
 			dc.add(Restrictions.eq("a.id", expertConfirm.getExpertArea().getId()));
 			}
