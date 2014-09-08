@@ -313,6 +313,11 @@
 					<form:option value="2" label="下午"/>
 				</form:select>
 				</div>
+				<div style="margin-left:30px; float:left;">
+				                     监督人:
+						<form:input path="supervise" htmlEscape="false" maxlength="20"
+							class="span2 required userName"/>
+				</div>
 			</div>
 		</div>
 		<div class="control-group">
@@ -321,16 +326,16 @@
 				<div style="margin-right:10px; float:left;">
 					技术类数量：
 				</div>
-				<div style="margin-right:30px; float:left;">
+				<div style="margin-right:1px; float:left;">
 				<form:select path="techcnt" class="span2">
 					<form:option value="" label="0位"/>
 					<form:options items="${fns:getDictList('sys_techcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				</div>
-				<div style="margin-left:1px; float:left;">
+				<div style="margin-left:30px; float:left;">
 					经济类数量：
 				</div>
-				<div style="margin-left:10px; float:left;">
+				<div style="margin-left:1px; float:left;">
 				<form:select path="ecomcnt" class="span2">
 					<form:option value="" label="0位"/>
 					<form:options items="${fns:getDictList('sys_ecomcnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -338,20 +343,19 @@
 				</div>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">屏蔽近期已抽选:</label>
-			<div class="controls">
+		<div class="form-actions">
+				<div style="margin-left:1px; float:left;">
+				屏蔽近期已抽选:
+				</div>
+				<div style="margin-left:1px; float:left;">
 				<form:select path="discnt" class="span2">
 					<form:option value="" label="0次"/>
 					<form:options items="${fns:getDictList('sys_discnt_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人:
-						<form:input path="supervise" htmlEscape="false" maxlength="20"
-							class="span2 required userName"/>
-			</div>
-		</div>
-		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
+				</div>
+				<div style="margin-left:30px; float:left;">		
+			     <input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取"/>
+				</div>
 		</div>
       <div class="span10">
         <h4>以下为抽选结果：</h4>
