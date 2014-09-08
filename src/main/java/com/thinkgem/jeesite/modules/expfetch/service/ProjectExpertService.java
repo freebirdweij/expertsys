@@ -11,9 +11,12 @@ import java.util.Random;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,7 @@ import com.thinkgem.jeesite.modules.expmanage.dao.ExpertConfirmDao;
 import com.thinkgem.jeesite.modules.expmanage.entity.ExpertConfirm;
 import com.thinkgem.jeesite.modules.project.dao.ProjectInfoDao;
 import com.thinkgem.jeesite.modules.project.entity.ProjectInfo;
+import com.thinkgem.jeesite.modules.supervise.dao.FetchSuperviseDao;
 import com.thinkgem.jeesite.modules.sys.dao.OfficeDao;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
@@ -50,6 +54,9 @@ public class ProjectExpertService extends BaseService {
 	@Autowired
 	private OfficeDao officeDao;
 		
+	@Autowired
+	private FetchSuperviseDao fetchSuperviseDao;
+	
 	@Autowired
 	private ExpertConfirmDao expertConfirmDao;
 	
@@ -99,6 +106,110 @@ public class ProjectExpertService extends BaseService {
 		return projectExpertDao.find(page, dc);
 	}
 	
+	public Page<Object> findProjectExpertFetchByUnitAndStatus(Page<Object> page,ProjectExpert projectExpert, String unitid,String[] status) {
+		//DetachedCriteria dc = projectExpertDao.createDetachedCriteria();;
+		Criteria dc = fetchSuperviseDao.getSession().createCriteria(ProjectExpert.class, "e");
+		dc.createAlias("e.prjProjectInfo", "p").createAlias("p.unit", "u").createAlias("e.createBy", "c");
+		ProjectionList projectionList = Projections.projectionList();  
+		projectionList.add(Projections.property("e.fetchTime").as("fetchTime"));  
+		projectionList.add(Projections.property("p.id").as("prjId"));  
+		projectionList.add(Projections.property("p.prjName").as("prjName"));  
+		projectionList.add(Projections.property("e.fetchStatus").as("fetchStatus"));  
+		projectionList.add(Projections.property("c.name").as("name"));  
+		dc.setProjection(Projections.distinct(projectionList)); 
+		//DetachedCriteria subdc = DetachedCriteria.forClass(ProjectInfo.class, "e");
+		//dc.createAlias("createBy", "c");
+		//dc.createAlias("prjProjectInfo", "p");
+		//dc.createAlias("p.unit", "u");
+		//subdc.add(Restrictions.eqProperty("p.id","e.id")).setProjection(Projections.id());
+		//String ql = "select distinct fetchTime,prjProjectInfo,fetchStatus,createBy from ProjectExpert where ";
+		
+		if (projectExpert.getReviewBegin()!=null&&projectExpert.getReviewEnd()!=null){
+			//ql = ql+"createDate >= to_date('"+DateUtils.formatDateTime(projectExpert.getReviewBegin())+"','yyyy-mm-dd hh24:mi:ss') and createDate <= to_date('"+DateUtils.formatDateTime(projectExpert.getReviewEnd())+"','yyyy-mm-dd hh24:mi:ss')";
+			dc.add(Restrictions.between("e.createDate",projectExpert.getReviewBegin(),projectExpert.getReviewEnd()));
+		}
+		
+		if (projectExpert.getCreateBy()!=null&&StringUtils.isNotEmpty(projectExpert.getCreateBy().getName())){
+			//ql = ql+" and createBy.name like %"+projectExpert.getCreateBy().getName()+"%";
+			dc.add(Restrictions.like("c.name", "%"+projectExpert.getCreateBy().getName()+"%"));
+		}
+		
+		if (StringUtils.isNotEmpty(unitid)){
+			//ql = ql+" and prjProjectInfo.unit.id = '"+unitid+"'";
+			dc.add(Restrictions.eq("u.id", unitid));
+		}
+		if (status!=null&&status.length>0){
+			//ql = ql+" and fetchStatus in("+status+")";
+			dc.add(Restrictions.in("e.fetchStatus", status));
+		}
+		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){
+			//ql = ql+" and prjProjectInfo.prjName like %"+projectExpert.getPrjProjectInfo().getPrjName()+"%";
+			dc.add(Restrictions.like("p.prjName", "%"+projectExpert.getPrjProjectInfo().getPrjName()+"%"));
+		}
+		
+		
+		//dc.add(Subqueries.exists(subdc));
+		//ql = ql+" and delFlag = '"+ProjectExpert.DEL_FLAG_NORMAL+"' order by createDate desc";
+		
+		dc.add(Restrictions.eq("e.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("fetchTime"));
+		
+		if (!page.isDisabled() && !page.isNotCount()){
+			page.setCount(dc.list().size());
+			if (page.getCount() < 1) {
+				return page;
+			}
+		}
+		//dc.setResultTransformer(Transformers.TO_LIST);
+		// set page
+		if (!page.isDisabled()){
+			dc.setFirstResult(page.getFirstResult());
+			dc.setMaxResults(page.getMaxResults()); 
+		}
+		// order by
+		if (StringUtils.isNotBlank(page.getOrderBy())){
+			for (String order : StringUtils.split(page.getOrderBy(), ",")){
+				String[] o = StringUtils.split(order, " ");
+				if (o.length==1){
+					dc.addOrder(Order.asc(o[0]));
+				}else if (o.length==2){
+					if ("DESC".equals(o[1].toUpperCase())){
+						dc.addOrder(Order.desc(o[0]));
+					}else{
+						dc.addOrder(Order.asc(o[0]));
+					}
+				}
+			}
+		}
+		page.setList(dc.list());
+		
+		return page;
+	}
+	
+	public List<ProjectInfo> findProjectExpertByFetchAndStatus(Page<ProjectExpert> page, Integer fetchTime,String[] status) {
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		subdc.createAlias("o.prjProjectInfo", "i");
+		DetachedCriteria dc = DetachedCriteria.forClass(ProjectInfo.class, "p");
+		//subdc.createAlias("e.expertCompany", "c");
+		subdc.add(Restrictions.eqProperty("i.id","p.id")).setProjection(Projections.id());
+		if (fetchTime!=null){
+			subdc.add(Restrictions.eq("o.fetchTime", fetchTime));
+		}
+		if (status!=null&&status.length>0){
+			subdc.add(Restrictions.in("o.fetchStatus", status));
+		}
+		
+		/*ProjectionList projectionList = Projections.projectionList();  
+		projectionList.add(Projections.property("fetchTime"));  
+		projectionList.add(Projections.property("p.id"));  
+		dc.setProjection(Projections.distinct(projectionList)); */
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("createDate"));
+		return projectInfoDao.find(dc);
+	}
+	
 	public ProjectExpert findProjectExpertByPrjAndStatus(String prjid, String status) {
 		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();
 		dc.createAlias("prjProjectInfo", "p");
@@ -126,6 +237,25 @@ public class ProjectExpertService extends BaseService {
 		if (status!=null){
 			dc.add(Restrictions.in("fetchStatus", status));
 		}
+		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		List<ProjectExpert> list = projectExpertDao.find(dc);
+		if(list==null||list.size()==0){
+			return null;
+		}
+		return list;
+	}
+	
+	public List<ProjectExpert> findMutiProjectExpertByPrjAndStatusOntime(String prjid, String status[]) {
+		DetachedCriteria dc = projectExpertDao.createDetachedCriteria();
+		dc.createAlias("prjProjectInfo", "p");
+		if (StringUtils.isNotEmpty(prjid)){
+			dc.add(Restrictions.eq("p.id", prjid));
+		}
+		if (status!=null){
+			dc.add(Restrictions.in("fetchStatus", status));
+		}
+		dc.add(Restrictions.eq("expertAccept", Constants.Expert_Apply_Ontime));
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		List<ProjectExpert> list = projectExpertDao.find(dc);

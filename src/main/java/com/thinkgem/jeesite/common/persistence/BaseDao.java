@@ -661,6 +661,32 @@ public class BaseDao<T> {
 		return totalCount;
 	}
 
+	@SuppressWarnings("rawtypes")
+	public long countc(Criteria criteria) {
+		//Criteria criteria = detachedCriteria.getExecutableCriteria(getSession());
+		long totalCount = 0;
+		try {
+			// Get orders
+			Field field = CriteriaImpl.class.getDeclaredField("orderEntries");
+			field.setAccessible(true);
+			List orderEntrys = (List)field.get(criteria);
+			// Remove orders
+			field.set(criteria, new ArrayList());
+			// Get count
+			criteria.setProjection(Projections.rowCount());
+			totalCount = Long.valueOf(criteria.uniqueResult().toString());
+			// Clean count
+			criteria.setProjection(null);
+			// Restore orders
+			field.set(criteria, orderEntrys);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return totalCount;
+	}
+
 	/**
 	 * 创建与会话无关的检索标准对象
 	 * @param criterions Restrictions.eq("name", value);
