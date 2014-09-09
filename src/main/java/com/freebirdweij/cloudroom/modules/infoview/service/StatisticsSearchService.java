@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * There are <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> code generation
  */
 package com.freebirdweij.cloudroom.modules.infoview.service;
 

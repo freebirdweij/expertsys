@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * There are <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> code generation
  */
 package com.freebirdweij.cloudroom.modules.expfetch.web;
 
@@ -479,8 +479,17 @@ public class RedrawSaveController extends BaseController {
 		}
         
         for(Office ec : tlist){
-        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Technical,techIdsNo));
+        	ExpertConfirm ecn = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Technical,techIdsNo);
+        	if(ecn==null){
+    			addMessage(model, "本次抽取失败，请重抽！");
+    	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+    	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+    	        model.addAttribute("projectExpert", projectExpert);
+    			return "modules/expfetch/savredraw/unitFetchResult";
+        	}else{
+        	erclist.add(ecn);
         	uidslist.add(ec.getId());
+        	}
         }
 		}
         
@@ -508,8 +517,17 @@ public class RedrawSaveController extends BaseController {
 		}
         
         for(Office ec : elist){
-        	erclist.add(projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Economic,techIdsNo));
+        	ExpertConfirm ecn = projectExpertService.findAExpertByUnitAndKindRemoveSomeExperts(ec, Constants.Expert_Kind_Economic,techIdsNo);
+        	if(ecn==null){
+    			addMessage(model, "本次抽取失败，请重抽！");
+    	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+    	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+    	        model.addAttribute("projectExpert", projectExpert);
+    			return "modules/expfetch/savredraw/unitFetchResult";
+        	}else{
+        	erclist.add(ecn);
         	uidslist.add(ec.getId());
+        	}
         }
 		}
         

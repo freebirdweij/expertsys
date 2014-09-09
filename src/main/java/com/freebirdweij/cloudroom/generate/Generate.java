@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2013 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ * Copyright &copy; 2012-2013 <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -40,7 +40,7 @@ public class Generate {
 		// 目录生成结构：{packageName}/{moduleName}/{dao,entity,service,web}/{subModuleName}/{className}
 		
 		// packageName 包名，这里如果更改包名，请在applicationContext.xml和srping-mvc.xml中配置base-package、packagesToScan属性，来指定多个（共4处需要修改）。
-		String packageName = "com.thinkgem.jeesite.modules";
+		String packageName = "com.freebirdweij.cloudroom.modules";
 		
 		String moduleName = "loginfo";			// 模块名，例：sys
 		String subModuleName = "";				// 子模块名（可选） 
@@ -75,7 +75,7 @@ public class Generate {
 		logger.info("Project Path: {}", projectPath);
 		
 		// 模板文件路径
-		String tplPath = StringUtils.replace(projectPath+"/src/main/java/com/thinkgem/jeesite/generate/template", "/", separator);
+		String tplPath = StringUtils.replace(projectPath+"/src/main/java/com/freebirdweij/cloudroom/generate/template", "/", separator);
 		logger.info("Template Path: {}", tplPath);
 		
 		// Java文件路径

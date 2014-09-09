@@ -95,7 +95,7 @@ public class Log4jManager {
 	}
 
 	/**
-	 * 根据log4j.properties中的定义, 设置项目默认的logger名称, 如com.thinkgem.jeesite.
+	 * 根据log4j.properties中的定义, 设置项目默认的logger名称, 如com.freebirdweij.cloudroom.
 	 */
 	public void setProjectLoggerName(String projectLoggerName) {
 		this.projectLoggerName = projectLoggerName;

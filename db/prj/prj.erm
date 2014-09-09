@@ -41,7 +41,7 @@
 		<suspend_validator>false</suspend_validator>
 		<export_setting>
 			<category_name_to_export>All</category_name_to_export>
-			<ddl_output>D:\GitHub\jeesite\db\prj\jeesite_mysql.sql</ddl_output>
+			<ddl_output>D:\GitHub\CloudRoom\db\prj\CloudRoom_mysql.sql</ddl_output>
 			<excel_output></excel_output>
 			<excel_template></excel_template>
 			<image_output></image_output>
@@ -246,7 +246,7 @@
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
 			<args></args>
-			<description>例如：com.thinkgem.jeesite</description>
+			<description>例如：com.freebirdweij.cloudroom</description>
 			<logical_name>包名</logical_name>
 			<physical_name>root_package</physical_name>
 			<type>varchar(n)</type>

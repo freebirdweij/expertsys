@@ -4,11 +4,11 @@
 		<dbsystem>MySQL</dbsystem>
 		<server>localhost</server>
 		<port>3306</port>
-		<database>jeesite_new</database>
+		<database>CloudRoom_new</database>
 		<user>root</user>
 		<password>123456</password>
 		<use_default_driver>true</use_default_driver>
-		<url>jdbc:mysql://localhost:3306/jeesite_new</url>
+		<url>jdbc:mysql://localhost:3306/CloudRoom_new</url>
 		<driver_class_name>com.mysql.jdbc.Driver</driver_class_name>
 	</dbsetting>
 	<page_setting>
@@ -52,7 +52,7 @@
 		<suspend_validator>false</suspend_validator>
 		<export_setting>
 			<category_name_to_export>All</category_name_to_export>
-			<ddl_output>D:\GitHub\jeesite\db\cms\jeesite_mysql.sql</ddl_output>
+			<ddl_output>D:\GitHub\CloudRoom\db\cms\CloudRoom_mysql.sql</ddl_output>
 			<excel_output></excel_output>
 			<excel_template></excel_template>
 			<image_output></image_output>
@@ -124,7 +124,7 @@
 			<updated_date>2014-02-28 08:57:11</updated_date>
 			<model_property>
 				<name>Project Name</name>
-				<value>JeeSite</value>
+				<value>CloudRoom</value>
 			</model_property>
 			<model_property>
 				<name>Model Name</name>

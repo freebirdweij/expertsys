@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * There are <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> code generation
  */
 package ${packageName}.${moduleName}.service${subModuleName};
 
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.freebirdweij.cloudroom.common.persistence.Page;
+import com.freebirdweij.cloudroom.common.service.BaseService;
+import com.freebirdweij.cloudroom.common.utils.StringUtils;
 import ${packageName}.${moduleName}.entity${subModuleName}.${ClassName};
 import ${packageName}.${moduleName}.dao${subModuleName}.${ClassName}Dao;
 

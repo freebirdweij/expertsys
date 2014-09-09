@@ -16,7 +16,7 @@ public class TplUtils {
      *
      * @param list     模板列表
      * @param prefix   模板前缀  例如“frontViewArticle”
-     * @param include  需包含的模板  例如“/WEB-INF/views/modules/cms/front/themes/jeesite/articleSelectList.jsp”
+     * @param include  需包含的模板  例如“/WEB-INF/views/modules/cms/front/themes/CloudRoom/articleSelectList.jsp”
      * @param excludes 需去除的模板  例如“frontViewArticle”
      * @return
      */

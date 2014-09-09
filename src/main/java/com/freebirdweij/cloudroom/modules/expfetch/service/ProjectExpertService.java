@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * There are <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> code generation
  */
 package com.freebirdweij.cloudroom.modules.expfetch.service;
 
@@ -353,6 +353,7 @@ public class ProjectExpertService extends BaseService {
 	         ri = r.nextInt(n);
 		}
         
+		if(resSize<1) return null;
 
 
 		return list.get(ri);
@@ -384,6 +385,7 @@ public class ProjectExpertService extends BaseService {
 		}
         
 
+		if(resSize<1) return null;
 
 		return list.get(ri);
 	}

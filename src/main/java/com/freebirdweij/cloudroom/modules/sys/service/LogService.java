@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2013 <a href="httparamMap://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ * Copyright &copy; 2012-2013 <a href="httparamMap://github.com/freebirdweij/cloudroom">CloudRoom</a> All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */

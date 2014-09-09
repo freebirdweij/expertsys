@@ -55,7 +55,7 @@
 			<label class="control-label">包名:</label>
 			<div class="controls">
 				<form:input path="rootPackage" htmlEscape="false" maxlength="200" class="required"/>
-				<span class="help-inline">例如com.thinkgem.jeesite</span>
+				<span class="help-inline">例如com.freebirdweij.cloudroom</span>
 			</div>
 		</div>
 		<div class="control-group">

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Jeesite Mobile 登录</title>
+		<title>CloudRoom Mobile 登录</title>
 		<%@include file="/WEB-INF/views/mobile/include/head.jsp" %>
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -28,11 +28,11 @@
 	<div data-role="page">
 		<%String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);%>
 		<div data-role="header"  data-theme="b">
-			<h1>Jeesite 登陆</h1>
+			<h1>CloudRoom 登陆</h1>
 		</div><!-- /header -->
 		<div role="main" class="ui-content">
 			<div id="messageBox" class="<%=error==null?"hide":""%>">
-				<label id="loginError" class="error"><%=error==null?"":"com.thinkgem.jeesite.modules.sys.security.CaptchaException".equals(error)?"验证码错误, 请重试.":"用户或密码错误, 请重试." %></label>
+				<label id="loginError" class="error"><%=error==null?"":"com.freebirdweij.cloudroom.modules.sys.security.CaptchaException".equals(error)?"验证码错误, 请重试.":"用户或密码错误, 请重试." %></label>
 			</div>
 			<form id="loginForm"  action="${ctx}/login" method="post" data-ajax="false">
 				<div data-role="fieldcontain">
@@ -49,7 +49,7 @@
 			</form>
 		</div><!-- /content -->
 		<div data-role="footer"  data-theme="b">
-			<h4>Copyright 2013 The Jeesite Foundation</h4>
+			<h4>Copyright 2013 The CloudRoom Foundation</h4>
 		</div><!-- /footer -->
 	</div><!-- /page -->
 	</body>

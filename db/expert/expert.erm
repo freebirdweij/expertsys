@@ -41,10 +41,10 @@
 		<suspend_validator>false</suspend_validator>
 		<export_setting>
 			<category_name_to_export>All</category_name_to_export>
-			<ddl_output>D:\myeclipse\workspace\jeesite\db\expert\expert_oracle.sql</ddl_output>
-			<excel_output>D:\myeclipse\workspace\jeesite\db\expert\expert.xls</excel_output>
+			<ddl_output>D:\myeclipse\workspace\CloudRoom\db\expert\expert_oracle.sql</ddl_output>
+			<excel_output>D:\myeclipse\workspace\CloudRoom\db\expert\expert.xls</excel_output>
 			<excel_template>Default（English）</excel_template>
-			<image_output>D:\myeclipse\workspace\jeesite\db\expert\expert.png</image_output>
+			<image_output>D:\myeclipse\workspace\CloudRoom\db\expert\expert.png</image_output>
 			<put_diagram_on_excel>false</put_diagram_on_excel>
 			<use_logical_name_as_sheet>false</use_logical_name_as_sheet>
 			<open_after_saved>false</open_after_saved>
@@ -70,7 +70,7 @@
 			<comment_replace_line_feed>false</comment_replace_line_feed>
 			<comment_replace_string></comment_replace_string>
 			<export_java_setting>
-				<java_output>D:\myeclipse\workspace\jeesite\db\expert</java_output>
+				<java_output>D:\myeclipse\workspace\CloudRoom\db\expert</java_output>
 				<package_name></package_name>
 				<class_name_suffix></class_name_suffix>
 				<src_file_encoding>UTF-8</src_file_encoding>

@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.loginfo.entity;
+package com.freebirdweij.cloudroom.modules.loginfo.entity;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.freebirdweij.cloudroom.common.persistence.DataEntity;
 
 /**
  * 日志处理模块Entity

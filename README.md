@@ -1,14 +1,14 @@
-# JeeSite 企业信息管理系统基础框架
+# CloudRoom 企业信息管理系统基础框架
 
 ## 框架简介
 
-JeeSite 是一个 **开源的企业信息管理系统** 基础框架。主要定位于“企业信息管理”领域，可用作企业信息管理类系统、网站后台管理类系统等。JeeSite是非常强调开发的高效性、健壮性和安全性的。
+CloudRoom 是一个 **开源的企业信息管理系统** 基础框架。主要定位于“企业信息管理”领域，可用作企业信息管理类系统、网站后台管理类系统等。CloudRoom是非常强调开发的高效性、健壮性和安全性的。
 
-JeeSite 是轻量级的，简单易学，本框架以Spring Framework为核心、Spring MVC作为模型视图控制器、Hibernate作为数据库操作层，此组合是Java界业内最经典、最优的搭配组合。前端界面风格采用了结构简单、性能优良、页面精致的Twitter Bootstrap作为前端展示框架。
+CloudRoom 是轻量级的，简单易学，本框架以Spring Framework为核心、Spring MVC作为模型视图控制器、Hibernate作为数据库操作层，此组合是Java界业内最经典、最优的搭配组合。前端界面风格采用了结构简单、性能优良、页面精致的Twitter Bootstrap作为前端展示框架。
 
-JeeSite 已内置一系列企业信息管理系统的基础功能，目前包括三大模块，系统管理（SYS）模块、内容管理（CMS）模块和在线办公（OA）模块。 **系统管理模块** ，包括企业组织架构（用户管理、机构管理、区域管理）、菜单管理、角色权限管理、字典管理等功能； **内容管理模块** ，包括内容管理（文章、链接），栏目管理、站点管理、公共留言、文件管理、前端网站展示等功能； **在线办公模块** ，提供简单的请假流程实例。
+CloudRoom 已内置一系列企业信息管理系统的基础功能，目前包括三大模块，系统管理（SYS）模块、内容管理（CMS）模块和在线办公（OA）模块。 **系统管理模块** ，包括企业组织架构（用户管理、机构管理、区域管理）、菜单管理、角色权限管理、字典管理等功能； **内容管理模块** ，包括内容管理（文章、链接），栏目管理、站点管理、公共留言、文件管理、前端网站展示等功能； **在线办公模块** ，提供简单的请假流程实例。
 
-JeeSite 提供了常用工具进行封装，包括日志工具、缓存工具、服务器端验证、数据字典、当前组织机构数据（用户、机构、区域）以及其它常用小工具等。另外还提供一个基于本基础框架的 **代码生成器** ，为你生成基本模块代码，如果你使用了JeeSite基础框架，就可以很快速开发出优秀的信息管理系统。
+CloudRoom 提供了常用工具进行封装，包括日志工具、缓存工具、服务器端验证、数据字典、当前组织机构数据（用户、机构、区域）以及其它常用小工具等。另外还提供一个基于本基础框架的 **代码生成器** ，为你生成基本模块代码，如果你使用了CloudRoom基础框架，就可以很快速开发出优秀的信息管理系统。
 
 ## 为何选择
 
@@ -68,7 +68,7 @@ JeeSite 提供了常用工具进行封装，包括日志工具、缓存工具、
 ## 快速体验
 
 1. 具备运行环境：JDK1.6、Maven3.0、MySql5。
-2. 修改src\main\resources\jeesite.properties文件中的数据库设置参数。
+2. 修改src\main\resources\CloudRoom.properties文件中的数据库设置参数。
 3. 根据修改参数创建对应MySql数据库（数据库编码：UTF-8）。
 4. 运行db\init-db.bat脚本，即可导入表结构及演示数据
 5. 运行bin\run-jetty.bat，启动Web服务器（第一次运行，需要下载依赖jar包，请耐心等待）。
@@ -76,17 +76,17 @@ JeeSite 提供了常用工具进行封装，包括日志工具、缓存工具、
 
 ## 更多文档
 
-* [JeeSite介绍演示.docx](https://github.com/thinkgem/jeesite/raw/master/doc/JeeSite About.docx)
-* [JeeSite开发手册.docx](https://github.com/thinkgem/jeesite/raw/master/doc/JeeSite Developer.docx)
+* [CloudRoom介绍演示.docx](https://github.com/freebirdweij/cloudroom/raw/master/doc/CloudRoom About.docx)
+* [CloudRoom开发手册.docx](https://github.com/freebirdweij/cloudroom/raw/master/doc/CloudRoom Developer.docx)
 
 ## 如何交流、反馈、参与贡献？
 
 * QQ Group：127515876(已满)   209330483
 * E-mail：<mailto:thinkgem@163.com>
-* Github：<https://github.com/thinkgem/jeesite>
-* 开源中国：<http://git.oschina.net/thinkgem/jeesite>
-* 官方网址：<http://jeesite.com>  论坛：<http://bbs.jeesite.com>
-* 支持JeeSite：<http://jeesite.com/donation.html>
+* Github：<https://github.com/freebirdweij/cloudroom>
+* 开源中国：<http://git.oschina.net/freebirdweij/cloudroom>
+* 官方网址：<http://CloudRoom.com>  论坛：<http://bbs.CloudRoom.com>
+* 支持CloudRoom：<http://CloudRoom.com/donation.html>
 
 如果你想参与进来共同完善它或有更好的建议，请联系我吧(^_^)。
 

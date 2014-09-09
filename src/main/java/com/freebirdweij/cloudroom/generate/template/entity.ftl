@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * There are <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> code generation
  */
 package ${packageName}.${moduleName}.entity${subModuleName};
 
@@ -20,8 +20,8 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
-import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.freebirdweij.cloudroom.common.persistence.DataEntity;
+import com.freebirdweij.cloudroom.modules.sys.entity.User;
 
 /**
  * ${functionName}Entity

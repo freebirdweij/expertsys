@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * There are <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> code generation
  */
 package com.freebirdweij.cloudroom.modules.expfetch.web;
 
@@ -427,8 +427,17 @@ public class ProjectExpertController extends BaseController {
 		}
         
         for(Office ec : tlist){
-        	erclist.add(projectExpertService.findAExpertByUnitAndKind(ec, Constants.Expert_Kind_Technical));
-        	uidslist.add(ec.getId());
+        	ExpertConfirm ecn = projectExpertService.findAExpertByUnitAndKind(ec, Constants.Expert_Kind_Technical);
+        	if(ecn==null){
+    			addMessage(model, "本次抽取失败，请重抽！");
+    	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+    	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+    	        model.addAttribute("projectExpert", projectExpert);
+    			return "modules/expfetch/unitFetchResult";
+        	}else{
+        	  erclist.add(ecn);
+        	  uidslist.add(ec.getId());
+        	}
         }
 		}
         
@@ -456,8 +465,17 @@ public class ProjectExpertController extends BaseController {
 		}
         
         for(Office ec : elist){
-        	erclist.add(projectExpertService.findAExpertByUnitAndKind(ec, Constants.Expert_Kind_Economic));
-        	uidslist.add(ec.getId());
+        	ExpertConfirm ecn = projectExpertService.findAExpertByUnitAndKind(ec, Constants.Expert_Kind_Economic);
+        	if(ecn==null){
+    			addMessage(model, "本次抽取失败，请重抽！");
+    	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
+    	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
+    	        model.addAttribute("projectExpert", projectExpert);
+    			return "modules/expfetch/unitFetchResult";
+        	}else{
+        	    erclist.add(ecn);
+        	    uidslist.add(ec.getId());
+        	}
         }
 		}
         

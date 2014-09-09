@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2013 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ * Copyright &copy; 2012-2013 <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -149,7 +149,7 @@ public class Site extends IdEntity<Category> {
    	public static final String TPL_BASE = "/WEB-INF/views/modules/cms/front/themes";
 
     /**
-   	 * 获得模板方案路径。如：/WEB-INF/views/modules/cms/front/themes/jeesite
+   	 * 获得模板方案路径。如：/WEB-INF/views/modules/cms/front/themes/CloudRoom
    	 *
    	 * @return
    	 */

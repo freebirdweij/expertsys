@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * There are <a href="https://github.com/freebirdweij/cloudroom">CloudRoom</a> code generation
  */
 package ${packageName}.${moduleName}.web${subModuleName};
 
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.freebirdweij.cloudroom.common.config.Global;
+import com.freebirdweij.cloudroom.common.persistence.Page;
+import com.freebirdweij.cloudroom.common.web.BaseController;
+import com.freebirdweij.cloudroom.common.utils.StringUtils;
+import com.freebirdweij.cloudroom.modules.sys.entity.User;
+import com.freebirdweij.cloudroom.modules.sys.utils.UserUtils;
 import ${packageName}.${moduleName}.entity${subModuleName}.${ClassName};
 import ${packageName}.${moduleName}.service${subModuleName}.${ClassName}Service;
 
