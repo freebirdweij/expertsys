@@ -862,14 +862,14 @@
               				    <!-- mssql
 								<property name="dbunit.datatype" value="org.dbunit.ext.mssql.MsSqlDataTypeFactory" /> -->
 								
-								<property file="src/main/resources/jeesite.properties" />              				    
+								<property file="src/main/resources/cloudroom.properties" />              				    
                 				<sql driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}" password="${jdbc.password}" 
                 				    onerror="continue" encoding="${project.build.sourceEncoding}">
 									<classpath refid="maven.test.classpath" />
-									<transaction src="db/sys/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/cms/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/oa/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/prj/jeesite_${jdbc.type}.sql"/>
+									<transaction src="db/sys/cloudroom_${jdbc.type}.sql"/>
+									<transaction src="db/cms/cloudroom_${jdbc.type}.sql"/>
+									<transaction src="db/oa/cloudroom_${jdbc.type}.sql"/>
+									<transaction src="db/prj/cloudroom_${jdbc.type}.sql"/>
 									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.engine.sql"/>
 									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.history.sql"/>
 									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.identity.sql"/>
@@ -891,9 +891,9 @@
 										<property name="datatypeFactory" value="${dbunit.datatype}" />
 									</dbconfig>
 									<classpath refid="maven.test.classpath" />
-									<operation type="INSERT" src="db/sys/jeesite_data.xls" format="xls" transaction="true"/>
-									<operation type="INSERT" src="db/cms/jeesite_data.xls" format="xls" transaction="true"/>
-									<operation type="INSERT" src="db/oa/jeesite_data.xls" format="xls" transaction="true"/>
+									<operation type="INSERT" src="db/sys/cloudroom_data.xls" format="xls" transaction="true"/>
+									<operation type="INSERT" src="db/cms/cloudroom_data.xls" format="xls" transaction="true"/>
+									<operation type="INSERT" src="db/oa/cloudroom_data.xls" format="xls" transaction="true"/>
 									
 								</dbunit>
 								
