@@ -23,7 +23,7 @@ import com.freebirdweij.cloudroom.modules.cms.entity.Site;
 
 /**
  * 统计Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-21
  */
 @Service

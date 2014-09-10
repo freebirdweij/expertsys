@@ -18,7 +18,7 @@ import com.freebirdweij.cloudroom.modules.sys.utils.UserUtils;
 
 /**
  * 区域Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 @Service

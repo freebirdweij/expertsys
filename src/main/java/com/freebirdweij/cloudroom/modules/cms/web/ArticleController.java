@@ -38,7 +38,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 文章Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-3-23
  */
 @Controller

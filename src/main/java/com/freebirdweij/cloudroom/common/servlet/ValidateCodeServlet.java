@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 生成随机验证码
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-19
  */
 @SuppressWarnings("serial")

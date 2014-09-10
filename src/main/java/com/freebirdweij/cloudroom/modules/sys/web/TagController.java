@@ -16,7 +16,7 @@ import com.freebirdweij.cloudroom.common.web.BaseController;
 
 /**
  * 标签Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-3-23
  */
 @Controller

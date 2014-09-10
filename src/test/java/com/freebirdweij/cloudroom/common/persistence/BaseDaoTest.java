@@ -12,7 +12,7 @@ import com.freebirdweij.cloudroom.modules.sys.entity.User;
 
 /**
  * BaseDaoTest
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-15
  */
 public class BaseDaoTest extends SpringTransactionalContextTests {

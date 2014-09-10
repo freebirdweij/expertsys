@@ -20,7 +20,7 @@ import com.freebirdweij.cloudroom.modules.cms.service.StatsService;
 
 /**
  * 统计Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-21
  */
 @Controller

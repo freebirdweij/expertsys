@@ -16,7 +16,7 @@ import com.freebirdweij.cloudroom.modules.sys.entity.User;
 
 /**
  * 用户DAO接口
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-8-23
  */
 @Repository

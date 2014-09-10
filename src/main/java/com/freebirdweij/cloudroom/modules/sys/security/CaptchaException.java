@@ -10,7 +10,7 @@ import org.apache.shiro.authc.AuthenticationException;
 /**
  * 验证码异常处理类
  * 
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-19
  */
 public class CaptchaException extends AuthenticationException {

@@ -17,7 +17,7 @@ import com.google.common.collect.Lists;
 
 /**
  * 字段类型转换
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 public class RoleListType {

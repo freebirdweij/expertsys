@@ -13,7 +13,7 @@ import com.freebirdweij.cloudroom.modules.sys.entity.Role;
 
 /**
  * 角色DAO接口
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-8-23
  */
 @Repository

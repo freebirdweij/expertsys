@@ -39,7 +39,7 @@ import com.google.common.collect.Lists;
 
 /**
  * 文章Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-15
  */
 @Service

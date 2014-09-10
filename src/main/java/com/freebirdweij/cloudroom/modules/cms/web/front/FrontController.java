@@ -42,7 +42,7 @@ import com.google.common.collect.Lists;
 
 /**
  * 网站Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 @Controller

@@ -28,7 +28,7 @@ import com.freebirdweij.cloudroom.modules.sys.utils.UserUtils;
 
 /**
  * 网站搜索Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 @Controller

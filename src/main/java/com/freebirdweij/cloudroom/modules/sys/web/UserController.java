@@ -41,7 +41,7 @@ import com.google.common.collect.Lists;
 
 /**
  * 用户Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-31
  */
 @Controller

@@ -15,7 +15,7 @@ import com.freebirdweij.cloudroom.modules.cms.entity.Category;
 
 /**
  * 栏目DAO接口
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-8-23
  */
 @Repository

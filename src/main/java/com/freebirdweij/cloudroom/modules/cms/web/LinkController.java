@@ -33,7 +33,7 @@ import com.freebirdweij.cloudroom.modules.cms.service.LinkService;
 
 /**
  * 链接Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-3-23
  */
 @Controller

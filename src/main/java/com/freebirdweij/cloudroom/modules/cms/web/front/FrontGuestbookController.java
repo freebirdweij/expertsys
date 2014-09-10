@@ -30,7 +30,7 @@ import com.freebirdweij.cloudroom.modules.cms.utils.CmsUtils;
 
 /**
  * 留言板Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-3-15
  */
 @Controller

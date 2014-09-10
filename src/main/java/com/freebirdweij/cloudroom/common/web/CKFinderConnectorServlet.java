@@ -24,7 +24,7 @@ import com.freebirdweij.cloudroom.modules.sys.utils.UserUtils;
 
 /**
  * CKFinderConnectorServlet
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-01-15
  */
 public class CKFinderConnectorServlet extends ConnectorServlet {

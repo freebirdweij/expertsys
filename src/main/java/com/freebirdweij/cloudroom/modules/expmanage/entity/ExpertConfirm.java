@@ -121,7 +121,7 @@ public class ExpertConfirm extends DataEntity<ExpertConfirm>{
 	}
 
 	@Transient
-	@ExcelField(title="学历", value="expertInfo.education",align=2, sort=6)
+	@ExcelField(title="学历", value="expertInfo.education",align=2, sort=6, dictType="sys_education_type")
 	public String getExpertDegree() {
 		return expertDegree;
 	}

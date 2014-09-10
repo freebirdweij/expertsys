@@ -15,7 +15,7 @@ import com.freebirdweij.cloudroom.common.utils.IdGen;
 
 /**
  * 数据Entity类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-28
  */
 @MappedSuperclass

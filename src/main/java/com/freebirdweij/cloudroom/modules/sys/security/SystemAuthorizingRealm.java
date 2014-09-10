@@ -42,7 +42,7 @@ import com.freebirdweij.cloudroom.modules.sys.web.LoginController;
 /**
  * 系统安全认证实现类
  * 
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 @Service

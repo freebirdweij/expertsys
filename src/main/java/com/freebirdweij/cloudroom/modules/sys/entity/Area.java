@@ -33,7 +33,7 @@ import com.google.common.collect.Lists;
 
 /**
  * 区域Entity
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-15
  */
 @Entity

@@ -19,7 +19,7 @@ import com.google.common.collect.Maps;
 
 /**
  * Entity支持类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-01-15
  */
 @MappedSuperclass

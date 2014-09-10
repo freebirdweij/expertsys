@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  * Excel注解定义
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-03-10
  */
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.TYPE})

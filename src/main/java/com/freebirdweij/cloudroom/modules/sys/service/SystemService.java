@@ -38,7 +38,7 @@ import com.google.common.collect.Maps;
 
 /**
  * 系统管理，安全相关实体的管理类,包括用户、角色、菜单.
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-15
  */
 @Service

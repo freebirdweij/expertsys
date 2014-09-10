@@ -33,7 +33,7 @@ import com.google.common.collect.Maps;
 
 /**
  * 机构Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-15
  */
 @Controller

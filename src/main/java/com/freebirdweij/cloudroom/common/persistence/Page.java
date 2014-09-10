@@ -19,7 +19,7 @@ import com.freebirdweij.cloudroom.common.utils.CookieUtils;
 
 /**
  * 分页类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-7-2
  * @param <T>
  */

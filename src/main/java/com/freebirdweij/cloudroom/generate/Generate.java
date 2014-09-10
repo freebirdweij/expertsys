@@ -25,7 +25,7 @@ import freemarker.template.Template;
 
 /**
  * 代码生成器
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-06-21
  */
 public class Generate {
@@ -45,7 +45,7 @@ public class Generate {
 		String moduleName = "loginfo";			// 模块名，例：sys
 		String subModuleName = "";				// 子模块名（可选） 
 		String className = "expertdbLog";			// 类名，例：user
-		String classAuthor = "Cloudman";		// 类作者，例：ThinkGem
+		String classAuthor = "Cloudman";		// 类作者，例：CloudRoom
 		String functionName = "日志处理模块";			// 功能名，例：用户
 
 		// 是否启用生成工具

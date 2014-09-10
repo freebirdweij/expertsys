@@ -36,7 +36,7 @@ import com.google.common.collect.Maps;
 
 /**
  * 用户工具类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 public class UserUtils extends BaseService {

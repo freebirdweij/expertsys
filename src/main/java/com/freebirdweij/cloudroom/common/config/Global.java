@@ -14,7 +14,7 @@ import com.google.common.collect.Maps;
 
 /**
  * 全局配置类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-03-23
  */
 public class Global {

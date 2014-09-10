@@ -29,7 +29,7 @@ import javax.servlet.ServletContext;
 
 /**
  * 内容管理工具类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 public class CmsUtils {

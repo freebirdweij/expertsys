@@ -136,11 +136,11 @@
 			</model_property>
 			<model_property>
 				<name>Compnay</name>
-				<value>ThinkGem</value>
+				<value>CloudRoom</value>
 			</model_property>
 			<model_property>
 				<name>Author</name>
-				<value>ThinkGem</value>
+				<value>CloudRoom</value>
 			</model_property>
 		</model_properties>
 		<table_properties>

@@ -23,7 +23,7 @@ import com.freebirdweij.cloudroom.modules.sys.utils.UserUtils;
 
 /**
  * CKFinder配置
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-01-15
  */
 public class CKFinderConfig extends Configuration {

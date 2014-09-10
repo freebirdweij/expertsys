@@ -16,7 +16,7 @@ import com.freebirdweij.cloudroom.modules.sys.entity.Menu;
 
 /**
  * 菜单DAO接口
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-8-23
  */
 @Repository

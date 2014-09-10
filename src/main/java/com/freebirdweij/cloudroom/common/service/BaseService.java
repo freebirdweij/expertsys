@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
 
 /**
  * Service基类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-15
  */
 public abstract class BaseService {

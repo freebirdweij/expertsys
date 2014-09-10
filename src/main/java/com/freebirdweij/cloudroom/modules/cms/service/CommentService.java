@@ -20,7 +20,7 @@ import com.freebirdweij.cloudroom.modules.cms.entity.Comment;
 
 /**
  * 评论Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-01-15
  */
 @Service

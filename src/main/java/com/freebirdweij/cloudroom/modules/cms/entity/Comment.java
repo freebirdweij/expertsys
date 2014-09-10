@@ -29,7 +29,7 @@ import com.freebirdweij.cloudroom.modules.sys.entity.User;
 
 /**
  * 评论Entity
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-15
  */
 @Entity

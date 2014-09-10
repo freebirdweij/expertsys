@@ -28,7 +28,7 @@ import com.freebirdweij.cloudroom.modules.sys.utils.DictUtils;
 
 /**
  * 日志Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-6-2
  */
 @Service

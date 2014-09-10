@@ -8,7 +8,7 @@ package com.freebirdweij.cloudroom.modules.sys.security;
 /**
  * 用户和密码（包含验证码）令牌类
  * 
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-19
  */
 public class UsernamePasswordToken extends

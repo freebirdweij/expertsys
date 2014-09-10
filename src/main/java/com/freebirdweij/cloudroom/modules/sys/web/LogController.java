@@ -24,7 +24,7 @@ import com.freebirdweij.cloudroom.modules.sys.service.LogService;
 
 /**
  * 日志Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-6-2
  */
 @Controller

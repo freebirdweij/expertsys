@@ -18,7 +18,7 @@ import freemarker.template.Template;
 
 /**
  * FreeMarkers工具类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-01-15
  */
 public class FreeMarkers {

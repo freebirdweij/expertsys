@@ -63,7 +63,7 @@ import com.freebirdweij.cloudroom.common.utils.StringUtils;
 
 /**
  * DAO支持类实现
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-15
  * @param <T>
  */

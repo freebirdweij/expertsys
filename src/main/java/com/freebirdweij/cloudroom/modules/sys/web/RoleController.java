@@ -35,7 +35,7 @@ import com.google.common.collect.Maps;
 
 /**
  * 角色Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-15 update 2013-06-08
  */
 @Controller

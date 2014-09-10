@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
 
 /**
  * 栏目Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-31
  */
 @Service

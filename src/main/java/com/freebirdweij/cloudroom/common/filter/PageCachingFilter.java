@@ -7,7 +7,7 @@ import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
 
 /**
  * 页面高速缓存过滤器
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-8-5
  */
 public class PageCachingFilter extends SimplePageCachingFilter {

@@ -10,7 +10,7 @@ import com.freebirdweij.cloudroom.modules.sys.utils.UserUtils;
 
 /**
  * 字段类型转换
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-03-10
  */
 public class OfficeType {

@@ -15,7 +15,7 @@ import com.freebirdweij.cloudroom.modules.sys.entity.Area;
 
 /**
  * 区域DAO接口
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-8-23
  */
 @Repository

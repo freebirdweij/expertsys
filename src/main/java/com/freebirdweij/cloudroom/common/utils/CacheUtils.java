@@ -11,7 +11,7 @@ import net.sf.ehcache.Element;
 
 /**
  * Cache工具类
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-29
  */
 public class CacheUtils {

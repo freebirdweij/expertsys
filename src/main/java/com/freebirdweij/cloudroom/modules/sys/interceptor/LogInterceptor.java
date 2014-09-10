@@ -27,7 +27,7 @@ import eu.bitwalker.useragentutils.UserAgent;
 
 /**
  * 系统拦截器
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-6-6
  */
 public class LogInterceptor extends BaseService implements HandlerInterceptor {

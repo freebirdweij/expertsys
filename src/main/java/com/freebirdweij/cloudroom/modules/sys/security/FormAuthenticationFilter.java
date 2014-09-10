@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 /**
  * 表单验证（包含验证码）过滤类
  * 
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-19
  */
 @Service

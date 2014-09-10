@@ -133,7 +133,7 @@
 		
 		<repository> 
 			<id>thinkgem-repos</id> 
-			<name>ThinkGem Repository</name>
+			<name>CloudRoom Repository</name>
 			<url>http://git.oschina.net/thinkgem/repos/raw/master</url>
 			<releases>
 				<enabled>true</enabled>
@@ -145,7 +145,7 @@
 		
 		<repository> 
 			<id>thinkgem-repos2</id> 
-			<name>ThinkGem Repository 2</name>
+			<name>CloudRoom Repository 2</name>
 			<url>https://raw.github.com/thinkgem/repository/master</url>
 			<releases>
 				<enabled>true</enabled>

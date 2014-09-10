@@ -15,7 +15,7 @@ import com.freebirdweij.cloudroom.modules.sys.entity.Dict;
 
 /**
  * 字典DAO接口
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-8-23
  */
 @Repository

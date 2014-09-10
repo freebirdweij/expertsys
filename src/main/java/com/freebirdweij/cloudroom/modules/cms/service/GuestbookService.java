@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
 
 /**
  * 留言Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-01-15
  */
 @Service

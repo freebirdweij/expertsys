@@ -41,7 +41,7 @@ import com.google.common.collect.Maps;
 
 /**
  * 登录Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-5-31
  */
 @Controller

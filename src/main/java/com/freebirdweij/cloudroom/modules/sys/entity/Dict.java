@@ -19,7 +19,7 @@ import com.freebirdweij.cloudroom.common.persistence.IdEntity;
 
 /**
  * 字典Entity
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-05-15
  */
 @Entity

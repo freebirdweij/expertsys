@@ -16,7 +16,7 @@ import com.freebirdweij.cloudroom.modules.cms.service.CategoryService;
 
 /**
  * 内容管理Controller
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-4-21
  */
 @Controller

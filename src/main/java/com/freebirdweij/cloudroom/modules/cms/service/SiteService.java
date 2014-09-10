@@ -21,7 +21,7 @@ import com.freebirdweij.cloudroom.modules.cms.utils.CmsUtils;
 
 /**
  * 站点Service
- * @author ThinkGem
+ * @author CloudRoom
  * @version 2013-01-15
  */
 @Service
