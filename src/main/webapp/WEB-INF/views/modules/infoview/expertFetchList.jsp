@@ -227,7 +227,7 @@
 	</c:if>
 	<c:if test="${acptlist.size() gt '0'}">
       <div class="span10">
-        <h4>以下为验收首次抽选的项目：</h4>
+        <h4>以下为交工验收首次抽选的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
@@ -250,7 +250,7 @@
 	</c:if>
 	<c:if test="${acptrdlist.size() gt '0'}">
       <div class="span10">
-        <h4>以下验收中补抽的项目：</h4>
+        <h4>以下交工验收中补抽的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
@@ -273,12 +273,81 @@
 	</c:if>
 	<c:if test="${acptnlist.size() gt '0'}">
       <div class="span10">
-        <h4>以下为验收中抽取无效的项目：</h4>
+        <h4>以下为交工验收中抽取无效的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptnlist}" var="projectInfo">
+			<tr>
+				<td>${projectInfo.id}</td>
+				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td>${projectInfo.unit.name}</td>
+				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
+				<td>${projectInfo.prjMoney}</td>
+				<td>${projectInfo.prjBegin}</td>
+				<td>
+    				<a href="${ctx}/infoview/checkprojectfetch?prjid=${projectInfo.id}">查看抽取记录</a>
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${acptdlist.size() gt '0'}">
+      <div class="span10">
+        <h4>以下为竣工验收首次抽选的项目：</h4>
+      </div>
+	<table id="resultTable" class="table table-striped table-bordered table-condensed">
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<tbody>
+		<c:forEach items="${acptdlist}" var="projectInfo">
+			<tr>
+				<td>${projectInfo.id}</td>
+				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td>${projectInfo.unit.name}</td>
+				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
+				<td>${projectInfo.prjMoney}</td>
+				<td>${projectInfo.prjBegin}</td>
+				<td>
+    				<a href="${ctx}/infoview/checkprojectfetch?prjid=${projectInfo.id}">查看抽取记录</a>
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${acptdrdlist.size() gt '0'}">
+      <div class="span10">
+        <h4>以下竣工验收中补抽的项目：</h4>
+      </div>
+	<table id="resultTable" class="table table-striped table-bordered table-condensed">
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<tbody>
+		<c:forEach items="${acptdrdlist}" var="projectInfo">
+			<tr>
+				<td>${projectInfo.id}</td>
+				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td>${projectInfo.unit.name}</td>
+				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
+				<td>${projectInfo.prjMoney}</td>
+				<td>${projectInfo.prjBegin}</td>
+				<td>
+    				<a href="${ctx}/infoview/checkprojectfetch?prjid=${projectInfo.id}">查看抽取记录</a>
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${acptdnlist.size() gt '0'}">
+      <div class="span10">
+        <h4>以下为竣工验收中抽取无效的项目：</h4>
+      </div>
+	<table id="resultTable" class="table table-striped table-bordered table-condensed">
+		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<tbody>
+		<c:forEach items="${acptdnlist}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
 				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>

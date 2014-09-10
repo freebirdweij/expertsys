@@ -151,18 +151,32 @@ public class StatisticsSearchController extends BaseController {
 		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
         Page<ExpertConfirm> page3 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status3); 
         List<ExpertConfirm> rewnlist = page3.getList();
-		//获取验收中首抽有效的专家
+        
+		//获取交工验收中首抽有效的专家
 		String status4[] = {Constants.Fetch_Accept_Sussess};
         Page<ExpertConfirm> page4 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status4); 
         List<ExpertConfirm> acptlist = page4.getList();
-		//获取验收中补抽有效的专家
+		//获取交工验收中补抽有效的专家
 		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
         Page<ExpertConfirm> page5 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status5); 
         List<ExpertConfirm> acptrdlist = page5.getList();
-		//获取验收中抽取无效的专家
+		//获取交工验收中抽取无效的专家
 		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
         Page<ExpertConfirm> page6 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status6); 
         List<ExpertConfirm> acptnlist = page6.getList();
+        
+		//获取竣工验收中首抽有效的专家
+		String status7[] = {Constants.Fetch_Accepted_Sussess};
+        Page<ExpertConfirm> page7 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status7); 
+        List<ExpertConfirm> acptdlist = page7.getList();
+		//获取竣工验收中补抽有效的专家
+		String status8[] = {Constants.Fetch_AcceptedRedraw_Sussess};
+        Page<ExpertConfirm> page8 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status8); 
+        List<ExpertConfirm> acptdrdlist = page8.getList();
+		//获取竣工验收中抽取无效的专家
+		String status9[] = {Constants.Fetch_Accepted_Failure,Constants.Fetch_AcceptedRedraw_Failure};
+        Page<ExpertConfirm> page9 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status9); 
+        List<ExpertConfirm> acptdnlist = page9.getList();
         
         model.addAttribute("rewlist", rewlist);
         model.addAttribute("rewrdlist", rewrdlist);
@@ -170,6 +184,9 @@ public class StatisticsSearchController extends BaseController {
         model.addAttribute("acptlist", acptlist);
         model.addAttribute("acptrdlist", acptrdlist);
         model.addAttribute("acptnlist",acptnlist);
+        model.addAttribute("acptdlist", acptdlist);
+        model.addAttribute("acptdrdlist", acptdrdlist);
+        model.addAttribute("acptdnlist",acptdnlist);
         model.addAttribute("prjid",prjid);
 		return "modules/infoview/projectFetchExport";
 	}
@@ -193,18 +210,33 @@ public class StatisticsSearchController extends BaseController {
 		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
         Page<ProjectInfo> page3 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status3); 
         List<ProjectInfo> rewnlist = page3.getList();
-		//获取验收中首抽有效的项目
+        
+		//获取交工验收中首抽有效的项目
 		String status4[] = {Constants.Fetch_Accept_Sussess};
         Page<ProjectInfo> page4 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status4); 
         List<ProjectInfo> acptlist = page4.getList();
-		//获取验收中补抽有效的项目
+		//获取交工验收中补抽有效的项目
 		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
         Page<ProjectInfo> page5 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status5); 
         List<ProjectInfo> acptrdlist = page5.getList();
-		//获取验收中抽取无效的项目
+		//获取交工验收中抽取无效的项目
 		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
         Page<ProjectInfo> page6 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status6); 
         List<ProjectInfo> acptnlist = page6.getList();
+        
+        
+		//获取竣工验收中首抽有效的项目
+		String status7[] = {Constants.Fetch_Accepted_Sussess};
+        Page<ProjectInfo> page7 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status7); 
+        List<ProjectInfo> acptdlist = page7.getList();
+		//获取竣工验收中补抽有效的项目
+		String status8[] = {Constants.Fetch_AcceptedRedraw_Sussess};
+        Page<ProjectInfo> page8 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status8); 
+        List<ProjectInfo> acptdrdlist = page8.getList();
+		//获取竣工验收中抽取无效的项目
+		String status9[] = {Constants.Fetch_Accepted_Failure,Constants.Fetch_AcceptedRedraw_Failure};
+        Page<ProjectInfo> page9 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status9); 
+        List<ProjectInfo> acptdnlist = page9.getList();
         
         model.addAttribute("rewlist", rewlist);
         model.addAttribute("rewrdlist", rewrdlist);
@@ -212,6 +244,9 @@ public class StatisticsSearchController extends BaseController {
         model.addAttribute("acptlist", acptlist);
         model.addAttribute("acptrdlist", acptrdlist);
         model.addAttribute("acptnlist",acptnlist);
+        model.addAttribute("acptdlist", acptdlist);
+        model.addAttribute("acptdrdlist", acptdrdlist);
+        model.addAttribute("acptdnlist",acptdnlist);
         model.addAttribute("expid",expid);
 		return "modules/infoview/expertFetchExport";
 	}
@@ -300,18 +335,32 @@ public class StatisticsSearchController extends BaseController {
 		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
         Page<ExpertConfirm> page3 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status3); 
         List<ExpertConfirm> rewnlist = page3.getList();
-		//获取验收中首抽有效的专家
+        
+		//获取交工验收中首抽有效的专家
 		String status4[] = {Constants.Fetch_Accept_Sussess};
         Page<ExpertConfirm> page4 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status4); 
         List<ExpertConfirm> acptlist = page4.getList();
-		//获取验收中补抽有效的专家
+		//获取交工验收中补抽有效的专家
 		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
         Page<ExpertConfirm> page5 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status5); 
         List<ExpertConfirm> acptrdlist = page5.getList();
-		//获取验收中抽取无效的专家
+		//获取交工验收中抽取无效的专家
 		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
         Page<ExpertConfirm> page6 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status6); 
         List<ExpertConfirm> acptnlist = page6.getList();
+        
+		//获取竣工验收中首抽有效的专家
+		String status7[] = {Constants.Fetch_Accepted_Sussess};
+        Page<ExpertConfirm> page7 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status7); 
+        List<ExpertConfirm> acptdlist = page7.getList();
+		//获取竣工验收中补抽有效的专家
+		String status8[] = {Constants.Fetch_AcceptedRedraw_Sussess};
+        Page<ExpertConfirm> page8 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status8); 
+        List<ExpertConfirm> acptdrdlist = page8.getList();
+		//获取竣工验收中抽取无效的专家
+		String status9[] = {Constants.Fetch_Accepted_Failure,Constants.Fetch_AcceptedRedraw_Failure};
+        Page<ExpertConfirm> page9 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status9); 
+        List<ExpertConfirm> acptdnlist = page9.getList();
         
         model.addAttribute("rewlist", rewlist);
         model.addAttribute("rewrdlist", rewrdlist);
@@ -319,6 +368,9 @@ public class StatisticsSearchController extends BaseController {
         model.addAttribute("acptlist", acptlist);
         model.addAttribute("acptrdlist", acptrdlist);
         model.addAttribute("acptnlist",acptnlist);
+        model.addAttribute("acptdlist", acptdlist);
+        model.addAttribute("acptdrdlist", acptdrdlist);
+        model.addAttribute("acptdnlist",acptdnlist);
         model.addAttribute("prjid",prjid);
 		return "modules/infoview/projectFetchList";
 	}
@@ -342,18 +394,32 @@ public class StatisticsSearchController extends BaseController {
 		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
         Page<ProjectInfo> page3 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status3); 
         List<ProjectInfo> rewnlist = page3.getList();
-		//获取验收中首抽有效的项目
+        
+		//获取交工验收中首抽有效的项目
 		String status4[] = {Constants.Fetch_Accept_Sussess};
         Page<ProjectInfo> page4 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status4); 
         List<ProjectInfo> acptlist = page4.getList();
-		//获取验收中补抽有效的项目
+		//获取交工验收中补抽有效的项目
 		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
         Page<ProjectInfo> page5 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status5); 
         List<ProjectInfo> acptrdlist = page5.getList();
-		//获取验收中抽取无效的项目
+		//获取交工验收中抽取无效的项目
 		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
         Page<ProjectInfo> page6 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status6); 
         List<ProjectInfo> acptnlist = page6.getList();
+        
+		//获取竣工验收中首抽有效的项目
+		String status7[] = {Constants.Fetch_Accepted_Sussess};
+        Page<ProjectInfo> page7 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status7); 
+        List<ProjectInfo> acptdlist = page7.getList();
+		//获取竣工验收中补抽有效的项目
+		String status8[] = {Constants.Fetch_AcceptedRedraw_Sussess};
+        Page<ProjectInfo> page8 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status8); 
+        List<ProjectInfo> acptdrdlist = page8.getList();
+		//获取竣工验收中抽取无效的项目
+		String status9[] = {Constants.Fetch_Accepted_Failure,Constants.Fetch_AcceptedRedraw_Failure};
+        Page<ProjectInfo> page9 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status9); 
+        List<ProjectInfo> acptdnlist = page9.getList();
         
         model.addAttribute("rewlist", rewlist);
         model.addAttribute("rewrdlist", rewrdlist);
@@ -361,6 +427,9 @@ public class StatisticsSearchController extends BaseController {
         model.addAttribute("acptlist", acptlist);
         model.addAttribute("acptrdlist", acptrdlist);
         model.addAttribute("acptnlist",acptnlist);
+        model.addAttribute("acptdlist", acptdlist);
+        model.addAttribute("acptdrdlist", acptdrdlist);
+        model.addAttribute("acptdnlist",acptdnlist);
         model.addAttribute("expid",expid);
 		return "modules/infoview/expertFetchList";
 	}
@@ -406,47 +475,92 @@ public class StatisticsSearchController extends BaseController {
 		String status3[] = {Constants.Fetch_Review_Failure,Constants.Fetch_ReviewRedraw_Failure};
         Page<ProjectInfo> page3 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status3); 
         List<ProjectInfo> rewnlist = page3.getList();
-		//获取验收中首抽有效的项目
+        
+		//获取交工验收中首抽有效的项目
 		String status4[] = {Constants.Fetch_Accept_Sussess};
         Page<ProjectInfo> page4 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status4); 
         List<ProjectInfo> acptlist = page4.getList();
-		//获取验收中补抽有效的项目
+		//获取交工验收中补抽有效的项目
 		String status5[] = {Constants.Fetch_AcceptRedraw_Sussess};
         Page<ProjectInfo> page5 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status5); 
         List<ProjectInfo> acptrdlist = page5.getList();
-		//获取验收中抽取无效的项目
+		//获取交工验收中抽取无效的项目
 		String status6[] = {Constants.Fetch_Accept_Failure,Constants.Fetch_AcceptRedraw_Failure};
         Page<ProjectInfo> page6 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status6); 
         List<ProjectInfo> acptnlist = page6.getList();
+        
+		//获取竣工验收中首抽有效的项目
+		String status7[] = {Constants.Fetch_Accepted_Sussess};
+        Page<ProjectInfo> page7 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status7); 
+        List<ProjectInfo> acptdlist = page7.getList();
+		//获取竣工验收中补抽有效的项目
+		String status8[] = {Constants.Fetch_AcceptedRedraw_Sussess};
+        Page<ProjectInfo> page8 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status8); 
+        List<ProjectInfo> acptdrdlist = page8.getList();
+		//获取竣工验收中抽取无效的项目
+		String status9[] = {Constants.Fetch_Accepted_Failure,Constants.Fetch_AcceptedRedraw_Failure};
+        Page<ProjectInfo> page9 = projectExpertService.findFetchProjectsByExpertAndStatus(new Page<ProjectInfo>(request, response), expid,status9); 
+        List<ProjectInfo> acptdnlist = page9.getList();
+        
         
 		try {
             String fileName = "项目列表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
             List<ProjectInfo> alist = Lists.newArrayList();
             ExportExcel ee = new ExportExcel("项目列表", ProjectInfo.class);
+            if(rewlist!=null&&rewlist.size()>0){
             ProjectInfo pi1 = new ProjectInfo();
             pi1.setId("评审中首抽有效的项目");
             alist.add(pi1);
             alist.addAll(rewlist);
+            }
+            if(rewrdlist!=null&&rewrdlist.size()>0){
             ProjectInfo pi2 = new ProjectInfo();
             pi2.setId("评审中补抽有效的项目");
             alist.add(pi2);
             alist.addAll(rewrdlist);
+            }
+            if(rewnlist!=null&&rewnlist.size()>0){
             ProjectInfo pi3 = new ProjectInfo();
             pi3.setId("评审中抽取无效的项目");
             alist.add(pi3);
             alist.addAll(rewnlist);
+            }
+            if(acptlist!=null&&acptlist.size()>0){
             ProjectInfo pi4 = new ProjectInfo();
-            pi4.setId("验收中首抽有效的项目");
+            pi4.setId("交工验收中首抽有效的项目");
             alist.add(pi4);
             alist.addAll(acptlist);
+            }
+            if(acptrdlist!=null&&acptrdlist.size()>0){
             ProjectInfo pi5 = new ProjectInfo();
-            pi5.setId("评审中补抽有效的项目");
+            pi5.setId("交工验收中补抽有效的项目");
             alist.add(pi5);
             alist.addAll(acptrdlist);
+            }
+            if(acptnlist!=null&&acptnlist.size()>0){
             ProjectInfo pi6 = new ProjectInfo();
-            pi6.setId("评审中补抽有效的项目");
+            pi6.setId("交工验收中补抽无效的项目");
             alist.add(pi6);
             alist.addAll(acptnlist);
+            }
+            if(acptdlist!=null&&acptdlist.size()>0){
+            ProjectInfo pi7 = new ProjectInfo();
+            pi7.setId("竣工验收中首抽有效的项目");
+            alist.add(pi7);
+            alist.addAll(acptdlist);
+            }
+            if(acptdrdlist!=null&&acptdrdlist.size()>0){
+            ProjectInfo pi8 = new ProjectInfo();
+            pi8.setId("竣工验收中补抽有效的项目");
+            alist.add(pi8);
+            alist.addAll(acptdrdlist);
+            }
+            if(acptdnlist!=null&&acptdnlist.size()>0){
+            ProjectInfo pi9 = new ProjectInfo();
+            pi9.setId("竣工验收中补抽无效的项目");
+            alist.add(pi9);
+            alist.addAll(acptdnlist);
+            }
             
             
             ee.setDataList(alist).write(response, fileName).dispose();
@@ -485,35 +599,77 @@ public class StatisticsSearchController extends BaseController {
         Page<ExpertConfirm> page6 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status6); 
         List<ExpertConfirm> acptnlist = page6.getList();
         
+		//获取竣工验收中首抽有效的专家
+		String status7[] = {Constants.Fetch_Accepted_Sussess};
+        Page<ExpertConfirm> page7 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status7); 
+        List<ExpertConfirm> acptdlist = page7.getList();
+		//获取竣工验收中补抽有效的专家
+		String status8[] = {Constants.Fetch_AcceptedRedraw_Sussess};
+        Page<ExpertConfirm> page8 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status8); 
+        List<ExpertConfirm> acptdrdlist = page8.getList();
+		//获取竣工验收中抽取无效的专家
+		String status9[] = {Constants.Fetch_Accepted_Failure,Constants.Fetch_AcceptedRedraw_Failure};
+        Page<ExpertConfirm> page9 = projectExpertService.findFetchExpertsByProjectAndStatus(new Page<ExpertConfirm>(request, response), prjid,status9); 
+        List<ExpertConfirm> acptdnlist = page9.getList();
+        
 		try {
             String fileName = "专家列表"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx"; 
             List<ExpertConfirm> alist = Lists.newArrayList();
-            ExportExcel ee = new ExportExcel("专家列表", ExpertConfirm.class);
-            ExpertConfirm pi1 = new ExpertConfirm();
+            ExportExcel ee = new ExportExcel("专家列表", ExpertConfirm.class);            
+            if(rewlist!=null&&rewlist.size()>0){
+            	ExpertConfirm pi1 = new ExpertConfirm();
             pi1.setId("评审中首抽有效的专家");
             alist.add(pi1);
             alist.addAll(rewlist);
-            ExpertConfirm pi2 = new ExpertConfirm();
+            }
+            if(rewrdlist!=null&&rewrdlist.size()>0){
+            	ExpertConfirm pi2 = new ExpertConfirm();
             pi2.setId("评审中补抽有效的专家");
             alist.add(pi2);
             alist.addAll(rewrdlist);
-            ExpertConfirm pi3 = new ExpertConfirm();
+            }
+            if(rewnlist!=null&&rewnlist.size()>0){
+            	ExpertConfirm pi3 = new ExpertConfirm();
             pi3.setId("评审中抽取无效的专家");
             alist.add(pi3);
             alist.addAll(rewnlist);
-            ExpertConfirm pi4 = new ExpertConfirm();
-            pi4.setId("验收中首抽有效的专家");
+            }
+            if(acptlist!=null&&acptlist.size()>0){
+            	ExpertConfirm pi4 = new ExpertConfirm();
+            pi4.setId("交工验收中首抽有效的专家");
             alist.add(pi4);
             alist.addAll(acptlist);
-            ExpertConfirm pi5 = new ExpertConfirm();
-            pi5.setId("评审中补抽有效的专家");
+            }
+            if(acptrdlist!=null&&acptrdlist.size()>0){
+            	ExpertConfirm pi5 = new ExpertConfirm();
+            pi5.setId("交工验收中补抽有效的专家");
             alist.add(pi5);
             alist.addAll(acptrdlist);
-            ExpertConfirm pi6 = new ExpertConfirm();
-            pi6.setId("评审中补抽有效的专家");
+            }
+            if(acptnlist!=null&&acptnlist.size()>0){
+            	ExpertConfirm pi6 = new ExpertConfirm();
+            pi6.setId("交工验收中补抽无效的专家");
             alist.add(pi6);
             alist.addAll(acptnlist);
-            
+            }
+            if(acptdlist!=null&&acptdlist.size()>0){
+            	ExpertConfirm pi7 = new ExpertConfirm();
+            pi7.setId("竣工验收中首抽有效的专家");
+            alist.add(pi7);
+            alist.addAll(acptdlist);
+            }
+            if(acptdrdlist!=null&&acptdrdlist.size()>0){
+            	ExpertConfirm pi8 = new ExpertConfirm();
+            pi8.setId("竣工验收中补抽有效的专家");
+            alist.add(pi8);
+            alist.addAll(acptdrdlist);
+            }
+            if(acptdnlist!=null&&acptdnlist.size()>0){
+            	ExpertConfirm pi9 = new ExpertConfirm();
+            pi9.setId("竣工验收中补抽无效的专家");
+            alist.add(pi9);
+            alist.addAll(acptdnlist);
+            }
             
             ee.setDataList(alist).write(response, fileName).dispose();
     		return null;
