@@ -26,6 +26,7 @@ import com.freebirdweij.cloudroom.common.utils.DateUtils;
 import com.freebirdweij.cloudroom.common.utils.StringUtils;
 import com.freebirdweij.cloudroom.common.utils.excel.ExportExcel;
 import com.freebirdweij.cloudroom.common.web.BaseController;
+import com.freebirdweij.cloudroom.modules.experts.entity.ExpertInfo;
 import com.freebirdweij.cloudroom.modules.expfetch.entity.ProjectExpert;
 import com.freebirdweij.cloudroom.modules.expfetch.service.ProjectExpertService;
 import com.freebirdweij.cloudroom.modules.expmanage.entity.ExpertConfirm;
@@ -618,55 +619,73 @@ public class StatisticsSearchController extends BaseController {
             ExportExcel ee = new ExportExcel("专家列表", ExpertConfirm.class);            
             if(rewlist!=null&&rewlist.size()>0){
             	ExpertConfirm pi1 = new ExpertConfirm();
-            pi1.setId("评审中首抽有效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("评审中首抽有效的专家");
+                pi1.setExpertInfo(ei);
             alist.add(pi1);
             alist.addAll(rewlist);
             }
             if(rewrdlist!=null&&rewrdlist.size()>0){
             	ExpertConfirm pi2 = new ExpertConfirm();
-            pi2.setId("评审中补抽有效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("评审中补抽有效的专家");
+            pi2.setExpertInfo(ei);
             alist.add(pi2);
             alist.addAll(rewrdlist);
             }
             if(rewnlist!=null&&rewnlist.size()>0){
             	ExpertConfirm pi3 = new ExpertConfirm();
-            pi3.setId("评审中抽取无效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("评审中抽取无效的专家");
+            pi3.setExpertInfo(ei);
             alist.add(pi3);
             alist.addAll(rewnlist);
             }
             if(acptlist!=null&&acptlist.size()>0){
             	ExpertConfirm pi4 = new ExpertConfirm();
-            pi4.setId("交工验收中首抽有效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("交工验收中首抽有效的专家");
+            pi4.setExpertInfo(ei);
             alist.add(pi4);
             alist.addAll(acptlist);
             }
             if(acptrdlist!=null&&acptrdlist.size()>0){
             	ExpertConfirm pi5 = new ExpertConfirm();
-            pi5.setId("交工验收中补抽有效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("交工验收中补抽有效的专家");
+            pi5.setExpertInfo(ei);
             alist.add(pi5);
             alist.addAll(acptrdlist);
             }
             if(acptnlist!=null&&acptnlist.size()>0){
             	ExpertConfirm pi6 = new ExpertConfirm();
-            pi6.setId("交工验收中补抽无效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("交工验收中补抽无效的专家");
+            pi6.setExpertInfo(ei);
             alist.add(pi6);
             alist.addAll(acptnlist);
             }
             if(acptdlist!=null&&acptdlist.size()>0){
             	ExpertConfirm pi7 = new ExpertConfirm();
-            pi7.setId("竣工验收中首抽有效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("竣工验收中首抽有效的专家");
+            pi7.setExpertInfo(ei);
             alist.add(pi7);
             alist.addAll(acptdlist);
             }
             if(acptdrdlist!=null&&acptdrdlist.size()>0){
             	ExpertConfirm pi8 = new ExpertConfirm();
-            pi8.setId("竣工验收中补抽有效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("竣工验收中补抽有效的专家");
+            pi8.setExpertInfo(ei);
             alist.add(pi8);
             alist.addAll(acptdrdlist);
             }
             if(acptdnlist!=null&&acptdnlist.size()>0){
             	ExpertConfirm pi9 = new ExpertConfirm();
-            pi9.setId("竣工验收中补抽无效的专家");
+            	ExpertInfo ei = new ExpertInfo();
+            	ei.setName("竣工验收中补抽无效的专家");
+            pi9.setExpertInfo(ei);
             alist.add(pi9);
             alist.addAll(acptdnlist);
             }
