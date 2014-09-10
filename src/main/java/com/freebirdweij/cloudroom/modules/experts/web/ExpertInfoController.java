@@ -4,10 +4,12 @@
 package com.freebirdweij.cloudroom.modules.experts.web;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,10 @@ import com.freebirdweij.cloudroom.common.utils.StringUtils;
 import com.freebirdweij.cloudroom.common.web.BaseController;
 import com.freebirdweij.cloudroom.modules.experts.entity.ExpertInfo;
 import com.freebirdweij.cloudroom.modules.experts.service.ExpertInfoService;
+import com.freebirdweij.cloudroom.modules.loginfo.entity.ExpertdbLog;
+import com.freebirdweij.cloudroom.modules.loginfo.service.ExpertdbLogService;
 import com.freebirdweij.cloudroom.modules.sys.entity.User;
+import com.freebirdweij.cloudroom.modules.sys.utils.LogUtils;
 import com.freebirdweij.cloudroom.modules.sys.utils.UserUtils;
 
 /**
@@ -40,6 +45,9 @@ public class ExpertInfoController extends BaseController {
 
 	@Autowired
 	private ExpertInfoService expertInfoService;
+	
+	@Autowired
+	private ExpertdbLogService expertdbLogService;
 	
 	@ModelAttribute
 	public ExpertInfo get(@RequestParam(required=false) String id) {
@@ -114,12 +122,29 @@ public class ExpertInfoController extends BaseController {
 	}
 	
 	@RequestMapping(value = "baseform")
-	public String baseform(ExpertInfo expertInfo, Model model) {
+	public String baseform(ExpertInfo expertInfo, Model model, HttpServletRequest request) {
 		User user = UserUtils.getUser();
 		expertInfo = expertInfoService.get(user.getId());
 		if(expertInfo==null){
 			return "modules/experts/editNote";
 		}
+		ExpertInfo einfo = null;
+		try {
+			einfo = (ExpertInfo) BeanUtils.cloneBean(expertInfo);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		request.getSession().setAttribute("einfo", einfo);//修改比较用
 			model.addAttribute("expertInfo", expertInfo);
 		return "modules/experts/baseForm";
 	}
@@ -150,7 +175,7 @@ public class ExpertInfoController extends BaseController {
 	
 	@RequiresPermissions("experts:expertInfo:edit")
 	@RequestMapping(value = "savebase", method=RequestMethod.POST)
-	public String savebase(ExpertInfo expertInfo, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/) {
+	public String savebase(ExpertInfo expertInfo, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes/*,@RequestParam("picture0") MultipartFile file*/) {
 		User user = UserUtils.getUser();
 		expertInfo.setUnit(user.getCompany());
 		if (!beanValidator(model, expertInfo)){
@@ -166,7 +191,13 @@ public class ExpertInfoController extends BaseController {
 		//保留注册状态
 		//expertInfo.setRegStep("3");
 		expertInfoService.save(expertInfo);
-		expertInfo.setMobile(user.getMobile());
+		//日志处理
+		ExpertInfo einfo = (ExpertInfo) request.getSession().getAttribute("einfo");//修改比较用
+		ExpertdbLog expertdbLog = LogUtils.getLogByCompareExpert(einfo, expertInfo, user);
+		expertdbLog.setObjectId(expertInfo.getUserId());
+		expertdbLogService.save(expertdbLog);
+		request.getSession().removeAttribute("einfo");
+	expertInfo.setMobile(user.getMobile());
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
 		return "redirect:"+Global.getAdminPath()+"/experts/baseform/?repage";
 	}

@@ -3,6 +3,8 @@
  */
 package com.freebirdweij.cloudroom.modules.infoview.web;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -254,6 +256,12 @@ public class StatisticsSearchController extends BaseController {
 
 	@RequestMapping(value = "statistics")
 	public String statistics(FetchSupervise fetchSupervise, Model model) {
+		fetchSupervise.setExpertBegin(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setExpertEnd(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setUnitBegin(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setUnitEnd(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setFetchBegin(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setFetchEnd(new Timestamp((new Date()).getTime()));
 		model.addAttribute("fetchSupervise", fetchSupervise);
 		return "modules/infoview/statisticsForm";
 	}

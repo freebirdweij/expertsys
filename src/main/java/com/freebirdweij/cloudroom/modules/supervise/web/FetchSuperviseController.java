@@ -4,6 +4,8 @@
 package com.freebirdweij.cloudroom.modules.supervise.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -277,6 +279,12 @@ public class FetchSuperviseController extends BaseController {
 
 	@RequestMapping(value = "statistics")
 	public String statistics(FetchSupervise fetchSupervise, Model model) {
+		fetchSupervise.setExpertBegin(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setExpertEnd(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setUnitBegin(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setUnitEnd(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setFetchBegin(new Timestamp((new Date()).getTime()));
+		fetchSupervise.setFetchEnd(new Timestamp((new Date()).getTime()));
 		model.addAttribute("fetchSupervise", fetchSupervise);
 		return "modules/supervise/statisticsForm";
 	}

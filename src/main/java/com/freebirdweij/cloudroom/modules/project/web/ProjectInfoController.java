@@ -142,7 +142,7 @@ public class ProjectInfoController extends BaseController {
 		request.getSession().removeAttribute("pinfo");
 		projectInfoService.save(projectInfo);
 		addMessage(redirectAttributes, "保存项目信息'" + projectInfo.getPrjName() + "'成功");
-		return "modules/project/recordNote";
+		return "redirect:"+Global.getAdminPath()+"/project/list/?repage";
 	}
 	
 	@RequiresPermissions("project:projectInfo:edit")
@@ -171,7 +171,7 @@ public class ProjectInfoController extends BaseController {
 			expertdbLog.setOperation(operation);
 			expertdbLogService.save(expertdbLog);
 		}
-		return "modules/project/recordNote";
+		return "redirect:"+Global.getAdminPath()+"/project/list/?repage";
 	}
 	
 	@RequiresPermissions("project:projectInfo:edit")
