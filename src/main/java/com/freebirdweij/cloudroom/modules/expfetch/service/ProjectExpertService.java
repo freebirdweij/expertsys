@@ -275,9 +275,9 @@ public class ProjectExpertService extends BaseService {
 			}
 		}
 		dc.createAlias("e.prjProjectInfo", "p");
-		String fts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+		String fts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess,Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
 		dc.add(Restrictions.in("e.fetchStatus", fts));
-		String sts[] = {Constants.Project_Status_Apply,Constants.Project_Status_Receive};
+		String sts[] = {Constants.Project_Status_Apply,Constants.Project_Status_Receive,Constants.Project_Status_Received};
 		dc.add(Restrictions.in("p.prjStatus", sts));
 		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.parseDate(DateUtils.getDateTime())));
 		
@@ -296,9 +296,9 @@ public class ProjectExpertService extends BaseService {
 			}
 		}
 		dc.createAlias("e.prjProjectInfo", "p");
-		String fts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+		String fts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess,Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
 		dc.add(Restrictions.in("e.fetchStatus", fts));
-		String sts[] = {Constants.Project_Status_Work,Constants.Project_Status_Receive,Constants.Project_Status_Save};
+		String sts[] = {Constants.Project_Status_Work,Constants.Project_Status_Receive,Constants.Project_Status_Received,Constants.Project_Status_End,Constants.Project_Status_Save};
 		dc.add(Restrictions.in("p.prjStatus", sts));
 		dc.add(Restrictions.le("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
 		

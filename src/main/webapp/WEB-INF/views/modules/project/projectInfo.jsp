@@ -61,7 +61,7 @@
             </div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">主体单位:</label>
+			<label class="control-label">建设单位:</label>
 			<div class="controls">
                 <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}"
 					title="公司" url="/sys/office/treeData?type=1" cssClass="required" disabled="true"/>
