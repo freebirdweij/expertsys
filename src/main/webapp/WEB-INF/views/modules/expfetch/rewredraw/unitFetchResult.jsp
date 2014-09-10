@@ -377,7 +377,11 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行补抽"/>
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="进行补抽" 
+		         <c:if test="${rlist.size() gt '0'}">
+		          disabled="true"
+		         </c:if>
+			 />
 		</div>
       <div class="span10">
         <h4>以下为补抽结果：</h4>
