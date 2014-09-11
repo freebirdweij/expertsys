@@ -355,9 +355,9 @@
 				</div>
 				<div style="margin-left:30px; float:left;">		
 			     <input id="btnSubmit" class="btn btn-primary" type="submit" value="进行随机抽取" 
-		         <c:if test="${rlist.size() gt '0'}">
+		        <%--  <c:if test="${rlist.size() gt '0'}">
 		          disabled="true"
-		         </c:if>
+		         </c:if> --%>
 			     />
 				</div>
 		</div>

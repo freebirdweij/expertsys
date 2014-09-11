@@ -279,7 +279,7 @@ public class ProjectExpertService extends BaseService {
 		dc.add(Restrictions.in("e.fetchStatus", fts));
 		String sts[] = {Constants.Project_Status_Apply,Constants.Project_Status_Receive,Constants.Project_Status_Received};
 		dc.add(Restrictions.in("p.prjStatus", sts));
-		dc.add(Restrictions.ge("e.reviewBegin", DateUtils.parseDate(DateUtils.getDateTime())));
+		dc.add(Restrictions.ge("e.reviewEnd", DateUtils.parseDate(DateUtils.getDateTime())));
 		
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		//dc.addOrder(Order.desc("id"));
