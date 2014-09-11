@@ -57,7 +57,7 @@ public class FetchSuperviseService extends BaseService {
 		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertInfo", "i");
 		if (fetchSupervise.getExpertBegin()!=null&&fetchSupervise.getExpertEnd()!=null){
 			dc.add(Restrictions.between("o.createDate", fetchSupervise.getExpertBegin(), fetchSupervise.getExpertEnd()));
-			String sts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+			String sts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess,Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
 			dc.add(Restrictions.in("o.fetchStatus", sts));
 		}else{
 			return null;
@@ -79,7 +79,7 @@ public class FetchSuperviseService extends BaseService {
 		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertCompany", "c");
 		if (fetchSupervise.getUnitBegin()!=null&&fetchSupervise.getUnitEnd()!=null){
 			dc.add(Restrictions.between("o.createDate", fetchSupervise.getUnitBegin(), fetchSupervise.getUnitEnd()));
-			String sts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+			String sts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess,Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
 			dc.add(Restrictions.in("o.fetchStatus", sts));
 		}else{
 			return null;
@@ -134,7 +134,7 @@ public class FetchSuperviseService extends BaseService {
 		dc.createAlias("o.expertExpertConfirm", "e").createAlias("e.expertCompany", "c").createAlias("e.expertArea", "a");
 		if (fetchSupervise.getFetchBegin()!=null&&fetchSupervise.getFetchEnd()!=null){
 			dc.add(Restrictions.between("o.createDate", fetchSupervise.getFetchBegin(), fetchSupervise.getFetchEnd()));
-			String sts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess};
+			String sts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess,Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
 			dc.add(Restrictions.in("o.fetchStatus", sts));
 		}else{
 			return null;

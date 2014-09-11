@@ -65,10 +65,12 @@ public class ProjectInfoController extends BaseController {
 	public String list(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
 		if (!user.isAdmin()){
+			if(projectInfo==null) projectInfo = new ProjectInfo();
 			projectInfo.setCreateBy(user);
 		}
         Page<ProjectInfo> page = projectInfoService.find(new Page<ProjectInfo>(request, response), projectInfo); 
         model.addAttribute("page", page);
+        model.addAttribute("projectInfo", projectInfo);
 		return "modules/project/projectList";
 	}
 
