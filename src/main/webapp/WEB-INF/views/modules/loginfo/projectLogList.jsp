@@ -14,7 +14,7 @@
                 },
                 "logEnd": {
                     required: true,
-                    compareDate: "#reviewBegin"
+                    compareDate: "#logBegin"
                 }
 				},
 				messages: {
@@ -71,7 +71,7 @@
 	                },
 	                "logEnd": {
 	                    required: true,
-	                    compareDate: "#reviewBegin"
+	                    compareDate: "#logBegin"
 	                }
 	            },
 	            messages:{

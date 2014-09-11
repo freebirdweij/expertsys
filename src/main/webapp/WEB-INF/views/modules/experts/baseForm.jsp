@@ -262,7 +262,7 @@
 		<div class="control-group">
 			<label class="control-label">推荐单位意见:</label>
 			<div class="controls">
-		        <input id="pushAdvice" name="pushAdvice" type="textarea" rows="6" cols="50">
+		        <form:textarea path="pushAdvice" rows="6" cols="50" htmlEscape="false" maxlength="100" class="span4"/>
 			</div>
 		</div>
 		<div class="control-group">
