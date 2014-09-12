@@ -140,7 +140,7 @@
         <h4>以下为评审首次抽选的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${rewlist}" var="projectInfo">
 			<tr>
@@ -149,7 +149,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetchexp?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -163,7 +163,7 @@
         <h4>以下评审补抽的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${rewrdlist}" var="projectInfo">
 			<tr>
@@ -172,7 +172,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetchexp?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -186,7 +186,7 @@
         <h4>以下为评审中抽取无效的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${rewnlist}" var="projectInfo">
 			<tr>
@@ -195,7 +195,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetchexp?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -209,7 +209,7 @@
         <h4>以下为交工验收首次抽选的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptlist}" var="projectInfo">
 			<tr>
@@ -218,7 +218,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetchexp?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -232,7 +232,7 @@
         <h4>以下交工验收中补抽的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptrdlist}" var="projectInfo">
 			<tr>
@@ -241,7 +241,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetchexp?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -255,7 +255,7 @@
         <h4>以下为交工验收中抽取无效的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptnlist}" var="projectInfo">
 			<tr>
@@ -264,7 +264,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetchexp?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -278,7 +278,7 @@
         <h4>以下为竣工验收首次抽选的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptdlist}" var="projectInfo">
 			<tr>
@@ -287,7 +287,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetch?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -301,7 +301,7 @@
         <h4>以下竣工验收中补抽的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptdrdlist}" var="projectInfo">
 			<tr>
@@ -310,7 +310,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetch?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>
@@ -324,7 +324,7 @@
         <h4>以下为竣工验收中抽取无效的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptdnlist}" var="projectInfo">
 			<tr>
@@ -333,7 +333,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/infoview/checkprojectfetch?prjid=${projectInfo.id}">查看抽取记录</a>
 				</td>

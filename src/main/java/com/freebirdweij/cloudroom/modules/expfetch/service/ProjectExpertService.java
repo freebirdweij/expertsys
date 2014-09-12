@@ -286,16 +286,29 @@ public class ProjectExpertService extends BaseService {
 		return projectExpertDao.find(dc);
 	}
 	
-	public Page<ProjectExpert> findMyHistory(Page<ProjectExpert> page, String userId) {
+	public Page<ProjectExpert> findMyHistory(Page<ProjectExpert> page, ProjectExpert projectExpert, String userId) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "e");
+		dc.createAlias("e.expertExpertConfirm", "c");
+		dc.createAlias("c.expertInfo", "i");
+		dc.createAlias("e.prjProjectInfo", "p");
+		dc.createAlias("p.unit", "u");
 		if (userId!=null){
 			if (StringUtils.isNotEmpty(userId)){
-				dc.createAlias("e.expertExpertConfirm", "c");
-				dc.createAlias("c.expertInfo", "i");
 				dc.add(Restrictions.eq("i.userId", userId));
 			}
 		}
-		dc.createAlias("e.prjProjectInfo", "p");
+		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjName())){
+			dc.add(Restrictions.like("p.prjName", "%"+projectExpert.getPrjProjectInfo().getPrjName()+"%"));
+		}
+		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getId())){
+			dc.add(Restrictions.eq("p.id", projectExpert.getPrjProjectInfo().getId()));
+		}
+		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getUnitIdsYes())){
+			dc.add(Restrictions.eq("u.id", projectExpert.getUnitIdsYes()));
+		}
+		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjYear())){
+			dc.add(Restrictions.eq("p.prjYear", projectExpert.getPrjProjectInfo().getPrjYear()));
+		}
 		String fts[] = {Constants.Fetch_Review_Sussess,Constants.Fetch_ReviewRedraw_Sussess,Constants.Fetch_Accept_Sussess,Constants.Fetch_AcceptRedraw_Sussess,Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
 		dc.add(Restrictions.in("e.fetchStatus", fts));
 		String sts[] = {Constants.Project_Status_Work,Constants.Project_Status_Receive,Constants.Project_Status_Received,Constants.Project_Status_End,Constants.Project_Status_Save};

@@ -106,7 +106,7 @@ public class ExpertJobController extends BaseController {
 		if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}
-		Page<ProjectExpert> page = projectExpertService.findMyHistory(new Page<ProjectExpert>(request, response), user.getId()); 
+		Page<ProjectExpert> page = projectExpertService.findMyHistory(new Page<ProjectExpert>(request, response),projectExpert, user.getId()); 
         model.addAttribute("page", page);
 		return "modules/experts/myHistoryJob";
 	}

@@ -5,31 +5,11 @@
 	<title>专家抽取</title>
 	<meta name="decorator" content="default"/>
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
+	<%@include file="/WEB-INF/views/include/treetable.jsp" %>
 	<style type="text/css">.sort{color:#0663A2;cursor:pointer;}</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			// 表格排序
-			var orderBy = $("#orderBy").val().split(" ");
-			$("#contentTable th.sort").each(function(){
-				if ($(this).hasClass(orderBy[0])){
-					orderBy[1] = orderBy[1]&&orderBy[1].toUpperCase()=="DESC"?"down":"up";
-					$(this).html($(this).html()+" <i class=\"icon icon-arrow-"+orderBy[1]+"\"></i>");
-				}
-			});
-			$("#contentTable th.sort").click(function(){
-				var order = $(this).attr("class").split(" ");
-				var sort = $("#orderBy").val().split(" ");
-				for(var i=0; i<order.length; i++){
-					if (order[i] == "sort"){order = order[i+1]; break;}
-				}
-				if (order == sort[0]){
-					sort = (sort[1]&&sort[1].toUpperCase()=="DESC"?"ASC":"DESC");
-					$("#orderBy").val(order+" DESC"!=order+" "+sort?"":order+" "+sort);
-				}else{
-					$("#orderBy").val(order+" ASC");
-				}
-				page();
-			});
+			$("#treeTable").treeTable({expandLevel : 5});
 			$("#btnExport").click(function(){
 				top.$.jBox.confirm("确认要导出用户数据吗？","系统提示",function(v,h,f){
 					if(v=="ok"){
@@ -60,7 +40,7 @@
 		<li class="active"><a href="${ctx}/expfetch/savredraw/saveinglist">待竣工验收项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="treeTable" class="table table-striped table-bordered table-condensed">
 		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>选择</th></tr></thead>
 		<tbody>
 		<c:forEach items="${list}" var="projectInfo">

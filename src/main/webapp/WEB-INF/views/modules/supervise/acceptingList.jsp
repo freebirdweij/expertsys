@@ -60,7 +60,7 @@
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="projectInfo">
 			<tr>
@@ -69,7 +69,7 @@
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
-				<td>${projectInfo.prjBegin}</td>
+				<td>${projectInfo.prjYear}</td>
 				<td>
     				<a href="${ctx}/supervise/checkacceptfetch?prjid=${projectInfo.id}">审核抽取记录</a>
 				</td>

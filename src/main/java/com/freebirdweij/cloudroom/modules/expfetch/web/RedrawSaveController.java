@@ -893,6 +893,9 @@ public class RedrawSaveController extends BaseController {
 			projectInfo.setCreateBy(user);
 		}
         Page<ProjectInfo> page = projectInfoService.findSaved(new Page<ProjectInfo>(request, response), projectInfo); 
+		List<ProjectInfo> list = Lists.newArrayList();
+		List<ProjectInfo> sourcelist = page.getList();
+		projectInfo.sortList(list,sourcelist,"0");
         model.addAttribute("list", page.getList());
 		return "modules/expfetch/savredraw/saveingList";
 	}

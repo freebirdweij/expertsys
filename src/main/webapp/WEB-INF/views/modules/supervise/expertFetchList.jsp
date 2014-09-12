@@ -299,7 +299,7 @@
         <h4>以下为竣工验收首次抽选的项目：</h4>
       </div>
 	<table id="resultTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>主体单位</th><th>状态</th><th>金额</th><th>时间</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${acptdlist}" var="projectInfo">
 			<tr>

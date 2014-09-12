@@ -881,6 +881,9 @@ public class RedrawAcceptController extends BaseController {
 			projectInfo.setCreateBy(user);
 		}
         Page<ProjectInfo> page = projectInfoService.findRedrawAccepting(new Page<ProjectInfo>(request, response), projectInfo); 
+		List<ProjectInfo> list = Lists.newArrayList();
+		List<ProjectInfo> sourcelist = page.getList();
+		projectInfo.sortList(list,sourcelist,"0");
         model.addAttribute("list", page.getList());
 		return "modules/expfetch/acptredraw/acceptingList";
 	}
