@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.freebirdweij.cloudroom.common.persistence.Page;
 import com.freebirdweij.cloudroom.common.service.BaseService;
+import com.freebirdweij.cloudroom.common.utils.DateUtils;
 import com.freebirdweij.cloudroom.common.utils.StringUtils;
 import com.freebirdweij.cloudroom.modules.loginfo.dao.ExpertdbLogDao;
 import com.freebirdweij.cloudroom.modules.loginfo.entity.ExpertdbLog;
@@ -44,7 +45,7 @@ public class ExpertdbLogService extends BaseService {
 			dc.add(Restrictions.eq("objectType", expertdbLog.getObjectType()));
 		}
 		if (expertdbLog.getLogBegin()!=null&&expertdbLog.getLogEnd()!=null){
-			dc.add(Restrictions.between("createDate",expertdbLog.getLogBegin(),expertdbLog.getLogEnd()));
+			dc.add(Restrictions.between("createDate",expertdbLog.getLogBegin(),DateUtils.addHours(expertdbLog.getLogEnd(), 24)));
 		}
 		dc.add(Restrictions.eq(ExpertdbLog.FIELD_DEL_FLAG, ExpertdbLog.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("createDate"));

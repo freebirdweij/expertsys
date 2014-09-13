@@ -297,7 +297,7 @@
           </div>	
 		</div>
 		<div class="form-actions">
-			<!-- <a href="../../static/ckfinder/ckfinder.html?type=expert">上传资料</a> -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href=javascript:windowOpen("../../static/ckfinder/ckfinder.html?type=expert","文件管理",1000,700)>上传资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="btnSave" class="btn btn-primary" type="submit" value="仅保存"/>&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="button" value="提交审核"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

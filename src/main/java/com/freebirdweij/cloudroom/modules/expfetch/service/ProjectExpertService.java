@@ -99,7 +99,7 @@ public class ProjectExpertService extends BaseService {
 			dc.add(Restrictions.like("u.name", "%"+projectExpert.getCreateBy().getName()+"%"));
 		}
 		if (projectExpert.getReviewBegin()!=null&&projectExpert.getReviewEnd()!=null){
-			dc.add(Restrictions.between("createDate",projectExpert.getReviewBegin(),projectExpert.getReviewEnd()));
+			dc.add(Restrictions.between("createDate",projectExpert.getReviewBegin(),DateUtils.addHours(projectExpert.getReviewEnd(), 24)));
 		}
 		dc.add(Restrictions.eq(ProjectExpert.FIELD_DEL_FLAG, ProjectExpert.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
@@ -126,7 +126,7 @@ public class ProjectExpertService extends BaseService {
 		
 		if (projectExpert.getReviewBegin()!=null&&projectExpert.getReviewEnd()!=null){
 			//ql = ql+"createDate >= to_date('"+DateUtils.formatDateTime(projectExpert.getReviewBegin())+"','yyyy-mm-dd hh24:mi:ss') and createDate <= to_date('"+DateUtils.formatDateTime(projectExpert.getReviewEnd())+"','yyyy-mm-dd hh24:mi:ss')";
-			dc.add(Restrictions.between("e.createDate",projectExpert.getReviewBegin(),projectExpert.getReviewEnd()));
+			dc.add(Restrictions.between("e.createDate",projectExpert.getReviewBegin(),DateUtils.addHours(projectExpert.getReviewEnd(), 24)));
 		}
 		
 		if (projectExpert.getCreateBy()!=null&&StringUtils.isNotEmpty(projectExpert.getCreateBy().getName())){
