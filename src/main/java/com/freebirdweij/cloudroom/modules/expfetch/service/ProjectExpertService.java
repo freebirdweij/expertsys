@@ -303,8 +303,8 @@ public class ProjectExpertService extends BaseService {
 		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getId())){
 			dc.add(Restrictions.eq("p.id", projectExpert.getPrjProjectInfo().getId()));
 		}
-		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getUnitIdsYes())){
-			dc.add(Restrictions.eq("u.id", projectExpert.getUnitIdsYes()));
+		if (projectExpert.getPrjProjectInfo()!=null&&projectExpert.getPrjProjectInfo().getUnit()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getUnit().getName())){
+			dc.add(Restrictions.like("u.name", "%"+projectExpert.getPrjProjectInfo().getUnit().getName()+"%"));
 		}
 		if (projectExpert.getPrjProjectInfo()!=null&&StringUtils.isNotEmpty(projectExpert.getPrjProjectInfo().getPrjYear())){
 			dc.add(Restrictions.eq("p.prjYear", projectExpert.getPrjProjectInfo().getPrjYear()));

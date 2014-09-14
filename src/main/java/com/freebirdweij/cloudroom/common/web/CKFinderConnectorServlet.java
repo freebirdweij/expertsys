@@ -70,7 +70,7 @@ public class CKFinderConnectorServlet extends ConnectorServlet {
 		if(isRoot){
 			basedir = "/userfiles/";
 		}else{
-			basedir = "/userfiles/expert/"+user.getName()+"(登陆名-"+
+			basedir = "/userfiles/files/"+user.getName()+"(登陆名-"+
 					(user!=null?user.getLoginName():0)+")/";
 		}
 			

@@ -39,12 +39,11 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<div style="margin-top:8px;">
 			<label>建设单位：</label>
-            <tags:treeselect id="company" name="company.id" value="${projectExpert.unitIdsYes}" labelName="company.name" labelValue="${projectExpert.unitIdsNo}" 
-				title="公司" url="/sys/office/treeData?type=1" cssClass="required" allowClear="true"/>			
-			<label>项目编号：</label><form:input path="prjProjectInfo.id" htmlEscape="false" maxlength="50" class="span2"/>
+            <form:input path="prjProjectInfo.unit.name" htmlEscape="false" maxlength="50" class="span3"/>			
+			<label>项目编号：</label><form:input path="prjProjectInfo.id" htmlEscape="false" maxlength="50" class="span3"/>
 		</div>
 		<div style="margin-top:8px;">
-		<label>项目名称 ：</label><form:input path="prjProjectInfo.prjName" htmlEscape="false" maxlength="50" class="input-small"/>
+		<label>项目名称 ：</label><form:input path="prjProjectInfo.prjName" htmlEscape="false" maxlength="50" class="span3"/>
 		<label>项目年度：</label><form:input path="prjProjectInfo.prjYear" maxlength="20" class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy',isShowClear:true});" />
 			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 		</div>

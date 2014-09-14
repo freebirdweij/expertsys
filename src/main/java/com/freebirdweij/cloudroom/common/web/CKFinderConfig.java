@@ -60,7 +60,7 @@ public class CKFinderConfig extends Configuration {
 			if(isRoot){
 				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/";
 			}else{
-				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/expert/"+user.getName()+"(登陆名-"+
+				this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/files/"+user.getName()+"(登陆名-"+
 						(user!=null?user.getLoginName():0)+")/";
 			}
 

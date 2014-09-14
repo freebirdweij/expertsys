@@ -61,16 +61,16 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<input id="orderBy" name="orderBy" type="hidden" value="${page.orderBy}"/>
-		<div>
-			<form:select path="prjStatus" class="span2" ><form:option value="" label="项目状态"/>
-			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
+		<%-- <div>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>建设单位：</label>
                 <tags:treeselect id="unit" name="unit.id" value="${projectInfo.unit.id}" labelName="unit.name" labelValue="${projectInfo.unit.name}"
 					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
-		</div>
+		</div> --%>
 		<div style="margin-top:8px;">
+			<form:select path="prjStatus" class="span2" ><form:option value="" label="项目状态"/>
+			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
 			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
-			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span2"/>
+			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span3"/>
 			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 		</div>
 	</form:form>
@@ -87,8 +87,10 @@
 				<td>${projectInfo.prjMoney}</td>
 				<td>${projectInfo.prjYear}</td>
 				<shiro:hasPermission name="project:projectInfo:edit"><td>
+		            <c:if test="${projectInfo.prjStatus eq '10'}">
     				<a href="${ctx}/project/form?id=${projectInfo.id}">修改</a>
 		            <c:if test="${projectInfo.prjStatus eq '10'}">
+		            </c:if>
 					<a href="${ctx}/project/delete?id=${projectInfo.id}" onclick="return confirmx('确认要删除该项目信息吗？', this.href)">删除</a>
 		            </c:if>
 				</td></shiro:hasPermission>
