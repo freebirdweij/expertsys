@@ -1103,6 +1103,24 @@ public class ProjectExpertService extends BaseService {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public Page<ExpertConfirm> findSaveingExpertByProject(Page<ExpertConfirm> page, String prjid) {
+		DetachedCriteria dc = DetachedCriteria.forClass(ExpertConfirm.class, "e");
+		DetachedCriteria subdc = DetachedCriteria.forClass(ProjectExpert.class, "o");
+		subdc.add(Restrictions.eqProperty("e.id","o.expertExpertConfirm.id")).setProjection(Projections.id());
+		
+		subdc.add(Restrictions.eq("o.prjProjectInfo.id",prjid));
+		String st[] = {Constants.Fetch_Accepted_Sussess,Constants.Fetch_AcceptedRedraw_Sussess};
+		subdc.add(Restrictions.in("o.fetchStatus", st));
+		
+		dc.add(Subqueries.exists(subdc));
+		dc.add(Restrictions.eq("e.delFlag", ProjectExpert.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("e.id"));
+		
+		Page<ExpertConfirm> res = expertConfirmDao.find(page,dc);
+		return res; 
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<String> findUnitRecentThree(ProjectExpert projectExpert) {
 		DetachedCriteria dc = DetachedCriteria.forClass(ProjectExpert.class, "o");
 		

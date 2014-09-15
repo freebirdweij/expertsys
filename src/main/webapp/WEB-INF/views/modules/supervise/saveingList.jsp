@@ -72,7 +72,7 @@
 				<td>${projectInfo.prjMoney}</td>
 				<td>${projectInfo.prjYear}</td>
 				<td>
-    				<a href="${ctx}/supervise/checkreviewfetch?prjid=${projectInfo.id}">审核抽取记录</a>
+    				<a href="${ctx}/supervise/checksavefetch?prjid=${projectInfo.id}">审核抽取记录</a>
 				</td>
 			</tr>
 		</c:forEach>

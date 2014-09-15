@@ -150,6 +150,18 @@ public class FetchSuperviseController extends BaseController {
 		return "modules/supervise/checkExpertsList";
 	}
 
+	@RequestMapping(value = {"checksavefetch", ""})
+	public String checksavefetch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectExpert.setCreateBy(user);
+		}
+		String prjid =  request.getParameter("prjid");
+        Page<ExpertConfirm> page = projectExpertService.findSaveingExpertByProject(new Page<ExpertConfirm>(request, response), prjid); 
+        model.addAttribute("rlist", page.getList());
+		return "modules/supervise/checkExpertsList";
+	}
+
 	@RequestMapping(value = {"projectsearch", ""})
 	public String projectsearch(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
