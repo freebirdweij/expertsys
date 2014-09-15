@@ -114,7 +114,7 @@ public class ProjectInfoController extends BaseController {
 		return "modules/project/projectForm";
 	}
 
-	@RequiresPermissions("project:projectInfo:edit")
+	@RequiresPermissions("project:projectInfo:view")
 	@RequestMapping(value = "info")
 	public String info(HttpServletRequest request,ProjectInfo projectInfo, Model model) {
 		String id = request.getParameter("id");

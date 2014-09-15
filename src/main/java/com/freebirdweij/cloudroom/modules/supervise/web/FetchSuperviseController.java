@@ -115,6 +115,17 @@ public class FetchSuperviseController extends BaseController {
 		return "modules/supervise/acceptingList";
 	}
 
+	@RequestMapping(value = {"saveinglist", ""})
+	public String saveinglist(ProjectInfo projectInfo, HttpServletRequest request, HttpServletResponse response, Model model) {
+		User user = UserUtils.getUser();
+		if (!user.isAdmin()){
+			projectInfo.setCreateBy(user);
+		}
+        Page<ProjectInfo> page = projectInfoService.findRedrawSaveing(new Page<ProjectInfo>(request, response), projectInfo); 
+        model.addAttribute("page", page);
+		return "modules/supervise/saveingList";
+	}
+
 	@RequestMapping(value = {"checkreviewfetch", ""})
 	public String checkreviewfetch(ProjectExpert projectExpert, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
 		User user = UserUtils.getUser();

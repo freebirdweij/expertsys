@@ -55,9 +55,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/supervise/reviewinglist">评审中项目</a></li>
+		<li><a href="${ctx}/supervise/reviewinglist">评审中项目</a></li>
 		<li><a href="${ctx}/supervise/acceptinglist">交工验收中项目</a></li>
-		<li><a href="${ctx}/supervise/saveinglist">竣工验收中项目</a></li>
+		<li class="active"><a href="${ctx}/supervise/saveinglist">竣工验收中项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">

@@ -56,7 +56,8 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/supervise/reviewinglist">评审中项目</a></li>
-		<li class="active"><a href="${ctx}/supervise/acceptinglist">验收中项目</a></li>
+		<li class="active"><a href="${ctx}/supervise/acceptinglist">交工验收中项目</a></li>
+		<li><a href="${ctx}/supervise/saveinglist">竣工验收中项目</a></li>
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
@@ -65,7 +66,7 @@
 		<c:forEach items="${page.list}" var="projectInfo">
 			<tr>
 				<td>${projectInfo.id}</td>
-				<td><a href="${ctx}/project/form?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
+				<td><a href="${ctx}/project/info?id=${projectInfo.id}">${projectInfo.prjName}</a></td>
 				<td>${projectInfo.unit.name}</td>
 				<td>${fns:getDictLabel(projectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectInfo.prjMoney}</td>
