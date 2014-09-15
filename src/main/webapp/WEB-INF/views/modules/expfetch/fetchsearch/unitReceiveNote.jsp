@@ -233,6 +233,7 @@
 			</div>
 		<div class="form-actions">
 			<input id="resSubmit" class="btn btn-primary" type="button" value="导出项目评审专家抽取确认表" onclick="rSubmit()"/>
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 
