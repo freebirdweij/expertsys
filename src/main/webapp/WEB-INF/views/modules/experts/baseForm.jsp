@@ -145,6 +145,14 @@
 		
 		
 	}
+	   document.onreadystatechange = function(){	
+	    	 var rewb = "";
+	    	var rew = $("#birthdate");
+	    	rewb = rew.val();
+	    	rewb = rewb.substr(0,10);
+	    	$("#birthdate").val(rewb);
+	    	//alert("kkk");
+	    } 
 	
 	</script>
 </head>
@@ -285,9 +293,13 @@
 		</div>
 		<div class="form-actions">
 			<a href=javascript:windowOpen("../../static/ckfinder/ckfinder.html?type=files","文件管理",1000,700)>上传资料</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <c:if test="${inter eq '1'}">
 			<input id="btnSave" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
+		    </c:if>
 			<input id="btnSubmit" class="btn btn-primary" type="button" value="提交审核"/>&nbsp;
+		    <c:if test="${inter eq '1'}">
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		    </c:if>
 		</div>
 	</form:form>
 </body>

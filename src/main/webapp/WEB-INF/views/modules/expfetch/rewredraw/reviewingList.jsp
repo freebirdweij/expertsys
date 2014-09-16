@@ -73,7 +73,7 @@
 	</ul>
 	<tags:message content="${message}"/>
 	<table id="treeTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>项目编号</th><th>名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>选择</th></tr></thead>
+		<thead><tr><th>项目编号</th><th>项目名称</th><th>建设单位</th><th>状态</th><th>投资金额</th><th>项目年度</th><th>选择</th></tr></thead>
 		<tbody>
 		<c:forEach items="${list}" var="projectInfo">
 			<tr id="${projectInfo.id}" pId="${projectInfo.parent.id ne requestScope.projectInfo.id?projectInfo.parent.id:'0'}">

@@ -5,6 +5,7 @@ package com.freebirdweij.cloudroom.modules.experts.web;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -145,7 +146,8 @@ public class ExpertInfoController extends BaseController {
 			e.printStackTrace();
 		}
 		request.getSession().setAttribute("einfo", einfo);//修改比较用
-			model.addAttribute("expertInfo", expertInfo);
+		model.addAttribute("expertInfo", expertInfo);
+		model.addAttribute("inter", "1");
 		return "modules/experts/baseForm";
 	}
 	
@@ -190,16 +192,19 @@ public class ExpertInfoController extends BaseController {
 		}*/
 		//保留注册状态
 		//expertInfo.setRegStep("3");
+		expertInfo.setMobile(user.getMobile());
 		expertInfoService.save(expertInfo);
+		//expertInfo = expertInfoService.get(user.getId());
 		//日志处理
 		ExpertInfo einfo = (ExpertInfo) request.getSession().getAttribute("einfo");//修改比较用
 		ExpertdbLog expertdbLog = LogUtils.getLogByCompareExpert(einfo, expertInfo, user);
-		expertdbLog.setObjectId(expertInfo.getUserId());
+		expertdbLog.setObjectId(user.getId());
 		expertdbLogService.save(expertdbLog);
 		request.getSession().removeAttribute("einfo");
-	expertInfo.setMobile(user.getMobile());
 		addMessage(redirectAttributes, "保存专家'" + expertInfo.getName() + "'成功");
-		return "redirect:"+Global.getAdminPath()+"/experts/baseform/?repage";
+		expertInfo.setBirthdate(new Timestamp(expertInfo.getBirthdate().getTime()));
+		model.addAttribute("expertInfo", expertInfo);
+	    return "modules/experts/baseForm";
 	}
 	
 	@RequiresPermissions("experts:expertInfo:edit")
