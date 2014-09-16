@@ -297,9 +297,9 @@
 			<input id="btnSave" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
 		    </c:if>
 			<input id="btnSubmit" class="btn btn-primary" type="button" value="提交审核"/>&nbsp;
-		    <c:if test="${inter eq '1'}">
+		    <%-- <c:if test="${inter eq '1'}">
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-		    </c:if>
+		    </c:if> --%>
 		</div>
 	</form:form>
 </body>

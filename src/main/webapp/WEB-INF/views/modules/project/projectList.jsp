@@ -71,6 +71,7 @@
 			<form:options items="${fns:getDictList('sys_prjstatus_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/></form:select>
 			<label>项目编号：</label><form:input path="id" htmlEscape="false" maxlength="50" class="span2"/>
 			<label>项目名称：</label><form:input path="prjName" htmlEscape="false" maxlength="50" class="span3"/>
+			<label>项目年度：</label><form:input path="prjYear" maxlength="20" class="span2 input-small Wdate" onclick="WdatePicker({dateFmt:'yyyy',isShowClear:true});" />
 			&nbsp;&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
 		</div>
 	</form:form>

@@ -69,6 +69,9 @@ public class ProjectInfoService extends BaseService {
 	}
 	
 	public Page<ProjectInfo> find(Page<ProjectInfo> page, ProjectInfo projectInfo) {
+		updateProjectStatusToWork();
+		updateProjectStatusToReceived();
+		updateProjectStatusToSave();
 		DetachedCriteria dc = projectInfoDao.createDetachedCriteria();
 		if (StringUtils.isNotEmpty(projectInfo.getId())){
 			dc.add(Restrictions.eq("id", projectInfo.getId()));
@@ -76,8 +79,8 @@ public class ProjectInfoService extends BaseService {
 		if (StringUtils.isNotEmpty(projectInfo.getPrjName())){
 			dc.add(Restrictions.like("prjName", "%"+projectInfo.getPrjName()+"%"));
 		}
-		if (projectInfo.getUnit()!=null&&StringUtils.isNotEmpty(projectInfo.getUnit().getId())){
-			dc.add(Restrictions.eq("prjDuty", projectInfo.getUnit().getId()));
+		if (projectInfo.getPrjYear()!=null&&StringUtils.isNotEmpty(projectInfo.getPrjYear())){
+			dc.add(Restrictions.eq("prjYear", projectInfo.getPrjYear()));
 		}
 		if (StringUtils.isNotEmpty(projectInfo.getPrjStatus())){
 			dc.add(Restrictions.eq("prjStatus", projectInfo.getPrjStatus()));
