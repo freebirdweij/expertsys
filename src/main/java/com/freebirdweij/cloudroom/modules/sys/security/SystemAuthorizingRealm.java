@@ -58,7 +58,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken authcToken) throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-
+		
 		if (LoginController.isValidateCodeLogin(token.getUsername(), false,
 				false)) {
 			// 判断验证码
