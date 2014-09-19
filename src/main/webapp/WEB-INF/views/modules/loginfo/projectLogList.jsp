@@ -126,7 +126,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="expertdbLog">
 			<tr>
-				<td>${expertdbLog.createDate}</td>
+				<td><fmt:formatDate value="${expertdbLog.createDate}" type="both"/></td>
 				<td>${expertdbLog.objectName}</td>
 				<td>${expertdbLog.objectUser.name}</td>
 				<td>${expertdbLog.operation}</td>

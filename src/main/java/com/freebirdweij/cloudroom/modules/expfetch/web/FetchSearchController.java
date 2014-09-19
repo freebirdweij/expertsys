@@ -840,9 +840,15 @@ public class FetchSearchController extends BaseController {
 		/*if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}*/
-		if(projectExpert!=null&&projectExpert.getReviewBegin()==null){
+		/*if(projectExpert==null){
+			projectExpert = new ProjectExpert();
 			projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
 			projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));			
+		}*/
+		
+		if(projectExpert!=null&&projectExpert.getReviewBegin()==null){
+			projectExpert.setReviewBegin(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));
+			projectExpert.setReviewEnd(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));			
 		}else{
 	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
 	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));

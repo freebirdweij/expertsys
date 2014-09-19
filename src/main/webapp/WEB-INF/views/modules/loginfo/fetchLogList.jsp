@@ -127,7 +127,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="projectExpert">
 			<tr>
-				<td>${projectExpert.createDate}</td>
+				<td><fmt:formatDate value="${projectExpert.createDate}" type="both"/></td>
 				<td>${projectExpert.fetchTime}</td>
 				<td>${projectExpert.prjProjectInfo.prjName}</td>
 				<td>${projectExpert.expertExpertConfirm.expertInfo.name}</td>

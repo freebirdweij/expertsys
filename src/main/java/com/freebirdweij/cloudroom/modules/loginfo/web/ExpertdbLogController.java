@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.freebirdweij.cloudroom.common.config.Global;
 import com.freebirdweij.cloudroom.common.persistence.Page;
 import com.freebirdweij.cloudroom.common.utils.Constants;
+import com.freebirdweij.cloudroom.common.utils.DateUtils;
 import com.freebirdweij.cloudroom.common.utils.StringUtils;
 import com.freebirdweij.cloudroom.common.web.BaseController;
 import com.freebirdweij.cloudroom.modules.expfetch.entity.ProjectExpert;
@@ -68,9 +69,14 @@ public class ExpertdbLogController extends BaseController {
 		/*if (!user.isAdmin()){
 			projectExpert.setCreateBy(user);
 		}*/
+		
+		/*if(projectExpert==null){
+			projectExpert = new ProjectExpert();
+		}*/
+		
 		if(projectExpert!=null&&projectExpert.getReviewBegin()==null){
-			projectExpert.setReviewBegin(new Timestamp((new Date()).getTime()));
-			projectExpert.setReviewEnd(new Timestamp((new Date()).getTime()));			
+			projectExpert.setReviewBegin(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));
+			projectExpert.setReviewEnd(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));			
 		}else{
 	        projectExpert.setReviewBegin(new Timestamp(projectExpert.getReviewBegin().getTime()));
 	        projectExpert.setReviewEnd(new Timestamp(projectExpert.getReviewEnd().getTime()));
@@ -88,9 +94,14 @@ public class ExpertdbLogController extends BaseController {
 		if (!user.isAdmin()){
 			expertdbLog.setCreateBy(user);
 		}
+		
+		/*if(expertdbLog==null){
+			expertdbLog = new ExpertdbLog();
+		}*/
+		
 		if(expertdbLog!=null&&expertdbLog.getLogBegin()==null){
-			expertdbLog.setLogBegin(new Timestamp((new Date()).getTime()));
-			expertdbLog.setLogEnd(new Timestamp((new Date()).getTime()));			
+			expertdbLog.setLogBegin(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));
+			expertdbLog.setLogEnd(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));			
 		}else{
 			expertdbLog.setLogBegin(new Timestamp(expertdbLog.getLogBegin().getTime()));
 			expertdbLog.setLogEnd(new Timestamp(expertdbLog.getLogEnd().getTime()));
@@ -109,9 +120,14 @@ public class ExpertdbLogController extends BaseController {
 		if (!user.isAdmin()){
 			expertdbLog.setCreateBy(user);
 		}
+		
+		/*if(expertdbLog==null){
+			expertdbLog = new ExpertdbLog();
+		}*/
+		
 		if(expertdbLog!=null&&expertdbLog.getLogBegin()==null){
-			expertdbLog.setLogBegin(new Timestamp((new Date()).getTime()));
-			expertdbLog.setLogEnd(new Timestamp((new Date()).getTime()));			
+			expertdbLog.setLogBegin(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));
+			expertdbLog.setLogEnd(new Timestamp(DateUtils.parseDate(DateUtils.getDate()).getTime()));			
 		}else{
 			expertdbLog.setLogBegin(new Timestamp(expertdbLog.getLogBegin().getTime()));
 			expertdbLog.setLogEnd(new Timestamp(expertdbLog.getLogEnd().getTime()));

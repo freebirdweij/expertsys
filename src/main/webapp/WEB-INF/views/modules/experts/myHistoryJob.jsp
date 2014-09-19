@@ -60,7 +60,7 @@
 				<td>${fns:getDictLabel(projectExpert.prjProjectInfo.prjStatus,'sys_prjstatus_type','')}</td>
 				<td>${projectExpert.prjProjectInfo.prjMoney}</td>
 				<td>${projectExpert.prjProjectInfo.prjYear}</td>
-				<td>${projectExpert.reviewBegin}</td>
+				<td><fmt:formatDate value="${projectExpert.reviewBegin}" type="both"/></td>
 			</tr>
 		</c:forEach>
 		</tbody>
